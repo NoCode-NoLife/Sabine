@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using Sabine.Zone.Network;
-using Sabine.Shared.Util;
-using Yggdrasil.Extensions;
-using Yggdrasil.Logging;
-using Yggdrasil.Util;
-using Yggdrasil.Util.Commands;
-using Sabine.Zone.World.Entities;
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
-using Sabine.Shared.Database;
 using Sabine.Shared.Network;
+using Sabine.Shared.Util;
+using Sabine.Zone.Network;
+using Sabine.Zone.World.Entities;
+using Yggdrasil.Logging;
+using Yggdrasil.Util.Commands;
 
 namespace Sabine.Zone.Commands
 {
@@ -28,17 +23,18 @@ namespace Sabine.Zone.Commands
 		/// </summary>
 		public void Load()
 		{
-			_commands.Clear();
+			this.Clear();
 
 			// Normal commands
 			this.Add("help", "[commandName]", Localization.Get("Displays a list of usable commands or details about one command."), this.Help);
 			this.Add("where", "", Localization.Get("Displays current location."), this.Where);
 
 			// GM commands
-			// ...
+			this.Add("broadcast", "<message>", Localization.Get("Broadcasts a message to the server."), this.Broadcast);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
+			this.Add("sprite", "<Class|Hair> <value>", Localization.Get("Changes the target's sprite."), this.Sprite);
 			//this.Add("reloadscripts", "", Localization.Get("Reloads all scripts."), this.ReloadScripts);
 			//this.Add("reloadconf", "", Localization.Get("Reloads server configuration."), this.ReloadConf);
 			//this.Add("reloaddata", "", Localization.Get("Reloads data files."), this.ReloadData);
@@ -46,6 +42,7 @@ namespace Sabine.Zone.Commands
 			// Aliases
 			//this.AddAlias("reloadscripts", "rs");
 			//this.AddAlias("item", "drop");
+			this.AddAlias("broadcast", "bc");
 		}
 
 		/// <summary>
@@ -166,6 +163,59 @@ namespace Sabine.Zone.Commands
 				sender.ServerMessage(Localization.Get("You're here: {1}, {2:n0}, {3:n0}"), target.Name, mapName, x, y);
 			else
 				sender.ServerMessage(Localization.Get("{0} is here: {1}, {2:n0}, {3:n0}"), target.Name, mapName, x, y);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Broadcasts a message to the entire server.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Broadcast(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+				return CommandResult.InvalidArgument;
+
+			// Use either the first argument, which can be a long, quoted
+			// string, or join all arguments with spaces.
+			// TODO: Maybe add a way to get only the arguments part as
+			//   one string for such cases?
+			var msg = args.Count == 1 ? args.Get(0) : string.Join(" ", args.GetAll());
+			var text = string.Format("{0} : {1}", sender.Name, msg);
+
+			Send.ZC_BROADCAST(text);
+			sender.ServerMessage(Localization.Get("Message was broadcasted."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Changes player's sprite.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Sprite(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!Enum.TryParse<SpriteType>(args.Get(0), out var type))
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args.Get(1), out var value))
+				return CommandResult.InvalidArgument;
+
+
+			Send.ZC_SPRITE_CHANGE(sender, type, value);
 
 			return CommandResult.Okay;
 		}

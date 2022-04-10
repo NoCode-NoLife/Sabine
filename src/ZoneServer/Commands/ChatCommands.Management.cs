@@ -35,6 +35,14 @@ namespace Sabine.Zone.Commands
 		}
 
 		/// <summary>
+		/// Removes all commands.
+		/// </summary>
+		public void Clear()
+		{
+			_commands.Clear();
+		}
+
+		/// <summary>
 		/// Parses message, interprets potential commands, and returns true
 		/// if message was a command.
 		/// </summary>
