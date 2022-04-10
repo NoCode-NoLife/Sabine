@@ -1,5 +1,5 @@
 #################
-## Lela
+## Sabine
 #################
 
 /log/
@@ -16,7 +16,7 @@
 /user/version/*
 /user/world/*
 !/user/*/readme.txt
-!/user/*-example.*
+!/user/*/*-example.*
 
 #################
 ## Visual Studio

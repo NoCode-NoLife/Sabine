@@ -1,4 +1,5 @@
 ﻿using System;
+using Sabine.Auth.Database;
 using Sabine.Auth.Network;
 using Sabine.Shared;
 using Yggdrasil.Logging;
@@ -15,6 +16,7 @@ namespace Sabine.Auth
 		private TcpConnectionAcceptor<AuthConnection> _acceptor;
 
 		public PacketHandler PacketHandler { get; } = new PacketHandler();
+		public AuthDb Database { get; } = new AuthDb();
 
 		public override void Run(string[] args)
 		{
@@ -24,6 +26,7 @@ namespace Sabine.Auth
 			this.NavigateToRoot();
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
+			this.InitDatabase(this.Database, this.Conf);
 
 			_acceptor = new TcpConnectionAcceptor<AuthConnection>(this.Conf.Auth.BindIp, this.Conf.Auth.BindPort);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;

@@ -52,6 +52,7 @@
     <Compile Include="Commands\ChatCommand.cs" />
     <Compile Include="Commands\ChatCommands.cs" />
     <Compile Include="Commands\ChatCommands.Management.cs" />
+    <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Network\DummyConnection.cs" />
     <Compile Include="World\Entities\PlayerCharacter.cs" />
     <Compile Include="World\Maps\Limbo.cs" />
@@ -74,8 +75,6 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Database\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

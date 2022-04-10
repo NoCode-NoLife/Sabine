@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthServer.cs" />
+    <Compile Include="Database\AuthDb.cs" />
     <Compile Include="Network\AuthConnection.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Send.cs" />

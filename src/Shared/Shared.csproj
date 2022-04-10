@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\libs\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="nettext">
       <HintPath>..\..\libs\nettext.dll</HintPath>
     </Reference>

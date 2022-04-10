@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CharServer.cs" />
     <Compile Include="Database\Character.cs" />
+    <Compile Include="Database\CharDb.cs" />
     <Compile Include="Network\CharConnection.cs" />
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\Send.cs" />

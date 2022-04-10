@@ -1,4 +1,5 @@
 ﻿using System;
+using Sabine.Char.Database;
 using Sabine.Char.Network;
 using Sabine.Shared;
 using Yggdrasil.Logging;
@@ -15,6 +16,7 @@ namespace Sabine.Char
 		private TcpConnectionAcceptor<CharConnection> _acceptor;
 
 		public PacketHandler PacketHandler { get; } = new PacketHandler();
+		public CharDb Database { get; } = new CharDb();
 
 		public override void Run(string[] args)
 		{
@@ -24,6 +26,7 @@ namespace Sabine.Char
 			this.NavigateToRoot();
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
+			this.InitDatabase(this.Database, this.Conf);
 
 			_acceptor = new TcpConnectionAcceptor<CharConnection>(this.Conf.Char.BindIp, this.Conf.Char.BindPort);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;

@@ -1,6 +1,7 @@
 ﻿using System;
 using Sabine.Shared;
 using Sabine.Zone.Commands;
+using Sabine.Zone.Database;
 using Sabine.Zone.Network;
 using Sabine.Zone.World;
 using Yggdrasil.Logging;
@@ -22,6 +23,8 @@ namespace Sabine.Zone
 
 		public ChatCommands ChatCommands { get; } = new ChatCommands();
 
+		public ZoneDb Database { get; } = new ZoneDb();
+
 		public override void Run(string[] args)
 		{
 			ConsoleUtil.WriteHeader(nameof(Sabine), "Zone", ConsoleColor.DarkGreen, ConsoleHeader.Title, ConsoleHeader.Subtitle);
@@ -30,6 +33,7 @@ namespace Sabine.Zone
 			this.NavigateToRoot();
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
+			this.InitDatabase(this.Database, this.Conf);
 			this.LoadCommands();
 
 			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(this.Conf.Zone.BindIp, this.Conf.Zone.BindPort);

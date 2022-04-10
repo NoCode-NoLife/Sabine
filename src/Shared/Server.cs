@@ -1,10 +1,13 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using Sabine.Shared.Configuration;
+using Sabine.Shared.Database;
 using Sabine.Shared.Util;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Sabine.Shared
 {
@@ -92,6 +95,26 @@ namespace Sabine.Shared
 					if (language != "en-US")
 						Log.Warning("Localization file '{0}.po' not found.", language);
 				}
+			}
+		}
+
+		/// <summary>
+		/// Initializes database connection.
+		/// </summary>
+		/// <param name="db"></param>
+		/// <param name="conf"></param>
+		public void InitDatabase(Db db, ConfFiles conf)
+		{
+			Log.Info("Initializing database...");
+
+			try
+			{
+				db.Init(conf.Database.Host, conf.Database.Port, conf.Database.Username, conf.Database.Password, conf.Database.Name);
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Unable to open database connection. ({0})", ex.Message);
+				ConsoleUtil.Exit(1);
 			}
 		}
 	}
