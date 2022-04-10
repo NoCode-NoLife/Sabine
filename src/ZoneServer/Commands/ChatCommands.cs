@@ -30,7 +30,7 @@ namespace Sabine.Zone.Commands
 			this.Add("where", "", Localization.Get("Displays current location."), this.Where);
 
 			// GM commands
-			this.Add("broadcast", "<message>", Localization.Get("Broadcasts a message to the server."), this.Broadcast);
+			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -168,7 +168,7 @@ namespace Sabine.Zone.Commands
 		}
 
 		/// <summary>
-		/// Broadcasts a message to the entire server.
+		/// Broadcasts message to everyone on the server.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
@@ -214,8 +214,7 @@ namespace Sabine.Zone.Commands
 			if (!int.TryParse(args.Get(1), out var value))
 				return CommandResult.InvalidArgument;
 
-
-			Send.ZC_SPRITE_CHANGE(sender, type, value);
+			Send.ZC_SPRITE_CHANGE(target, type, value);
 
 			return CommandResult.Okay;
 		}
