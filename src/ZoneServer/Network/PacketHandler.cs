@@ -27,16 +27,43 @@ namespace Sabine.Zone.Network
 			var accountId = packet.GetInt();
 			var sex = packet.GetByte();
 
-			conn.Account = new Account() { Id = accountId, SessionId = sessionId, Username = "admin", Password = "admin", Sex = Sex.Male, Authority = 99 };
-			conn.Character = new PlayerCharacter() { Id = characterId, Name = "exec", Connection = conn };
+			var account = ZoneServer.Instance.Database.GetAccountById(accountId);
+			if (account == null || account.SessionId != sessionId)
+			{
+				conn.Close();
+				return;
+			}
 
-			var map = ZoneServer.Instance.World.Maps.Get(conn.Character.MapName);
+			var character = ZoneServer.Instance.Database.GetCharacter(account, characterId);
+			if (character == null)
+			{
+				Log.Warning("CZ_ENTER: User '{0}' tried to log in with a character that doesn't exist ({1}).", account.Username, characterId);
+				conn.Close();
+				return;
+			}
+
+			var map = ZoneServer.Instance.World.Maps.Get(character.MapName);
 			if (map == null)
-				throw new Exception($"Map '{conn.Character.MapName}' not found.");
+			{
+				Log.Warning("CZ_ENTER: Map '{0}' not found for character '{1}'.", character.MapName, character.Name);
 
-			map.AddCharacter(conn.Character);
+				map = ZoneServer.Instance.World.Maps.Get("prt_vilg01");
+				if (map == null)
+				{
+					Log.Warning("CZ_ENTER: Fallback map '{0}' not found.", "prt_vilg01");
 
-			Send.ZC_ACCEPT_ENTER(conn, conn.Character);
+					conn.Close();
+					return;
+				}
+			}
+
+			conn.Account = account;
+			conn.Character = character;
+			character.Connection = conn;
+
+			map.AddCharacter(character);
+
+			Send.ZC_ACCEPT_ENTER(conn, character);
 		}
 
 		/// <summary>

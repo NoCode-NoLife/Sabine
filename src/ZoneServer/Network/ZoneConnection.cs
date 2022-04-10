@@ -1,6 +1,8 @@
-﻿using Sabine.Shared.Database;
+﻿using System;
+using Sabine.Shared.Database;
 using Sabine.Shared.Network;
 using Sabine.Zone.World.Entities;
+using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 
 namespace Sabine.Zone.Network
@@ -46,11 +48,24 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		private void CleanUp()
 		{
+			var account = this.Account;
 			var character = this.Character;
 
 			if (character != null)
 			{
 				character?.Map.RemoveCharacter(character);
+			}
+
+			if (account != null && character != null)
+			{
+				try
+				{
+					ZoneServer.Instance.Database.SaveCharacter(this.Account, character);
+				}
+				catch (Exception ex)
+				{
+					Log.Error("ZoneConnection.CleanUp: Failed to save character '{0}'. Error: {1}", character.Name, ex);
+				}
 			}
 		}
 

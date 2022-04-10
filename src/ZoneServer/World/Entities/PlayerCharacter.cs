@@ -45,7 +45,7 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Gets or sets this character's job.
 		/// </summary>
-		public JobId JobId { get; set; } = JobId.Thief;
+		public JobId JobId { get; set; } = JobId.Novice;
 
 		/// <summary>
 		/// Gets or sets the name of the map the character is on.
@@ -71,6 +71,26 @@ namespace Sabine.Zone.World.Entities
 		/// Gets or sets the character's weapon.
 		/// </summary>
 		public int WeaponId { get; set; }
+
+		/// <summary>
+		/// Gets or sets how many HP the character currently has.
+		/// </summary>
+		public int Hp { get; set; } = 40;
+
+		/// <summary>
+		/// Gets or sets the character's maximum amount of HP.
+		/// </summary>
+		public int HpMax { get; set; } = 40;
+
+		/// <summary>
+		/// Gets or sets how many SP the character currently has.
+		/// </summary>
+		public int Sp { get; set; } = 40;
+
+		/// <summary>
+		/// Gets or sets the character's maximum amount of SP.
+		/// </summary>
+		public int SpMax { get; set; } = 40;
 
 		/// <summary>
 		/// Gets or sets the character's STR stat.
@@ -209,6 +229,11 @@ namespace Sabine.Zone.World.Entities
 		/// Gets or sets the character's current base level.
 		/// </summary>
 		public int JobLevel { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets how many Zeny the character has.
+		/// </summary>
+		public int Zeny { get; set; }
 
 		/// <summary>
 		/// Returns a reference to the map the character is currently on.
