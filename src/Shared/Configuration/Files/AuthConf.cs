@@ -9,6 +9,7 @@ namespace Sabine.Shared.Configuration.Files
 	{
 		public string BindIp { get; set; }
 		public int BindPort { get; set; }
+		public bool AllowAccountCreation { get; set; }
 
 		/// <summary>
 		/// Loads the conf file and its options from the given path.
@@ -20,6 +21,7 @@ namespace Sabine.Shared.Configuration.Files
 
 			this.BindIp = this.GetString("auth_bind_ip", "0.0.0.0");
 			this.BindPort = this.GetInt("auth_bind_port", 7000);
+			this.AllowAccountCreation = this.GetBool("allow_account_creation", true);
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
+using Sabine.Shared.Const;
+using Sabine.Shared.Database.MySQL;
 
 namespace Sabine.Shared.Database
 {
@@ -51,5 +53,64 @@ namespace Sabine.Shared.Database
 			}
 		}
 
+		public bool UsernameExists(string username)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `accounts` WHERE `username` = @username", conn))
+			{
+				cmd.AddParameter("@username", username);
+
+				using (var reader = cmd.ExecuteReader())
+					return reader.HasRows;
+			}
+		}
+
+		public Account GetAccountByUsername(string username)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `accounts` WHERE `username` = @username", conn))
+			{
+				cmd.AddParameter("@username", username);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (!reader.Read())
+						return null;
+
+					return this.ReadAccount(reader);
+				}
+			}
+		}
+
+		public Account GetAccountById(int accountId)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `accounts` WHERE `accountId` = @accountId", conn))
+			{
+				cmd.AddParameter("@accountId", accountId);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (!reader.Read())
+						return null;
+
+					return this.ReadAccount(reader);
+				}
+			}
+		}
+
+		private Account ReadAccount(MySqlDataReader reader)
+		{
+			var account = new Account();
+
+			account.Id = reader.GetInt32("accountId");
+			account.Username = reader.GetStringSafe("username");
+			account.Password = reader.GetStringSafe("password");
+			account.Sex = (Sex)reader.GetByte("sex");
+			account.Authority = reader.GetByte("authority");
+			account.SessionId = reader.GetInt32("sessionId");
+
+			return account;
+		}
 	}
 }

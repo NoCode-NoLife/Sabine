@@ -51,7 +51,7 @@ namespace Sabine.Shared
 		/// Loads all configuration files.
 		/// </summary>
 		/// <returns></returns>
-		public ConfFiles LoadConf()
+		protected ConfFiles LoadConf()
 		{
 			Log.Info("Loading configuration...");
 
@@ -63,7 +63,7 @@ namespace Sabine.Shared
 		/// Loads localization files and updates cultural settings.
 		/// </summary>
 		/// <returns></returns>
-		public void LoadLocalization(ConfFiles conf)
+		protected void LoadLocalization(ConfFiles conf)
 		{
 			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo(conf.Localization.Culture);
 			CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo(conf.Localization.CultureUi);
@@ -103,7 +103,7 @@ namespace Sabine.Shared
 		/// </summary>
 		/// <param name="db"></param>
 		/// <param name="conf"></param>
-		public void InitDatabase(Db db, ConfFiles conf)
+		protected void InitDatabase(Db db, ConfFiles conf)
 		{
 			Log.Info("Initializing database...");
 

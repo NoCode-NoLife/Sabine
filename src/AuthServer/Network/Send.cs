@@ -1,6 +1,6 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Sabine.Shared.Const;
+using Sabine.Shared.Database;
 using Sabine.Shared.Network;
 
 namespace Sabine.Auth.Network
@@ -15,13 +15,13 @@ namespace Sabine.Auth.Network
 			conn.Send(packet);
 		}
 
-		public static void AC_ACCEPT_LOGIN(AuthConnection conn)
+		public static void AC_ACCEPT_LOGIN(AuthConnection conn, Account account)
 		{
 			var packet = new Packet(Op.AC_ACCEPT_LOGIN);
 
-			packet.PutInt(0x12345678); // AccountId
-			packet.PutByte(1); // sex: 0=f, 1=m
-			packet.PutInt(int.MaxValue); // SessionId
+			packet.PutInt(account.Id);
+			packet.PutByte((byte)account.Sex);
+			packet.PutInt(account.SessionId);
 
 			// for server in servers
 			{
@@ -29,9 +29,7 @@ namespace Sabine.Auth.Network
 				var charPort = AuthServer.Instance.Conf.Char.BindPort;
 				var charName = AuthServer.Instance.Conf.Char.Name;
 
-				var charIpInt = BitConverter.ToInt32(IPAddress.Parse(charIp).GetAddressBytes(), 0);
-
-				packet.PutInt(charIpInt);
+				packet.PutInt(IPAddress.Parse(charIp));
 				packet.PutShort((short)charPort);
 				packet.PutString(charName, 20);
 			}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 using Yggdrasil.Util;
 
@@ -88,6 +89,13 @@ namespace Sabine.Shared.Network
 		/// <param name="value"></param>
 		public void PutInt(int value)
 			=> _buffer.WriteInt32(value);
+
+		/// <summary>
+		/// Writes IP to packet as an int.
+		/// </summary>
+		/// <param name="value"></param>
+		public void PutInt(IPAddress value)
+			=> _buffer.WriteInt32(BitConverter.ToInt32(value.GetAddressBytes(), 0));
 
 		/// <summary>
 		/// Writes string to packet, padding or capping it at the
