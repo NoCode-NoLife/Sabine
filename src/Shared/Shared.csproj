@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Sabine.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="nettext">
+      <HintPath>..\..\libs\nettext.dll</HintPath>
+    </Reference>
+    <Reference Include="Yggdrasil">
+      <HintPath>..\..\libs\Yggdrasil.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
