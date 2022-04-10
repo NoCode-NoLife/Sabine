@@ -30,12 +30,12 @@ namespace Sabine.Shared.Network
 			Register(Op.CZ_ENTER, 0x000E, 15);
 			Register(Op.ZC_ACCEPT_ENTER, 0x000F, 11);
 			Register(Op.ZC_REFUSE_ENTER, 0x0010, 3);
-			Register(Op.ZC_NOTIFY_INITCHAR, 0x0011, -1);
-			Register(Op.ZC_NOTIFY_UPDATECHAR, 0x0012, 9);
-			Register(Op.ZC_NOTIFY_UPDATEPLAYER, 0x0013, 5);
+			Register(Op.ZC_NOTIFY_INITCHAR, 0x0011, -1); // Unused in alpha
+			Register(Op.ZC_NOTIFY_UPDATECHAR, 0x0012, 9); // Unused in alpha
+			Register(Op.ZC_NOTIFY_UPDATEPLAYER, 0x0013, 5); // Unused in alpha
 			Register(Op.ZC_NOTIFY_STANDENTRY, 0x0014, 19);
 			Register(Op.ZC_NOTIFY_NEWENTRY, 0x0015, 18);
-			Register(Op.ZC_NOTIFY_ACTENTRY, 0x0016, 23);
+			Register(Op.ZC_NOTIFY_ACTENTRY, 0x0016, 23); // Unused in alpha
 			Register(Op.ZC_NOTIFY_MOVEENTRY, 0x0017, 25);
 			Register(Op.ZC_NOTIFY_STANDENTRY_NPC, 0x0018, 18);
 			Register(Op.CZ_NOTIFY_ACTORINIT, 0x0019, 2);
@@ -44,8 +44,8 @@ namespace Sabine.Shared.Network
 			Register(Op.ZC_NOTIFY_VANISH, 0x001C, 7);
 			Register(Op.SC_NOTIFY_BAN, 0x001D, 3);
 			Register(Op.CZ_REQUEST_QUIT, 0x001E, 2);
-			Register(Op.ZC_ACCEPT_QUIT, 0x001F, 2);
-			Register(Op.ZC_REFUSE_QUIT, 0x0020, 2);
+			Register(Op.ZC_ACCEPT_QUIT, 0x001F, 2); // Unused in alpha
+			Register(Op.ZC_REFUSE_QUIT, 0x0020, 2); // Unused in alpha
 			Register(Op.CZ_REQUEST_MOVE, 0x0021, 5);
 			Register(Op.ZC_NOTIFY_MOVE, 0x0022, 16);
 			Register(Op.ZC_NOTIFY_PLAYERMOVE, 0x0023, 12);
@@ -89,15 +89,15 @@ namespace Sabine.Shared.Network
 			Register(Op.ZC_ITEM_THROW_ACK, 0x004A, 6);
 			Register(Op.ZC_PAR_CHANGE, 0x004B, 6);
 			Register(Op.ZC_LONGPAR_CHANGE, 0x004C, 8);
-			Register(0x004D, 3);
-			Register(0x004E, 3);
-			Register(0x004F, -1);
-			Register(0x0050, 6);
-			Register(0x0051, 6);
-			Register(0x0052, -1);
-			Register(0x0053, 7);
-			Register(0x0054, 6);
-			Register(0x0055, 2);
+			Register(Op.CZ_RESTART, 0x004D, 3);
+			Register(Op.ZC_RESTART_ACK, 0x004E, 3);
+			Register(Op.ZC_SAY_DIALOG, 0x004F, -1);
+			Register(Op.ZC_WAIT_DIALOG, 0x0050, 6);
+			Register(Op.ZC_CLOSE_DIALOG, 0x0051, 6);
+			Register(Op.ZC_MENU_LIST, 0x0052, -1);
+			Register(Op.CZ_CHOOSE_MENU, 0x0053, 7);
+			Register(Op.CZ_REQ_NEXT_SCRIPT, 0x0054, 6);
+			Register(Op.CZ_REQ_STATUS, 0x0055, 2);
 			Register(Op.CZ_STATUS_CHANGE, 0x0056, 5);
 			Register(Op.ZC_STATUS_CHANGE_ACK, 0x0057, 6);
 			Register(Op.ZC_STATUS, 0x0058, 20);

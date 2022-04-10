@@ -83,7 +83,15 @@
 		public const int ZC_ITEM_THROW_ACK = 0x004A;
 		public const int ZC_PAR_CHANGE = 0x004B;
 		public const int ZC_LONGPAR_CHANGE = 0x004C;
-
+		public const int CZ_RESTART = 0x004D;
+		public const int ZC_RESTART_ACK = 0x004E;
+		public const int ZC_SAY_DIALOG = 0x004F;
+		public const int ZC_WAIT_DIALOG = 0x0050;
+		public const int ZC_CLOSE_DIALOG = 0x0051;
+		public const int ZC_MENU_LIST = 0x0052;
+		public const int CZ_CHOOSE_MENU = 0x0053;
+		public const int CZ_REQ_NEXT_SCRIPT = 0x0054;
+		public const int CZ_REQ_STATUS = 0x0055;
 		public const int CZ_STATUS_CHANGE = 0x0056;
 		public const int ZC_STATUS_CHANGE_ACK = 0x0057;
 		public const int ZC_STATUS = 0x0058;
