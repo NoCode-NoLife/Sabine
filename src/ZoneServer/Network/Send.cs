@@ -8,7 +8,10 @@ using Sabine.Zone.World.Entities;
 
 namespace Sabine.Zone.Network
 {
-	internal static class Send
+	/// <summary>
+	/// Packet senders.
+	/// </summary>
+	public static class Send
 	{
 		/// <summary>
 		/// Accepts connection request, makes client load map.

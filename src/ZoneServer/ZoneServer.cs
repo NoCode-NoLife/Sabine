@@ -11,20 +11,42 @@ using Yggdrasil.Util.Commands;
 
 namespace Sabine.Zone
 {
+	/// <summary>
+	/// Represents a zone server.
+	/// </summary>
 	public class ZoneServer : Server
 	{
+		/// <summary>
+		/// Global singleton for the server.
+		/// </summary>
 		public static readonly ZoneServer Instance = new ZoneServer();
 
 		private TcpConnectionAcceptor<ZoneConnection> _acceptor;
 
+		/// <summary>
+		/// Returns a reference to the server's packet handlers.
+		/// </summary>
 		public PacketHandler PacketHandler { get; } = new PacketHandler();
 
+		/// <summary>
+		/// Returns a reference to the world on this server.
+		/// </summary>
 		public WorldManager World { get; } = new WorldManager();
 
+		/// <summary>
+		/// Returns a reference to the server's chat command handlers.
+		/// </summary>
 		public ChatCommands ChatCommands { get; } = new ChatCommands();
 
+		/// <summary>
+		/// Returns a reference to the server's database interface.
+		/// </summary>
 		public ZoneDb Database { get; } = new ZoneDb();
 
+		/// <summary>
+		/// Runs the server.
+		/// </summary>
+		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
 			ConsoleUtil.WriteHeader(nameof(Sabine), "Zone", ConsoleColor.DarkGreen, ConsoleHeader.Title, ConsoleHeader.Subtitle);
@@ -46,6 +68,9 @@ namespace Sabine.Zone
 			new ConsoleCommands().Wait();
 		}
 
+		/// <summary>
+		/// Loads commands.
+		/// </summary>
 		private void LoadCommands()
 		{
 			Log.Info("Loading commands...");
@@ -53,6 +78,10 @@ namespace Sabine.Zone
 			this.ChatCommands.Load();
 		}
 
+		/// <summary>
+		/// Called when a new client connected to the server.
+		/// </summary>
+		/// <param name="conn"></param>
 		private void OnConnectionAccepted(ZoneConnection conn)
 		{
 			Log.Info("New connection accepted from '{0}'.", conn.Address);

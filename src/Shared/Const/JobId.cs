@@ -1,5 +1,8 @@
 ﻿namespace Sabine.Shared.Const
 {
+	/// <summary>
+	/// Ids of character's jobs.
+	/// </summary>
 	public enum JobId : byte
 	{
 		Novice = 0,

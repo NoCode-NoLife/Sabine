@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace Sabine.Shared.Network
 {
+	/// <summary>
+	/// Manages a list of packet opcodes and their lengths.
+	/// </summary>
 	public static class PacketTable
 	{
 		static PacketTable()
@@ -192,20 +195,41 @@ namespace Sabine.Shared.Network
 		private static readonly Dictionary<int, int> Sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> Names = new Dictionary<int, string>();
 
+		/// <summary>
+		/// Adds new opcode to table.
+		/// </summary>
+		/// <param name="identifier"></param>
+		/// <param name="op"></param>
+		/// <param name="size"></param>
 		public static void Register(int identifier, int op, int size)
 			=> Register(op, size);
 
+		/// <summary>
+		/// Adds new opcode to table.
+		/// </summary>
+		/// <param name="op"></param>
+		/// <param name="size"></param>
 		public static void Register(int op, int size)
 		{
 			Sizes[op] = size;
 		}
 
+		/// <summary>
+		/// Reads names from opcode list.
+		/// </summary>
 		private static void RegisterNames()
 		{
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				Names[(int)field.GetValue(null)] = field.Name;
 		}
 
+		/// <summary>
+		/// Returns the size of packets with the given opcode. If size is
+		/// -1 (PacketTable.Dynamic), the packet's size is dynamic.
+		/// </summary>
+		/// <param name="op"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
 		public static int GetSize(int op)
 		{
 			if (!Sizes.TryGetValue(op, out var size))
@@ -214,6 +238,11 @@ namespace Sabine.Shared.Network
 			return size;
 		}
 
+		/// <summary>
+		/// Returns the name of the given opcode.
+		/// </summary>
+		/// <param name="op"></param>
+		/// <returns></returns>
 		public static string GetName(int op)
 		{
 			if (!Names.TryGetValue(op, out var name))

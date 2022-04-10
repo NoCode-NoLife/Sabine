@@ -5,8 +5,17 @@ using Sabine.Shared.Network;
 
 namespace Sabine.Auth.Network
 {
-	internal static class Send
+	/// <summary>
+	/// Packet senders.
+	/// </summary>
+	public static class Send
 	{
+		/// <summary>
+		/// Shows error message on the client about why the login request
+		/// was refused.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="errorCode"></param>
 		public static void AC_REFUSE_LOGIN(AuthConnection conn, LoginConnectError errorCode)
 		{
 			var packet = new Packet(Op.AC_REFUSE_LOGIN);
@@ -15,6 +24,12 @@ namespace Sabine.Auth.Network
 			conn.Send(packet);
 		}
 
+		/// <summary>
+		/// Accepts login request, making the client display a list of
+		/// available char servers.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="account"></param>
 		public static void AC_ACCEPT_LOGIN(AuthConnection conn, Account account)
 		{
 			var packet = new Packet(Op.AC_ACCEPT_LOGIN);

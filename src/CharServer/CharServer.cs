@@ -9,15 +9,32 @@ using Yggdrasil.Util.Commands;
 
 namespace Sabine.Char
 {
+	/// <summary>
+	/// Represents a char server.
+	/// </summary>
 	public class CharServer : Server
 	{
+		/// <summary>
+		/// Global singleton for the server.
+		/// </summary>
 		public static readonly CharServer Instance = new CharServer();
 
 		private TcpConnectionAcceptor<CharConnection> _acceptor;
 
+		/// <summary>
+		/// Returns a reference to the server's packet handlers.
+		/// </summary>
 		public PacketHandler PacketHandler { get; } = new PacketHandler();
+
+		/// <summary>
+		/// Returns a reference to the server's database interface.
+		/// </summary>
 		public CharDb Database { get; } = new CharDb();
 
+		/// <summary>
+		/// Starts server.
+		/// </summary>
+		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
 			ConsoleUtil.WriteHeader(nameof(Sabine), "Char", ConsoleColor.DarkCyan, ConsoleHeader.Title, ConsoleHeader.Subtitle);
@@ -38,6 +55,10 @@ namespace Sabine.Char
 			new ConsoleCommands().Wait();
 		}
 
+		/// <summary>
+		/// Called when a new client connected to the server.
+		/// </summary>
+		/// <param name="conn"></param>
 		private void OnConnectionAccepted(CharConnection conn)
 		{
 			Log.Info("New connection accepted from '{0}'.", conn.Address);

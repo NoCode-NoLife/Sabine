@@ -9,6 +9,9 @@ using Yggdrasil.Logging;
 
 namespace Sabine.Zone.Network
 {
+	/// <summary>
+	/// Packet handler methods.
+	/// </summary>
 	public class PacketHandler : PacketHandler<ZoneConnection>
 	{
 		/// <summary>

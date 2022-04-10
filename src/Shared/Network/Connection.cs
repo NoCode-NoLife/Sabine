@@ -6,16 +6,27 @@ using Yggdrasil.Util;
 
 namespace Sabine.Shared.Network
 {
+	/// <summary>
+	/// Connection base class for the servers.
+	/// </summary>
 	public abstract class Connection : TcpConnection
 	{
 		protected readonly RoFramer _framer;
 
+		/// <summary>
+		/// Creates new connection.
+		/// </summary>
 		public Connection()
 		{
 			_framer = new RoFramer(1024);
 			_framer.MessageReceived += this.OnMessageReceived;
 		}
 
+		/// <summary>
+		/// Called when new data was sent from the client.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <param name="length"></param>
 		protected override void ReveiveData(byte[] buffer, int length)
 		{
 			Log.Debug("< {0}", Hex.ToString(buffer, 0, length));
@@ -23,6 +34,10 @@ namespace Sabine.Shared.Network
 			_framer.ReceiveData(buffer, length);
 		}
 
+		/// <summary>
+		/// Called when a full message was received from the client.
+		/// </summary>
+		/// <param name="buffer"></param>
 		protected virtual void OnMessageReceived(byte[] buffer)
 		{
 			var packet = new Packet(buffer);
@@ -33,8 +48,16 @@ namespace Sabine.Shared.Network
 			this.OnPacketReceived(packet);
 		}
 
+		/// <summary>
+		/// Called when a packet was received from the client.
+		/// </summary>
+		/// <param name="packet"></param>
 		protected abstract void OnPacketReceived(Packet packet);
 
+		/// <summary>
+		/// Sends packet to client.
+		/// </summary>
+		/// <param name="packet"></param>
 		public void Send(Packet packet)
 		{
 			var buffer = _framer.Frame(packet);
@@ -49,11 +72,20 @@ namespace Sabine.Shared.Network
 			this.Send(buffer);
 		}
 
+		/// <summary>
+		/// Called when an exception occurred while reading data from
+		/// the TCP stream.
+		/// </summary>
+		/// <param name="ex"></param>
 		protected override void OnReceiveException(Exception ex)
 		{
 			Log.Error("Error while receiving data: {0}", ex.Message);
 		}
 
+		/// <summary>
+		/// Called when the connection was closed.
+		/// </summary>
+		/// <param name="type"></param>
 		protected override void OnClosed(ConnectionCloseType type)
 		{
 			switch (type)

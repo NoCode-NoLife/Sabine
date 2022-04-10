@@ -8,8 +8,16 @@ using Sabine.Shared.World;
 
 namespace Sabine.Char.Database
 {
+	/// <summary>
+	/// Char server's database interface.
+	/// </summary>
 	public class CharDb : Db
 	{
+		/// <summary>
+		/// Returns a list with all characters on the given account.
+		/// </summary>
+		/// <param name="account"></param>
+		/// <returns></returns>
 		public List<Character> GetCharacters(Account account)
 		{
 			var result = new List<Character>();
@@ -62,6 +70,11 @@ namespace Sabine.Char.Database
 			return result;
 		}
 
+		/// <summary>
+		/// Returns true if a character with the given name exists.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		public bool CharacterNameExists(string name)
 		{
 			using (var conn = this.GetConnection())
@@ -74,6 +87,13 @@ namespace Sabine.Char.Database
 			}
 		}
 
+		/// <summary>
+		/// Creates character, using the given characters as template
+		/// and assigns an id to the object.
+		/// </summary>
+		/// <param name="account"></param>
+		/// <param name="character"></param>
+		/// <exception cref="ArgumentException"></exception>
 		public void CreateCharacter(Account account, ref Character character)
 		{
 			if (character.Id != 0)

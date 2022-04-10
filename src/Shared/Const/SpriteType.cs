@@ -1,5 +1,8 @@
 ﻿namespace Sabine.Shared.Const
 {
+	/// <summary>
+	/// Specifies a part of a sprite to do something do.
+	/// </summary>
 	public enum SpriteType : short
 	{
 		Class = 0,

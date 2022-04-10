@@ -5,7 +5,10 @@ using Sabine.Shared.Database.MySQL;
 
 namespace Sabine.Shared.Database
 {
-	public class Db
+	/// <summary>
+	/// Base class for MySQL database interfaces.
+	/// </summary>
+	public abstract class Db
 	{
 		private string _connectionString;
 
@@ -53,6 +56,11 @@ namespace Sabine.Shared.Database
 			}
 		}
 
+		/// <summary>
+		/// Returns true if an account with the given username exists.
+		/// </summary>
+		/// <param name="username"></param>
+		/// <returns></returns>
 		public bool UsernameExists(string username)
 		{
 			using (var conn = this.GetConnection())
@@ -65,6 +73,12 @@ namespace Sabine.Shared.Database
 			}
 		}
 
+		/// <summary>
+		/// Returns an account by its username, or null if no account was
+		/// found.
+		/// </summary>
+		/// <param name="username"></param>
+		/// <returns></returns>
 		public Account GetAccountByUsername(string username)
 		{
 			using (var conn = this.GetConnection())
@@ -82,6 +96,12 @@ namespace Sabine.Shared.Database
 			}
 		}
 
+		/// <summary>
+		/// Returns an account by its account id, or null if no account was
+		/// found.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
 		public Account GetAccountById(int accountId)
 		{
 			using (var conn = this.GetConnection())
@@ -99,6 +119,11 @@ namespace Sabine.Shared.Database
 			}
 		}
 
+		/// <summary>
+		/// Reads account from reader and returns it.
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <returns></returns>
 		private Account ReadAccount(MySqlDataReader reader)
 		{
 			var account = new Account();

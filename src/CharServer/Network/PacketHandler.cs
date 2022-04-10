@@ -6,8 +6,16 @@ using Yggdrasil.Logging;
 
 namespace Sabine.Char.Network
 {
+	/// <summary>
+	/// Packet handler methods.
+	/// </summary>
 	public class PacketHandler : PacketHandler<CharConnection>
 	{
+		/// <summary>
+		/// Login request, first packet sent upon connection.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CH_ENTER)]
 		public void CH_ENTER(CharConnection conn, Packet packet)
 		{
@@ -40,6 +48,11 @@ namespace Sabine.Char.Network
 			Send.HC_ACCEPT_ENTER(conn, characters);
 		}
 
+		/// <summary>
+		/// Request to log in with the selected character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CH_SELECT_CHAR)]
 		public void CH_SELECT_CHAR(CharConnection conn, Packet packet)
 		{
@@ -57,6 +70,11 @@ namespace Sabine.Char.Network
 			Send.HC_NOTIFY_ZONESVR(conn, character.Id, character.MapName, "127.0.0.1", 7002);
 		}
 
+		/// <summary>
+		/// Request to create a new character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CH_MAKE_CHAR)]
 		public void CH_MAKE_CHAR(CharConnection conn, Packet packet)
 		{
@@ -74,6 +92,13 @@ namespace Sabine.Char.Network
 
 			var account = conn.Account;
 			var db = CharServer.Instance.Database;
+
+			var slotAvailable = conn.Characters.Any(a => a.Slot == character.Slot);
+			if (!slotAvailable)
+			{
+				Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.Denied);
+				return;
+			}
 
 			if (db.CharacterNameExists(character.Name))
 			{

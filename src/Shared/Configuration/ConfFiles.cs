@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Sabine.Shared.Configuration.Files;
+﻿using Sabine.Shared.Configuration.Files;
 
 namespace Sabine.Shared.Configuration
 {
+	/// <summary>
+	/// Holds references to all conf files.
+	/// </summary>
 	public class ConfFiles
 	{
 		/// <summary>

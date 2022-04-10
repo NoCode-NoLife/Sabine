@@ -3,8 +3,16 @@ using Sabine.Shared.Network;
 
 namespace Sabine.Char.Network.Helpers
 {
+	/// <summary>
+	/// Character related extensions for the Packet class.
+	/// </summary>
 	public static class PacketCharacterExtensions
 	{
+		/// <summary>
+		/// Writes character's information to packet.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="character"></param>
 		public static void AddCharacter(this Packet packet, Character character)
 		{
 			packet.PutInt(character.Id);

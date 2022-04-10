@@ -10,8 +10,6 @@ namespace Sabine.Shared.Network
 	/// <typeparam name="TConnection"></typeparam>
 	public class PacketHandler<TConnection>
 	{
-		public delegate void PacketHandlerFunc(TConnection conn, Packet packet);
-
 		protected Dictionary<int, PacketHandlerFunc> _handlers = new Dictionary<int, PacketHandlerFunc>();
 
 		/// <summary>
@@ -65,6 +63,13 @@ namespace Sabine.Shared.Network
 			func(conn, packet);
 			return true;
 		}
+
+		/// <summary>
+		/// A function that handle a packet.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		public delegate void PacketHandlerFunc(TConnection conn, Packet packet);
 	}
 
 	/// <summary>

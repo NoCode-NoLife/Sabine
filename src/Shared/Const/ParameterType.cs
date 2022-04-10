@@ -1,5 +1,9 @@
 ﻿namespace Sabine.Shared.Const
 {
+	/// <summary>
+	/// Parameter types used in packets that handle certain ranges
+	/// of stats and other parameters.
+	/// </summary>
 	public enum ParameterType : short
 	{
 		Speed = 0,

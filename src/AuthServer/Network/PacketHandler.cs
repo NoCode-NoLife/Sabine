@@ -5,8 +5,16 @@ using Yggdrasil.Security.Hashing;
 
 namespace Sabine.Auth.Network
 {
+	/// <summary>
+	/// Packet handler methods.
+	/// </summary>
 	public class PacketHandler : PacketHandler<AuthConnection>
 	{
+		/// <summary>
+		/// Login request, first packet sent after connecting.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CA_LOGIN)]
 		public void CA_LOGIN(AuthConnection conn, Packet packet)
 		{
@@ -51,7 +59,7 @@ namespace Sabine.Auth.Network
 				return;
 			}
 
-			db.UpdateSessionId(account);
+			db.UpdateSessionId(ref account);
 
 			Send.AC_ACCEPT_LOGIN(conn, account);
 

@@ -6,14 +6,27 @@ using Yggdrasil.Logging;
 
 namespace Sabine.Zone.World.Maps
 {
+	/// <summary>
+	/// Represents a map in the world.
+	/// </summary>
 	public class Map
 	{
 		private readonly Dictionary<int, PlayerCharacter> _characters = new Dictionary<int, PlayerCharacter>();
 
+		/// <summary>
+		/// Returns a reference to the Limbo map. See Limbo class for
+		/// more information.
+		/// </summary>
 		public static readonly Limbo Limbo = new Limbo();
 
-		public string Name { get; set; }
+		/// <summary>
+		/// Returns the map's name.
+		/// </summary>
+		public string Name { get; }
 
+		/// <summary>
+		/// Returns the number of players on this number.
+		/// </summary>
 		public int PlayerCount
 		{
 			get
@@ -23,11 +36,20 @@ namespace Sabine.Zone.World.Maps
 			}
 		}
 
+		/// <summary>
+		/// Creates new map.
+		/// </summary>
+		/// <param name="name"></param>
 		public Map(string name)
 		{
 			this.Name = name;
 		}
 
+		/// <summary>
+		/// Adds character to this map.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <exception cref="ArgumentException"></exception>
 		public virtual void AddCharacter(PlayerCharacter character)
 		{
 			lock (_characters)
@@ -41,6 +63,11 @@ namespace Sabine.Zone.World.Maps
 			}
 		}
 
+		/// <summary>
+		/// Removes character from this map.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <exception cref="ArgumentException"></exception>
 		public virtual void RemoveCharacter(PlayerCharacter character)
 		{
 			lock (_characters)
@@ -55,6 +82,12 @@ namespace Sabine.Zone.World.Maps
 			}
 		}
 
+		/// <summary>
+		/// Broadcasts packet to players on this map.
+		/// </summary>
+		/// <param name="packet">Packet to send.</param>
+		/// <param name="source">Source of the packet if it's only sent in a range around the source. Use null for map-wide broadcast.</param>
+		/// <param name="includeSource">If true, the packet is sent to the source as well.</param>
 		public void Broadcast(Packet packet, PlayerCharacter source = null, bool includeSource = false)
 		{
 			lock (_characters)

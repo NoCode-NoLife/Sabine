@@ -1,5 +1,8 @@
 ﻿namespace Sabine.Shared.Network
 {
+	/// <summary>
+	/// A list of the packet opcodes.
+	/// </summary>
 	public static class Op
 	{
 		public const int CA_LOGIN = 0x0000;

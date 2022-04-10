@@ -3,6 +3,9 @@ using Sabine.Shared.World;
 
 namespace Sabine.Char.Database
 {
+	/// <summary>
+	/// A character's data in the database.
+	/// </summary>
 	public class Character
 	{
 		public int Id { get; set; }

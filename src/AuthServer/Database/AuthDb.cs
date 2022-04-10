@@ -5,8 +5,19 @@ using Yggdrasil.Util;
 
 namespace Sabine.Auth.Database
 {
+	/// <summary>
+	/// Auth server database interface.
+	/// </summary>
 	public class AuthDb : Db
 	{
+		/// <summary>
+		/// Creates new account.
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="password"></param>
+		/// <param name="sex"></param>
+		/// <param name="authority"></param>
+		/// <returns></returns>
 		public Account CreateAccount(string username, string password, Sex sex, int authority)
 		{
 			var account = new Account();
@@ -31,7 +42,12 @@ namespace Sabine.Auth.Database
 			return account;
 		}
 
-		public void UpdateSessionId(Account account)
+		/// <summary>
+		/// Generates a random session id, assigns it to the account,
+		/// and updates the database.
+		/// </summary>
+		/// <param name="account"></param>
+		public void UpdateSessionId(ref Account account)
 		{
 			var sessionId = RandomProvider.Get().Next();
 
