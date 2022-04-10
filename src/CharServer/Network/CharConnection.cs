@@ -12,14 +12,9 @@ namespace Sabine.Char.Network
 {
 	public class CharConnection : Connection
 	{
-		public Account Account = new Account() { Username = "admin" };
+		public Account Account { get; set; }
 
-		public List<Character> Characters = new List<Character>
-		{
-			new Character() { Slot = 0, Id = 10001, Name = "exec", JobId = JobId.Acolyte },
-			new Character() { Slot = 1, Id = 10002, Name = "exec", JobId = JobId.Archer },
-			new Character() { Slot = 2, Id = 10003, Name = "exec", JobId = JobId.Thief },
-		};
+		public List<Character> Characters { get; } = new List<Character>();
 
 		protected override void OnPacketReceived(Packet packet)
 		{
