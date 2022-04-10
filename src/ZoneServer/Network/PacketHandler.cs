@@ -239,5 +239,19 @@ namespace Sabine.Zone.Network
 
 			Send.ZC_REQ_ITEM_EXPLANATION_ACK(conn, itemName, "Foobar! Heals 9001 HP.");
 		}
+
+		/// <summary>
+		/// Request for item description.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CONTACTNPC)]
+		public void CZ_CONTACTNPC(ZoneConnection conn, Packet packet)
+		{
+			var npcId = packet.GetInt();
+			var b1 = packet.GetByte();
+
+			Log.Debug("CZ_CONTACTNPC: " + npcId);
+		}
 	}
 }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sabine.Shared.Const;
 using Sabine.Shared.Network;
+using Sabine.Shared.Network.Helpers;
+using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
 
@@ -12,6 +15,7 @@ namespace Sabine.Zone.World.Maps
 	public class Map
 	{
 		private readonly Dictionary<int, PlayerCharacter> _characters = new Dictionary<int, PlayerCharacter>();
+		private readonly Dictionary<int, Npc> _npcs = new Dictionary<int, Npc>();
 
 		/// <summary>
 		/// Returns a reference to the Limbo map. See Limbo class for
@@ -76,9 +80,47 @@ namespace Sabine.Zone.World.Maps
 					throw new ArgumentException($"A character with the id '{character.Id}' doesn't exists on the map.");
 
 				_characters.Remove(character.Id);
-				character.Map = this;
+				character.Map = null;
 
 				Log.Debug("- Characters on {0}: {1}", this.Name, _characters.Count);
+			}
+		}
+
+		/// <summary>
+		/// Adds NPC to this map.
+		/// </summary>
+		/// <param name="npc"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public virtual void AddNpc(Npc npc)
+		{
+			lock (_npcs)
+			{
+				if (_npcs.ContainsKey(npc.Handle))
+					throw new ArgumentException($"An NPC with the id '{npc.Handle}' already exists on the map.");
+
+				_npcs[npc.Handle] = npc;
+				npc.Map = this;
+
+				Send.ZC_NOTIFY_STANDENTRY_NPC(npc);
+			}
+		}
+
+		/// <summary>
+		/// Removes NPC from this map.
+		/// </summary>
+		/// <param name="npc"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public virtual void RemoveNpc(Npc npc)
+		{
+			lock (_npcs)
+			{
+				if (!_npcs.ContainsKey(npc.Handle))
+					throw new ArgumentException($"An NPC with the id '{npc.Handle}' doesn't exists on the map.");
+
+				Send.ZC_NOTIFY_VANISH(npc, DisappearType.Effect);
+
+				_npcs.Remove(npc.Handle);
+				npc.Map = null;
 			}
 		}
 
@@ -88,7 +130,7 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="packet">Packet to send.</param>
 		/// <param name="source">Source of the packet if it's only sent in a range around the source. Use null for map-wide broadcast.</param>
 		/// <param name="includeSource">If true, the packet is sent to the source as well.</param>
-		public void Broadcast(Packet packet, PlayerCharacter source = null, bool includeSource = false)
+		public void Broadcast(Packet packet, IEntity source = null, bool includeSource = false)
 		{
 			lock (_characters)
 			{

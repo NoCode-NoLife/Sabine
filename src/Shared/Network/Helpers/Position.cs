@@ -14,7 +14,7 @@ namespace Sabine.Shared.Network.Helpers
 		/// <param name="packet"></param>
 		/// <param name="pos"></param>
 		/// <param name="dir"></param>
-		public static void AddPackedPosition(this Packet packet, Position pos, int dir)
+		public static void AddPackedPosition(this Packet packet, Position pos, Direction dir)
 		{
 			var packed = new PackedPosition(pos, dir);
 

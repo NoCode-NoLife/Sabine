@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
 namespace Sabine.Zone.World.Entities
 {
 	public class Item
 	{
-		public int Id { get; set; }
-		public string NameId { get; set; }
+		private static int HandlePool = 0x0500_0000;
+
+		public int Handle { get; set; }
+		public string StringId { get; set; }
 		public int EquipSlot { get; set; }
 		public int Type { get; set; }
 		public int Amount { get; set; }
 
-		public Item(string nameId)
+		public Item(string stringId)
 		{
-			this.NameId = nameId;
+			this.Handle = GetNewHandle();
+			this.StringId = stringId;
 		}
+
+		/// <summary>
+		/// Returns a new handle.
+		/// </summary>
+		/// <returns></returns>
+		private static int GetNewHandle()
+			=> Interlocked.Increment(ref HandlePool);
 	}
 }

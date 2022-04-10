@@ -31,5 +31,21 @@ namespace Sabine.Zone.World.Maps
 		public override void RemoveCharacter(PlayerCharacter character)
 		{
 		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="npc"></param>
+		public override void AddNpc(Npc npc)
+		{
+		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="npc"></param>
+		public override void RemoveNpc(Npc npc)
+		{
+		}
 	}
 }

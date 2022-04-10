@@ -58,7 +58,10 @@
     <Compile Include="Commands\ChatCommands.Management.cs" />
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Network\DummyConnection.cs" />
+    <Compile Include="World\Entities\Character.cs" />
+    <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />
+    <Compile Include="World\Entities\Npc.cs" />
     <Compile Include="World\Entities\PlayerCharacter.cs" />
     <Compile Include="World\Maps\Limbo.cs" />
     <Compile Include="World\Maps\Map.cs" />

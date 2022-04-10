@@ -10,7 +10,7 @@ namespace Sabine.Zone.World.Entities
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class PlayerCharacter
+	public class PlayerCharacter : ICharacter
 	{
 		/// <summary>
 		/// Gets or sets the connection that controls this player.
@@ -26,6 +26,11 @@ namespace Sabine.Zone.World.Entities
 		/// Returns this character's session id.
 		/// </summary>
 		public int SessionId => this.Connection.Account.SessionId;
+
+		/// <summary>
+		/// Returns the character's handle.
+		/// </summary>
+		int ICharacter.Handle => this.SessionId;
 
 		/// <summary>
 		/// Gets or sets this character's id.
@@ -48,6 +53,11 @@ namespace Sabine.Zone.World.Entities
 		public JobId JobId { get; set; } = JobId.Novice;
 
 		/// <summary>
+		/// Returns the character's class id.
+		/// </summary>
+		int ICharacter.ClassId => (int)this.JobId;
+
+		/// <summary>
 		/// Gets or sets the name of the map the character is on.
 		/// </summary>
 		public string MapName { get; set; } = "prt_vilg01";
@@ -56,6 +66,11 @@ namespace Sabine.Zone.World.Entities
 		/// Gets or sets the character's current position.
 		/// </summary>
 		public Position Position { get; set; } = new Position(100, 80);
+
+		/// <summary>
+		/// Gets or sets the direction the character is looking in.
+		/// </summary>
+		public Direction Direction { get; set; } = Direction.South;
 
 		/// <summary>
 		/// Gets or sets the character's speed.
@@ -238,7 +253,12 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Returns a reference to the map the character is currently on.
 		/// </summary>
-		public Map Map { get; set; } = Map.Limbo;
+		public Map Map
+		{
+			get => _map;
+			set => _map = value ?? Map.Limbo;
+		}
+		private Map _map = Map.Limbo;
 
 		/// <summary>
 		/// Sends a server message to the character's client that is

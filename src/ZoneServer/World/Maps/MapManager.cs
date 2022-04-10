@@ -58,6 +58,19 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the map with the given name via out. Returns false
+		/// if the map wasn't found.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="map"></param>
+		/// <returns></returns>
+		public bool TryGet(string name, out Map map)
+		{
+			map = this.Get(name);
+			return map != null;
+		}
+
+		/// <summary>
 		/// Returns a list of all maps.
 		/// </summary>
 		/// <returns></returns>

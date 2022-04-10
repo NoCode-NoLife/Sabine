@@ -37,40 +37,73 @@ namespace Sabine.Zone.Network
 		public static void ZC_NOTIFY_TIME(ZoneConnection conn, DateTime serverTime)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_TIME);
-			packet.PutInt(serverTime.GetUnixTimestamp());
+			packet.PutInt(serverTime);
 
 			conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Makes character appear.
+		/// Makes character appear on clients of players around it.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_STANDENTRY(ZoneConnection conn, PlayerCharacter character)
+		public static void ZC_NOTIFY_STANDENTRY(ICharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
 
-			packet.PutInt(character.SessionId);
+			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
-			packet.PutByte((byte)character.JobId);
+			packet.PutByte((byte)character.ClassId);
 			packet.PutByte((byte)character.Sex);
-			packet.AddPackedPosition(character.Position, 0);
+			packet.AddPackedPosition(character.Position, character.Direction);
 			packet.PutShort(0);
 			packet.PutByte((byte)character.HairId);
 			packet.PutByte((byte)character.WeaponId);
 			packet.PutByte(0);
-			packet.PutByte(0); // dead_sit
+			packet.PutByte(4); // 0 = standing, 1 = dead, 2 = sitting
 
-			conn.Send(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
-		/// Makes character appear with spawn effect.
+		/// Makes character appear on clients of players  around it.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <remarks>
+		/// Currently the only known difference to ZC_NOTIFY_STANDENTRY
+		/// is that this packet won't spawn character classes, as it
+		/// fails to find the respective sprite's ACT file.
+		/// ZC_NOTIFY_STANDENTRY meanwhile has a check for whether the
+		/// class id is < 32, where the NPC sprites begin, and it seems
+		/// to be handling both players and NPCs well.
+		/// </remarks>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_NEWENTRY(ZoneConnection conn, PlayerCharacter character)
+		public static void ZC_NOTIFY_STANDENTRY_NPC(ICharacter character)
+		{
+			// Class id 32 appears to be a large shadow, possibly a warp,
+			// and 63 seems to be an effect, that uses the speed field
+			// as the effect id?
+
+			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY_NPC);
+
+			packet.PutInt(character.Handle);
+			packet.PutShort((short)character.Speed);
+			packet.PutByte((byte)character.ClassId);
+			packet.PutByte((byte)character.Sex);
+			packet.AddPackedPosition(character.Position, character.Direction);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutByte((byte)character.HairId);
+			packet.PutByte((byte)character.WeaponId);
+			packet.PutByte(0);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Makes character appear on clients of players around it with
+		/// a spawn effect.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NOTIFY_NEWENTRY(PlayerCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_NEWENTRY);
 
@@ -78,31 +111,71 @@ namespace Sabine.Zone.Network
 			packet.PutShort((short)character.Speed);
 			packet.PutByte((byte)character.JobId);
 			packet.PutByte((byte)character.Sex);
-			packet.AddPackedPosition(character.Position, 0);
+			packet.AddPackedPosition(character.Position, character.Direction);
 			packet.PutShort(0);
 			packet.PutByte((byte)character.HairId);
 			packet.PutByte((byte)character.WeaponId);
 			packet.PutByte(0);
 
-			conn.Send(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
-		/// Makes character move from one position to the other.
+		/// Makes character who is currently moving appear on clients of
+		/// players around it, moving between the given positions.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		public static void ZC_NOTIFY_MOVEENTRY(ICharacter character, Position from, Position to)
+		{
+			var packet = new Packet(Op.ZC_NOTIFY_MOVEENTRY);
+
+			packet.PutInt(character.Handle);
+			packet.PutShort((short)character.Speed);
+			packet.PutByte((byte)character.ClassId);
+			packet.PutByte((byte)character.Sex);
+			packet.AddPackedMove(from, to, 8, 8);
+			packet.PutShort(0);
+			packet.PutByte((byte)character.HairId);
+			packet.PutByte((byte)character.WeaponId);
+			packet.PutByte(0);
+			packet.PutInt(DateTime.Now);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Removes character on clients of players around it.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		public static void ZC_NOTIFY_VANISH(ICharacter character, DisappearType type)
+		{
+			var packet = new Packet(Op.ZC_NOTIFY_VANISH);
+			packet.PutInt(character.Handle);
+			packet.PutByte((byte)type);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Makes character move from one position to the other on clients
+		/// of players around it.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		public static void ZC_NOTIFY_MOVE(ZoneConnection conn, PlayerCharacter character, Position from, Position to)
+		public static void ZC_NOTIFY_MOVE(ICharacter character, Position from, Position to)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_MOVE);
 
-			packet.PutInt(character.SessionId);
+			packet.PutInt(character.Handle);
 			packet.AddPackedMove(from, to, 8, 8);
-			packet.PutInt(DateTime.Now.GetUnixTimestamp());
+			packet.PutInt(DateTime.Now);
 
-			conn.Send(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -115,7 +188,7 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_PLAYERMOVE);
 
-			packet.PutInt(DateTime.Now.GetUnixTimestamp());
+			packet.PutInt(DateTime.Now);
 			packet.AddPackedMove(from, to, 8, 8);
 
 			character.Connection.Send(packet);
@@ -286,11 +359,11 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="type"></param>
 		/// <param name="value"></param>
-		public static void ZC_SPRITE_CHANGE(PlayerCharacter character, SpriteType type, int value)
+		public static void ZC_SPRITE_CHANGE(ICharacter character, SpriteType type, int value)
 		{
 			var packet = new Packet(Op.ZC_SPRITE_CHANGE);
 
-			packet.PutInt(character.SessionId);
+			packet.PutInt(character.Handle);
 			packet.PutByte((byte)type);
 			packet.PutByte((byte)value);
 
