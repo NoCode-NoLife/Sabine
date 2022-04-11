@@ -58,8 +58,8 @@ namespace Sabine.Zone.Network
 			packet.PutShort(0);
 			packet.PutByte((byte)character.HairId);
 			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte(0);
-			packet.PutByte(4); // 0 = standing, 1 = dead, 2 = sitting
+			packet.PutByte(0); // Possibly a sprite option that wasn't implemented yet, like headgears
+			packet.PutByte((byte)character.State);
 
 			character.Map.Broadcast(packet, character);
 		}

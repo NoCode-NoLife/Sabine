@@ -1,5 +1,6 @@
 ﻿using Sabine.Shared.Const;
 using Sabine.Shared.World;
+using Shared.Const;
 
 namespace Sabine.Zone.World.Entities
 {
@@ -57,5 +58,10 @@ namespace Sabine.Zone.World.Entities
 		/// Returns the character's username.
 		/// </summary>
 		string Username { get; }
+
+		/// <summary>
+		/// Returns a character's current state.
+		/// </summary>
+		CharacterState State { get; }
 	}
 }

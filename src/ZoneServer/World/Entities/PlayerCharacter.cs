@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Security.Policy;
 using Sabine.Shared.Const;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Maps;
+using Shared.Const;
 
 namespace Sabine.Zone.World.Entities
 {
@@ -56,6 +58,11 @@ namespace Sabine.Zone.World.Entities
 		/// Returns the character's class id.
 		/// </summary>
 		int ICharacter.ClassId => (int)this.JobId;
+
+		/// <summary>
+		/// Gets or sets the character's state.
+		/// </summary>
+		public CharacterState State { get; set; }
 
 		/// <summary>
 		/// Gets or sets the id of the map the character is on.

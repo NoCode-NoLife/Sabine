@@ -3,6 +3,7 @@ using System.Threading;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.World.Maps;
+using Shared.Const;
 
 namespace Sabine.Zone.World.Entities
 {
@@ -25,6 +26,11 @@ namespace Sabine.Zone.World.Entities
 		public Sex Sex { get; set; }
 		public int HairId { get; set; }
 		public int WeaponId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the character's state.
+		/// </summary>
+		public CharacterState State { get; set; }
 
 		// Temporary, for testing
 		public Location WarpDestination { get; set; }
