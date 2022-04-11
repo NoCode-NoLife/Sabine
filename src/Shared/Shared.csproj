@@ -12,8 +12,17 @@
     <Reference Include="nettext">
       <HintPath>..\..\libs\nettext.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Yggdrasil">
       <HintPath>..\..\libs\Yggdrasil.dll</HintPath>
+    </Reference>
+    <Reference Include="Yggdrasil.Data">
+      <HintPath>..\..\libs\Yggdrasil.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Yggdrasil.Data.JSON">
+      <HintPath>..\..\libs\Yggdrasil.Data.JSON.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -32,9 +32,9 @@
 		JobExpNeeded = 23, // Long
 		Weight = 24,
 		WeightMax = 25,
-		UnkMin32 = 32,
-		UnkMax33 = 33,
-		Unk34 = 34,
-		Unk35 = 35,
+		AtkMin = 32,
+		AtkMax = 33,
+		Defense = 34,
+		MAtk = 35,
 	}
 }

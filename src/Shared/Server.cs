@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Sabine.Shared.Configuration;
+using Sabine.Shared.Data;
 using Sabine.Shared.Database;
 using Sabine.Shared.Util;
+using Yggdrasil.Data;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -114,6 +116,59 @@ namespace Sabine.Shared
 			catch (Exception ex)
 			{
 				Log.Error("Unable to open database connection. ({0})", ex.Message);
+				ConsoleUtil.Exit(1);
+			}
+		}
+
+		/// <summary>
+		/// Loads data from JSON files.
+		/// </summary>
+		public void LoadData()
+		{
+			Log.Info("Loading data...");
+
+			this.LoadDataFile(SabineData.Maps, "maps.txt");
+		}
+
+		/// <summary>
+		/// Loads files for the given database from the given file.
+		/// </summary>
+		/// <param name="db"></param>
+		/// <param name="fileName"></param>
+		private void LoadDataFile(IDatabase db, string fileName)
+		{
+			try
+			{
+				var systemPath = Path.Combine("system", "data", fileName);
+				var userPath = Path.Combine("user", "data", fileName);
+
+				if (!File.Exists(systemPath))
+				{
+					Log.Error("LoadDataFile: File '{0}' not found.", systemPath);
+					ConsoleUtil.Exit(1);
+					return;
+				}
+
+				db.Clear();
+				db.LoadFile(systemPath);
+				foreach (var ex in db.GetWarnings())
+					Log.Warning(ex);
+
+				if (File.Exists(userPath))
+				{
+					db.LoadFile(systemPath);
+					foreach (var ex in db.GetWarnings())
+						Log.Warning(ex);
+				}
+
+				if (db.Count == 1)
+					Log.Info("  done loading {0} entry from {1}.", db.Count, fileName);
+				else
+					Log.Info("  done loading {0} entries from {1}.", db.Count, fileName);
+			}
+			catch (DatabaseErrorException ex)
+			{
+				Log.Error(ex);
 				ConsoleUtil.Exit(1);
 			}
 		}
