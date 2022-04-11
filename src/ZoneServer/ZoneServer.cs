@@ -59,6 +59,7 @@ namespace Sabine.Zone
 			this.InitDatabase(this.Database, this.Conf);
 			this.LoadCommands();
 			this.LoadWorld();
+			this.LoadScripts("system/scripts/scripts_zone.txt", this.Conf);
 
 			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(this.Conf.Zone.BindIp, this.Conf.Zone.BindPort);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;

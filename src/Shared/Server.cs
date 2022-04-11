@@ -1,14 +1,21 @@
 ﻿using System;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
+using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using Sabine.Shared.Configuration;
 using Sabine.Shared.Data;
 using Sabine.Shared.Database;
 using Sabine.Shared.Util;
+using Shared.Scripting;
 using Yggdrasil.Data;
+using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
+using Yggdrasil.Scripting;
 using Yggdrasil.Util;
 
 namespace Sabine.Shared
@@ -22,6 +29,11 @@ namespace Sabine.Shared
 		/// Returns a reference to all conf files.
 		/// </summary>
 		public ConfFiles Conf { get; private set; } = new ConfFiles();
+
+		/// <summary>
+		/// Returns a reference to the server's script loader.
+		/// </summary>
+		protected ScriptLoader ScriptLoader { get; private set; }
 
 		/// <summary>
 		/// Starts the server.
@@ -171,6 +183,96 @@ namespace Sabine.Shared
 				Log.Error(ex);
 				ConsoleUtil.Exit(1);
 			}
+		}
+
+		/// <summary>
+		/// Loads all scripts from given list.
+		/// </summary>
+		public void LoadScripts(string listFilePath, ConfFiles conf)
+		{
+			if (this.ScriptLoader != null)
+			{
+				Log.Error("The script loader has been created already.");
+				return;
+			}
+
+			Log.Info("Loading scripts...");
+
+			if (!File.Exists(listFilePath))
+			{
+				Log.Error("Script list not found: " + listFilePath);
+				return;
+			}
+
+			var timer = Stopwatch.StartNew();
+
+			try
+			{
+				var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
+				provider.SetCompilerServerTimeToLive(TimeSpan.FromMinutes(20));
+				provider.SetCompilerFullPath(Path.GetFullPath("libs/roslyn/csc.exe"));
+
+				var cachePath = (string)null;
+				//if (conf.Scripting.EnableCaching)
+				//{
+				//	var fileName = Path.GetFileNameWithoutExtension(listFilePath);
+				//	cachePath = string.Format("cache/scripts/{0}.compiled", fileName);
+				//}
+
+				this.ScriptLoader = new ScriptLoader(provider, cachePath);
+				//this.ScriptLoader.AddPrecompiler(new AiScriptPrecompiler());
+				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/");
+
+				foreach (var ex in this.ScriptLoader.LoadingExceptions)
+					Log.Error(ex);
+			}
+			catch (CompilerErrorException ex)
+			{
+				foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+				{
+					if (string.IsNullOrWhiteSpace(err.FileName))
+					{
+						Log.Error("While loading scripts: " + err.ErrorText);
+					}
+					else
+					{
+						var relativefileName = err.FileName;
+						var cwd = Directory.GetCurrentDirectory();
+						if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+							relativefileName = relativefileName.Substring(cwd.Length + 1);
+
+						var lines = File.ReadAllLines(err.FileName);
+						var sb = new StringBuilder();
+
+						// Error msg
+						sb.AppendLine("In {0} on line {1}, column {2}", relativefileName, err.Line, err.Column);
+						sb.AppendLine("          {0}", err.ErrorText);
+
+						// Display lines around the error
+						var startLine = Math.Max(1, err.Line - 1);
+						var endLine = Math.Min(lines.Length, startLine + 2);
+						for (var i = startLine; i <= endLine; ++i)
+						{
+							// Make sure we don't get out of range.
+							// (ReadAllLines "trims" the input)
+							var line = (i <= lines.Length) ? lines[i - 1] : "";
+
+							sb.AppendLine("  {2} {0:0000}: {1}", i, line, (err.Line == i ? '*' : ' '));
+						}
+
+						if (err.IsWarning)
+							Log.Warning(sb.ToString());
+						else
+							Log.Error(sb.ToString());
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex);
+			}
+
+			Log.Info("  loaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
 		}
 	}
 }

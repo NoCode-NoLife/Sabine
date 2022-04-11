@@ -1,0 +1,5 @@
+// Sabine
+// Script List File
+//---------------------------------------------------------------------------
+
+include "/user/scripts/scripts_zone.txt"

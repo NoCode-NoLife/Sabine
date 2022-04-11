@@ -52,6 +52,9 @@
       <HintPath>..\..\libs\Yggdrasil.dll</HintPath>
     </Reference>
     <Reference Include="Yggdrasil.Data.JSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Yggdrasil.Scripting">
+      <HintPath>..\..\libs\Yggdrasil.Scripting.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ChatCommand.cs" />
