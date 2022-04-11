@@ -60,14 +60,22 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="pos"></param>
 		/// <exception cref="ArgumentException"></exception>
 		public void Warp(int mapId, Position pos)
+			=> this.Warp(new Location(mapId, pos));
+
+		/// <summary>
+		/// Warps NPC to the given position.
+		/// </summary>
+		/// <param name="location"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Warp(Location location)
 		{
-			if (!ZoneServer.Instance.World.Maps.TryGet(mapId, out var newMap))
-				throw new ArgumentException($"Map '{mapId}' not found.");
+			if (!ZoneServer.Instance.World.Maps.TryGet(location.MapId, out var newMap))
+				throw new ArgumentException($"Map '{location.MapId}' not found.");
 
 			var curMap = this.Map;
 
-			this.MapId = mapId;
-			this.Position = pos;
+			this.MapId = location.MapId;
+			this.Position = location.Position;
 
 			curMap.RemoveNpc(this);
 			newMap.AddNpc(this);

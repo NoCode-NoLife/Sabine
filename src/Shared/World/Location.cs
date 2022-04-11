@@ -41,10 +41,10 @@
 		/// <summary>
 		/// Creates new location.
 		/// </summary>
-		/// <param name="regionId"></param>
+		/// <param name="mapId"></param>
 		/// <param name="pos"></param>
-		public Location(int regionId, Position pos)
-			: this(regionId, pos.X, pos.Y)
+		public Location(int mapId, Position pos)
+			: this(mapId, pos.X, pos.Y)
 		{
 		}
 
