@@ -55,15 +55,17 @@ namespace Sabine.Zone.Network
 					conn.Close();
 					return;
 				}
+
+				character.SetLocation(fallbackLocation);
 			}
 
 			conn.Account = account;
 			conn.Character = character;
 			character.Connection = conn;
 
-			map.AddCharacter(character);
-
 			Send.ZC_ACCEPT_ENTER(conn, character);
+
+			map.AddCharacter(character);
 		}
 
 		/// <summary>
@@ -75,6 +77,9 @@ namespace Sabine.Zone.Network
 		public void CZ_NOTIFY_ACTORINIT(ZoneConnection conn, Packet packet)
 		{
 			var character = conn.GetCurrentCharacter();
+
+			if (character.IsWarping)
+				character.FinalizeWarp();
 
 			Send.ZC_STATUS(character);
 			Send.ZC_PAR_CHANGE(character, ParameterType.Weight, character.Weight);

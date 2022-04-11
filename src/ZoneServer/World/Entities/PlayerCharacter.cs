@@ -73,6 +73,17 @@ namespace Sabine.Zone.World.Entities
 		public Direction Direction { get; set; } = Direction.South;
 
 		/// <summary>
+		/// Returns true if character is warping to a new location.
+		/// </summary>
+		public bool IsWarping { get; private set; }
+
+		/// <summary>
+		/// Returns the position the character is warping towards while
+		/// IsWarping is true.
+		/// </summary>
+		public Location WarpLocation { get; private set; }
+
+		/// <summary>
 		/// Gets or sets the character's speed.
 		/// </summary>
 		public int Speed { get; set; } = 200;
@@ -358,6 +369,60 @@ namespace Sabine.Zone.World.Entities
 			this.StatPoints += modifier;
 
 			Send.ZC_PAR_CHANGE(this, ParameterType.StatPoints, this.StatPoints);
+		}
+
+		/// <summary>
+		/// Warps character to given location.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <param name="pos"></param>
+		public void Warp(int mapId, Position pos)
+			=> this.Warp(new Location(mapId, pos));
+
+		/// <summary>
+		/// Warps character to given location.
+		/// </summary>
+		/// <param name="location"></param>
+		public void Warp(Location location)
+		{
+			if (!ZoneServer.Instance.World.Maps.TryGet(location.MapId, out var map))
+				throw new ArgumentException($"Map '{location.MapId}' not found.");
+
+			this.IsWarping = true;
+			this.WarpLocation = location;
+
+			Send.ZC_NPCACK_MAPMOVE(this, map.StringId, location.Position);
+		}
+
+		/// <summary>
+		/// Finalizes a warp, actually moving the character to the
+		/// new location.
+		/// </summary>
+		/// <exception cref="InvalidOperationException"></exception>
+		/// <exception cref="ArgumentException"></exception>
+		public void FinalizeWarp()
+		{
+			if (!this.IsWarping)
+				throw new InvalidOperationException("No warp in process that could be finalized.");
+
+			if (!ZoneServer.Instance.World.Maps.TryGet(this.WarpLocation.MapId, out var map))
+				throw new ArgumentException($"Map '{this.WarpLocation.MapId}' not found.");
+
+			this.Map.RemoveCharacter(this);
+			this.SetLocation(this.WarpLocation);
+			map.AddCharacter(this);
+
+			this.IsWarping = false;
+		}
+
+		/// <summary>
+		/// Sets character's map id and position.
+		/// </summary>
+		/// <param name="location"></param>
+		public void SetLocation(Location location)
+		{
+			this.MapId = location.MapId;
+			this.Position = location.Position;
 		}
 	}
 }
