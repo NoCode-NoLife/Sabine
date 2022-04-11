@@ -80,10 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{C5C798D4-9EE9-4BDE-91FA-27F29BD18DB6}</Project>
+      <Project>{df6aba4a-9e79-4746-ac43-e9a2080a00c1}</Project>
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

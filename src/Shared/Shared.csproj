@@ -1,20 +1,57 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Sabine.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DF6ABA4A-9E79-4746-AC43-E9A2080A00C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shared</RootNamespace>
+    <AssemblyName>Shared</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\..\libs\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\libs\MySql.Data.dll</HintPath>
+      <HintPath>..\..\bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="nettext">
       <HintPath>..\..\libs\nettext.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
     <Reference Include="Yggdrasil">
       <HintPath>..\..\libs\Yggdrasil.dll</HintPath>
     </Reference>
@@ -24,6 +61,51 @@
     <Reference Include="Yggdrasil.Data.JSON">
       <HintPath>..\..\libs\Yggdrasil.Data.JSON.dll</HintPath>
     </Reference>
+    <Reference Include="Yggdrasil.Scripting">
+      <HintPath>..\..\libs\Yggdrasil.Scripting.dll</HintPath>
+    </Reference>
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="Configuration\ConfFiles.cs" />
+    <Compile Include="Configuration\Files\AuthConf.cs" />
+    <Compile Include="Configuration\Files\CharConf.cs" />
+    <Compile Include="Configuration\Files\Commands.cs" />
+    <Compile Include="Configuration\Files\DatabaseConf.cs" />
+    <Compile Include="Configuration\Files\Localization.cs" />
+    <Compile Include="Configuration\Files\ZoneConf.cs" />
+    <Compile Include="ConsoleHeader.cs" />
+    <Compile Include="Const\CharConnectError.cs" />
+    <Compile Include="Const\CharCreateError.cs" />
+    <Compile Include="Const\DisappearType.cs" />
+    <Compile Include="Const\EmotionId.cs" />
+    <Compile Include="Const\JobId.cs" />
+    <Compile Include="Const\LoginConnectError.cs" />
+    <Compile Include="Const\ParameterType.cs" />
+    <Compile Include="Const\Sex.cs" />
+    <Compile Include="Const\SpriteType.cs" />
+    <Compile Include="Database\Account.cs" />
+    <Compile Include="Database\Db.cs" />
+    <Compile Include="Database\MySQL\Commands.cs" />
+    <Compile Include="Database\MySQL\Extensions.cs" />
+    <Compile Include="Data\Databases\Maps.cs" />
+    <Compile Include="Data\SabineData.cs" />
+    <Compile Include="Extensions\DateTime.cs" />
+    <Compile Include="Network\Connection.cs" />
+    <Compile Include="Network\Helpers\Position.cs" />
+    <Compile Include="Network\Op.cs" />
+    <Compile Include="Network\Packet.cs" />
+    <Compile Include="Network\PacketHandler.cs" />
+    <Compile Include="Network\PacketTable.cs" />
+    <Compile Include="Network\RoFramer.cs" />
+    <Compile Include="Network\Structs\PackedMove.cs" />
+    <Compile Include="Network\Structs\PackedPosition.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\CSharpCodeProvider.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Util\Localization.cs" />
+    <Compile Include="World\Direction.cs" />
+    <Compile Include="World\Location.cs" />
+    <Compile Include="World\Position.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
