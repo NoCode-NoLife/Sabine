@@ -18,7 +18,7 @@ public class PronteraNorthMapScript : MapScript
 		AddWarp(From("prt_vilg00", 26, 100), To("prt_fild05", 182, 54));
 		AddWarp(From("prt_fild05", 184, 54), To("prt_vilg00", 28, 100));
 
-		// Prontera Castle <--> Prontera West Field
+		// Prontera West Field <--> Prontera Dungeon 1B
 		AddWarp(From("prt_fild05", 30, 161), To("prt_dugn01", 187, 12));
 		AddWarp(From("prt_dugn01", 189, 10), To("prt_fild05", 32, 160));
 
