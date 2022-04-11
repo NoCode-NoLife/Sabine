@@ -55,8 +55,10 @@ namespace Sabine.Zone
 			this.NavigateToRoot();
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
+			this.LoadData();
 			this.InitDatabase(this.Database, this.Conf);
 			this.LoadCommands();
+			this.LoadWorld();
 
 			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(this.Conf.Zone.BindIp, this.Conf.Zone.BindPort);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
@@ -66,6 +68,18 @@ namespace Sabine.Zone
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
 
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Loads world and its maps.
+		/// </summary>
+		private void LoadWorld()
+		{
+			Log.Info("Loading world...");
+
+			this.World.Load();
+
+			Log.Info("  loaded {0} maps.", this.World.Maps.Count);
 		}
 
 		/// <summary>

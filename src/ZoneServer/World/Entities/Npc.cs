@@ -16,7 +16,7 @@ namespace Sabine.Zone.World.Entities
 		public int Handle { get; set; }
 		public string Name { get; set; }
 		public int ClassId { get; set; }
-		public string MapName { get; set; }
+		public int MapId { get; set; }
 		public Position Position { get; set; }
 		public Direction Direction { get; set; } = Direction.South;
 
@@ -55,17 +55,17 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Warps NPC to the given position.
 		/// </summary>
-		/// <param name="mapName"></param>
+		/// <param name="mapId"></param>
 		/// <param name="pos"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public void Warp(string mapName, Position pos)
+		public void Warp(int mapId, Position pos)
 		{
-			if (!ZoneServer.Instance.World.Maps.TryGet(mapName, out var newMap))
-				throw new ArgumentException($"Map '{mapName}' not found.");
+			if (!ZoneServer.Instance.World.Maps.TryGet(mapId, out var newMap))
+				throw new ArgumentException($"Map '{mapId}' not found.");
 
 			var curMap = this.Map;
 
-			this.MapName = mapName;
+			this.MapId = mapId;
 			this.Position = pos;
 
 			curMap.RemoveNpc(this);

@@ -31,8 +31,21 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		Sex Sex { get; }
 
+		/// <summary>
+		/// Returns a character's hair id, specifying the look of their
+		/// head.
+		/// </summary>
 		int HairId { get; }
+
+		/// <summary>
+		/// Returns a character's weapon id, specifying what weapon they
+		/// can be seen holding during combat.
+		/// </summary>
 		int WeaponId { get; }
+
+		/// <summary>
+		/// Returns the direction the character is turned towards.
+		/// </summary>
 		Direction Direction { get; }
 	}
 }

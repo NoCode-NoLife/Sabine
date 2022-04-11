@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Sabine.Char.Database;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data;
 using Sabine.Shared.Network;
 using Yggdrasil.Logging;
 
@@ -65,9 +66,15 @@ namespace Sabine.Char.Network
 				return;
 			}
 
+			if (!SabineData.Maps.TryFind(character.MapId, out var mapData))
+			{
+				Log.Error("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}).", character.Name, character.MapId);
+				return;
+			}
+
 			Log.Debug("Character selected: {0}", character.Name);
 
-			Send.HC_NOTIFY_ZONESVR(conn, character.Id, character.MapName, "127.0.0.1", 7002);
+			Send.HC_NOTIFY_ZONESVR(conn, character.Id, mapData.StringId, "127.0.0.1", 7002);
 		}
 
 		/// <summary>

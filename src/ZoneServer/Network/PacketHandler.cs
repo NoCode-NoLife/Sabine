@@ -42,15 +42,15 @@ namespace Sabine.Zone.Network
 				return;
 			}
 
-			var map = ZoneServer.Instance.World.Maps.Get(character.MapName);
-			if (map == null)
+			if (!ZoneServer.Instance.World.Maps.TryGet(character.MapId, out var map))
 			{
-				Log.Warning("CZ_ENTER: Map '{0}' not found for character '{1}'.", character.MapName, character.Name);
+				Log.Warning("CZ_ENTER: Map '{0}' not found for character '{1}'.", character.MapId, character.Name);
 
-				map = ZoneServer.Instance.World.Maps.Get("prt_vilg01");
-				if (map == null)
+				var fallbackLocation = new Location(100036, 99, 81); // "prt_vilg02"
+
+				if (!ZoneServer.Instance.World.Maps.TryGet(fallbackLocation.MapId, out map))
 				{
-					Log.Warning("CZ_ENTER: Fallback map '{0}' not found.", "prt_vilg01");
+					Log.Warning("CZ_ENTER: Fallback map not found either! Abort! Abort!!!");
 
 					conn.Close();
 					return;

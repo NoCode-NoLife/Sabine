@@ -9,9 +9,9 @@ namespace Sabine.Zone.World.Entities
 	public interface IEntity
 	{
 		/// <summary>
-		/// Returns the name of the map the entity is currently on.
+		/// Returns the id of the map the entity is currently on.
 		/// </summary>
-		string MapName { get; }
+		int MapId { get; }
 
 		/// <summary>
 		/// Returns the entity's current position.

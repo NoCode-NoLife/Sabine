@@ -36,7 +36,7 @@ namespace Sabine.Zone.Database
 					character.Name = reader.GetStringSafe("name");
 					character.JobId = (JobId)reader.GetInt32("job");
 					character.Zeny = reader.GetInt32("zeny");
-					character.MapName = reader.GetStringSafe("mapName");
+					character.MapId = reader.GetInt32("mapId");
 					character.Speed = reader.GetInt32("speed");
 					character.BaseLevel = reader.GetInt32("baseLevel");
 					character.JobLevel = reader.GetInt32("jobLevel");
@@ -81,7 +81,7 @@ namespace Sabine.Zone.Database
 				cmd.Set("name", character.Name);
 				cmd.Set("job", character.JobId);
 				cmd.Set("zeny", character.Zeny);
-				cmd.Set("mapName", character.MapName);
+				cmd.Set("mapId", character.MapId);
 				cmd.Set("x", character.Position.X);
 				cmd.Set("y", character.Position.Y);
 				cmd.Set("speed", character.Speed);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Zone.Network;
@@ -24,9 +25,20 @@ namespace Sabine.Zone.World.Maps
 		public static readonly Limbo Limbo = new Limbo();
 
 		/// <summary>
-		/// Returns the map's name.
+		/// Returns the map's id.
 		/// </summary>
-		public string Name { get; }
+		public int Id { get; }
+
+		/// <summary>
+		/// Returns the map's string-based id, which is used to identify
+		/// the map on the client and is equal to the map's file name.
+		/// </summary>
+		public string StringId { get; }
+
+		/// <summary>
+		/// Returns a reference to the data for this map.
+		/// </summary>
+		public MapsData Data { get; }
 
 		/// <summary>
 		/// Returns the number of players on this number.
@@ -41,12 +53,14 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Creates new map.
+		/// Creates new map from data.
 		/// </summary>
-		/// <param name="name"></param>
-		public Map(string name)
+		/// <param name="mapData"></param>
+		public Map(MapsData mapData)
 		{
-			this.Name = name;
+			this.Id = mapData.Id;
+			this.StringId = mapData.StringId;
+			this.Data = mapData;
 		}
 
 		/// <summary>
@@ -63,7 +77,7 @@ namespace Sabine.Zone.World.Maps
 
 				_characters[character.Id] = character;
 				character.Map = this;
-				Log.Debug("+ Characters on {0}: {1}", this.Name, _characters.Count);
+				Log.Debug("+ Characters on {0}: {1}", this.StringId, _characters.Count);
 			}
 		}
 
@@ -82,7 +96,7 @@ namespace Sabine.Zone.World.Maps
 				_characters.Remove(character.Id);
 				character.Map = null;
 
-				Log.Debug("- Characters on {0}: {1}", this.Name, _characters.Count);
+				Log.Debug("- Characters on {0}: {1}", this.StringId, _characters.Count);
 			}
 		}
 

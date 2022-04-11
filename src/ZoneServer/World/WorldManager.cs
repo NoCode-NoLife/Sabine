@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Sabine.Shared.Data;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Maps;
 
@@ -16,12 +17,20 @@ namespace Sabine.Zone.World
 		public MapManager Maps { get; } = new MapManager();
 
 		/// <summary>
-		/// Creates new world.
+		/// Loads world and its maps.
 		/// </summary>
-		public WorldManager()
+		public void Load()
 		{
-			this.Maps.Add(new Map("prt_vilg01"));
-			this.Maps.Add(new Map("moc_vilg00"));
+			this.LoadMaps();
+		}
+
+		/// <summary>
+		/// Generates maps based on all map data.
+		/// </summary>
+		private void LoadMaps()
+		{
+			foreach (var data in SabineData.Maps.Entries.Values)
+				this.Maps.Add(new Map(data));
 		}
 
 		/// <summary>

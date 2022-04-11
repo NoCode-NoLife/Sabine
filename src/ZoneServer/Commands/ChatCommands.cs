@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data;
 using Sabine.Shared.Network;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
@@ -32,7 +33,7 @@ namespace Sabine.Zone.Commands
 
 			// GM commands
 			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
-			this.Add("warp", "<mapName> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
+			this.Add("warp", "<map> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -157,14 +158,14 @@ namespace Sabine.Zone.Commands
 		/// <returns></returns>
 		private CommandResult Where(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
 		{
-			var mapName = target.MapName;
+			var mapStringId = target.Map.StringId;
 			var x = target.Position.X;
 			var y = target.Position.Y;
 
 			if (sender == target)
-				sender.ServerMessage(Localization.Get("You're here: {1}, {2:n0}, {3:n0}"), target.Name, mapName, x, y);
+				sender.ServerMessage(Localization.Get("You're here: {1}, {2:n0}, {3:n0}"), target.Name, mapStringId, x, y);
 			else
-				sender.ServerMessage(Localization.Get("{0} is here: {1}, {2:n0}, {3:n0}"), target.Name, mapName, x, y);
+				sender.ServerMessage(Localization.Get("{0} is here: {1}, {2:n0}, {3:n0}"), target.Name, mapStringId, x, y);
 
 			return CommandResult.Okay;
 		}
@@ -218,6 +219,8 @@ namespace Sabine.Zone.Commands
 
 			Send.ZC_SPRITE_CHANGE(target, type, value);
 
+			sender.ServerMessage(Localization.Get("Changed {0} to {1}."), type, value);
+
 			return CommandResult.Okay;
 		}
 
@@ -236,7 +239,18 @@ namespace Sabine.Zone.Commands
 			if (args.Count < 3)
 				return CommandResult.InvalidArgument;
 
-			var mapName = args.Get(0);
+			if (!int.TryParse(args.Get(0), out var mapId))
+			{
+				var mapStringId = args.Get(0);
+
+				if (!SabineData.Maps.TryFind(mapStringId, out var mapData))
+				{
+					sender.ServerMessage(Localization.Get("Map '{0}' not found."), mapStringId);
+					return CommandResult.Okay;
+				}
+
+				mapId = mapData.Id;
+			}
 
 			if (!int.TryParse(args.Get(1), out var x))
 				return CommandResult.InvalidArgument;
@@ -244,13 +258,17 @@ namespace Sabine.Zone.Commands
 			if (!int.TryParse(args.Get(2), out var y))
 				return CommandResult.InvalidArgument;
 
-			if (!ZoneServer.Instance.World.Maps.TryGet(mapName, out var map))
+			if (!ZoneServer.Instance.World.Maps.TryGet(mapId, out var map))
 			{
 				sender.ServerMessage(Localization.Get("Map not found."));
 				return CommandResult.Okay;
 			}
 
-			Send.ZC_NPCACK_MAPMOVE(target, mapName, new Position(x, y));
+			target.Warp(map.Id, new Position(x, y));
+
+			sender.ServerMessage(Localization.Get("Warped to {0}, {1}, {2}."), map.StringId, x, y);
+			if (sender != target)
+				target.ServerMessage(Localization.Get("You were warped by {0}."), sender.Name);
 
 			return CommandResult.Okay;
 		}

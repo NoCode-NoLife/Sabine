@@ -44,6 +44,7 @@ namespace Sabine.Char
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
 			this.InitDatabase(this.Database, this.Conf);
+			this.LoadData();
 
 			_acceptor = new TcpConnectionAcceptor<CharConnection>(this.Conf.Char.BindIp, this.Conf.Char.BindPort);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;

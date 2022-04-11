@@ -9,7 +9,19 @@ namespace Sabine.Zone.World.Maps
 	/// </summary>
 	public class MapManager
 	{
-		private readonly Dictionary<string, Map> _maps = new Dictionary<string, Map>();
+		private readonly Dictionary<int, Map> _maps = new Dictionary<int, Map>();
+
+		/// <summary>
+		/// Returns the numer of maps in this collection.
+		/// </summary>
+		public int Count
+		{
+			get
+			{
+				lock (_maps)
+					return _maps.Count;
+			}
+		}
 
 		/// <summary>
 		/// Adds map to the collection.
@@ -20,10 +32,10 @@ namespace Sabine.Zone.World.Maps
 		{
 			lock (_maps)
 			{
-				if (_maps.ContainsKey(map.Name))
-					throw new ArgumentException($"A map with the name '{map.Name}' already exists.");
+				if (_maps.ContainsKey(map.Id))
+					throw new ArgumentException($"A map with the id '{map.Id}' already exists.");
 
-				_maps[map.Name] = map;
+				_maps[map.Id] = map;
 			}
 		}
 
@@ -36,11 +48,38 @@ namespace Sabine.Zone.World.Maps
 		{
 			lock (_maps)
 			{
-				if (!_maps.ContainsKey(map.Name))
-					throw new ArgumentException($"A character with the id '{map.Name}' doesn't exists.");
+				if (!_maps.ContainsKey(map.Id))
+					throw new ArgumentException($"A map with the id '{map.Id}' doesn't exists.");
 
-				_maps.Remove(map.Name);
+				_maps.Remove(map.Id);
 			}
+		}
+
+		/// <summary>
+		/// Returns the map with the given id, or null if it wasn't found.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public Map Get(int id)
+		{
+			lock (_maps)
+			{
+				_maps.TryGetValue(id, out var map);
+				return map;
+			}
+		}
+
+		/// <summary>
+		/// Returns the map with the given id via out. Returns false
+		/// if the map wasn't found.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="map"></param>
+		/// <returns></returns>
+		public bool TryGet(int id, out Map map)
+		{
+			map = this.Get(id);
+			return map != null;
 		}
 
 		/// <summary>
@@ -48,13 +87,10 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public Map Get(string name)
+		public Map GetByStringId(string stringId)
 		{
 			lock (_maps)
-			{
-				_maps.TryGetValue(name, out var map);
-				return map;
-			}
+				return _maps.Values.FirstOrDefault(a => a.StringId == stringId);
 		}
 
 		/// <summary>
@@ -64,9 +100,9 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="name"></param>
 		/// <param name="map"></param>
 		/// <returns></returns>
-		public bool TryGet(string name, out Map map)
+		public bool TryGetByStringId(string name, out Map map)
 		{
-			map = this.Get(name);
+			map = this.GetByStringId(name);
 			return map != null;
 		}
 

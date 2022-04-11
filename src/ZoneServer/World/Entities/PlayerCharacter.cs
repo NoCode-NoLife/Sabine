@@ -58,14 +58,14 @@ namespace Sabine.Zone.World.Entities
 		int ICharacter.ClassId => (int)this.JobId;
 
 		/// <summary>
-		/// Gets or sets the name of the map the character is on.
+		/// Gets or sets the id of the map the character is on.
 		/// </summary>
-		public string MapName { get; set; } = "prt_vilg01";
+		public int MapId { get; set; } = 100036;
 
 		/// <summary>
 		/// Gets or sets the character's current position.
 		/// </summary>
-		public Position Position { get; set; } = new Position(100, 80);
+		public Position Position { get; set; } = new Position(99, 81);
 
 		/// <summary>
 		/// Gets or sets the direction the character is looking in.

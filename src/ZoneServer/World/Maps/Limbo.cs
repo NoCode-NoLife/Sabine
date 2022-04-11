@@ -1,4 +1,5 @@
-﻿using Sabine.Zone.World.Entities;
+﻿using Sabine.Shared.Data.Databases;
+using Sabine.Zone.World.Entities;
 
 namespace Sabine.Zone.World.Maps
 {
@@ -12,7 +13,7 @@ namespace Sabine.Zone.World.Maps
 		/// Creates new instance.
 		/// </summary>
 		public Limbo()
-			: base("__limbo__")
+			: base(new MapsData() { Id = 0, StringId = "__limbo__", Name = "Limbo" })
 		{
 		}
 

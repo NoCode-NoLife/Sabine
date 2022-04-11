@@ -47,17 +47,17 @@ namespace Sabine.Char.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="characterId"></param>
-		/// <param name="mapName"></param>
+		/// <param name="mapStringId"></param>
 		/// <param name="ip"></param>
 		/// <param name="port"></param>
-		public static void HC_NOTIFY_ZONESVR(CharConnection conn, int characterId, string mapName, string ip, int port)
+		public static void HC_NOTIFY_ZONESVR(CharConnection conn, int characterId, string mapStringId, string ip, int port)
 		{
-			mapName += ".gat";
+			var mapFileName = mapStringId + ".gat";
 
 			var packet = new Packet(Op.HC_NOTIFY_ZONESVR);
 
 			packet.PutInt(characterId);
-			packet.PutString(mapName, 16);
+			packet.PutString(mapFileName, 16);
 			packet.PutInt(IPAddress.Parse(ip));
 			packet.PutShort((short)port);
 
