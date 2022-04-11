@@ -38,12 +38,12 @@ namespace Sabine.Zone.Commands
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
 			this.Add("sprite", "<Class|Hair> <value>", Localization.Get("Changes the target's sprite."), this.Sprite);
-			//this.Add("reloadscripts", "", Localization.Get("Reloads all scripts."), this.ReloadScripts);
+			this.Add("reloadscripts", "", Localization.Get("Reloads all scripts."), this.ReloadScripts);
 			//this.Add("reloadconf", "", Localization.Get("Reloads server configuration."), this.ReloadConf);
 			//this.Add("reloaddata", "", Localization.Get("Reloads data files."), this.ReloadData);
 
 			// Aliases
-			//this.AddAlias("reloadscripts", "rs");
+			this.AddAlias("reloadscripts", "rs");
 			//this.AddAlias("item", "drop");
 			this.AddAlias("broadcast", "bc");
 		}
@@ -269,6 +269,23 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Warped to {0}, {1}, {2}."), map.StringId, x, y);
 			if (sender != target)
 				target.ServerMessage(Localization.Get("You were warped by {0}."), sender.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Reloads all scripts.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult ReloadScripts(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			ZoneServer.Instance.World.RemoveScriptedEntities();
+			ZoneServer.Instance.ReloadScripts();
 
 			return CommandResult.Okay;
 		}

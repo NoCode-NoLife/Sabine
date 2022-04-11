@@ -67,5 +67,21 @@ namespace Sabine.Zone.World
 			var maps = this.Maps.GetAll();
 			return maps.Sum(a => a.PlayerCount);
 		}
+
+		/// <summary>
+		/// Removes all entities that were added dynamically from the
+		/// world, such as NPCs.
+		/// </summary>
+		public void RemoveScriptedEntities()
+		{
+			// Yes, this is inefficient, but do we really care, with how
+			// rare script reloads are?
+			foreach (var map in this.Maps.GetAll())
+			{
+				var npcs = map.GetAllNpcs();
+				foreach (var npc in npcs)
+					map.RemoveNpc(npc);
+			}
+		}
 	}
 }

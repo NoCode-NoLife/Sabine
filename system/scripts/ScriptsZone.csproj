@@ -46,6 +46,10 @@
     <Compile Include="npcs\prt_vilg02.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Shared\Shared.csproj">
+      <Project>{DF6ABA4A-9E79-4746-AC43-E9A2080A00C1}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ZoneServer\ZoneServer.csproj">
       <Project>{bfaa7dcb-3845-4ef3-b2b2-10d94ee3287e}</Project>
       <Name>ZoneServer</Name>

@@ -228,44 +228,7 @@ namespace Sabine.Shared
 			}
 			catch (CompilerErrorException ex)
 			{
-				foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
-				{
-					if (string.IsNullOrWhiteSpace(err.FileName))
-					{
-						Log.Error("While loading scripts: " + err.ErrorText);
-					}
-					else
-					{
-						var relativefileName = err.FileName;
-						var cwd = Directory.GetCurrentDirectory();
-						if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
-							relativefileName = relativefileName.Substring(cwd.Length + 1);
-
-						var lines = File.ReadAllLines(err.FileName);
-						var sb = new StringBuilder();
-
-						// Error msg
-						sb.AppendLine("In {0} on line {1}, column {2}", relativefileName, err.Line, err.Column);
-						sb.AppendLine("          {0}", err.ErrorText);
-
-						// Display lines around the error
-						var startLine = Math.Max(1, err.Line - 1);
-						var endLine = Math.Min(lines.Length, startLine + 2);
-						for (var i = startLine; i <= endLine; ++i)
-						{
-							// Make sure we don't get out of range.
-							// (ReadAllLines "trims" the input)
-							var line = (i <= lines.Length) ? lines[i - 1] : "";
-
-							sb.AppendLine("  {2} {0:0000}: {1}", i, line, (err.Line == i ? '*' : ' '));
-						}
-
-						if (err.IsWarning)
-							Log.Warning(sb.ToString());
-						else
-							Log.Error(sb.ToString());
-					}
-				}
+				this.DisplayScriptErrors(ex);
 			}
 			catch (Exception ex)
 			{
@@ -273,6 +236,77 @@ namespace Sabine.Shared
 			}
 
 			Log.Info("  loaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
+		}
+
+		/// <summary>
+		/// Reloads previously loaded scripts.
+		/// </summary>
+		public void ReloadScripts()
+		{
+			Log.Info("Reloading scripts...");
+
+			var timer = Stopwatch.StartNew();
+
+			try
+			{
+				this.ScriptLoader.Reload();
+			}
+			catch (CompilerErrorException ex)
+			{
+				this.DisplayScriptErrors(ex);
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex);
+			}
+
+			Log.Info("  reloaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
+		}
+
+		/// <summary>
+		/// Displays the script errors in the console.
+		/// </summary>
+		/// <param name="ex"></param>
+		private void DisplayScriptErrors(CompilerErrorException ex)
+		{
+			foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+			{
+				if (string.IsNullOrWhiteSpace(err.FileName))
+				{
+					Log.Error("While loading scripts: " + err.ErrorText);
+				}
+				else
+				{
+					var relativefileName = err.FileName;
+					var cwd = Directory.GetCurrentDirectory();
+					if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+						relativefileName = relativefileName.Substring(cwd.Length + 1);
+
+					var lines = File.ReadAllLines(err.FileName);
+					var sb = new StringBuilder();
+
+					// Error msg
+					sb.AppendLine("In {0} on line {1}, column {2}", relativefileName, err.Line, err.Column);
+					sb.AppendLine("          {0}", err.ErrorText);
+
+					// Display lines around the error
+					var startLine = Math.Max(1, err.Line - 1);
+					var endLine = Math.Min(lines.Length, startLine + 2);
+					for (var i = startLine; i <= endLine; ++i)
+					{
+						// Make sure we don't get out of range.
+						// (ReadAllLines "trims" the input)
+						var line = (i <= lines.Length) ? lines[i - 1] : "";
+
+						sb.AppendLine("  {2} {0:0000}: {1}", i, line, (err.Line == i ? '*' : ' '));
+					}
+
+					if (err.IsWarning)
+						Log.Warning(sb.ToString());
+					else
+						Log.Error(sb.ToString());
+				}
+			}
 		}
 	}
 }
