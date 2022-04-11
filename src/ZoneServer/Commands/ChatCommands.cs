@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Sabine.Shared.Const;
 using Sabine.Shared.Network;
 using Sabine.Shared.Util;
+using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
@@ -31,6 +32,7 @@ namespace Sabine.Zone.Commands
 
 			// GM commands
 			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
+			this.Add("warp", "<mapName> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -215,6 +217,40 @@ namespace Sabine.Zone.Commands
 				return CommandResult.InvalidArgument;
 
 			Send.ZC_SPRITE_CHANGE(target, type, value);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Warps player to destination.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		private CommandResult Warp(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 3)
+				return CommandResult.InvalidArgument;
+
+			var mapName = args.Get(0);
+
+			if (!int.TryParse(args.Get(1), out var x))
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args.Get(2), out var y))
+				return CommandResult.InvalidArgument;
+
+			if (!ZoneServer.Instance.World.Maps.TryGet(mapName, out var map))
+			{
+				sender.ServerMessage(Localization.Get("Map not found."));
+				return CommandResult.Okay;
+			}
+
+			Send.ZC_NPCACK_MAPMOVE(target, mapName, new Position(x, y));
 
 			return CommandResult.Okay;
 		}

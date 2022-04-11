@@ -412,5 +412,22 @@ namespace Sabine.Zone.Network
 
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Warps character to the given location.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="mapName"></param>
+		/// <param name="pos"></param>
+		public static void ZC_NPCACK_MAPMOVE(PlayerCharacter character, string mapName, Position pos)
+		{
+			var packet = new Packet(Op.ZC_NPCACK_MAPMOVE);
+
+			packet.PutString(mapName, 16);
+			packet.PutShort((short)pos.X);
+			packet.PutShort((short)pos.Y);
+
+			character.Connection.Send(packet);
+		}
 	}
 }
