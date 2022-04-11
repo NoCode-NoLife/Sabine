@@ -1,4 +1,6 @@
-﻿namespace Sabine.Shared.World
+﻿using System;
+
+namespace Sabine.Shared.World
 {
 	/// <summary>
 	/// Represents a position in the world.
@@ -65,7 +67,7 @@
 		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
-			return obj is Position && this == (Position)obj;
+			return obj is Position position && this == position;
 		}
 
 		/// <summary>
@@ -75,6 +77,27 @@
 		public override string ToString()
 		{
 			return string.Format("(Position - X: {0}, Y: {1})", this.X, this.Y);
+		}
+
+		/// <summary>
+		/// Returns true if the other position is within the given range.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <param name="range"></param>
+		/// <returns></returns>
+		public bool InRange(Position otherPos, float range)
+		{
+			return (Math.Pow(this.X - otherPos.X, 2) + Math.Pow(this.Y - otherPos.Y, 2) <= Math.Pow(range, 2));
+		}
+
+		/// <summary>
+		/// Returns distance between this and another position.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <returns></returns>
+		public int GetDistance(Position otherPos)
+		{
+			return (int)Math.Sqrt(Math.Pow(this.X - otherPos.X, 2) + Math.Pow(this.Y - otherPos.Y, 2));
 		}
 	}
 }

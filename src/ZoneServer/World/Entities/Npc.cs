@@ -26,6 +26,9 @@ namespace Sabine.Zone.World.Entities
 		public int HairId { get; set; }
 		public int WeaponId { get; set; }
 
+		// Temporary, for testing
+		public Location WarpDestination { get; set; }
+
 		/// <summary>
 		/// Gets or sets a reference to the map the NPC is currently on.
 		/// </summary>

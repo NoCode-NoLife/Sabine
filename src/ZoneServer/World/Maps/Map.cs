@@ -175,6 +175,17 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns a list of all NPCs on this map that match the given
+		/// predicate.
+		/// </summary>
+		/// <returns></returns>
+		public Npc[] GetAllNpcs(Func<Npc, bool> predicate)
+		{
+			lock (_npcs)
+				return _npcs.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
 		/// Broadcasts packet to players on this map.
 		/// </summary>
 		/// <param name="packet">Packet to send.</param>
