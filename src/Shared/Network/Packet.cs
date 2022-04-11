@@ -119,7 +119,7 @@ namespace Sabine.Shared.Network
 		/// <param name="value"></param>
 		public void PutString(string value, int length)
 		{
-			var bytes = EncodingKR.GetBytes(value);
+			var bytes = EncodingKR.GetBytes(value ?? "");
 			var writeLength = Math.Min(bytes.Length, length - 1);
 			var remain = length - writeLength;
 
@@ -135,7 +135,7 @@ namespace Sabine.Shared.Network
 		/// <param name="value"></param>
 		public void PutString(string value)
 		{
-			var bytes = EncodingKR.GetBytes(value);
+			var bytes = EncodingKR.GetBytes(value ?? "");
 
 			_buffer.Write(bytes);
 			_buffer.WriteByte(0);

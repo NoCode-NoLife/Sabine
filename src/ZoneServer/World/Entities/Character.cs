@@ -47,5 +47,15 @@ namespace Sabine.Zone.World.Entities
 		/// Returns the direction the character is turned towards.
 		/// </summary>
 		Direction Direction { get; }
+
+		/// <summary>
+		/// Returns the character's name.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
+		/// Returns the character's username.
+		/// </summary>
+		string Username { get; }
 	}
 }

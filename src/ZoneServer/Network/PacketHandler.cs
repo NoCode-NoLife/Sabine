@@ -156,11 +156,18 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_REQNAME)]
 		public void CZ_REQNAME(ZoneConnection conn, Packet packet)
 		{
-			var characterId = packet.GetInt();
+			var handle = packet.GetInt();
 
-			var character = new PlayerCharacter() { Id = characterId, Name = "TestName" };
+			var character = conn.GetCurrentCharacter();
+			var target = character.Map.GetCharacter(handle);
 
-			Send.ZC_ACK_REQNAME(conn, character);
+			if (target == null)
+			{
+				Log.Debug("CZ_REQNAME: User {0} requested the name of a character that doesn't exist.", conn.Account.Username);
+				return;
+			}
+
+			Send.ZC_ACK_REQNAME(character, target);
 		}
 
 		/// <summary>

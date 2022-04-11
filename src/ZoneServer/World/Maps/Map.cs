@@ -101,6 +101,31 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Return the character with the given handle, or null if the
+		/// character wasn't found.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public ICharacter GetCharacter(int handle)
+		{
+			lock (_characters)
+			{
+				var character = _characters.Values.FirstOrDefault(a => a.Handle == handle);
+				if (character != null)
+					return character;
+			}
+
+			lock (_npcs)
+			{
+				var npc = _npcs.Values.FirstOrDefault(a => a.Handle == handle);
+				if (npc != null)
+					return npc;
+			}
+
+			return null;
+		}
+
+		/// <summary>
 		/// Adds NPC to this map.
 		/// </summary>
 		/// <param name="npc"></param>

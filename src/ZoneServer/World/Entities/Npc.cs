@@ -15,6 +15,7 @@ namespace Sabine.Zone.World.Entities
 
 		public int Handle { get; set; }
 		public string Name { get; set; }
+		public string Username { get; set; } = "";
 		public int ClassId { get; set; }
 		public int MapId { get; set; }
 		public Position Position { get; set; }

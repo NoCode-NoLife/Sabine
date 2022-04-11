@@ -75,6 +75,9 @@ namespace Sabine.Zone.Network
 		/// <returns></returns>
 		public PlayerCharacter GetCurrentCharacter()
 		{
+			if (this.Character == null)
+				throw new InvalidOperationException("This connection isn't controlling any character.");
+
 			return this.Character;
 		}
 	}

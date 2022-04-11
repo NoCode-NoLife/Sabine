@@ -195,19 +195,19 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends the character's name to the client.
+		/// Sends the target's name to the character's client.
 		/// </summary>
-		/// <param name="conn"></param>
 		/// <param name="character"></param>
-		public static void ZC_ACK_REQNAME(ZoneConnection conn, PlayerCharacter character)
+		/// <param name="target"></param>
+		public static void ZC_ACK_REQNAME(PlayerCharacter character, ICharacter target)
 		{
 			var packet = new Packet(Op.ZC_ACK_REQNAME);
 
-			packet.PutInt(character.SessionId);
-			packet.PutString(character.Username, 16);
-			packet.PutString(character.Name, 16);
+			packet.PutInt(target.Handle);
+			packet.PutString(target.Username, 16);
+			packet.PutString(target.Name, 16);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>

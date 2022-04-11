@@ -30,7 +30,7 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's handle.
 		/// </summary>
-		int ICharacter.Handle => this.SessionId;
+		public int Handle => this.SessionId;
 
 		/// <summary>
 		/// Gets or sets this character's id.
