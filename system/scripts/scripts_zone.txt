@@ -2,4 +2,6 @@
 // Script List File
 //---------------------------------------------------------------------------
 
+npcs/*
+
 include "/user/scripts/scripts_zone.txt"

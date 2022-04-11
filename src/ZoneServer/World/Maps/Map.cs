@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
@@ -161,6 +162,16 @@ namespace Sabine.Zone.World.Maps
 				_npcs.Remove(npc.Handle);
 				npc.Map = null;
 			}
+		}
+
+		/// <summary>
+		/// Returns a list of all NPCs on this map.
+		/// </summary>
+		/// <returns></returns>
+		public Npc[] GetAllNpcs()
+		{
+			lock (_npcs)
+				return _npcs.Values.ToArray();
 		}
 
 		/// <summary>

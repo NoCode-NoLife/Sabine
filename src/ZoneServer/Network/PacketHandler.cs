@@ -87,6 +87,10 @@ namespace Sabine.Zone.Network
 			Send.ZC_PAR_CHANGE(character, ParameterType.SkillPoints, character.SkillPoints);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.BaseExpNeeded, character.BaseExpNeeded);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.JobExpNeeded, character.JobExpNeeded);
+
+			var npcs = character.Map.GetAllNpcs();
+			foreach (var npc in npcs)
+				Send.ZC_NOTIFY_STANDENTRY(npc);
 		}
 
 		/// <summary>
