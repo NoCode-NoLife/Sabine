@@ -67,6 +67,7 @@
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />
+    <Compile Include="World\Entities\Monster.cs" />
     <Compile Include="World\Entities\Npc.cs" />
     <Compile Include="World\Entities\PlayerCharacter.cs" />
     <Compile Include="World\Maps\Limbo.cs" />

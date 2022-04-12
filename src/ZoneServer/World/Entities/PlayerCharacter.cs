@@ -435,5 +435,12 @@ namespace Sabine.Zone.World.Entities
 			this.MapId = location.MapId;
 			this.Position = location.Position;
 		}
+
+		/// <summary>
+		/// Returns the character's location.
+		/// </summary>
+		/// <returns></returns>
+		public Location GetLocation()
+			=> new Location(this.MapId, this.Position);
 	}
 }

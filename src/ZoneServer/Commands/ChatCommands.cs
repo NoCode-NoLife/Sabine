@@ -34,6 +34,7 @@ namespace Sabine.Zone.Commands
 			// GM commands
 			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
 			this.Add("warp", "<map> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
+			this.Add("spawn", "<monster id|name>", Localization.Get("Spawns monsters."), this.Spawn);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -47,6 +48,7 @@ namespace Sabine.Zone.Commands
 			this.AddAlias("reloadscripts", "rs");
 			//this.AddAlias("item", "drop");
 			this.AddAlias("broadcast", "bc");
+			this.AddAlias("spawn", "monster");
 		}
 
 		/// <summary>
@@ -342,6 +344,47 @@ namespace Sabine.Zone.Commands
 				sender.ServerMessage(Localization.Get("Path debugging is now enabled."));
 			else
 				sender.ServerMessage(Localization.Get("Path debugging is now disabled."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Spawns monsters at the target's location.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Spawn(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args.Get(0), out var monsterId))
+			{
+				var monsterName = args.Get(0);
+
+				if (!SabineData.Monsters.TryFind(monsterName, out var monsterData1))
+				{
+					sender.ServerMessage(Localization.Get("Monster '{0}' not found."), monsterName);
+					return CommandResult.Okay;
+				}
+
+				monsterId = monsterData1.Id;
+			}
+
+			if (!SabineData.Monsters.Contains(monsterId))
+			{
+				sender.ServerMessage(Localization.Get("Monster with id '{0}' not found."), monsterId);
+				return CommandResult.Okay;
+			}
+
+			var monster = new Monster(monsterId);
+			monster.Warp(sender.GetLocation());
+
+			sender.ServerMessage(Localization.Get("Monster spawned."));
 
 			return CommandResult.Okay;
 		}

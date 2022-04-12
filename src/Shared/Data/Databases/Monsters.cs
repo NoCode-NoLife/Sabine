@@ -60,18 +60,40 @@ namespace Sabine.Shared.Data.Databases
 	public class MonsterDb : DatabaseJsonIndexed<int, MonsterData>
 	{
 		/// <summary>
+		/// Returns the data for the monster with the given name,
+		/// or null if it wasn't found.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public MonsterData Find(string name)
+			=> this.Find(a => string.Compare(a.Name, name, true) == 0);
+
+		/// <summary>
+		/// Returns the data for the monster with the given name via
+		/// out. Returns false if the map wasn't found.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public bool TryFind(string name, out MonsterData data)
+		{
+			data = this.Find(name);
+			return data != null;
+		}
+
+		/// <summary>
 		/// Called to read an entry from the monster database file.
 		/// </summary>
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("id", "spriteId", "name");
+			entry.AssertNotMissing("id", "name", "spriteId");
 
 			var data = new MonsterData();
 
 			data.Id = entry.ReadInt("id");
-			data.SpriteId = entry.ReadInt("spriteId");
 			data.Name = entry.ReadString("name");
+			data.SpriteId = entry.ReadInt("spriteId");
 			data.Level = entry.ReadInt("level", 1);
 			data.Hp = entry.ReadInt("hp", 50);
 			data.Sp = entry.ReadInt("sp", 0);
