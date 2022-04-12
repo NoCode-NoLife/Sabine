@@ -54,6 +54,11 @@ namespace Sabine.Zone.World.Maps
 		public IPathFinder PathFinder { get; protected set; }
 
 		/// <summary>
+		/// Gets or sets the visible range of players on this map.
+		/// </summary>
+		public int VisibleRange { get; set; } = short.MaxValue;
+
+		/// <summary>
 		/// Returns the number of players on this number.
 		/// </summary>
 		public int PlayerCount
@@ -218,16 +223,39 @@ namespace Sabine.Zone.World.Maps
 		/// Broadcasts packet to players on this map.
 		/// </summary>
 		/// <param name="packet">Packet to send.</param>
+		public void Broadcast(Packet packet)
+			=> this.Broadcast(packet, null, this.VisibleRange, BroadcastTargets.All);
+
+		/// <summary>
+		/// Broadcasts packet to players on this map.
+		/// </summary>
+		/// <param name="packet">Packet to send.</param>
 		/// <param name="source">Source of the packet if it's only sent in a range around the source. Use null for map-wide broadcast.</param>
-		/// <param name="includeSource">If true, the packet is sent to the source as well.</param>
-		public void Broadcast(Packet packet, IEntity source = null, bool includeSource = false)
+		/// <param name="targets">Specifies who will receive the packet.</param>
+		public void Broadcast(Packet packet, IEntity source, BroadcastTargets targets)
+			=> this.Broadcast(packet, source, this.VisibleRange, targets);
+
+		/// <summary>
+		/// Broadcasts packet to players on this map.
+		/// </summary>
+		/// <param name="packet">Packet to send.</param>
+		/// <param name="source">Source of the packet if it's only sent in a range around the source. Use null for map-wide broadcast.</param>
+		/// <param name="range">The range around the source in which the packet is broadcasted.</param>
+		/// <param name="targets">Specifies who will receive the packet.</param>
+		public void Broadcast(Packet packet, IEntity source, int range, BroadcastTargets targets)
 		{
 			lock (_characters)
 			{
 				foreach (var character in _characters.Values)
 				{
-					if (source != null && !includeSource && source == character)
-						continue;
+					if (source != null)
+					{
+						if (targets == BroadcastTargets.AllButSource && source == character)
+							continue;
+
+						if (!source.Position.InRange(character.Position, range))
+							continue;
+					}
 
 					character.Connection.Send(packet);
 				}

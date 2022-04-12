@@ -61,7 +61,7 @@ namespace Sabine.Zone.Network
 			packet.PutByte(0); // Possibly a sprite option that wasn't implemented yet, like headgears
 			packet.PutByte((byte)character.State);
 
-			character.Map.Broadcast(packet, character);
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)character.WeaponId);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
@@ -117,7 +117,7 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)character.WeaponId);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
@@ -142,7 +142,7 @@ namespace Sabine.Zone.Network
 			packet.PutByte(0);
 			packet.PutInt(DateTime.Now);
 
-			character.Map.Broadcast(packet, character);
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
@@ -156,7 +156,7 @@ namespace Sabine.Zone.Network
 			packet.PutInt(character.Handle);
 			packet.PutByte((byte)type);
 
-			character.Map.Broadcast(packet, character);
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
@@ -175,7 +175,7 @@ namespace Sabine.Zone.Network
 			packet.AddPackedMove(from, to, 8, 8);
 			packet.PutInt(DateTime.Now);
 
-			character.Map.Broadcast(packet, character);
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
@@ -305,7 +305,7 @@ namespace Sabine.Zone.Network
 			packet.PutInt(character.SessionId);
 			packet.PutString(message);
 
-			character.Map.Broadcast(packet, character, false);
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
@@ -367,7 +367,7 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)type);
 			packet.PutByte((byte)value);
 
-			character.Map.Broadcast(packet, character, true);
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
 		}
 
 		/// <summary>
@@ -391,10 +391,11 @@ namespace Sabine.Zone.Network
 		public static void ZC_EMOTION(PlayerCharacter character, EmotionId emotion)
 		{
 			var packet = new Packet(Op.ZC_EMOTION);
+
 			packet.PutInt(character.SessionId);
 			packet.PutByte((byte)emotion);
 
-			character.Map.Broadcast(packet, character, true);
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
 		}
 
 		/// <summary>
@@ -451,7 +452,7 @@ namespace Sabine.Zone.Network
 			packet.PutShort(s1);
 			packet.PutByte((byte)type);
 
-			character.Map.Broadcast(packet, character, true);
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
 		}
 	}
 }
