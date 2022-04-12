@@ -72,6 +72,8 @@
     <Compile Include="World\Maps\Limbo.cs" />
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\Maps\MapManager.cs" />
+    <Compile Include="World\Maps\PathFinding\HercPathFinder.cs" />
+    <Compile Include="World\Maps\PathFinding\PathFinder.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
     <Compile Include="Network\ZoneConnection.cs" />

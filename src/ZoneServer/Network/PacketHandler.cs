@@ -119,7 +119,7 @@ namespace Sabine.Zone.Network
 			var fromPos = character.Position;
 			character.Position = toPos;
 
-			Log.Debug("{0} requests to move to {1},{2}.", character.Name, toPos.X, toPos.Y);
+			Log.Debug("{0} requests to move from {1},{2} to {3},{4}.", character.Name, fromPos.X, fromPos.Y, toPos.X, toPos.Y);
 
 			Send.ZC_NOTIFY_PLAYERMOVE(character, fromPos, toPos);
 
@@ -136,6 +136,20 @@ namespace Sabine.Zone.Network
 				{
 					character.Warp(warp.WarpDestination);
 				});
+			}
+
+			// Spawn some NPCs to visualize the path the server calculated
+			// for this move request.
+			if (character.Vars.Temp.GetBool("Sabine.DebugPathEnabled"))
+			{
+				var path = character.Map.PathFinder.FindPath(fromPos, toPos);
+				foreach (var pathPos in path)
+				{
+					var npc = new Npc(66);
+					npc.Warp(character.Map.Id, pathPos);
+
+					Task.Delay(5000).ContinueWith(_ => character.Map.RemoveNpc(npc));
+				}
 			}
 		}
 

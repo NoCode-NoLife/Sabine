@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Maps.PathFinding;
 using Yggdrasil.Logging;
 
 namespace Sabine.Zone.World.Maps
@@ -47,6 +49,11 @@ namespace Sabine.Zone.World.Maps
 		public MapCacheData CacheData { get; protected set; }
 
 		/// <summary>
+		/// Returns the map's path finder.
+		/// </summary>
+		public IPathFinder PathFinder { get; protected set; }
+
+		/// <summary>
 		/// Returns the number of players on this number.
 		/// </summary>
 		public int PlayerCount
@@ -67,6 +74,8 @@ namespace Sabine.Zone.World.Maps
 			this.Id = mapData.Id;
 			this.StringId = mapData.StringId;
 			this.Data = mapData;
+
+			this.LoadData();
 		}
 
 		/// <summary>
@@ -80,6 +89,8 @@ namespace Sabine.Zone.World.Maps
 				Log.Warning("Map: No cache data found for '{0}'.", this.StringId);
 				return;
 			}
+
+			this.PathFinder = new HercPathFinder(this.CacheData);
 		}
 
 		/// <summary>
