@@ -466,5 +466,14 @@ namespace Sabine.Zone.World.Entities
 			this.State = CharacterState.Standing;
 			Send.ZC_NOTIFY_ACT(this, this.Handle, 0, 0, 0, ActionType.StandUp);
 		}
+
+		/// <summary>
+		/// Stops character's movement.
+		/// </summary>
+		public void StopMove()
+		{
+			var pos = this.Position; // TODO: Calculate current position
+			Send.ZC_STOPMOVE(this, pos);
+		}
 	}
 }

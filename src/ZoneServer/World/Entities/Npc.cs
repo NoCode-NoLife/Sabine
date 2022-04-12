@@ -22,7 +22,7 @@ namespace Sabine.Zone.World.Entities
 		public Position Position { get; set; }
 		public Direction Direction { get; set; } = Direction.South;
 
-		public int Speed { get; set; } = 200;
+		public int Speed { get; set; } = 400;
 		public Sex Sex { get; set; }
 		public int HairId { get; set; }
 		public int WeaponId { get; set; }

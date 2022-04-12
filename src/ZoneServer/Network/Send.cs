@@ -195,6 +195,22 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Stops character's movement. Doesn't work for players themselves.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="stopPos"></param>
+		public static void ZC_STOPMOVE(ICharacter character, Position stopPos)
+		{
+			var packet = new Packet(Op.ZC_STOPMOVE);
+
+			packet.PutInt(character.Handle);
+			packet.PutShort((short)stopPos.X);
+			packet.PutShort((short)stopPos.Y);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+		}
+
+		/// <summary>
 		/// Sends the target's name to the character's client.
 		/// </summary>
 		/// <param name="character"></param>
