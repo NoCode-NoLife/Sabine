@@ -7,7 +7,7 @@
     <ProjectGuid>{DF6ABA4A-9E79-4746-AC43-E9A2080A00C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Shared</RootNamespace>
+    <RootNamespace>Sabine.Shared</RootNamespace>
     <AssemblyName>Shared</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

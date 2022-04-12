@@ -175,7 +175,7 @@ namespace Sabine.Zone.World.Maps
 				if (!_npcs.ContainsKey(npc.Handle))
 					throw new ArgumentException($"An NPC with the id '{npc.Handle}' doesn't exists on the map.");
 
-				Send.ZC_NOTIFY_VANISH(npc, DisappearType.Effect);
+				Send.ZC_NOTIFY_VANISH(npc, DisappearType.Vanish);
 
 				_npcs.Remove(npc.Handle);
 				npc.Map = null;
