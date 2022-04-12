@@ -19,6 +19,8 @@ namespace Sabine.Zone.Database
 		/// <returns></returns>
 		public PlayerCharacter GetCharacter(Account account, int characterId)
 		{
+			PlayerCharacter character;
+
 			using (var conn = this.GetConnection())
 			using (var cmd = new MySqlCommand("SELECT * FROM `characters` WHERE `accountId` = @accountId AND `characterId` = @characterId", conn))
 			{
@@ -30,7 +32,7 @@ namespace Sabine.Zone.Database
 					if (!reader.Read())
 						return null;
 
-					var character = new PlayerCharacter();
+					character = new PlayerCharacter();
 
 					character.Id = reader.GetInt32("characterId");
 					character.Name = reader.GetStringSafe("name");
@@ -59,10 +61,12 @@ namespace Sabine.Zone.Database
 					var x = reader.GetInt32("x");
 					var y = reader.GetInt32("y");
 					character.Position = new Position(x, y);
-
-					return character;
 				}
 			}
+
+			character.Vars.Perm.Load(this.GetVars("vars_character", character.Id));
+
+			return character;
 		}
 
 		/// <summary>
@@ -105,6 +109,8 @@ namespace Sabine.Zone.Database
 
 				cmd.Execute();
 			}
+
+			this.SaveVars("vars_character", character.Id, character.Vars.Perm.GetList());
 		}
 	}
 }

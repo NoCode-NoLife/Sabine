@@ -105,6 +105,7 @@
     <Compile Include="Scripting\CSharpCodeProvider.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Util\Localization.cs" />
+    <Compile Include="Util\Variables.cs" />
     <Compile Include="World\Direction.cs" />
     <Compile Include="World\Location.cs" />
     <Compile Include="World\Position.cs" />

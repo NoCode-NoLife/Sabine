@@ -1,4 +1,5 @@
 ﻿using Sabine.Shared.Const;
+using Sabine.Shared.Util;
 
 namespace Sabine.Shared.Database
 {
@@ -36,5 +37,10 @@ namespace Sabine.Shared.Database
 		/// Gets or sets the account's authority level.
 		/// </summary>
 		public int Authority { get; set; }
+
+		/// <summary>
+		/// Returns the account's variable container.
+		/// </summary>
+		public VariableContainer Vars { get; } = new VariableContainer();
 	}
 }

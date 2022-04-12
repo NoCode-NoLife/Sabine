@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Policy;
 using Sabine.Shared.Const;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
@@ -18,6 +17,11 @@ namespace Sabine.Zone.World.Entities
 		/// Gets or sets the connection that controls this player.
 		/// </summary>
 		public ZoneConnection Connection { get; set; } = new DummyConnection();
+
+		/// <summary>
+		/// Returns the character's variable container.
+		/// </summary>
+		public VariableContainer Vars { get; } = new VariableContainer();
 
 		/// <summary>
 		/// Returns this character's username.
