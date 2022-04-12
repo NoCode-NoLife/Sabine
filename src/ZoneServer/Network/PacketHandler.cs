@@ -295,17 +295,67 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Request for item description.
+		/// Request for starting a dialog with an NPC.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_CONTACTNPC)]
 		public void CZ_CONTACTNPC(ZoneConnection conn, Packet packet)
 		{
-			var npcId = packet.GetInt();
+			var npcHandle = packet.GetInt();
 			var b1 = packet.GetByte();
 
-			Log.Debug("CZ_CONTACTNPC: " + npcId);
+			var character = conn.GetCurrentCharacter();
+			var npc = character.Map.GetCharacter(npcHandle);
+
+			if (npc == null)
+			{
+				Log.Debug("CZ_CONTACTNPC: User '{0}' tried to contact a non-existent NPC.", conn.Account.Username);
+				return;
+			}
+
+			Log.Debug("CZ_CONTACTNPC: " + npcHandle);
+
+			Send.ZC_SAY_DIALOG(character, npcHandle, "Hello, World!");
+			Task.Delay(5000).ContinueWith(_ => Send.ZC_SAY_DIALOG(character, npcHandle, "Goodbye, World!"));
+			Task.Delay(6000).ContinueWith(_ => Send.ZC_WAIT_DIALOG(character, npcHandle));
+			Task.Delay(8000).ContinueWith(_ => Send.ZC_MENU_LIST(character, npcHandle, "Option 1", "Option 2", "End"));
+		}
+
+		/// <summary>
+		/// Chooses a menu item during a dialog.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CHOOSE_MENU)]
+		public void CZ_CHOOSE_MENU(ZoneConnection conn, Packet packet)
+		{
+			var npcHandle = packet.GetInt();
+			var b1 = packet.GetByte();
+
+			var character = conn.GetCurrentCharacter();
+			var npc = character.Map.GetCharacter(npcHandle);
+
+			Log.Debug("CZ_CHOOSE_MENU: {0}, 0x{1:X2}", npcHandle, b1);
+
+			// 0xFF is sent when there's no menu to choose anything from,
+			// so it's presumably a cancel action.
+		}
+
+		/// <summary>
+		/// Request to continue a paused dialog.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_NEXT_SCRIPT)]
+		public void CZ_REQ_NEXT_SCRIPT(ZoneConnection conn, Packet packet)
+		{
+			var npcHandle = packet.GetInt();
+
+			var character = conn.GetCurrentCharacter();
+			var npc = character.Map.GetCharacter(npcHandle);
+
+			Log.Debug("CZ_REQ_NEXT_SCRIPT.");
 		}
 
 		/// <summary>

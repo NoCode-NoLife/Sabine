@@ -470,5 +470,65 @@ namespace Sabine.Zone.Network
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);
 		}
+
+		/// <summary>
+		/// Displays dialog on character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npcHandle"></param>
+		/// <param name="message"></param>
+		public static void ZC_SAY_DIALOG(PlayerCharacter character, int npcHandle, string message)
+		{
+			var packet = new Packet(Op.ZC_SAY_DIALOG);
+
+			packet.PutInt(npcHandle);
+			packet.PutString(message);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Shows a button to continue or end the dialog.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npcHandle"></param>
+		public static void ZC_WAIT_DIALOG(PlayerCharacter character, int npcHandle)
+		{
+			var packet = new Packet(Op.ZC_WAIT_DIALOG);
+			packet.PutInt(npcHandle);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Closes the dialog window.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npcHandle"></param>
+		public static void ZC_CLOSE_DIALOG(PlayerCharacter character, int npcHandle)
+		{
+			var packet = new Packet(Op.ZC_CLOSE_DIALOG);
+			packet.PutInt(npcHandle);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Closes the dialog window.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npcHandle"></param>
+		/// <param name="options"></param>
+		public static void ZC_MENU_LIST(PlayerCharacter character, int npcHandle, params string[] options)
+		{
+			var optionsString = string.Join(":", options);
+
+			var packet = new Packet(Op.ZC_MENU_LIST);
+
+			packet.PutInt(npcHandle);
+			packet.PutString(optionsString);
+
+			character.Connection.Send(packet);
+		}
 	}
 }
