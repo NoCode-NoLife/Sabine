@@ -79,7 +79,7 @@ namespace Sabine.Shared.Network
 		/// <param name="ex"></param>
 		protected override void OnReceiveException(Exception ex)
 		{
-			Log.Error("Error while receiving data: {0}", ex.Message);
+			Log.Error("Error while receiving data: {0}", ex);
 		}
 
 		/// <summary>
