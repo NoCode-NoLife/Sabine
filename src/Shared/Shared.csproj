@@ -78,11 +78,14 @@
     <Compile Include="Const\CharConnectError.cs" />
     <Compile Include="Const\CharCreateError.cs" />
     <Compile Include="Const\DisappearType.cs" />
+    <Compile Include="Const\ElementType.cs" />
     <Compile Include="Const\EmotionId.cs" />
     <Compile Include="Const\JobId.cs" />
     <Compile Include="Const\LoginConnectError.cs" />
     <Compile Include="Const\ParameterType.cs" />
+    <Compile Include="Const\RaceType.cs" />
     <Compile Include="Const\Sex.cs" />
+    <Compile Include="Const\Size.cs" />
     <Compile Include="Const\SpriteType.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Db.cs" />

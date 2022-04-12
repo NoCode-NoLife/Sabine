@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Sabine.Shared.Const;
 using Yggdrasil.Data.JSON;
 
 namespace Sabine.Shared.Data.Databases
@@ -14,9 +15,9 @@ namespace Sabine.Shared.Data.Databases
 		public int Sp { get; set; }
 		public int BaseExp { get; set; }
 		public int JobExp { get; set; }
-		public int Range1 { get; set; }
-		public int Range2 { get; set; }
-		public int Range3 { get; set; }
+		public int AttackRange { get; set; }
+		public int ViewRange { get; set; }
+		public int ChaseRange { get; set; }
 		public int AtkMin { get; set; }
 		public int AtkMax { get; set; }
 		public int Defense { get; set; }
@@ -27,9 +28,10 @@ namespace Sabine.Shared.Data.Databases
 		public int Int { get; set; }
 		public int Dex { get; set; }
 		public int Luk { get; set; }
-		public int Scale { get; set; }
-		public int Race { get; set; }
-		public int Element { get; set; }
+		public SizeType Size { get; set; }
+		public RaceType Race { get; set; }
+		public ElementType Element { get; set; }
+		public int ElementLevel { get; set; }
 		public int Mode { get; set; }
 		public int Speed { get; set; }
 		public int AttackDelay { get; set; }
@@ -57,14 +59,14 @@ namespace Sabine.Shared.Data.Databases
 			data.Id = entry.ReadInt("id");
 			data.SpriteId = entry.ReadInt("spriteId");
 			data.Name = entry.ReadString("name");
-			data.Level = entry.ReadInt("level");
-			data.Hp = entry.ReadInt("hp");
-			data.Sp = entry.ReadInt("sp");
-			data.BaseExp = entry.ReadInt("exp");
-			data.JobExp = entry.ReadInt("jexp");
-			data.Range1 = entry.ReadInt("range1", 1);
-			data.Range2 = entry.ReadInt("range2", 10);
-			data.Range3 = entry.ReadInt("range3", 12);
+			data.Level = entry.ReadInt("level", 1);
+			data.Hp = entry.ReadInt("hp", 50);
+			data.Sp = entry.ReadInt("sp", 0);
+			data.BaseExp = entry.ReadInt("exp", 0);
+			data.JobExp = entry.ReadInt("jexp", 0);
+			data.AttackRange = entry.ReadInt("attackRange", 1);
+			data.ViewRange = entry.ReadInt("viewRange", 10);
+			data.ChaseRange = entry.ReadInt("chaseRange", 12);
 			data.AtkMin = entry.ReadInt("atkMin", 1);
 			data.AtkMax = entry.ReadInt("atkMax", 1);
 			data.Defense = entry.ReadInt("def", 0);
@@ -75,14 +77,15 @@ namespace Sabine.Shared.Data.Databases
 			data.Int = entry.ReadInt("int", 1);
 			data.Dex = entry.ReadInt("dex", 1);
 			data.Luk = entry.ReadInt("luk", 1);
-			data.Scale = entry.ReadInt("scale", 1);
-			data.Race = entry.ReadInt("race");
-			data.Element = entry.ReadInt("element");
+			data.Size = entry.ReadEnum("size", SizeType.Small);
+			data.Race = entry.ReadEnum("race", RaceType.Formless);
+			data.Element = entry.ReadEnum("element", ElementType.Neutral);
+			data.ElementLevel = entry.ReadInt("elementLevel", 1);
 			data.Mode = entry.ReadInt("mode");
-			data.Speed = entry.ReadInt("speed");
-			data.AttackDelay = entry.ReadInt("adelay");
-			data.AttackMotion = entry.ReadInt("amotion");
-			data.DamageMotion = entry.ReadInt("dmotion");
+			data.Speed = entry.ReadInt("speed", 200);
+			data.AttackDelay = entry.ReadInt("attackDelay", 1500);
+			data.AttackMotion = entry.ReadInt("attackMotion", 0);
+			data.DamageMotion = entry.ReadInt("damageMotion", 0);
 
 			if (entry.ContainsKey("drops"))
 			{
