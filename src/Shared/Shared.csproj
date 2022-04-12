@@ -88,6 +88,7 @@
     <Compile Include="Database\Db.cs" />
     <Compile Include="Database\MySQL\Commands.cs" />
     <Compile Include="Database\MySQL\Extensions.cs" />
+    <Compile Include="Data\Databases\MapCache.cs" />
     <Compile Include="Data\Databases\Maps.cs" />
     <Compile Include="Data\SabineData.cs" />
     <Compile Include="Extensions\DateTime.cs" />

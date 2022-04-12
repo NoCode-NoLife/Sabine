@@ -42,6 +42,11 @@ namespace Sabine.Zone.World.Maps
 		public MapsData Data { get; }
 
 		/// <summary>
+		/// Returns a reference to the map's cache data.
+		/// </summary>
+		public MapCacheData CacheData { get; protected set; }
+
+		/// <summary>
 		/// Returns the number of players on this number.
 		/// </summary>
 		public int PlayerCount
@@ -62,6 +67,19 @@ namespace Sabine.Zone.World.Maps
 			this.Id = mapData.Id;
 			this.StringId = mapData.StringId;
 			this.Data = mapData;
+		}
+
+		/// <summary>
+		/// Loads the map's data.
+		/// </summary>
+		protected virtual void LoadData()
+		{
+			this.CacheData = SabineData.MapCache.Find(this.StringId);
+			if (this.CacheData == null)
+			{
+				Log.Warning("Map: No cache data found for '{0}'.", this.StringId);
+				return;
+			}
 		}
 
 		/// <summary>

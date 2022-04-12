@@ -20,6 +20,13 @@ namespace Sabine.Zone.World.Maps
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
+		protected override void LoadData()
+		{
+		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
 		/// <param name="character"></param>
 		public override void AddCharacter(PlayerCharacter character)
 		{

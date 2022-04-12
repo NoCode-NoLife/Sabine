@@ -140,6 +140,7 @@ namespace Sabine.Shared
 			Log.Info("Loading data...");
 
 			this.LoadDataFile(SabineData.Maps, "maps.txt");
+			this.LoadDataFile(SabineData.MapCache, "map_cache.dat");
 		}
 
 		/// <summary>
