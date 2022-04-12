@@ -4098,6 +4098,14 @@
             <param name="name"></param>
             <param name="value"></param>
         </member>
+        <member name="M:Yggdrasil.Util.Variables.ToggleBool(System.String)">
+            <summary>
+            Toggles boolean value on or off. If the variable wasn't set
+            yet, it becomes true.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Util.Variables.Remove(System.String)">
             <summary>
             Removes the variable with the given name if it exists.
