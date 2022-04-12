@@ -141,6 +141,7 @@ namespace Sabine.Shared
 
 			this.LoadDataFile(SabineData.Maps, "maps.txt");
 			this.LoadDataFile(SabineData.MapCache, "map_cache.dat");
+			this.LoadDataFile(SabineData.Monsters, "monsters.txt");
 		}
 
 		/// <summary>

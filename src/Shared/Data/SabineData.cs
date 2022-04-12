@@ -16,5 +16,10 @@ namespace Sabine.Shared.Data
 		/// db/maps.txt
 		/// </summary>
 		public static MapsDb Maps { get; } = new MapsDb();
+
+		/// <summary>
+		/// db/monsters.txt
+		/// </summary>
+		public static MonsterDb Monsters { get; } = new MonsterDb();
 	}
 }

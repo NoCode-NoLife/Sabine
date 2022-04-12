@@ -90,6 +90,7 @@
     <Compile Include="Database\MySQL\Extensions.cs" />
     <Compile Include="Data\Databases\MapCache.cs" />
     <Compile Include="Data\Databases\Maps.cs" />
+    <Compile Include="Data\Databases\Monsters.cs" />
     <Compile Include="Data\SabineData.cs" />
     <Compile Include="Extensions\DateTime.cs" />
     <Compile Include="Network\Connection.cs" />
