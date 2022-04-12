@@ -41,6 +41,14 @@ namespace Sabine.Char.Network
 				return;
 			}
 
+			if (sessionId != account.SessionId)
+			{
+				Log.Warning("CH_ENTER: User '{0}' tried to log in with an invalid session id.", account.Username);
+				Send.HC_REFUSE_ENTER(conn, CharConnectError.AccessDenied);
+				conn.Close(1);
+				return;
+			}
+
 			var characters = CharServer.Instance.Database.GetCharacters(account);
 
 			conn.Account = account;

@@ -30,8 +30,15 @@ namespace Sabine.Zone.Network
 			var sex = packet.GetByte();
 
 			var account = ZoneServer.Instance.Database.GetAccountById(accountId);
-			if (account == null || account.SessionId != sessionId)
+			if (account == null)
 			{
+				conn.Close();
+				return;
+			}
+
+			if (sessionId != account.SessionId)
+			{
+				Log.Warning("CZ_ENTER: User '{0}' tried to log in with an invalid session id.", account.Username);
 				conn.Close();
 				return;
 			}

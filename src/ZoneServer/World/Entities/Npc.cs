@@ -12,7 +12,7 @@ namespace Sabine.Zone.World.Entities
 	/// </summary>
 	public class Npc : ICharacter
 	{
-		private static int HandlePool = 0x0300_0000;
+		private static int HandlePool = 0x3000_0000;
 
 		public int Handle { get; set; }
 		public string Name { get; set; }
