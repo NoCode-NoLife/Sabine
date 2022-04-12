@@ -42,9 +42,9 @@
 		public const int ZC_NOTIFY_MOVE = 0x0022;
 		public const int ZC_NOTIFY_PLAYERMOVE = 0x0023;
 		public const int ZC_STOPMOVE = 0x0024;
-		public const int CZ_REQUEST_ACT = 0x0025; // Guessed
-		public const int ZC_NOTIFY_ACT = 0x0026; // Guessed
-		///public const int ZC_NOTIFY_ACT_POSITION = 0x0027; // Seems to be missing, shifting the following ops
+		public const int CZ_REQUEST_ACT = 0x0025;
+		public const int ZC_NOTIFY_ACT = 0x0026;
+		///public const int ZC_NOTIFY_ACT_POSITION = 0x0027; // Seems to be missing in alpha, shifting the following ops
 		public const int CZ_REQUEST_CHAT = 0x0027;
 		public const int ZC_NOTIFY_CHAT = 0x0028;
 		public const int ZC_NOTIFY_PLAYERCHAT = 0x0029;

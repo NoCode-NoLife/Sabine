@@ -74,6 +74,7 @@
     <Compile Include="Configuration\Files\Localization.cs" />
     <Compile Include="Configuration\Files\ZoneConf.cs" />
     <Compile Include="ConsoleHeader.cs" />
+    <Compile Include="Const\Action.cs" />
     <Compile Include="Const\CharacterState.cs" />
     <Compile Include="Const\CharConnectError.cs" />
     <Compile Include="Const\CharCreateError.cs" />

@@ -442,5 +442,29 @@ namespace Sabine.Zone.World.Entities
 		/// <returns></returns>
 		public Location GetLocation()
 			=> new Location(this.MapId, this.Position);
+
+		/// <summary>
+		/// Makes character sit down.
+		/// </summary>
+		public void SitDown()
+		{
+			if (this.State != CharacterState.Standing)
+				return;
+
+			this.State = CharacterState.Sitting;
+			Send.ZC_NOTIFY_ACT(this, this.Handle, 0, 0, 0, ActionType.SitDown);
+		}
+
+		/// <summary>
+		/// Makes character stand up.
+		/// </summary>
+		public void StandUp()
+		{
+			if (this.State != CharacterState.Sitting)
+				return;
+
+			this.State = CharacterState.Standing;
+			Send.ZC_NOTIFY_ACT(this, this.Handle, 0, 0, 0, ActionType.StandUp);
+		}
 	}
 }

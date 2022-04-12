@@ -299,5 +299,38 @@ namespace Sabine.Zone.Network
 
 			Log.Debug("CZ_CONTACTNPC: " + npcId);
 		}
+
+		/// <summary>
+		/// Request to do an action, such as sitting down or attacking.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQUEST_ACT)]
+		public void CZ_REQUEST_ACT(ZoneConnection conn, Packet packet)
+		{
+			var id = packet.GetInt();
+			var action = (ActionType)packet.GetByte();
+
+			var character = conn.GetCurrentCharacter();
+
+			switch (action)
+			{
+				case ActionType.SitDown:
+				{
+					character.SitDown();
+					break;
+				}
+				case ActionType.StandUp:
+				{
+					character.StandUp();
+					break;
+				}
+				default:
+				{
+					Log.Debug("CZ_REQUEST_ACT: Unknown action '{0}'.", action);
+					break;
+				}
+			}
+		}
 	}
 }

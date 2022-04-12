@@ -431,5 +431,27 @@ namespace Sabine.Zone.Network
 
 			character.Connection.Send(packet);
 		}
+
+		/// <summary>
+		/// Makes character do an action.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="handle"></param>
+		/// <param name="i2"></param>
+		/// <param name="i3"></param>
+		/// <param name="s1"></param>
+		/// <param name="type"></param>
+		public static void ZC_NOTIFY_ACT(PlayerCharacter character, int handle, int i2, int i3, short s1, ActionType type)
+		{
+			var packet = new Packet(Op.ZC_NOTIFY_ACT);
+
+			packet.PutInt(handle);
+			packet.PutInt(i2);
+			packet.PutInt(i3);
+			packet.PutShort(s1);
+			packet.PutByte((byte)type);
+
+			character.Map.Broadcast(packet, character, true);
+		}
 	}
 }
