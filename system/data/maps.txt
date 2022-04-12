@@ -1,9 +1,9 @@
 // Sabine
-// Configuration File
+// Database File
 //---------------------------------------------------------------------------
 
 [
-// iRO Alpha maps (2001-08-30)
+// iRO Alpha Maps (2001-08-30)
 { id: 100001, stringId: "dungeon000", name: "Moroc jungle" },
 { id: 100002, stringId: "dungeon001", name: "Inside moroc jungle" },
 { id: 100003, stringId: "fay_vilg00", name: "" },
