@@ -5,6 +5,9 @@ using Yggdrasil.Data.Binary;
 
 namespace Sabine.Shared.Data.Databases
 {
+	/// <summary>
+	/// Represents the cache data of a map.
+	/// </summary>
 	public class MapCacheData
 	{
 		public string StringId { get; set; }
@@ -12,12 +15,21 @@ namespace Sabine.Shared.Data.Databases
 		public int Height { get; set; }
 		public MapCacheTile[,] Tiles { get; set; }
 
+		/// <summary>
+		/// Returns true if the given tile can be walked on.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
 		public bool IsPassable(int x, int y)
 		{
 			return !this.Tiles[x, y].IsWalkable;
 		}
 	}
 
+	/// <summary>
+	/// Represents one tile on a map.
+	/// </summary>
 	public class MapCacheTile
 	{
 		public TileType Type { get; set; }
@@ -29,16 +41,52 @@ namespace Sabine.Shared.Data.Databases
 		}
 	}
 
+	/// <summary>
+	/// Defines a tile's type.
+	/// </summary>
+	/// <remarks>
+	/// The tile types in the alpha client appear to be slightly
+	/// different from later clients. For example, type 5 was
+	/// apparently not passable later on.
+	/// </remarks>
 	public enum TileType
 	{
+		/// <summary>
+		/// Passable, but somehow different from type 5.
+		/// </summary>
+		/// <remarks>
+		/// Potentially natural surfaces vs man-made. For example,
+		/// towns are usually entirely type 5, while fields and
+		/// dungeons are mostly type 0.
+		/// </remarks>
 		Unk0 = 0,
+
+		/// <summary>
+		/// Characters can't walk on this tile.
+		/// </summary>
 		Unpassable = 1,
+
+		/// <summary>
+		/// Possibly passable water.
+		/// </summary>
 		Unk2 = 2,
+
+		/// <summary>
+		/// Characters can walk on this tile.
+		/// </summary>
 		Passable = 5,
 	}
 
+	/// <summary>
+	/// A map cache database, holding detailed information about a map's
+	/// terrain.
+	/// </summary>
 	public class MapCacheDb : DatabaseBinaryIndexed<string, MapCacheData>
 	{
+		/// <summary>
+		/// Called to read the binary database from a file.
+		/// </summary>
+		/// <param name="brfs"></param>
 		protected override void Read(BinaryReader brfs)
 		{
 			var header = brfs.ReadBytes(4);

@@ -16,6 +16,9 @@
 		public Variables Perm { get; } = new Variables();
 	}
 
+	/// <summary>
+	/// Wrapper around a dictionary holding variables.
+	/// </summary>
 	public class Variables : Yggdrasil.Util.Variables
 	{
 	}

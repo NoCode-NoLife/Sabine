@@ -5,6 +5,9 @@ using Yggdrasil.Data.JSON;
 
 namespace Sabine.Shared.Data.Databases
 {
+	/// <summary>
+	/// Represents a monster's data.
+	/// </summary>
 	public class MonsterData
 	{
 		public int Id { get; set; }
@@ -42,14 +45,24 @@ namespace Sabine.Shared.Data.Databases
 		public List<DropData> MvpDrops { get; set; } = new List<DropData>();
 	}
 
+	/// <summary>
+	/// Represents a drop item.
+	/// </summary>
 	public class DropData
 	{
 		public int ItemId { get; set; }
 		public int Chance { get; set; }
 	}
 
+	/// <summary>
+	/// A monster database.
+	/// </summary>
 	public class MonsterDb : DatabaseJsonIndexed<int, MonsterData>
 	{
+		/// <summary>
+		/// Called to read an entry from the monster database file.
+		/// </summary>
+		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("id", "spriteId", "name");
