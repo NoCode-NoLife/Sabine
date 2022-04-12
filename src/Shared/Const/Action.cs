@@ -5,6 +5,8 @@
 	/// </summary>
 	public enum ActionType : byte
 	{
+		Attack = 0,
+		// 1
 		SitDown = 2,
 		StandUp = 3,
 	}

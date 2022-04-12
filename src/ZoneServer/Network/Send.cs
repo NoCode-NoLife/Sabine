@@ -437,19 +437,19 @@ namespace Sabine.Zone.Network
 		/// Makes character do an action.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="handle"></param>
-		/// <param name="i2"></param>
-		/// <param name="i3"></param>
-		/// <param name="s1"></param>
+		/// <param name="handleSource"></param>
+		/// <param name="handleTarget"></param>
+		/// <param name="tick"></param>
+		/// <param name="damage"></param>
 		/// <param name="type"></param>
-		public static void ZC_NOTIFY_ACT(PlayerCharacter character, int handle, int i2, int i3, short s1, ActionType type)
+		public static void ZC_NOTIFY_ACT(PlayerCharacter character, int handleSource, int handleTarget, int tick, short damage, ActionType type)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_ACT);
 
-			packet.PutInt(handle);
-			packet.PutInt(i2);
-			packet.PutInt(i3);
-			packet.PutShort(s1);
+			packet.PutInt(handleSource);
+			packet.PutInt(handleTarget);
+			packet.PutInt(tick);
+			packet.PutShort(damage);
 			packet.PutByte((byte)type);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);

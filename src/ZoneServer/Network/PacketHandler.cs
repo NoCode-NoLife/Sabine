@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database;
+using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
@@ -308,7 +309,7 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_REQUEST_ACT)]
 		public void CZ_REQUEST_ACT(ZoneConnection conn, Packet packet)
 		{
-			var id = packet.GetInt();
+			var targetHandle = packet.GetInt();
 			var action = (ActionType)packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
@@ -323,6 +324,18 @@ namespace Sabine.Zone.Network
 				case ActionType.StandUp:
 				{
 					character.StandUp();
+					break;
+				}
+				case ActionType.Attack:
+				{
+					var target = character.Map.GetCharacter(targetHandle);
+					if (target == null)
+					{
+						Log.Debug("CZ_REQUEST_ACT: User '{0}' tried to attack a character who doesn't exist.", conn.Account.Username);
+						return;
+					}
+
+					Send.ZC_NOTIFY_ACT(character, character.Handle, target.Handle, DateTime.Now.GetUnixTimestamp(), 10, ActionType.Attack);
 					break;
 				}
 				default:
