@@ -74,7 +74,10 @@ namespace Sabine.Char.Network
 
 			Log.Debug("Character selected: {0}", character.Name);
 
-			Send.HC_NOTIFY_ZONESVR(conn, character.Id, mapData.StringId, "127.0.0.1", 7002);
+			var zoneServerIp = CharServer.Instance.Conf.Zone.ServerIp;
+			var zoneServerPort = CharServer.Instance.Conf.Zone.BindPort;
+
+			Send.HC_NOTIFY_ZONESVR(conn, character.Id, mapData.StringId, zoneServerIp, zoneServerPort);
 		}
 
 		/// <summary>
