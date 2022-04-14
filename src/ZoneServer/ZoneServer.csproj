@@ -61,6 +61,7 @@
     <Compile Include="Commands\ChatCommand.cs" />
     <Compile Include="Commands\ChatCommands.cs" />
     <Compile Include="Commands\ChatCommands.Management.cs" />
+    <Compile Include="Commands\ConsoleCommands.cs" />
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Network\DummyConnection.cs" />
     <Compile Include="Scripting\Dialogues\Dialog.cs" />
