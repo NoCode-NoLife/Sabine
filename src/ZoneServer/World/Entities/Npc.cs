@@ -2,6 +2,7 @@
 using System.Threading;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
+using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
 
@@ -34,6 +35,12 @@ namespace Sabine.Zone.World.Entities
 
 		// Temporary, for testing
 		public Location WarpDestination { get; set; }
+
+		/// <summary>
+		/// Gets or sets the function called when a dialog with this
+		/// NPC is initiated.
+		/// </summary>
+		public DialogFunc DialogFunc { get; set; }
 
 		/// <summary>
 		/// Gets or sets a reference to the map the NPC is currently on.

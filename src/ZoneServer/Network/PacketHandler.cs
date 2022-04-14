@@ -6,6 +6,7 @@ using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
+using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
 
@@ -302,24 +303,36 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_CONTACTNPC)]
 		public void CZ_CONTACTNPC(ZoneConnection conn, Packet packet)
 		{
-			var npcHandle = packet.GetInt();
+			var targetHandle = packet.GetInt();
 			var b1 = packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
-			var npc = character.Map.GetCharacter(npcHandle);
+			var target = character.Map.GetCharacter(targetHandle);
 
-			if (npc == null)
+			if (target == null)
 			{
-				Log.Debug("CZ_CONTACTNPC: User '{0}' tried to contact a non-existent NPC.", conn.Account.Username);
+				Log.Debug("CZ_CONTACTNPC: User '{0}' tried to contact a non-existent target.", conn.Account.Username);
 				return;
 			}
 
-			Log.Debug("CZ_CONTACTNPC: " + npcHandle);
+			if (!(target is Npc npc))
+			{
+				Log.Debug("CZ_CONTACTNPC: User '{0}' tried to contact a non-NPC.", conn.Account.Username);
+				return;
+			}
 
-			Send.ZC_SAY_DIALOG(character, npcHandle, "Hello, World!");
-			Task.Delay(5000).ContinueWith(_ => Send.ZC_SAY_DIALOG(character, npcHandle, "Goodbye, World!"));
-			Task.Delay(6000).ContinueWith(_ => Send.ZC_WAIT_DIALOG(character, npcHandle));
-			Task.Delay(8000).ContinueWith(_ => Send.ZC_MENU_LIST(character, npcHandle, "Option 1", "Option 2", "End"));
+			//Log.Debug("CZ_CONTACTNPC: " + npcHandle);
+
+			//Send.ZC_SAY_DIALOG(character, npcHandle, "Hello, World!");
+			//Task.Delay(5000).ContinueWith(_ => Send.ZC_SAY_DIALOG(character, npcHandle, "Goodbye, World!"));
+			//Task.Delay(6000).ContinueWith(_ => Send.ZC_WAIT_DIALOG(character, npcHandle));
+			//Task.Delay(8000).ContinueWith(_ => Send.ZC_MENU_LIST(character, npcHandle, "Option 1", "Option 2", "End"));
+
+			if (npc.DialogFunc == null)
+				return;
+
+			conn.CurrentDialog = new Dialog(character, npc);
+			conn.CurrentDialog.Start();
 		}
 
 		/// <summary>
@@ -331,15 +344,23 @@ namespace Sabine.Zone.Network
 		public void CZ_CHOOSE_MENU(ZoneConnection conn, Packet packet)
 		{
 			var npcHandle = packet.GetInt();
-			var b1 = packet.GetByte();
+			var choice = packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
 			var npc = character.Map.GetCharacter(npcHandle);
 
-			Log.Debug("CZ_CHOOSE_MENU: {0}, 0x{1:X2}", npcHandle, b1);
+			Log.Debug("CZ_CHOOSE_MENU: {0}, 0x{1:X2}", npcHandle, choice);
 
 			// 0xFF is sent when there's no menu to choose anything from,
 			// so it's presumably a cancel action.
+
+			if (conn.CurrentDialog == null)
+			{
+				Log.Debug("CZ_CHOOSE_MENU: User '{0}' tried to choose a menu item without being in a dialog.", conn.Account.Username);
+				return;
+			}
+
+			conn.CurrentDialog.Resume(choice.ToString());
 		}
 
 		/// <summary>
@@ -356,6 +377,14 @@ namespace Sabine.Zone.Network
 			var npc = character.Map.GetCharacter(npcHandle);
 
 			Log.Debug("CZ_REQ_NEXT_SCRIPT.");
+
+			if (conn.CurrentDialog == null)
+			{
+				Log.Debug("CZ_CHOOSE_MENU: User '{0}' tried to choose a menu item without being in a dialog.", conn.Account.Username);
+				return;
+			}
+
+			conn.CurrentDialog.Resume(null);
 		}
 
 		/// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Sabine.Shared.Database;
 using Sabine.Shared.Network;
+using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
@@ -22,6 +23,11 @@ namespace Sabine.Zone.Network
 		/// connection.
 		/// </summary>
 		public PlayerCharacter Character { get; set; }
+
+		/// <summary>
+		/// Gets or sets the dialog the connection's player is currently in.
+		/// </summary>
+		public Dialog CurrentDialog { get; set; }
 
 		/// <summary>
 		/// Called when the client sent a packet.

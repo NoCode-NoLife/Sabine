@@ -63,7 +63,11 @@
     <Compile Include="Commands\ChatCommands.Management.cs" />
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Network\DummyConnection.cs" />
+    <Compile Include="Scripting\Dialogues\Dialog.cs" />
+    <Compile Include="Scripting\Dialogues\DialogOption.cs" />
+    <Compile Include="Scripting\Dialogues\DialogState.cs" />
     <Compile Include="Scripting\MapScript.cs" />
+    <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />

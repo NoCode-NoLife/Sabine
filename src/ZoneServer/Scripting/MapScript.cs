@@ -1,5 +1,6 @@
 ﻿using System;
 using Sabine.Shared.World;
+using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Scripting;
 
@@ -35,15 +36,17 @@ namespace Sabine.Zone.Scripting
 		/// <param name="mapStringId"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
+		/// <param name="dialogFunc"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		protected Npc AddNpc(string name, int classId, string mapStringId, int x, int y)
+		protected Npc AddNpc(string name, int classId, string mapStringId, int x, int y, DialogFunc dialogFunc = null)
 		{
 			if (!ZoneServer.Instance.World.Maps.TryGetByStringId(mapStringId, out var map))
 				throw new ArgumentException($"Map '{mapStringId}' not found.");
 
 			var npc = new Npc(classId);
 			npc.Name = name;
+			npc.DialogFunc = dialogFunc;
 
 			npc.Warp(map.Id, new Position(x, y));
 

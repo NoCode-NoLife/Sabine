@@ -518,11 +518,9 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="npcHandle"></param>
-		/// <param name="options"></param>
-		public static void ZC_MENU_LIST(PlayerCharacter character, int npcHandle, params string[] options)
+		/// <param name="optionsString">Options separated by colons.</param>
+		public static void ZC_MENU_LIST(PlayerCharacter character, int npcHandle, string optionsString)
 		{
-			var optionsString = string.Join(":", options);
-
 			var packet = new Packet(Op.ZC_MENU_LIST);
 
 			packet.PutInt(npcHandle);
