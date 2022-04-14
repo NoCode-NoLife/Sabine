@@ -220,8 +220,20 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ACK_REQNAME);
 
+			// The first string is displayed in parantheses after the
+			// character name. It seems like it's intended for the
+			// account name, because that's what the client displays
+			// for the player character itself. This might indicate
+			// that they had planned a "team name" kind of feature,
+			// similar to ToS, to have a common identifier between
+			// characters on one account. Not a terrible idea, but
+			// sending the account name to other players is not
+			// exactly ideal, so... maybe let's not do that.
+			// However, maybe we could add a display name for the
+			// accounts, which could be used here.
+
 			packet.PutInt(target.Handle);
-			packet.PutString(target.Username, 16);
+			packet.PutString("", 16); // target.Username
 			packet.PutString(target.Name, 16);
 
 			character.Connection.Send(packet);
