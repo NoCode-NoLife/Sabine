@@ -11,7 +11,7 @@ namespace Sabine.Zone.World.Entities
 	/// <summary>
 	/// Represents a non-player character.
 	/// </summary>
-	public class Npc : ICharacter
+	public class Npc : ICharacter, IUpdateable
 	{
 		private static int HandlePool = 0x3000_0000;
 
@@ -95,6 +95,14 @@ namespace Sabine.Zone.World.Entities
 
 			curMap.RemoveNpc(this);
 			newMap.AddNpc(this);
+		}
+
+		/// <summary>
+		/// Updates NPC.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
 		}
 	}
 }

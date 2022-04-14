@@ -43,25 +43,25 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Makes character appear on clients of players around it.
+		/// Makes character appear on the player's client.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_NOTIFY_STANDENTRY(ICharacter character)
+		/// <param name="newCharacter"></param>
+		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, ICharacter newCharacter)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
 
-			packet.PutInt(character.Handle);
-			packet.PutShort((short)character.Speed);
-			packet.PutByte((byte)character.ClassId);
-			packet.PutByte((byte)character.Sex);
-			packet.AddPackedPosition(character.Position, character.Direction);
+			packet.PutInt(newCharacter.Handle);
+			packet.PutShort((short)newCharacter.Speed);
+			packet.PutByte((byte)newCharacter.ClassId);
+			packet.PutByte((byte)newCharacter.Sex);
+			packet.AddPackedPosition(newCharacter.Position, newCharacter.Direction);
 			packet.PutShort(0);
-			packet.PutByte((byte)character.HairId);
-			packet.PutByte((byte)character.WeaponId);
+			packet.PutByte((byte)newCharacter.HairId);
+			packet.PutByte((byte)newCharacter.WeaponId);
 			packet.PutByte(0); // Possibly a sprite option that wasn't implemented yet, like headgears.
-			packet.PutByte((byte)character.State);
+			packet.PutByte((byte)newCharacter.State);
 
-			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
+			player.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -103,13 +103,13 @@ namespace Sabine.Zone.Network
 		/// a spawn effect.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_NEWENTRY(PlayerCharacter character)
+		public static void ZC_NOTIFY_NEWENTRY(ICharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_NEWENTRY);
 
-			packet.PutInt(character.SessionId);
+			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
-			packet.PutByte((byte)character.JobId);
+			packet.PutByte((byte)character.ClassId);
 			packet.PutByte((byte)character.Sex);
 			packet.AddPackedPosition(character.Position, character.Direction);
 			packet.PutShort(0);
@@ -146,17 +146,18 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Removes character on clients of players around it.
+		/// Removes character with the given handle from the player's client.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="player"></param>
+		/// <param name="handle"></param>
 		/// <param name="type"></param>
-		public static void ZC_NOTIFY_VANISH(ICharacter character, DisappearType type)
+		public static void ZC_NOTIFY_VANISH(PlayerCharacter player, int handle, DisappearType type)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_VANISH);
-			packet.PutInt(character.Handle);
+			packet.PutInt(handle);
 			packet.PutByte((byte)type);
 
-			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
+			player.Connection.Send(packet);
 		}
 
 		/// <summary>

@@ -75,6 +75,7 @@
     <Compile Include="World\Entities\Npc.cs" />
     <Compile Include="World\Entities\PlayerCharacter.cs" />
     <Compile Include="Network\BroadcastTargets.cs" />
+    <Compile Include="World\Heartbeat.cs" />
     <Compile Include="World\Maps\Limbo.cs" />
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\Maps\MapManager.cs" />

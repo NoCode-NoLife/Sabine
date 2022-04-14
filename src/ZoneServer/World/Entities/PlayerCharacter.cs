@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
@@ -11,8 +13,11 @@ namespace Sabine.Zone.World.Entities
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class PlayerCharacter : ICharacter
+	public class PlayerCharacter : ICharacter, IUpdateable
 	{
+		private readonly object _visibilityUpdateSyncLock = new object();
+		private readonly HashSet<int> _visibleEntities = new HashSet<int>();
+
 		/// <summary>
 		/// Gets or sets the connection that controls this player.
 		/// </summary>
@@ -283,6 +288,12 @@ namespace Sabine.Zone.World.Entities
 		private Map _map = Map.Limbo;
 
 		/// <summary>
+		/// Gets or sets whether the character is currently observing
+		/// its surroundings, actively updating the visible entities.
+		/// </summary>
+		public bool IsObserving { get; protected set; }
+
+		/// <summary>
 		/// Sends a server message to the character's client that is
 		/// displayed in the chat log.
 		/// </summary>
@@ -402,6 +413,8 @@ namespace Sabine.Zone.World.Entities
 			this.IsWarping = true;
 			this.WarpLocation = location;
 
+			this.StopObserving();
+
 			Send.ZC_NPCACK_MAPMOVE(this, map.StringId, location.Position);
 		}
 
@@ -424,6 +437,7 @@ namespace Sabine.Zone.World.Entities
 			map.AddCharacter(this);
 
 			this.IsWarping = false;
+			this.StartObserving();
 		}
 
 		/// <summary>
@@ -474,6 +488,104 @@ namespace Sabine.Zone.World.Entities
 		{
 			var pos = this.Position; // TODO: Calculate current position
 			Send.ZC_STOPMOVE(this, pos);
+		}
+
+		/// <summary>
+		/// Updates character.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			this.UpdateVisibility();
+		}
+
+		/// <summary>
+		/// Starts updating of visible entities. A visibility update is
+		/// executed when this method is called.
+		/// </summary>
+		public void StartObserving()
+		{
+			lock (_visibilityUpdateSyncLock)
+			{
+				if (this.IsObserving)
+					return;
+
+				this.IsObserving = true;
+				this.UpdateVisibility();
+			}
+		}
+
+		/// <summary>
+		/// Stops updating of visible entities. A visibility update is
+		/// executed when this method is called.
+		/// </summary>
+		public void StopObserving()
+		{
+			lock (_visibilityUpdateSyncLock)
+			{
+				if (!this.IsObserving)
+					return;
+
+				this.IsObserving = false;
+				this.RemoveVisibleEntities();
+			}
+		}
+
+		/// <summary>
+		/// Updates visible entities around character.
+		/// </summary>
+		public void UpdateVisibility()
+		{
+			if (!this.IsObserving)
+				return;
+
+			lock (_visibilityUpdateSyncLock)
+			{
+				var visibleEntities = this.Map.GetVisibleEntities(this);
+
+				var appeared = visibleEntities.Where(a => !_visibleEntities.Contains(a.Handle));
+				var disappeared = _visibleEntities.Where(a => !visibleEntities.Exists(b => b.Handle == a));
+
+				foreach (var entity in appeared)
+				{
+					if (entity == this)
+						continue;
+
+					Send.ZC_NOTIFY_STANDENTRY(this, entity);
+				}
+
+				foreach (var handle in disappeared)
+				{
+					if (handle == this.Handle)
+						continue;
+
+					Send.ZC_NOTIFY_VANISH(this, handle, DisappearType.Vanish);
+				}
+
+				// To remember the visible entities for the next run we store
+				// their ids. There might be some cases where it would be
+				// useful to have the actual references, but we can still
+				// get those if we need to, and this way there's no chance
+				// for any memory leaks because we're storing objects
+				// that reference each other.
+
+				_visibleEntities.Clear();
+				_visibleEntities.UnionWith(visibleEntities.Select(a => a.Handle));
+			}
+		}
+
+		/// <summary>
+		/// Clears the list of visible entities and updates the client.
+		/// </summary>
+		private void RemoveVisibleEntities()
+		{
+			lock (_visibilityUpdateSyncLock)
+			{
+				foreach (var handle in _visibleEntities)
+					Send.ZC_NOTIFY_VANISH(this, handle, DisappearType.Vanish);
+
+				_visibleEntities.Clear();
+			}
 		}
 	}
 }

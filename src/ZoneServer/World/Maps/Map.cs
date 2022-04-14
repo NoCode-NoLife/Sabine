@@ -16,10 +16,11 @@ namespace Sabine.Zone.World.Maps
 	/// <summary>
 	/// Represents a map in the world.
 	/// </summary>
-	public class Map
+	public class Map : IUpdateable
 	{
 		private readonly Dictionary<int, PlayerCharacter> _characters = new Dictionary<int, PlayerCharacter>();
 		private readonly Dictionary<int, Npc> _npcs = new Dictionary<int, Npc>();
+		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
 
 		/// <summary>
 		/// Returns a reference to the Limbo map. See Limbo class for
@@ -56,7 +57,7 @@ namespace Sabine.Zone.World.Maps
 		/// <summary>
 		/// Gets or sets the visible range of players on this map.
 		/// </summary>
-		public int VisibleRange { get; set; } = short.MaxValue;
+		public int VisibleRange { get; set; } = 20;
 
 		/// <summary>
 		/// Returns the number of players on this number.
@@ -99,6 +100,51 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Updates the map and its entities.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			// Create a list of updatables instead of locking and then
+			// updating monsters and characters separately, so that
+			// actions taken by components that get updated don't
+			// affect Map. For example, adding and removing monsters
+			// would modify the collections, and broadcasts could
+			// cause deadlocks under certain circumstances.
+			lock (_updateEntities)
+			{
+				lock (_npcs)
+					_updateEntities.AddRange(_npcs.Values);
+
+				lock (_characters)
+					_updateEntities.AddRange(_characters.Values);
+
+				foreach (var entity in _updateEntities)
+					entity.Update(elapsed);
+
+				_updateEntities.Clear();
+			}
+		}
+
+		/// <summary>
+		/// Returns a list of entities that the given entity can see.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public List<ICharacter> GetVisibleEntities(IEntity entity)
+		{
+			var result = new List<ICharacter>();
+
+			lock (_npcs)
+				result.AddRange(_npcs.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
+
+			lock (_characters)
+				result.AddRange(_characters.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
+
+			return result;
+		}
+
+		/// <summary>
 		/// Adds character to this map.
 		/// </summary>
 		/// <param name="character"></param>
@@ -113,6 +159,8 @@ namespace Sabine.Zone.World.Maps
 				_characters[character.Id] = character;
 				character.Map = this;
 				Log.Debug("+ Characters on {0}: {1}", this.StringId, _characters.Count);
+
+				Send.ZC_NOTIFY_NEWENTRY(character);
 			}
 		}
 
@@ -175,7 +223,7 @@ namespace Sabine.Zone.World.Maps
 				_npcs[npc.Handle] = npc;
 				npc.Map = this;
 
-				Send.ZC_NOTIFY_STANDENTRY_NPC(npc);
+				Send.ZC_NOTIFY_NEWENTRY(npc);
 			}
 		}
 
@@ -190,8 +238,6 @@ namespace Sabine.Zone.World.Maps
 			{
 				if (!_npcs.ContainsKey(npc.Handle))
 					throw new ArgumentException($"An NPC with the id '{npc.Handle}' doesn't exists on the map.");
-
-				Send.ZC_NOTIFY_VANISH(npc, DisappearType.Vanish);
 
 				_npcs.Remove(npc.Handle);
 				npc.Map = null;

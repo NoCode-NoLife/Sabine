@@ -17,6 +17,11 @@ namespace Sabine.Zone.World
 		public MapManager Maps { get; } = new MapManager();
 
 		/// <summary>
+		/// The world's heartbeast, which controls timed events.
+		/// </summary>
+		public Heartbeat Heartbeat { get; } = new Heartbeat();
+
+		/// <summary>
 		/// Loads world and its maps.
 		/// </summary>
 		public void Load()
@@ -30,7 +35,13 @@ namespace Sabine.Zone.World
 		private void LoadMaps()
 		{
 			foreach (var data in SabineData.Maps.Entries.Values)
-				this.Maps.Add(new Map(data));
+			{
+
+				var map = new Map(data);
+
+				this.Maps.Add(map);
+				this.Heartbeat.Add(map);
+			}
 		}
 
 		/// <summary>

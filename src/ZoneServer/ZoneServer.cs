@@ -61,6 +61,8 @@ namespace Sabine.Zone
 			this.LoadWorld();
 			this.LoadScripts("system/scripts/scripts_zone.txt", this.Conf);
 
+			this.World.Heartbeat.Start();
+
 			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(this.Conf.Zone.BindIp, this.Conf.Zone.BindPort);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
