@@ -27,6 +27,15 @@ namespace Sabine.Zone.World
 		public void Load()
 		{
 			this.LoadMaps();
+			this.SetupUpdates();
+		}
+
+		/// <summary>
+		/// Subscribes world to its heartbeat, to update its maps.
+		/// </summary>
+		private void SetupUpdates()
+		{
+			this.Heartbeat.HeartbeatTick += this.Maps.Update;
 		}
 
 		/// <summary>
@@ -36,11 +45,8 @@ namespace Sabine.Zone.World
 		{
 			foreach (var data in SabineData.Maps.Entries.Values)
 			{
-
 				var map = new Map(data);
-
 				this.Maps.Add(map);
-				this.Heartbeat.Add(map);
 			}
 		}
 

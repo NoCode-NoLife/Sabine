@@ -7,74 +7,38 @@ using Yggdrasil.Logging;
 namespace Sabine.Zone.World
 {
 	/// <summary>
-	/// A world's heartbeat, responsible for regularly occuring events.
+	/// A world's heartbeat, running a continues game loop that other
+	/// components can utilize.
 	/// </summary>
 	public class Heartbeat
 	{
-		/// <summary>
-		/// The time between ticks in milliseconds.
-		/// </summary>
-		private const int Period = 250;
+		private const int UpdateTargetPerSecond = 10;
 
 		private bool _running = false;
-		private Timer _heartbeatTimer;
-		private Stopwatch _updateTimer;
-
-		private int _lastSecond;
-		private int _lastMinute;
-		private int _lastHour;
-		private int _updating;
+		private bool _stopRequested = false;
+		private Thread _heartbeatThread;
 
 		private readonly List<IUpdateable> _updateables = new List<IUpdateable>();
 
-		private Stopwatch _tickDurationTimer;
-		private TimeSpan _averageTickTotal;
-		private int _averateTickCount;
+		private TimeSpan _averageUpdateTickTotal;
+		private int _averateUpdateTickCount;
+		private TimeSpan _updatesTime;
+		private int _updatesCount;
+
+		/// <summary>
+		/// Returns the average number of heartbeat updates per second.
+		/// </summary>
+		public int UpdatesPerSecond { get; private set; }
 
 		/// <summary>
 		/// Returns the average duration of the heartbeat's tick.
 		/// </summary>
-		public TimeSpan AverageTickDuration { get; private set; }
+		public TimeSpan AverageUpdateTime { get; private set; }
 
 		/// <summary>
 		/// Raised every time the heartbeat executes.
 		/// </summary>
-		public event Action<DateTime> HeartbeatTick;
-
-		/// <summary>
-		/// Raised every full second.
-		/// </summary>
-		public event Action<DateTime> SecondTick;
-
-		/// <summary>
-		/// Raised every full minute.
-		/// </summary>
-		public event Action<DateTime> MinuteTick;
-
-		/// <summary>
-		/// Raised every even 5 minutes (5, 10, 15, etc.)
-		/// </summary>
-		public event Action<DateTime> FiveMinutesTick;
-
-		/// <summary>
-		/// Raised every even 15 minutes (0, 15, 30, 45)
-		/// </summary>
-		public event Action<DateTime> FifteenMinutesTick;
-
-		/// <summary>
-		/// Raised every even 20 minutes (0, 20, 40)
-		/// </summary>
-		public event Action<DateTime> TwentyMinutesTick;
-
-		/// <summary>
-		/// Raised every even 15 minutes (0, 30)
-		/// </summary>
-		public event Action<DateTime> ThirtyMinutesTick;
-
-		/// <summary>
-		/// Raised every full hour.
-		/// </summary>
-		public event Action<DateTime> HourTick;
+		public event Action<TimeSpan> HeartbeatTick;
 
 		/// <summary>
 		/// Starts server's heartbeat.
@@ -84,21 +48,18 @@ namespace Sabine.Zone.World
 			if (_running)
 				throw new InvalidOperationException("Heartbeat was already started.");
 
-			var now = DateTime.Now;
-
-			// Initiate event counters
-			_lastSecond = now.Second;
-			_lastMinute = now.Minute;
-			_lastHour = now.Hour;
-
-			// Start hearbeat
-			var startIn = 1000 - now.Millisecond;
-
-			_updateTimer = new Stopwatch();
-			_tickDurationTimer = new Stopwatch();
-			_heartbeatTimer = new Timer(this.OnTick, null, startIn, Period);
+			_heartbeatThread = new Thread(this.Loop);
+			_heartbeatThread.Start();
 
 			_running = true;
+		}
+
+		/// <summary>
+		/// Stops heartbeat loop.
+		/// </summary>
+		public void Stop()
+		{
+			_stopRequested = true;
 		}
 
 		/// <summary>
@@ -125,74 +86,86 @@ namespace Sabine.Zone.World
 		}
 
 		/// <summary>
-		/// Callback for heartbeat timer. Called regularly to execute Update.
+		/// Endless heartbeat loop that runs updates and events.
 		/// </summary>
-		/// <param name="state"></param>
-		private void OnTick(object state)
+		private void Loop()
 		{
-			_tickDurationTimer.Restart();
+			var updateTimer = Stopwatch.StartNew();
+			var updateDelay = 1000 / UpdateTargetPerSecond;
 
-			try
+			while (true)
 			{
-				var elapsed = _updateTimer.Elapsed;
-				_updateTimer.Restart();
+				var elapsed = updateTimer.Elapsed;
+				updateTimer.Restart();
 
-				this.Update(elapsed);
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Heartbeat.OnTick: {0}", ex);
-			}
+				this.OnTick(elapsed);
 
-			_tickDurationTimer.Stop();
-			this.UpdateAverageTickTime(_tickDurationTimer.Elapsed);
-		}
+				this.UpdateAverageUpdates(elapsed);
+				this.UpdateAverageUpdateTime(updateTimer.Elapsed);
 
-		/// <summary>
-		/// Updates the average update time of the heartbeat using the
-		/// given latest duration.
-		/// </summary>
-		/// <param name="duration"></param>
-		private void UpdateAverageTickTime(TimeSpan duration)
-		{
-			_averageTickTotal += duration;
-			_averateTickCount++;
+				if (_stopRequested)
+				{
+					_running = false;
+					_stopRequested = false;
+					return;
+				}
 
-			if (_averateTickCount >= 10)
-			{
-				this.AverageTickDuration = TimeSpan.FromTicks(_averageTickTotal.Ticks / _averateTickCount);
-
-				_averageTickTotal = TimeSpan.Zero;
-				_averateTickCount = 0;
+				while (updateTimer.ElapsedMilliseconds < updateDelay)
+					Thread.Sleep(1);
 			}
 		}
 
 		/// <summary>
-		/// Raises events and runs updates.
+		/// Updates the average time the heartbeat update took.
 		/// </summary>
 		/// <param name="elapsed"></param>
-		private void Update(TimeSpan elapsed)
+		private void UpdateAverageUpdates(TimeSpan elapsed)
 		{
-			// Make sure only one update occurs at a time.
-			if (Interlocked.CompareExchange(ref _updating, 1, 0) == 1)
-			{
-				Log.Warning("Heartbeat.Update: Skipping world update, previous update has not finished yet.");
-				return;
-			}
+			_updatesTime += elapsed;
+			_updatesCount++;
 
+			if (_updatesTime.TotalMilliseconds >= 1000)
+			{
+				this.UpdatesPerSecond = _updatesCount;
+
+				_updatesTime = TimeSpan.Zero;
+				_updatesCount = 0;
+			}
+		}
+
+		/// <summary>
+		/// Updates the average time the heartbeat update took.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateAverageUpdateTime(TimeSpan elapsed)
+		{
+			_averageUpdateTickTotal += elapsed;
+			_averateUpdateTickCount++;
+
+			if (_averateUpdateTickCount >= 10)
+			{
+				this.AverageUpdateTime = TimeSpan.FromTicks(_averageUpdateTickTotal.Ticks / _averateUpdateTickCount);
+
+				_averageUpdateTickTotal = TimeSpan.Zero;
+				_averateUpdateTickCount = 0;
+			}
+		}
+
+		/// <summary>
+		/// Callback for heartbeat timer. Called regularly to execute
+		/// updates and events.
+		/// </summary>
+		/// <param name="duration"></param>
+		private void OnTick(TimeSpan elapsed)
+		{
 			try
 			{
-				this.RaiseTimeEvents(elapsed);
 				this.UpdateUpdateables(elapsed);
+				this.HeartbeatTick?.Invoke(elapsed);
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Heartbeat.Update: " + ex);
-			}
-			finally
-			{
-				// Release update lock
-				_updating = 0;
+				Log.Error("Heartbeat.OnTick: " + ex);
 			}
 		}
 
@@ -202,69 +175,17 @@ namespace Sabine.Zone.World
 		/// <param name="elapsed"></param>
 		private void UpdateUpdateables(TimeSpan elapsed)
 		{
-			lock (_updateables)
-			{
-				for (var i = 0; i < _updateables.Count; ++i)
-					_updateables[i].Update(elapsed);
-			}
+			for (var i = 0; i < _updateables.Count; ++i)
+				_updateables[i].Update(elapsed);
 		}
 
 		/// <summary>
-		/// Raises time events as necessary.
+		/// Raises events as necessary.
 		/// </summary>
 		/// <param name="elapsed"></param>
-		private void RaiseTimeEvents(TimeSpan elapsed)
+		private void RaiseEvents(TimeSpan elapsed)
 		{
-			var now = DateTime.Now;
-
-			// World tick
-			this.HeartbeatTick?.Invoke(now);
-
-			// Stop here if this is the first time Update was called
-			if (elapsed.TotalSeconds == 0)
-				return;
-
-			// Raise seconds event if the seconds have changed since
-			// the last update
-			if (_lastSecond != now.Second)
-				this.SecondTick?.Invoke(now);
-
-			// Raise minutes event if the minutes have changed since
-			// the last update
-			if (_lastMinute != now.Minute)
-			{
-				this.MinuteTick?.Invoke(now);
-
-				// Raise five minutes event if the minutes have changed
-				// and it's now an even five minutes.
-				if ((now.Minute % 5) == 0)
-					this.FiveMinutesTick?.Invoke(now);
-
-				// Raise fifteen minutes event if the minutes have changed
-				// and it's now an even fifteen minutes.
-				if ((now.Minute % 15) == 0)
-					this.FifteenMinutesTick?.Invoke(now);
-
-				// Raise twenty minutes event if the minutes have changed
-				// and it's now an even twenty minutes.
-				if ((now.Minute % 20) == 0)
-					this.TwentyMinutesTick?.Invoke(now);
-
-				// Raise thirty minutes event if the minutes have changed
-				// and it's now an even thirty minutes.
-				if ((now.Minute % 30) == 0)
-					this.ThirtyMinutesTick?.Invoke(now);
-			}
-
-			// Raise hours event if the hours have changed since
-			// the last update
-			if (_lastHour != now.Hour)
-				this.HourTick?.Invoke(now);
-
-			// Save times so we can compare them during the next update
-			_lastSecond = now.Second;
-			_lastMinute = now.Minute;
-			_lastHour = now.Hour;
+			this.HeartbeatTick?.Invoke(elapsed);
 		}
 	}
 

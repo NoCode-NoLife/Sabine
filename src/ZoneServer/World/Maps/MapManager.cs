@@ -7,9 +7,12 @@ namespace Sabine.Zone.World.Maps
 	/// <summary>
 	/// Collection of maps.
 	/// </summary>
-	public class MapManager
+	public class MapManager : IUpdateable
 	{
+		private readonly object _syncLock = new object();
+
 		private readonly Dictionary<int, Map> _maps = new Dictionary<int, Map>();
+		private readonly List<Map> _mapsList = new List<Map>();
 
 		/// <summary>
 		/// Returns the numer of maps in this collection.
@@ -18,7 +21,7 @@ namespace Sabine.Zone.World.Maps
 		{
 			get
 			{
-				lock (_maps)
+				lock (_syncLock)
 					return _maps.Count;
 			}
 		}
@@ -30,12 +33,13 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public void Add(Map map)
 		{
-			lock (_maps)
+			lock (_syncLock)
 			{
 				if (_maps.ContainsKey(map.Id))
 					throw new ArgumentException($"A map with the id '{map.Id}' already exists.");
 
 				_maps[map.Id] = map;
+				_mapsList.Add(map);
 			}
 		}
 
@@ -46,12 +50,13 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public void Remove(Map map)
 		{
-			lock (_maps)
+			lock (_syncLock)
 			{
 				if (!_maps.ContainsKey(map.Id))
 					throw new ArgumentException($"A map with the id '{map.Id}' doesn't exists.");
 
 				_maps.Remove(map.Id);
+				_mapsList.Remove(map);
 			}
 		}
 
@@ -62,7 +67,7 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public Map Get(int id)
 		{
-			lock (_maps)
+			lock (_syncLock)
 			{
 				_maps.TryGetValue(id, out var map);
 				return map;
@@ -89,7 +94,7 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public Map GetByStringId(string stringId)
 		{
-			lock (_maps)
+			lock (_syncLock)
 				return _maps.Values.FirstOrDefault(a => a.StringId == stringId);
 		}
 
@@ -112,8 +117,34 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public Map[] GetAll()
 		{
-			lock (_maps)
+			lock (_syncLock)
 				return _maps.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Executes given action for each map in the collection.
+		/// </summary>
+		/// <param name="action"></param>
+		public void Do(Action<Map> action)
+		{
+			lock (_syncLock)
+			{
+				foreach (var map in _mapsList)
+					action(map);
+			}
+		}
+
+		/// <summary>
+		/// Runs update on all maps.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			lock (_syncLock)
+			{
+				foreach (var map in _mapsList)
+					map.Update(elapsed);
+			}
 		}
 	}
 }
