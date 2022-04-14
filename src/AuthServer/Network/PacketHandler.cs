@@ -1,4 +1,5 @@
-﻿using Sabine.Shared.Const;
+﻿using System.Globalization;
+using Sabine.Shared.Const;
 using Sabine.Shared.Network;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -28,7 +29,7 @@ namespace Sabine.Auth.Network
 			if (account == null)
 			{
 				var creationAllowed = AuthServer.Instance.Conf.Auth.AllowAccountCreation;
-				var hasSuffix = (username.EndsWith("_M") || username.EndsWith("_F"));
+				var hasSuffix = (username.EndsWith("_M", true, CultureInfo.InvariantCulture) || username.EndsWith("_F", true, CultureInfo.InvariantCulture));
 
 				if (!creationAllowed || !hasSuffix)
 				{
@@ -37,7 +38,7 @@ namespace Sabine.Auth.Network
 					return;
 				}
 
-				var sex = username.EndsWith("_M") ? Sex.Male : Sex.Female;
+				var sex = username.EndsWith("_M", true, CultureInfo.InvariantCulture) ? Sex.Male : Sex.Female;
 				username = username.Substring(0, username.Length - 2);
 
 				if (db.UsernameExists(username))
