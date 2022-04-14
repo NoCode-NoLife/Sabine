@@ -37,6 +37,7 @@ namespace Sabine.Zone.Commands
 			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
 			this.Add("warp", "<map> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
 			this.Add("spawn", "<monster id|name>", Localization.Get("Spawns monsters."), this.Spawn);
+			this.Add("stat", "<str|agi|vit|int|dex|luck|stp|skp> <modifier>", Localization.Get("Modifies the character's stats."), this.Stat);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -386,7 +387,49 @@ namespace Sabine.Zone.Commands
 			var monster = new Monster(monsterId);
 			monster.Warp(sender.GetLocation());
 
-			sender.ServerMessage(Localization.Get("Monster spawned."));
+			sender.ServerMessage(Localization.Get("Monsters spawned."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Modifies a character's stats.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Stat(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 2)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args.Get(1), out var modifier))
+				return CommandResult.InvalidArgument;
+
+			var type = args.Get(0);
+
+			switch (type)
+			{
+				case "str": target.Parameters.Modify(ParameterType.Str, modifier); break;
+				case "agi": target.Parameters.Modify(ParameterType.Agi, modifier); break;
+				case "vit": target.Parameters.Modify(ParameterType.Vit, modifier); break;
+				case "int": target.Parameters.Modify(ParameterType.Int, modifier); break;
+				case "dex": target.Parameters.Modify(ParameterType.Dex, modifier); break;
+				case "luk": target.Parameters.Modify(ParameterType.Luk, modifier); break;
+				case "stp": target.Parameters.Modify(ParameterType.StatPoints, modifier); break;
+				case "skp": target.Parameters.Modify(ParameterType.SkillPoints, modifier); break;
+
+				default:
+					sender.ServerMessage(Localization.Get("Unknown stat type '{0}'."), type);
+					return CommandResult.Okay;
+			}
+
+			sender.ServerMessage(Localization.Get("Stat {0} has been modified by {1}."), type, modifier);
+			if (sender != target)
+				target.ServerMessage(Localization.Get("{0} has modified your stats."), sender.Name);
 
 			return CommandResult.Okay;
 		}
