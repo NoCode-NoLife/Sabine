@@ -37,4 +37,26 @@
 		Defense = 34,
 		MAtk = 35,
 	}
+
+	/// <summary>
+	/// Extensions for ParameterType enum.
+	/// </summary>
+	public static class ParameterTypeExtensions
+	{
+		/// <summary>
+		/// Returns true if the given paramter is a "long" parameter and
+		/// is sent with an int, instead of a short.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public static bool IsLong(this ParameterType type)
+		{
+			return
+				type == ParameterType.BaseExp ||
+				type == ParameterType.JobExp ||
+				type == ParameterType.Zeny ||
+				type == ParameterType.BaseExpNeeded ||
+				type == ParameterType.JobExpNeeded;
+		}
+	}
 }

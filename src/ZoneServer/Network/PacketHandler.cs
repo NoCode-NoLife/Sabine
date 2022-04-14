@@ -94,11 +94,11 @@ namespace Sabine.Zone.Network
 				character.StartObserving();
 
 			Send.ZC_STATUS(character);
-			Send.ZC_PAR_CHANGE(character, ParameterType.Weight, character.Weight / 10);
-			Send.ZC_PAR_CHANGE(character, ParameterType.WeightMax, character.WeightMax / 10);
-			Send.ZC_PAR_CHANGE(character, ParameterType.SkillPoints, character.SkillPoints);
-			Send.ZC_LONGPAR_CHANGE(character, ParameterType.BaseExpNeeded, character.BaseExpNeeded);
-			Send.ZC_LONGPAR_CHANGE(character, ParameterType.JobExpNeeded, character.JobExpNeeded);
+			Send.ZC_PAR_CHANGE(character, ParameterType.Weight);
+			Send.ZC_PAR_CHANGE(character, ParameterType.WeightMax);
+			Send.ZC_PAR_CHANGE(character, ParameterType.SkillPoints);
+			Send.ZC_LONGPAR_CHANGE(character, ParameterType.BaseExpNeeded);
+			Send.ZC_LONGPAR_CHANGE(character, ParameterType.JobExpNeeded);
 		}
 
 		/// <summary>
@@ -136,7 +136,7 @@ namespace Sabine.Zone.Network
 			{
 				var warp = warps[0];
 				var distance = fromPos.GetDistance(toPos);
-				var aproxWalkDur = distance * character.Speed;
+				var aproxWalkDur = distance * character.Parameters.Speed;
 
 				Log.Debug("Warp in {0} ms.", aproxWalkDur);
 
@@ -224,6 +224,8 @@ namespace Sabine.Zone.Network
 			var change = (int)packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
+			var parameters = character.Parameters;
+
 			var success = false;
 			var value = 0;
 
@@ -233,15 +235,15 @@ namespace Sabine.Zone.Network
 				goto L_End;
 			}
 
-			var pointsNeeded = character.GetStatPointsNeeded(type);
-			if (character.StatPoints < pointsNeeded)
+			var pointsNeeded = parameters.GetStatPointsNeeded(type);
+			if (parameters.StatPoints < pointsNeeded)
 			{
 				Log.Debug("CZ_STATUS_CHANGE: User '{0}' tried to use more stat points than they have.", conn.Account.Username);
 				goto L_End;
 			}
 
-			value = character.ModifyStat(type, change);
-			character.ModifyStatPoints(-pointsNeeded);
+			value = parameters.Modify(type, change);
+			parameters.Modify(ParameterType.StatPoints, -pointsNeeded);
 
 			success = true;
 

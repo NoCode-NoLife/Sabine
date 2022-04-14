@@ -244,9 +244,37 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="type"></param>
+		public static void ZC_PAR_CHANGE(PlayerCharacter character, ParameterType type)
+		{
+			var value = character.Parameters.Get(type);
+			ZC_PAR_CHANGE(character, type, value);
+		}
+
+		/// <summary>
+		/// Updates the given parameter on the client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		public static void ZC_LONGPAR_CHANGE(PlayerCharacter character, ParameterType type)
+		{
+			var value = character.Parameters.Get(type);
+			ZC_LONGPAR_CHANGE(character, type, value);
+		}
+
+		/// <summary>
+		/// Updates the given parameter on the client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
 		/// <param name="value"></param>
 		public static void ZC_PAR_CHANGE(PlayerCharacter character, ParameterType type, int value)
 		{
+			if (type.IsLong())
+				throw new ArgumentException($"Parameter type '{type}' should be sent using ZC_LONGPAR_CHANGE.");
+
+			if (type == ParameterType.Weight || type == ParameterType.WeightMax)
+				value /= 10;
+
 			var packet = new Packet(Op.ZC_PAR_CHANGE);
 
 			packet.PutShort((short)type);
@@ -263,6 +291,9 @@ namespace Sabine.Zone.Network
 		/// <param name="value"></param>
 		public static void ZC_LONGPAR_CHANGE(PlayerCharacter character, ParameterType type, int value)
 		{
+			if (!type.IsLong())
+				throw new ArgumentException($"Parameter type '{type}' should be sent using ZC_PAR_CHANGE.");
+
 			var packet = new Packet(Op.ZC_LONGPAR_CHANGE);
 
 			packet.PutShort((short)type);
@@ -301,23 +332,23 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_STATUS);
 
-			packet.PutShort((short)character.StatPoints);
-			packet.PutByte((byte)character.Str);
-			packet.PutByte((byte)character.StrNeeded);
-			packet.PutByte((byte)character.Agi);
-			packet.PutByte((byte)character.AgiNeeded);
-			packet.PutByte((byte)character.Vit);
-			packet.PutByte((byte)character.VitNeeded);
-			packet.PutByte((byte)character.Int);
-			packet.PutByte((byte)character.IntNeeded);
-			packet.PutByte((byte)character.Dex);
-			packet.PutByte((byte)character.DexNeeded);
-			packet.PutByte((byte)character.Luk);
-			packet.PutByte((byte)character.LukNeeded);
-			packet.PutByte((byte)character.AtkMin);
-			packet.PutByte((byte)character.AtkMax);
-			packet.PutByte((byte)character.Defense);
-			packet.PutByte((byte)character.Matk);
+			packet.PutShort((short)character.Parameters.StatPoints);
+			packet.PutByte((byte)character.Parameters.Str);
+			packet.PutByte((byte)character.Parameters.StrNeeded);
+			packet.PutByte((byte)character.Parameters.Agi);
+			packet.PutByte((byte)character.Parameters.AgiNeeded);
+			packet.PutByte((byte)character.Parameters.Vit);
+			packet.PutByte((byte)character.Parameters.VitNeeded);
+			packet.PutByte((byte)character.Parameters.Int);
+			packet.PutByte((byte)character.Parameters.IntNeeded);
+			packet.PutByte((byte)character.Parameters.Dex);
+			packet.PutByte((byte)character.Parameters.DexNeeded);
+			packet.PutByte((byte)character.Parameters.Luk);
+			packet.PutByte((byte)character.Parameters.LukNeeded);
+			packet.PutByte((byte)character.Parameters.AtkMin);
+			packet.PutByte((byte)character.Parameters.AtkMax);
+			packet.PutByte((byte)character.Parameters.Defense);
+			packet.PutByte((byte)character.Parameters.MAtk);
 
 			character.Connection.Send(packet);
 		}
