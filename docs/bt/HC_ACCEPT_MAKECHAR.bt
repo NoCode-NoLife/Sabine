@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: HC_ACCEPT_MAKECHAR.bt
+//   Authors: exec
+//   Version: iRO Alpha
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/CharCharacter.bt"
+
+short op;
+CharCharacter newCharacter;

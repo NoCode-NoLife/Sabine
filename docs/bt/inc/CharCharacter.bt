@@ -1,0 +1,54 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CharCharacter.bt
+//   Authors: exec
+//   Version: iRO Alpha
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int id;
+    int baseExp;
+    int zeny;
+    int jobExp;
+    int i1;
+    int i2;
+    int i3;
+    short statPoints;
+    short hp;
+    short hpMax;
+    short sp;
+    short spMax;
+    short speed;
+    short karma;
+    short manner;
+    char name[16];
+    byte jobId;
+    byte baseLevel;
+    byte jobLevel;
+    byte str;
+    byte agi;
+    byte vit;
+    byte int_;
+    byte dex;
+    byte luk;
+    byte slot;
+    byte gap;
+    byte hairId;
+    byte weaponId;
+    byte b1;
+}
+CharCharacter <read=readCharCharacter>;
+
+string readCharCharacter(CharCharacter &val)
+{
+    string result;
+    SPrintf(result, "%s, Lv. %d", val.name, val.baseLevel);
+    return result;
+}
