@@ -588,5 +588,64 @@ namespace Sabine.Zone.Network
 
 			character.Connection.Send(packet);
 		}
+
+		//public static void ZC_ITEM_PICKUP_ACK(PlayerCharacter character)
+		//{
+		//	var packet = new Packet(Op.ZC_ITEM_PICKUP_ACK);
+
+		//	packet.PutShort(0x123E); // handle
+		//	packet.PutShort(1); // amount
+		//	packet.PutString("Dagger", 16); // name, converted to Korean by client
+		//	packet.PutByte(4); // type: 0~2 = item, 3 = etc, 4 = equip
+		//	packet.PutByte(2); // slot it can be equipped on
+		//	packet.PutByte(0); // 0 = okay, 1 = can't get, 2 = overweight, 3 = ?
+
+		//	character.Connection.Send(packet);
+		//}
+
+		//public static void ZC_NORMAL_ITEMLIST(PlayerCharacter character)
+		//{
+		//	var packet = new Packet(Op.ZC_NORMAL_ITEMLIST);
+
+		//	for (var i = 0; i < 2; ++i)
+		//	{
+		//		// The first byte contains the size of the item
+		//		// struct plus the size byte, which the client
+		//		// memcpys for handling. It's currently unclear
+		//		// why this size byte is necessary, but it's
+		//		// working this way.
+		//		packet.PutByte(22);
+
+		//		packet.PutByte(0); // type: 0~2 = item, 3 = etc, 4 = equip
+		//		packet.PutShort((short)(0x1234 + i)); // handle
+		//		packet.PutShort((short)(1 + i)); // amount
+		//		packet.PutString("Red Potion", 16); // name
+		//	}
+
+		//	character.Connection.Send(packet);
+		//}
+
+		//public static void ZC_EQUIPMENT_ITEMLIST(PlayerCharacter character)
+		//{
+		//	var packet = new Packet(Op.ZC_EQUIPMENT_ITEMLIST);
+
+		//	for (var i = 0; i < 2; ++i)
+		//	{
+		//		// The first byte contains the size of the item
+		//		// struct plus the size byte, which the client
+		//		// memcpys for handling. It's currently unclear
+		//		// why this size byte is necessary, but it's
+		//		// working.
+		//		packet.PutByte(22);
+
+		//		packet.PutByte(4); // type: 0~2 = item, 3 = etc, 4 = equip
+		//		packet.PutByte(2); // equip slot
+		//		packet.PutShort((short)(0x2234 + i)); // handle
+		//		packet.PutByte(0);
+		//		packet.PutString("Dagger", 16); // name
+		//	}
+
+		//	character.Connection.Send(packet);
+		//}
 	}
 }
