@@ -2,6 +2,7 @@
 using Sabine.Shared.Const;
 using Sabine.Shared.Util;
 using Sabine.Zone.Network;
+using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities.CharacterComponents
 {
@@ -28,32 +29,62 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Gets or sets the character's STR stat.
 		/// </summary>
-		public int Str { get; set; } = 1;
+		public int Str
+		{
+			get => _str;
+			set { _str = Math.Max(1, value); }
+		}
+		private int _str = 1;
 
 		/// <summary>
 		/// Gets or sets the character's AGI stat.
 		/// </summary>
-		public int Agi { get; set; } = 1;
+		public int Agi
+		{
+			get => _agi;
+			set { _agi = Math.Max(1, value); }
+		}
+		private int _agi = 1;
 
 		/// <summary>
 		/// Gets or sets the character's VIT stat.
 		/// </summary>
-		public int Vit { get; set; } = 1;
+		public int Vit
+		{
+			get => _vit;
+			set { _vit = Math.Max(1, value); }
+		}
+		private int _vit = 1;
 
 		/// <summary>
 		/// Gets or sets the character's INT stat.
 		/// </summary>
-		public int Int { get; set; } = 1;
+		public int Int
+		{
+			get => _int;
+			set { _int = Math.Max(1, value); }
+		}
+		private int _int = 1;
 
 		/// <summary>
 		/// Gets or sets the character's DEX stat.
 		/// </summary>
-		public int Dex { get; set; } = 1;
+		public int Dex
+		{
+			get => _dex;
+			set { _dex = Math.Max(1, value); }
+		}
+		private int _dex = 1;
 
 		/// <summary>
 		/// Gets or sets the character's LUK stat.
 		/// </summary>
-		public int Luk { get; set; } = 1;
+		public int Luk
+		{
+			get => _luk;
+			set { _luk = Math.Max(1, value); }
+		}
+		private int _luk = 1;
 
 		/// <summary>
 		/// Returns the amount of stat points necessary to increase
@@ -94,12 +125,22 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Gets or sets the character's stat points.
 		/// </summary>
-		public int StatPoints { get; set; }
+		public int StatPoints
+		{
+			get => _statPoints;
+			set { _statPoints = Math.Max(0, value); }
+		}
+		private int _statPoints = 0;
 
 		/// <summary>
 		/// Returns the number of skill points the character has to assign.
 		/// </summary>
-		public int SkillPoints { get; set; }
+		public int SkillPoints
+		{
+			get => _skillPoints;
+			set { _skillPoints = Math.Max(0, value); }
+		}
+		private int _skillPoints = 0;
 
 		/// <summary>
 		/// Returns the character's current weight.
@@ -119,22 +160,42 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Gets or sets how many HP the character currently has.
 		/// </summary>
-		public int Hp { get; set; } = 40;
+		public int Hp
+		{
+			get => _hp;
+			set { _hp = Math2.Clamp(0, this.HpMax, value); }
+		}
+		private int _hp = 40;
 
 		/// <summary>
 		/// Gets or sets the character's maximum amount of HP.
 		/// </summary>
-		public int HpMax { get; set; } = 40;
+		public int HpMax
+		{
+			get => _hpMax;
+			set { _hpMax = Math.Max(1, value); }
+		}
+		private int _hpMax = 40;
 
 		/// <summary>
 		/// Gets or sets how many SP the character currently has.
 		/// </summary>
-		public int Sp { get; set; } = 10;
+		public int Sp
+		{
+			get => _sp;
+			set { _sp = Math2.Clamp(0, this.SpMax, value); }
+		}
+		private int _sp = 10;
 
 		/// <summary>
 		/// Gets or sets the character's maximum amount of SP.
 		/// </summary>
-		public int SpMax { get; set; } = 10;
+		public int SpMax
+		{
+			get => _spMax;
+			set { _spMax = Math.Max(1, value); }
+		}
+		private int _spMax = 10;
 
 		/// <summary>
 		/// Returns the character's current min attack.
