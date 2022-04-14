@@ -86,7 +86,7 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Gets or sets the direction the character is looking in.
 		/// </summary>
-		public Direction Direction { get; set; } = Direction.South;
+		public Direction Direction { get; set; } = Direction.North;
 
 		/// <summary>
 		/// Returns true if character is warping to a new location.

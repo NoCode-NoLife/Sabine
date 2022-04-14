@@ -432,6 +432,22 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Updates the character's direction.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="direction"></param>
+		/// <exception cref="NotImplementedException"></exception>
+		public static void ZC_CHANGE_DIRECTION(ICharacter character, Direction direction)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_DIRECTION);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte((byte)direction);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+		}
+
+		/// <summary>
 		/// Warps character to the given location.
 		/// </summary>
 		/// <param name="character"></param>

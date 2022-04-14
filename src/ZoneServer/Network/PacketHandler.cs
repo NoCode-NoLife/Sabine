@@ -430,5 +430,21 @@ namespace Sabine.Zone.Network
 				}
 			}
 		}
+
+		/// <summary>
+		/// Notification that the character rotated into a new direction.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CHANGE_DIRECTION)]
+		public void CZ_CHANGE_DIRECTION(ZoneConnection conn, Packet packet)
+		{
+			var direction = (Direction)packet.GetByte();
+
+			var character = conn.GetCurrentCharacter();
+			character.Direction = direction;
+
+			Send.ZC_CHANGE_DIRECTION(character, direction);
+		}
 	}
 }
