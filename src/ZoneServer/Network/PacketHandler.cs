@@ -94,8 +94,8 @@ namespace Sabine.Zone.Network
 				character.StartObserving();
 
 			Send.ZC_STATUS(character);
-			Send.ZC_PAR_CHANGE(character, ParameterType.Weight, character.Weight);
-			Send.ZC_PAR_CHANGE(character, ParameterType.WeightMax, character.WeightMax);
+			Send.ZC_PAR_CHANGE(character, ParameterType.Weight, character.Weight / 10);
+			Send.ZC_PAR_CHANGE(character, ParameterType.WeightMax, character.WeightMax / 10);
 			Send.ZC_PAR_CHANGE(character, ParameterType.SkillPoints, character.SkillPoints);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.BaseExpNeeded, character.BaseExpNeeded);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.JobExpNeeded, character.JobExpNeeded);
