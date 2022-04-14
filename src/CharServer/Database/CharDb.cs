@@ -38,7 +38,6 @@ namespace Sabine.Char.Database
 						character.Name = reader.GetStringSafe("name");
 						character.JobId = (JobId)reader.GetInt32("job");
 						character.Zeny = reader.GetInt32("zeny");
-						character.MapId = reader.GetInt32("mapId");
 						character.Speed = reader.GetInt32("speed");
 						character.BaseLevel = reader.GetInt32("baseLevel");
 						character.JobLevel = reader.GetInt32("jobLevel");
@@ -58,9 +57,10 @@ namespace Sabine.Char.Database
 						character.HairId = reader.GetInt32("hair");
 						character.WeaponId = reader.GetInt32("weapon");
 
+						var mapId = reader.GetInt32("mapId");
 						var x = reader.GetInt32("x");
 						var y = reader.GetInt32("y");
-						character.Position = new Position(x, y);
+						character.Location = new Location(mapId, x, y);
 
 						result.Add(character);
 					}
@@ -105,10 +105,23 @@ namespace Sabine.Char.Database
 				cmd.Set("accountId", account.Id);
 				cmd.Set("slot", character.Slot);
 				cmd.Set("name", character.Name);
-				cmd.Set("mapId", character.MapId);
-				cmd.Set("x", character.Position.X);
-				cmd.Set("y", character.Position.Y);
+				cmd.Set("mapId", character.Location.MapId);
+				cmd.Set("x", character.Location.Position.X);
+				cmd.Set("y", character.Location.Position.Y);
 				cmd.Set("hair", character.HairId);
+				cmd.Set("str", character.Str);
+				cmd.Set("agi", character.Agi);
+				cmd.Set("vit", character.Vit);
+				cmd.Set("int", character.Int);
+				cmd.Set("dex", character.Dex);
+				cmd.Set("luk", character.Luk);
+				cmd.Set("hp", character.Hp);
+				cmd.Set("hpMax", character.Hp);
+				cmd.Set("sp", character.Sp);
+				cmd.Set("spMax", character.Sp);
+				cmd.Set("baseLevel", character.BaseLevel);
+				cmd.Set("jobLevel", character.JobLevel);
+				cmd.Set("zeny", character.Zeny);
 
 				cmd.Execute();
 				character.Id = (int)cmd.LastId;

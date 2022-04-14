@@ -13,12 +13,11 @@ namespace Sabine.Char.Database
 		public JobId JobId { get; set; }
 		public int Zeny { get; set; }
 
-		public int MapId { get; set; }
-		public Position Position { get; set; }
-		public int Speed { get; set; }
+		public Location Location { get; set; }
+		public int Speed { get; set; } = 200;
 
-		public int BaseLevel { get; set; }
-		public int JobLevel { get; set; }
+		public int BaseLevel { get; set; } = 1;
+		public int JobLevel { get; set; } = 1;
 		public int BaseExp { get; set; }
 		public int JobExp { get; set; }
 

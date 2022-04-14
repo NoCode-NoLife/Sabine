@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Sabine.Char.Database;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Network;
+using Sabine.Shared.World;
 using Yggdrasil.Logging;
 
 namespace Sabine.Char.Network
@@ -74,9 +76,9 @@ namespace Sabine.Char.Network
 				return;
 			}
 
-			if (!SabineData.Maps.TryFind(character.MapId, out var mapData))
+			if (!SabineData.Maps.TryFind(character.Location.MapId, out var mapData))
 			{
-				Log.Error("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}).", character.Name, character.MapId);
+				Log.Error("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}).", character.Name, character.Location.MapId);
 				return;
 			}
 
@@ -111,9 +113,26 @@ namespace Sabine.Char.Network
 			var account = conn.Account;
 			var db = CharServer.Instance.Database;
 
-			var slotAvailable = conn.Characters.Any(a => a.Slot == character.Slot);
-			if (!slotAvailable)
+			var isSlotValid = character.Slot >= 0 && character.Slot <= 2;
+			if (!isSlotValid)
 			{
+				Log.Warning("CH_MAKE_CHAR: User '{0}' tried to create a character in an invalid slot.", account.Username);
+				Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.Denied);
+				return;
+			}
+
+			var statDistribution = character.Str + character.Agi + character.Vit + character.Int + character.Dex + character.Luk;
+			if (statDistribution != 30)
+			{
+				Log.Warning("CH_MAKE_CHAR: User '{0}' tried to create a character with an invalid stat distribution ({1}).", account.Username, statDistribution);
+				Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.Denied);
+				return;
+			}
+
+			var slotInUse = conn.Characters.Any(a => a.Slot == character.Slot);
+			if (slotInUse)
+			{
+				Log.Warning("CH_MAKE_CHAR: User '{0}' tried to create a character in an occupied slot.", account.Username);
 				Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.Denied);
 				return;
 			}
@@ -123,6 +142,21 @@ namespace Sabine.Char.Network
 				Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.NameExistsAlready);
 				return;
 			}
+
+			if (!SabineData.Maps.TryFind(CharServer.Instance.Conf.Char.StartMapStringId, out var mapData))
+			{
+				Log.Error("CH_MAKE_CHAR: Unknown start map '{0}'.", CharServer.Instance.Conf.Char.StartMapStringId);
+				Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.Denied);
+				return;
+			}
+
+			character.Hp = character.HpMax = (int)(40 * (1 + character.Vit / 100.0));
+			character.Sp = character.SpMax = (int)(10 * (1 + character.Int / 100.0));
+			character.Zeny = CharServer.Instance.Conf.Char.StartZeny;
+			character.Location = new Location(mapData.Id, CharServer.Instance.Conf.Char.StartPosition);
+
+			// In the alpha your job level was 0 and stayed that way.
+			character.JobLevel = 0;
 
 			db.CreateCharacter(account, ref character);
 			conn.Characters.Add(character);

@@ -57,6 +57,8 @@ namespace Sabine.Zone.Database
 					character.StatPoints = reader.GetInt32("statPoints");
 					character.HairId = reader.GetInt32("hair");
 					character.WeaponId = reader.GetInt32("weapon");
+					character.Weight = reader.GetInt32("weight");
+					character.WeightMax = reader.GetInt32("weightMax");
 
 					var x = reader.GetInt32("x");
 					var y = reader.GetInt32("y");
@@ -106,6 +108,8 @@ namespace Sabine.Zone.Database
 				cmd.Set("statPoints", character.StatPoints);
 				cmd.Set("hair", character.HairId);
 				cmd.Set("weapon", character.WeaponId);
+				cmd.Set("weight", character.Weight);
+				cmd.Set("weightMax", character.WeightMax);
 
 				cmd.Execute();
 			}

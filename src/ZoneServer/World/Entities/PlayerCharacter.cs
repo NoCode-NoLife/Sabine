@@ -228,7 +228,7 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's current max weight.
 		/// </summary>
-		public int WeightMax { get; set; } = 8000;
+		public int WeightMax { get; set; } = 20000;
 
 		/// <summary>
 		/// Returns the number of skill points the character has to assign.
@@ -243,19 +243,19 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Gets or sets the character's job experience points.
 		/// </summary>
-		public int JobExp { get; set; } = 5;
+		public int JobExp { get; set; }
 
 		/// <summary>
 		/// Returns the amount of experience points necessary to reach
 		/// the next base level.
 		/// </summary>
-		public int BaseExpNeeded { get; set; } = 150;
+		public int BaseExpNeeded { get; set; } = 9;
 
 		/// <summary>
 		/// Returns the amount of experience points necessary to reach
 		/// the next job level.
 		/// </summary>
-		public int JobExpNeeded { get; set; } = 75;
+		public int JobExpNeeded { get; set; }
 
 		/// <summary>
 		/// Gets or sets the character's current base level.

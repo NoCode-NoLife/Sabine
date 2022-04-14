@@ -1,4 +1,7 @@
-﻿using Yggdrasil.Configuration;
+﻿using Sabine.Shared.Data;
+using Sabine.Shared.World;
+using Yggdrasil.Configuration;
+using Yggdrasil.Logging;
 
 namespace Sabine.Shared.Configuration.Files
 {
@@ -11,6 +14,9 @@ namespace Sabine.Shared.Configuration.Files
 		public int BindPort { get; set; }
 		public string ServerIp { get; set; }
 		public string Name { get; set; }
+		public string StartMapStringId { get; set; }
+		public Position StartPosition { get; set; }
+		public int StartZeny { get; set; }
 
 		/// <summary>
 		/// Loads the conf file and its options from the given path.
@@ -23,6 +29,40 @@ namespace Sabine.Shared.Configuration.Files
 			this.BindPort = this.GetInt("char_bind_port", 7000);
 			this.ServerIp = this.GetString("char_server_ip", "127.0.0.1");
 			this.Name = this.GetString("char_server_name", "Sabine");
+			this.StartZeny = this.GetInt("player_start_zeny", 500);
+
+			this.ReadStartLocation("player_start_location", "prt_vilg02,99,81");
+		}
+
+		/// <summary>
+		/// Reads the given option in the format "map,x,y" and sets the
+		/// respective options.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		private void ReadStartLocation(string name, string defaultValue)
+		{
+			var startLocationStr = this.GetString(name, defaultValue);
+			var split = startLocationStr.Split(',');
+			if (split.Length != 3)
+			{
+				Log.Error("CharConf.Load: Invalid start location '{0}'.", startLocationStr);
+			}
+			else if (!int.TryParse(split[1], out var x) || !int.TryParse(split[2], out var y))
+			{
+				Log.Error("CharConf.Load: Invalid coordinates in start location '{0}'.", startLocationStr);
+			}
+			else
+			{
+				this.StartMapStringId = split[0];
+				this.StartPosition = new Position(x, y);
+				return;
+			}
+
+			// Fallback
+			this.StartMapStringId = "prt_vilg02";
+			this.StartPosition = new Position(99, 81);
 		}
 	}
 }
