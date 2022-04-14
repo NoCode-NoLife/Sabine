@@ -129,6 +129,7 @@ namespace Sabine.Zone.Network
 			Log.Debug("{0} requests to move from {1},{2} to {3},{4}.", character.Name, fromPos.X, fromPos.Y, toPos.X, toPos.Y);
 
 			Send.ZC_NOTIFY_PLAYERMOVE(character, fromPos, toPos);
+			Send.ZC_NOTIFY_MOVE(character, fromPos, toPos);
 
 			var warps = character.Map.GetAllNpcs(a => a.ClassId == 32 && a.Position.InRange(toPos, 2));
 			if (warps.Length > 0)
