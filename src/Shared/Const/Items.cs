@@ -63,7 +63,7 @@ namespace Sabine.Shared.Const
 	public enum EquipSlots : byte
 	{
 		None = 0x00,
-		Head = 0x01,
+		Head = 0x01, // Lower in > Alpha
 		RightHand = 0x02,
 		Robe = 0x04,
 		Accessory1 = 0x08,
@@ -71,5 +71,7 @@ namespace Sabine.Shared.Const
 		LeftHand = 0x20,
 		Shoes = 0x40,
 		Accessory2 = 0x80,
+		//HeadUpper = 0x100,
+		//HeadMiddle = 0x200,
 	}
 }

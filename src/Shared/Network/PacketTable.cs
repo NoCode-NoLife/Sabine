@@ -11,7 +11,7 @@ namespace Sabine.Shared.Network
 	{
 		static PacketTable()
 		{
-			// Piecing it together bit by bit, some op names are guessed.
+			// Piecing it together bit by bit, some ops are guessed.
 
 			Register(Op.CA_LOGIN, 0x0000, 34);
 			Register(Op.CH_ENTER, 0x0001, 13);
