@@ -43,7 +43,7 @@ namespace Sabine.Shared.Network
 			Register(Op.ZC_NOTIFY_TIME, 0x001B, 6);
 			Register(Op.ZC_NOTIFY_VANISH, 0x001C, 7);
 			Register(Op.SC_NOTIFY_BAN, 0x001D, 3);
-			Register(Op.CZ_REQUEST_QUIT, 0x001E, 2);
+			Register(Op.CZ_REQUEST_QUIT, 0x001E, 2); // Presumably unused in alpha
 			Register(Op.ZC_ACCEPT_QUIT, 0x001F, 2); // Unused in alpha
 			Register(Op.ZC_REFUSE_QUIT, 0x0020, 2); // Unused in alpha
 			Register(Op.CZ_REQUEST_MOVE, 0x0021, 5);
