@@ -1,7 +1,7 @@
 Sabine
 =============================================================================
 
-Lela is an open-source MMORPG server software for the alpha client of
+Sabine is an open-source MMORPG server software for the alpha client of
 the english version of RO from October 2001. It's being developed for
 educational purposes, learning about programming, MMORPGs, maintaining
 huge projects, working with other people, and improving knowledge.
@@ -9,7 +9,7 @@ It's not about playing a game or competing with any services provided
 by Gravity or its partners.
 
 Sabine is completely free and licensed under the GNU GPL. As such,
-every user is free to use Lela and choose how to use it, in the
+every user is free to use Sabine and choose how to use it, in the
 context of its license.
 
 Compatibility

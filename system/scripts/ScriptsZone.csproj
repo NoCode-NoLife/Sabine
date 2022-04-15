@@ -17,8 +17,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\cache\scripts\zone\bin\</OutputPath>
-    <IntermediateOutputPath>..\..\cache\scripts\zone\obj\</IntermediateOutputPath>
+    <OutputPath>..\..\user\tmp\build\scripts\zone\bin\</OutputPath>
+    <IntermediateOutputPath>..\..\user\tmp\build\\scripts\zone\obj\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
