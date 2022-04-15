@@ -82,6 +82,7 @@
     <Compile Include="Const\DisconnectReason.cs" />
     <Compile Include="Const\ElementType.cs" />
     <Compile Include="Const\EmotionId.cs" />
+    <Compile Include="Const\Items.cs" />
     <Compile Include="Const\JobId.cs" />
     <Compile Include="Const\LoginConnectError.cs" />
     <Compile Include="Const\ParameterType.cs" />

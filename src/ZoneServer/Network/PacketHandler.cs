@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data;
 using Sabine.Shared.Database;
 using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
@@ -309,16 +311,36 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Request for item description.
+		/// Request for an item's description.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_REQ_ITEM_EXPLANATION_BYNAME)]
 		public void CZ_REQ_ITEM_EXPLANATION_BYNAME(ZoneConnection conn, Packet packet)
 		{
-			var itemName = packet.GetString(16);
+			var itemStringId = packet.GetString(16);
 
-			Send.ZC_REQ_ITEM_EXPLANATION_ACK(conn, itemName, "Foobar! Heals 9001 HP.");
+			var character = conn.GetCurrentCharacter();
+			//var itemData = SabineData.Items.Find(itemStringId);
+
+			//if (itemData == null)
+			//{
+			//	Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item data for '{0}' not found.", itemStringId);
+			//	return;
+			//}
+
+			// The client usually identifies items by their string id
+			// and converts that to a Korean name to find the assets
+			// for the item in the client. This works for the sprites
+			// and the name display, but not the description. The
+			// client sends the English string id for this request,
+			// but if you send that name back, you get an error that
+			// it can't find the texture for the item. Because of this,
+			// we need to send back the Korean name in this instance.
+			// The title of the item description window will be mangled
+			// this way, but that's how it has to be.
+
+			Send.ZC_REQ_ITEM_EXPLANATION_ACK(character, "나이프", "Foobar!^ffffff_______^000000Heals 9001 HP.");
 		}
 
 		/// <summary>
@@ -472,6 +494,139 @@ namespace Sabine.Zone.Network
 			character.Direction = direction;
 
 			Send.ZC_CHANGE_DIRECTION(character, direction);
+		}
+
+		/// <summary>
+		/// Request to pick up an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_PICKUP)]
+		public void CZ_ITEM_PICKUP(ZoneConnection conn, Packet packet)
+		{
+			var itemHandle = packet.GetInt();
+
+			var character = conn.GetCurrentCharacter();
+			//var item = character.Map.GetItem(itemHandle);
+
+			Log.Debug("CZ_ITEM_PICKUP: 0x{0:X8}", itemHandle);
+
+			Send.ZC_ITEM_PICKUP_ACK(character, null, PickUpResult.CantGet);
+		}
+
+		/// <summary>
+		/// Request to drop items from a stack.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ITEM_THROW)]
+		public void CZ_ITEM_THROW(ZoneConnection conn, Packet packet)
+		{
+			var itemInvId = packet.GetShort();
+			var amount = packet.GetShort();
+
+			var character = conn.GetCurrentCharacter();
+			//var item = character.Inventory.GetItem(itemInvId);
+
+			//if (item == null)
+			//{
+			//	Log.Debug("CZ_ITEM_THROW: User '{0}' tried to drop an item they don't have.", conn.Account.Username);
+			//	return;
+			//}
+
+			Log.Debug("CZ_ITEM_THROW: {0}", itemInvId);
+
+			Send.ZC_ITEM_THROW_ACK(character, itemInvId, amount);
+		}
+
+		/// <summary>
+		/// Request to use an item from the inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_USE_ITEM)]
+		public void CZ_USE_ITEM(ZoneConnection conn, Packet packet)
+		{
+			var itemInvId = packet.GetShort();
+			var clientTick = packet.GetInt();
+
+			var character = conn.GetCurrentCharacter();
+			var item = character.Inventory.GetItem(itemInvId);
+
+			if (item == null)
+			{
+				// Both ZC_USE_ITEM_ACK and ZC_REQ_WEAR_EQUIP_ACK appear
+				// to have a success parameter, with the client ignoring
+				// the entire packet if it's false. However, the client
+				// also seems to be waiting for a positive response, and
+				// if you send a negative one, or nothing at all, it will
+				// not send any more requests to use or equip any item
+				// until the next relog.
+				// In the case of using an item we can let it slight and
+				// simply not apply any effects, but for equipping we
+				// would either need to go through with it and then reverse
+				// it, or simply assume that the player is cheating and
+				// disconnect them. There's probably no legit reason for
+				// a player should be unable to equip or use item unless
+				// something is very wrong.
+
+				Log.Debug("CZ_USE_ITEM: User '{0}' tried to equip an item they don't have.", conn.Account.Username);
+				conn.Close();
+				return;
+			}
+
+			character.Inventory.DecrementItem(item, 1);
+
+			Send.ZC_USE_ITEM_ACK(character, itemInvId, item.Amount);
+		}
+
+		/// <summary>
+		/// Request to equip an item from the inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_WEAR_EQUIP)]
+		public void CZ_REQ_WEAR_EQUIP(ZoneConnection conn, Packet packet)
+		{
+			var itemInvId = packet.GetShort();
+			var equipSlots = (EquipSlots)packet.GetByte();
+
+			var character = conn.GetCurrentCharacter();
+			var item = character.Inventory.GetItem(itemInvId);
+
+			if (item == null)
+			{
+				// See CZ_USE_ITEM about negative responses.
+				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item they don't have.", conn.Account.Username);
+				conn.Close();
+				return;
+			}
+
+			character.Inventory.EquipItem(item, equipSlots);
+		}
+
+		/// <summary>
+		/// Request to unequip an item and move it to the inventory.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_TAKEOFF_EQUIP)]
+		public void CZ_REQ_TAKEOFF_EQUIP(ZoneConnection conn, Packet packet)
+		{
+			var itemInvId = packet.GetShort();
+
+			var character = conn.GetCurrentCharacter();
+			var item = character.Inventory.GetItem(itemInvId);
+
+			if (item == null)
+			{
+				// See CZ_USE_ITEM about negative responses.
+				Log.Debug("ZC_REQ_TAKEOFF_EQUIP_ACK: User '{0}' tried to unequip an item they don't have.", conn.Account.Username);
+				conn.Close();
+				return;
+			}
+
+			character.Inventory.UnequipItem(item);
 		}
 	}
 }

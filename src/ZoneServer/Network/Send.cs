@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
+using System.Runtime.InteropServices;
 using Sabine.Shared.Const;
 using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
@@ -489,19 +492,19 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends item description to the client.
+		/// Sends item description to the character's client.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		/// <param name="name"></param>
 		/// <param name="description"></param>
-		public static void ZC_REQ_ITEM_EXPLANATION_ACK(ZoneConnection conn, string name, string description)
+		public static void ZC_REQ_ITEM_EXPLANATION_ACK(PlayerCharacter character, string name, string description)
 		{
 			var packet = new Packet(Op.ZC_REQ_ITEM_EXPLANATION_ACK);
 
 			packet.PutString(name, 16);
 			packet.PutString(description);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -658,63 +661,152 @@ namespace Sabine.Zone.Network
 			conn.Send(packet);
 		}
 
-		//public static void ZC_ITEM_PICKUP_ACK(PlayerCharacter character)
-		//{
-		//	var packet = new Packet(Op.ZC_ITEM_PICKUP_ACK);
+		/// <summary>
+		/// Either makes given item appear in character's inventory or
+		/// displays a message for why they couldn't pick up an item.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		/// <param name="result"></param>
+		public static void ZC_ITEM_PICKUP_ACK(PlayerCharacter character, Item item, PickUpResult result)
+		{
+			var packet = new Packet(Op.ZC_ITEM_PICKUP_ACK);
 
-		//	packet.PutShort(0x123E); // handle
-		//	packet.PutShort(1); // amount
-		//	packet.PutString("Dagger", 16); // name, converted to Korean by client
-		//	packet.PutByte(4); // type: 0~2 = item, 3 = etc, 4 = equip
-		//	packet.PutByte(2); // slot it can be equipped on
-		//	packet.PutByte(0); // 0 = okay, 1 = can't get, 2 = overweight, 3 = ?
+			packet.PutShort((short)item?.InventoryId); // NOT HANDLE!?
+			packet.PutShort((short)item?.Amount);
+			packet.PutString(item?.StringId, 16);
+			packet.PutByte((byte)item?.Type); // type: 0~2 = item, 3 = etc, 4 = equip
+			packet.PutByte((byte)item?.WearSlots);
+			packet.PutByte((byte)result);
 
-		//	character.Connection.Send(packet);
-		//}
+			character.Connection.Send(packet);
+		}
 
-		//public static void ZC_NORMAL_ITEMLIST(PlayerCharacter character)
-		//{
-		//	var packet = new Packet(Op.ZC_NORMAL_ITEMLIST);
+		/// <summary>
+		/// Updates the character's item and etc inventory tabs using
+		/// the given list of items.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="items"></param>
+		public static void ZC_NORMAL_ITEMLIST(PlayerCharacter character, IEnumerable<Item> items)
+		{
+			var packet = new Packet(Op.ZC_NORMAL_ITEMLIST);
 
-		//	for (var i = 0; i < 2; ++i)
-		//	{
-		//		// The first byte contains the size of the item
-		//		// struct plus the size byte, which the client
-		//		// memcpys for handling. It's currently unclear
-		//		// why this size byte is necessary, but it's
-		//		// working this way.
-		//		packet.PutByte(22);
+			foreach (var item in items)
+			{
+				// The first byte contains the size of the item
+				// struct plus the size byte, which the client
+				// memcpys for handling. It's currently unclear
+				// why this size byte is necessary, but it's
+				// working this way.
+				packet.PutByte(22);
 
-		//		packet.PutByte(0); // type: 0~2 = item, 3 = etc, 4 = equip
-		//		packet.PutShort((short)(0x1234 + i)); // handle
-		//		packet.PutShort((short)(1 + i)); // amount
-		//		packet.PutString("Red Potion", 16); // name
-		//	}
+				packet.PutByte((byte)item.Type);
+				packet.PutShort((short)item.InventoryId);
+				packet.PutShort((short)item.Amount);
+				packet.PutString(item.StringId, 16);
+			}
 
-		//	character.Connection.Send(packet);
-		//}
+			character.Connection.Send(packet);
+		}
 
-		//public static void ZC_EQUIPMENT_ITEMLIST(PlayerCharacter character)
-		//{
-		//	var packet = new Packet(Op.ZC_EQUIPMENT_ITEMLIST);
+		/// <summary>
+		/// Updates the character's equip inventory tab using the given
+		/// list of items.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="items"></param>
+		public static void ZC_EQUIPMENT_ITEMLIST(PlayerCharacter character, IEnumerable<Item> items)
+		{
+			var packet = new Packet(Op.ZC_EQUIPMENT_ITEMLIST);
 
-		//	for (var i = 0; i < 2; ++i)
-		//	{
-		//		// The first byte contains the size of the item
-		//		// struct plus the size byte, which the client
-		//		// memcpys for handling. It's currently unclear
-		//		// why this size byte is necessary, but it's
-		//		// working.
-		//		packet.PutByte(22);
+			foreach (var item in items)
+			{
+				// The first byte contains the size of the item
+				// struct plus the size byte, which the client
+				// memcpys for handling. It's currently unclear
+				// why this size byte is necessary, but it's
+				// working this way.
+				packet.PutByte(22);
 
-		//		packet.PutByte(4); // type: 0~2 = item, 3 = etc, 4 = equip
-		//		packet.PutByte(2); // equip slot
-		//		packet.PutShort((short)(0x2234 + i)); // handle
-		//		packet.PutByte(0);
-		//		packet.PutString("Dagger", 16); // name
-		//	}
+				packet.PutByte((byte)item.Type);
+				packet.PutByte((byte)item.WearSlots);
+				packet.PutShort((short)item.InventoryId);
+				packet.PutByte((byte)item.EquippedOn);
+				packet.PutString(item.StringId, 16);
+			}
 
-		//	character.Connection.Send(packet);
-		//}
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Response to item drop request, which updates the item stack
+		/// that was changed.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="invId">Inventory id of the item that changed or was dropped.</param>
+		/// <param name="removeAmount">Amount to remove from the item stack. If it reaches 0, the item disappears.</param>
+		public static void ZC_ITEM_THROW_ACK(PlayerCharacter character, int invId, int removeAmount)
+		{
+			var packet = new Packet(Op.ZC_ITEM_THROW_ACK);
+
+			packet.PutShort((short)invId);
+			packet.PutShort((short)removeAmount);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Response to item use request, updates the item's amount.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="invId"></param>
+		/// <param name="newAmount"></param>
+		public static void ZC_USE_ITEM_ACK(PlayerCharacter character, int invId, int newAmount)
+		{
+			var packet = new Packet(Op.ZC_USE_ITEM_ACK);
+
+			packet.PutShort((short)invId);
+			packet.PutShort((short)newAmount);
+			packet.PutByte(true);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Response to equip request, makes character equip the item
+		/// in the given slot.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="invId"></param>
+		/// <param name="equipSlot"></param>
+		public static void ZC_REQ_WEAR_EQUIP_ACK(PlayerCharacter character, int invId, EquipSlots equipSlot)
+		{
+			var packet = new Packet(Op.ZC_REQ_WEAR_EQUIP_ACK);
+
+			packet.PutShort((short)invId);
+			packet.PutByte((byte)equipSlot);
+			packet.PutByte(true);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Response to unequip request, moves the item out of the given
+		/// slot and into the inventory.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="invId"></param>
+		/// <param name="equipSlot"></param>
+		public static void ZC_REQ_TAKEOFF_EQUIP_ACK(PlayerCharacter character, int invId, EquipSlots equipSlot)
+		{
+			var packet = new Packet(Op.ZC_REQ_TAKEOFF_EQUIP_ACK);
+
+			packet.PutShort((short)invId);
+			packet.PutByte((byte)equipSlot);
+			packet.PutByte(true);
+
+			character.Connection.Send(packet);
+		}
 	}
 }

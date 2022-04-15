@@ -70,6 +70,7 @@
     <Compile Include="Scripting\MapScript.cs" />
     <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="World\Entities\Character.cs" />
+    <Compile Include="World\Entities\CharacterComponents\Inventory.cs" />
     <Compile Include="World\Entities\CharacterComponents\Parameters.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />

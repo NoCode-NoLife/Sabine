@@ -91,6 +91,11 @@ namespace Sabine.Zone.World.Entities
 		public Parameters Parameters { get; }
 
 		/// <summary>
+		/// Returns a reference to the character's inventory.
+		/// </summary>
+		public Inventory Inventory { get; }
+
+		/// <summary>
 		/// Gets or sets the character's state.
 		/// </summary>
 		public CharacterState State { get; set; }
@@ -143,6 +148,7 @@ namespace Sabine.Zone.World.Entities
 		public PlayerCharacter()
 		{
 			this.Parameters = new Parameters(this);
+			this.Inventory = new Inventory(this);
 		}
 
 		/// <summary>

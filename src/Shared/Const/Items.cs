@@ -1,0 +1,75 @@
+﻿using System;
+
+namespace Sabine.Shared.Const
+{
+	/// <summary>
+	/// Defines the result of a pickup request.
+	/// </summary>
+	public enum PickUpResult : byte
+	{
+		/// <summary>
+		/// Item was picked up and will be added to the inventory.
+		/// </summary>
+		Okay = 0,
+
+		/// <summary>
+		/// Shows an error saying that the item is not obtainable.
+		/// </summary>
+		CantGet = 1,
+
+		/// <summary>
+		/// Shows an error that the item can't be picked up due to
+		/// the character being above their weight limit.
+		/// </summary>
+		Overweight = 2,
+	}
+
+	/// <summary>
+	/// Specifies an item's type, which affects under which tab it's
+	/// displayed by the client.
+	/// </summary>
+	public enum ItemType : byte
+	{
+		/// <summary>
+		/// Item tab.
+		/// </summary>
+		Item1 = 0,
+
+		/// <summary>
+		/// Item tab.
+		/// </summary>
+		Item2 = 1,
+
+		/// <summary>
+		/// Item tab.
+		/// </summary>
+		Item3 = 2,
+
+		/// <summary>
+		/// Etc tab.
+		/// </summary>
+		Etc = 3,
+
+		/// <summary>
+		/// Equip tab.
+		/// </summary>
+		Equip = 4,
+	}
+
+	/// <summary>
+	/// Specifies the equip slot(s) an item can be equipped on.
+	/// </summary>
+	[Flags]
+	public enum EquipSlots : byte
+	{
+		None = 0x00,
+		Head = 0x01,
+		RightHand = 0x02,
+		Robe = 0x04,
+		Accessory1 = 0x08,
+		Body = 0x10,
+		LeftHand = 0x20,
+		Shoes = 0x40,
+		Accessory2 = 0x80,
+	}
+}
