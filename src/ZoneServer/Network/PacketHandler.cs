@@ -191,6 +191,31 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Request to send a whisper chat message to another character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_WHISPER)]
+		public void CZ_WHISPER(ZoneConnection conn, Packet packet)
+		{
+			var len = packet.GetShort();
+			var targetName = packet.GetString(16);
+			var message = packet.GetString(len - 4 - 16);
+
+			var character = conn.GetCurrentCharacter();
+			var target = ZoneServer.Instance.World.GetPlayerCharacter(a => a.Name == targetName);
+
+			if (target == null)
+			{
+				Send.ZC_ACK_WHISPER(character, WhisperResult.CharacterDoesntExist);
+				return;
+			}
+
+			Send.ZC_WHISPER(target, character.Name, message);
+			Send.ZC_ACK_WHISPER(character, WhisperResult.Okay);
+		}
+
+		/// <summary>
 		/// Request for a character's name when hovering over them.
 		/// </summary>
 		/// <param name="conn"></param>

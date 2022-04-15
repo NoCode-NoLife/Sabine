@@ -399,6 +399,35 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Sends a whisper chat message to character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="fromName"></param>
+		/// <param name="message"></param>
+		public static void ZC_WHISPER(PlayerCharacter character, string fromName, string message)
+		{
+			var packet = new Packet(Op.ZC_WHISPER);
+
+			packet.PutString(fromName, 16);
+			packet.PutString(message);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends a whisper chat message to character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="result"></param>
+		public static void ZC_ACK_WHISPER(PlayerCharacter character, WhisperResult result)
+		{
+			var packet = new Packet(Op.ZC_ACK_WHISPER);
+			packet.PutByte((byte)result);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Broadcasts message on all maps, displayed in the center
 		/// of the game screen.
 		/// </summary>

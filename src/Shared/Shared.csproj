@@ -89,6 +89,7 @@
     <Compile Include="Const\Sex.cs" />
     <Compile Include="Const\Size.cs" />
     <Compile Include="Const\SpriteType.cs" />
+    <Compile Include="Const\WhisperResult.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Db.cs" />
     <Compile Include="Database\MySQL\Commands.cs" />
