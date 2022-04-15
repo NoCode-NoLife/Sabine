@@ -589,6 +589,21 @@ namespace Sabine.Zone.Network
 			character.Connection.Send(packet);
 		}
 
+		/// <summary>
+		/// Makes client close the connection and displays a message
+		/// for why this disconnect was requested.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npcHandle"></param>
+		/// <param name="optionsString"></param>
+		public static void SC_NOTIFY_BAN(ZoneConnection conn, DisconnectReason reason)
+		{
+			var packet = new Packet(Op.SC_NOTIFY_BAN);
+			packet.PutByte((byte)reason);
+
+			conn.Send(packet);
+		}
+
 		//public static void ZC_ITEM_PICKUP_ACK(PlayerCharacter character)
 		//{
 		//	var packet = new Packet(Op.ZC_ITEM_PICKUP_ACK);
