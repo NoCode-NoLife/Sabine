@@ -19,7 +19,7 @@ Sabine is currently only compatible to the ‎alpha client from 2001-08-30.
 Requirements
 -----------------------------------------------------------------------------
 To *run* Sabine, you need
-* .NET 4.8
+* .NET Framework 4.8
 * MySQL 5 compatible database
 
 To *compile* Sabine, you need

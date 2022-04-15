@@ -7,7 +7,7 @@ value as an effect id to spawn a stationary effect. It's possible that
 this was never really used, since some effects seem glitched, but I'll
 still document it.
 
-The alpha client has effect its ranging from 0 to 20, though nothing
+The alpha client has effect ids ranging from 0 to 20, though nothing
 happens for some, while others are missing textures by default, resulting
 in a crash.
 
