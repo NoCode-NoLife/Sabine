@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Sabine.Shared.Const;
 using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
@@ -534,6 +535,30 @@ namespace Sabine.Zone.Network
 			packet.PutString(mapFileName, 16);
 			packet.PutShort((short)pos.X);
 			packet.PutShort((short)pos.Y);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Warps character to the given location and makes the client
+		/// connect to another zone server to continue.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="mapStringId"></param>
+		/// <param name="pos"></param>
+		/// <param name="ip"></param>
+		/// <param name="port"></param>
+		public static void ZC_NPCACK_MAPMOVE(PlayerCharacter character, string mapStringId, Position pos, string ip, int port)
+		{
+			var mapFileName = mapStringId + ".gat";
+
+			var packet = new Packet(Op.ZC_NPCACK_SERVERMOVE);
+
+			packet.PutString(mapFileName, 16);
+			packet.PutShort((short)pos.X);
+			packet.PutShort((short)pos.Y);
+			packet.PutInt(IPAddress.Parse(ip));
+			packet.PutShort((short)port);
 
 			character.Connection.Send(packet);
 		}
