@@ -163,5 +163,36 @@ namespace Sabine.Char.Network
 
 			Send.HC_ACCEPT_MAKECHAR(conn, character);
 		}
+
+		/// <summary>
+		/// Request to delete a character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CH_DELETE_CHAR)]
+		public void CH_DELETE_CHAR(CharConnection conn, Packet packet)
+		{
+			var characterId = packet.GetInt();
+
+			var character = conn.Characters.FirstOrDefault(a => a.Id == characterId);
+			if (character == null)
+			{
+				Send.HC_REFUSE_DELETECHAR(conn);
+				Log.Warning("CH_DELETE_CHAR: User '{0}' tried to selete a non-existing character.", conn.Account.Username);
+				return;
+			}
+
+			var deletedFromDb = CharServer.Instance.Database.RemoveCharacter(character.Id);
+			if (!deletedFromDb)
+			{
+				Send.HC_REFUSE_DELETECHAR(conn);
+				Log.Debug("CH_DELETE_CHAR: Deletion of character '{1}' of user '{0}' failed.", conn.Account.Username, characterId);
+				return;
+			}
+
+			conn.Characters.Remove(character);
+
+			Send.HC_ACCEPT_DELETECHAR(conn);
+		}
 	}
 }

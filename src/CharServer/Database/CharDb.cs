@@ -127,5 +127,21 @@ namespace Sabine.Char.Database
 				character.Id = (int)cmd.LastId;
 			}
 		}
+
+		/// <summary>
+		/// Removes the character with the given id from the database.
+		/// Returns false if character id didn't exist and no characters
+		/// were deleted.
+		/// </summary>
+		/// <param name="characterId"></param>
+		public bool RemoveCharacter(int characterId)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("DELETE FROM `characters` WHERE `characterId` = @characterId", conn))
+			{
+				cmd.AddParameter("@characterId", characterId);
+				return cmd.ExecuteNonQuery() != 0;
+			}
+		}
 	}
 }

@@ -91,5 +91,29 @@ namespace Sabine.Char.Network
 
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Accepts character deletion request, removing it from the
+		/// selectable characters on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void HC_ACCEPT_DELETECHAR(CharConnection conn)
+		{
+			var packet = new Packet(Op.HC_ACCEPT_DELETECHAR);
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Shows an error message for why a character deletion request
+		/// was refused.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void HC_REFUSE_DELETECHAR(CharConnection conn)
+		{
+			var packet = new Packet(Op.HC_REFUSE_DELETECHAR);
+			packet.PutByte(0); // Doesn't seem to do anything.
+
+			conn.Send(packet);
+		}
 	}
 }
