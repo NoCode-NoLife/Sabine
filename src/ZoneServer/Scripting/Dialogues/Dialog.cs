@@ -138,14 +138,21 @@ namespace Sabine.Zone.Scripting.Dialogues
 			Send.ZC_SAY_DIALOG(this.Player, this.Npc.Handle, message);
 		}
 
+		/// <summary>
+		/// Experimental version of Msg that supports paging "&lt;p/&gt;",
+		/// line-breaks "&lt;br/&gt;", and automatically adds the name
+		/// of the NPC as a title.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <returns></returns>
 		public async Task MsgAdv(string message)
 		{
-			var pages = SplitByString("<p/>", message);
+			var pages = message.Split(new string[] { "<p/>" }, StringSplitOptions.None);
 
 			for (var i = 0; i < pages.Length; i++)
 			{
 				var page = pages[i];
-				var paragraphs = SplitByString("<br/>", page);
+				var paragraphs = page.Split(new string[] { "<br/>" }, StringSplitOptions.None);
 
 				this.Msg("[^0000FF{0}^000000]", this.Npc.Name);
 				foreach (var paragraph in paragraphs)
@@ -154,23 +161,6 @@ namespace Sabine.Zone.Scripting.Dialogues
 				//if (i < pages.Length - 1 || pages.Length == 1)
 				await this.Next();
 			}
-		}
-
-		private static string[] SplitByString(string splitter, string str)
-		{
-			var result = new List<string>();
-
-			var last = 0;
-			var index = -1;
-			while ((index = str.IndexOf(splitter, last)) != -1)
-			{
-				result.Add(str.Substring(last, index - last));
-				last = index + splitter.Length;
-			}
-
-			result.Add(str.Substring(last, str.Length - last));
-
-			return result.ToArray();
 		}
 
 		/// <summary>
