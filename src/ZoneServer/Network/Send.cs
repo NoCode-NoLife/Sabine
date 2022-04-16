@@ -684,7 +684,7 @@ namespace Sabine.Zone.Network
 
 		/// <summary>
 		/// Updates the character's item and etc inventory tabs using
-		/// the given list of items.
+		/// the given list of items, filtering it for normal items.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="items"></param>
@@ -694,6 +694,9 @@ namespace Sabine.Zone.Network
 
 			foreach (var item in items)
 			{
+				if (item.Type.IsEquip())
+					continue;
+
 				// The first byte contains the size of the item
 				// struct plus the size byte, which the client
 				// memcpys for handling. It's currently unclear
@@ -712,7 +715,7 @@ namespace Sabine.Zone.Network
 
 		/// <summary>
 		/// Updates the character's equip inventory tab using the given
-		/// list of items.
+		/// list of items, filtering it for equip items.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="items"></param>
@@ -722,6 +725,9 @@ namespace Sabine.Zone.Network
 
 			foreach (var item in items)
 			{
+				if (!item.Type.IsEquip())
+					continue;
+
 				// The first byte contains the size of the item
 				// struct plus the size byte, which the client
 				// memcpys for handling. It's currently unclear

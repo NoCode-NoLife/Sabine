@@ -14,6 +14,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		private readonly object _syncLock = new object();
 
 		private readonly List<Item> _items = new List<Item>();
+		private EquipSlots _occupiedSlots;
 
 		/// <summary>
 		/// Returns the character this inventory belongs to.
@@ -173,6 +174,14 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (!this.ContainsItem(item))
 				throw new ArgumentException("The item must be added to the inventory before it can be equipped.");
 
+			lock (_syncLock)
+			{
+				if ((_occupiedSlots & slots) != 0)
+					throw new ArgumentException($"Other items are already occupying the given slots (Slots: {slots}, Occupied: {_occupiedSlots}).");
+
+				_occupiedSlots |= slots;
+			}
+
 			item.EquippedOn = slots;
 
 			Send.ZC_REQ_WEAR_EQUIP_ACK(this.Character, item.InventoryId, slots);
@@ -190,10 +199,13 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (item.EquippedOn == EquipSlots.None)
 				throw new ArgumentException("The item is not equipped.");
 
-			var slot = item.EquippedOn;
+			var slots = item.EquippedOn;
 			item.EquippedOn = EquipSlots.None;
 
-			Send.ZC_REQ_TAKEOFF_EQUIP_ACK(this.Character, item.InventoryId, slot);
+			lock (_syncLock)
+				_occupiedSlots &= ~slots;
+
+			Send.ZC_REQ_TAKEOFF_EQUIP_ACK(this.Character, item.InventoryId, slots);
 		}
 	}
 }
