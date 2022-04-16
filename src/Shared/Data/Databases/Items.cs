@@ -73,8 +73,8 @@ namespace Sabine.Shared.Data.Databases
 			data.Weight = entry.ReadInt("weight");
 			data.Price = entry.ReadInt("price", 0);
 			data.SellPrice = entry.ReadInt("sell", data.Price / 2);
-			data.Attack = entry.ReadInt("atk", 0);
-			data.Defense = entry.ReadInt("def", 0);
+			data.Attack = entry.ReadInt("attack", 0);
+			data.Defense = entry.ReadInt("defense", 0);
 			data.AttackRange = entry.ReadInt("range", 0);
 			data.JobsAllowed = entry.ReadEnum("jobs", JobFilter.All);
 			data.SexAllowed = entry.ReadEnum("sex", Sex.Any);
