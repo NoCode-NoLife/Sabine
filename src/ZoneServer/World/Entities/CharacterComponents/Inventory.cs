@@ -31,6 +31,21 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Adds item to inventory during loading of a character.
+		/// </summary>
+		/// <param name="item"></param>
+		internal void AddItemInit(Item item)
+		{
+			lock (_syncLock)
+			{
+				item.InventoryId = this.GetNewInventoryId();
+
+				_items.Add(item);
+				_occupiedSlots |= item.EquippedOn;
+			}
+		}
+
+		/// <summary>
 		/// Adds item to inventory and updates client.
 		/// </summary>
 		/// <param name="item"></param>

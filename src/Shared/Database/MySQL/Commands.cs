@@ -46,6 +46,15 @@ namespace Sabine.Shared.Database.MySQL
 		}
 
 		/// <summary>
+		/// Clears the previously defined parameters.
+		/// </summary>
+		public void Clear()
+		{
+			_set.Clear();
+			_mc.Parameters.Clear();
+		}
+
+		/// <summary>
 		/// Executes command.
 		/// </summary>
 		/// <returns></returns>

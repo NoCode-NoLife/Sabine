@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
@@ -101,6 +102,10 @@ namespace Sabine.Zone.Network
 			Send.ZC_PAR_CHANGE(character, ParameterType.SkillPoints);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.BaseExpNeeded);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.JobExpNeeded);
+
+			var items = character.Inventory.GetItems();
+			Send.ZC_NORMAL_ITEMLIST(character, items);
+			Send.ZC_EQUIPMENT_ITEMLIST(character, items);
 		}
 
 		/// <summary>
