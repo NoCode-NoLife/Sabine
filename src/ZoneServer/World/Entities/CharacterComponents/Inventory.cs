@@ -59,8 +59,18 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				if (_items.Contains(item))
 					throw new ArgumentException("The item is already part of this inventory.");
 
-				item.InventoryId = this.GetNewInventoryId();
+				if (item.IsStackable)
+				{
+					var existingStack = _items.FirstOrDefault(a => a.ClassId == item.ClassId);
+					if (existingStack != null)
+					{
+						var addAmount = item.Amount;
+						Send.ZC_ITEM_THROW_ACK(this.Character, existingStack.InventoryId, -addAmount);
+						return;
+					}
+				}
 
+				item.InventoryId = this.GetNewInventoryId();
 				_items.Add(item);
 			}
 

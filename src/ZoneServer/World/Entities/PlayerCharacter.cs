@@ -8,6 +8,7 @@ using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.CharacterComponents;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
+using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
 {
@@ -325,7 +326,11 @@ namespace Sabine.Zone.World.Entities
 					if (entity == this)
 						continue;
 
-					Send.ZC_NOTIFY_STANDENTRY(this, entity);
+					switch (entity)
+					{
+						case ICharacter character: Send.ZC_NOTIFY_STANDENTRY(this, character); break;
+						case Item item: Send.ZC_ITEM_ENTRY(this, item); break;
+					}
 				}
 
 				foreach (var handle in disappeared)
@@ -333,7 +338,10 @@ namespace Sabine.Zone.World.Entities
 					if (handle == this.Handle)
 						continue;
 
-					Send.ZC_NOTIFY_VANISH(this, handle, DisappearType.Vanish);
+					if (handle < 0x6000_0000)
+						Send.ZC_NOTIFY_VANISH(this, handle, DisappearType.Vanish);
+					else
+						Send.ZC_ITEM_DISAPPEAR(this, handle);
 				}
 
 				// To remember the visible entities for the next run we store
@@ -346,6 +354,16 @@ namespace Sabine.Zone.World.Entities
 				_visibleEntities.Clear();
 				_visibleEntities.UnionWith(visibleEntities.Select(a => a.Handle));
 			}
+		}
+
+		/// <summary>
+		/// Adds handle to the character's visible entities.
+		/// </summary>
+		/// <param name="handle"></param>
+		public void MarkVisible(int handle)
+		{
+			lock (_visibilityUpdateSyncLock)
+				_visibleEntities.Add(handle);
 		}
 
 		/// <summary>
@@ -401,6 +419,24 @@ namespace Sabine.Zone.World.Entities
 			}
 
 			Send.ZC_SPRITE_CHANGE(this, type, lookId);
+		}
+
+		/// <summary>
+		/// Drops item in range of the character.
+		/// </summary>
+		/// <param name="item"></param>
+		public void Drop(Item item)
+		{
+			var rnd = RandomProvider.Get();
+			var pos = this.Position;
+
+			pos.X += rnd.Next(-1, 2);
+			pos.Y += rnd.Next(-1, 2);
+
+			item.MapId = this.MapId;
+			item.Position = pos;
+
+			this.Map.AddItem(item);
 		}
 	}
 }

@@ -20,6 +20,7 @@ namespace Sabine.Zone.World.Maps
 	{
 		private readonly Dictionary<int, PlayerCharacter> _characters = new Dictionary<int, PlayerCharacter>();
 		private readonly Dictionary<int, Npc> _npcs = new Dictionary<int, Npc>();
+		private readonly Dictionary<int, Item> _items = new Dictionary<int, Item>();
 		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
 
 		/// <summary>
@@ -131,9 +132,12 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
-		public List<ICharacter> GetVisibleEntities(IEntity entity)
+		public List<IEntity> GetVisibleEntities(IEntity entity)
 		{
-			var result = new List<ICharacter>();
+			var result = new List<IEntity>();
+
+			lock (_items)
+				result.AddRange(_items.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
 
 			lock (_npcs)
 				result.AddRange(_npcs.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
@@ -263,6 +267,66 @@ namespace Sabine.Zone.World.Maps
 		{
 			lock (_npcs)
 				return _npcs.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
+		/// Adds NPC to this map.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public virtual void AddItem(Item item)
+		{
+			lock (_items)
+			{
+				if (_items.ContainsKey(item.Handle))
+					throw new ArgumentException($"An NPC with the id '{item.Handle}' already exists on the map.");
+
+				_items[item.Handle] = item;
+				item.Map = this;
+
+				Send.ZC_ITEM_FALL_ENTRY(item);
+			}
+
+			// Notify characters about the new item, so no additional
+			// entry packets are sent, which would mess with the
+			// drop animation. This could probably be handled better.
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+					character.MarkVisible(item.Handle);
+			}
+		}
+
+		/// <summary>
+		/// Removes NPC from this map.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public virtual void RemoveItem(Item item)
+		{
+			lock (_items)
+			{
+				if (!_items.ContainsKey(item.Handle))
+					throw new ArgumentException($"An item with the id '{item.Handle}' doesn't exists on the map.");
+
+				_items.Remove(item.Handle);
+				item.Map = null;
+			}
+		}
+
+		/// <summary>
+		/// Returns the item with the given handle, or null if it doesn't
+		/// exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Item GetItem(int handle)
+		{
+			lock (_items)
+			{
+				_items.TryGetValue(handle, out var item);
+				return item;
+			}
 		}
 
 		/// <summary>

@@ -550,11 +550,16 @@ namespace Sabine.Zone.Network
 			var itemHandle = packet.GetInt();
 
 			var character = conn.GetCurrentCharacter();
-			//var item = character.Map.GetItem(itemHandle);
+			var item = character.Map.GetItem(itemHandle);
 
-			Log.Debug("CZ_ITEM_PICKUP: 0x{0:X8}", itemHandle);
+			if (item == null)
+			{
+				Log.Debug("CZ_ITEM_PICKUP: User '{0}' tried to pick up a non-existing item.", conn.Account.Username);
+				return;
+			}
 
-			Send.ZC_ITEM_PICKUP_ACK(character, null, PickUpResult.CantGet);
+			item.Map.RemoveItem(item);
+			character.Inventory.AddItem(item);
 		}
 
 		/// <summary>
@@ -569,17 +574,26 @@ namespace Sabine.Zone.Network
 			var amount = packet.GetShort();
 
 			var character = conn.GetCurrentCharacter();
-			//var item = character.Inventory.GetItem(itemInvId);
+			var item = character.Inventory.GetItem(itemInvId);
 
-			//if (item == null)
-			//{
-			//	Log.Debug("CZ_ITEM_THROW: User '{0}' tried to drop an item they don't have.", conn.Account.Username);
-			//	return;
-			//}
+			if (item == null)
+			{
+				Log.Debug("CZ_ITEM_THROW: User '{0}' tried to drop an item they don't have.", conn.Account.Username);
+				return;
+			}
 
-			Log.Debug("CZ_ITEM_THROW: {0}", itemInvId);
+			if (amount <= 0 || amount > item.Amount)
+			{
+				// The client doesn't send a drop request if you put in
+				// a 0 or more than you have.
+				Log.Debug("CZ_ITEM_THROW: User '{0}' tried to drop an invalid amount.", conn.Account.Username);
+				return;
+			}
 
-			Send.ZC_ITEM_THROW_ACK(character, itemInvId, amount);
+			var removedAmount = character.Inventory.DecrementItem(item, amount);
+			var dropItem = new Item(item.ClassId, removedAmount);
+
+			character.Drop(dropItem);
 		}
 
 		/// <summary>
@@ -662,6 +676,30 @@ namespace Sabine.Zone.Network
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_REQ_TAKEOFF_EQUIP)]
 		public void CZ_REQ_TAKEOFF_EQUIP(ZoneConnection conn, Packet packet)
+		{
+			var itemInvId = packet.GetShort();
+
+			var character = conn.GetCurrentCharacter();
+			var item = character.Inventory.GetItem(itemInvId);
+
+			if (item == null)
+			{
+				// See CZ_USE_ITEM about negative responses.
+				Log.Debug("ZC_REQ_TAKEOFF_EQUIP_ACK: User '{0}' tried to unequip an item they don't have.", conn.Account.Username);
+				conn.Close();
+				return;
+			}
+
+			character.Inventory.UnequipItem(item);
+		}
+
+		/// <summary>
+		/// Request to drop an item on the ground.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.ZC_ITEM_THROW_ACK)]
+		public void ZC_ITEM_THROW_ACK(ZoneConnection conn, Packet packet)
 		{
 			var itemInvId = packet.GetShort();
 

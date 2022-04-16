@@ -55,5 +55,21 @@ namespace Sabine.Zone.World.Maps
 		public override void RemoveNpc(Npc npc)
 		{
 		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="item"></param>
+		public override void AddItem(Item item)
+		{
+		}
+
+		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="item"></param>
+		public override void RemoveItem(Item item)
+		{
+		}
 	}
 }

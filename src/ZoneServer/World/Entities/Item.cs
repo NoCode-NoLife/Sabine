@@ -3,13 +3,15 @@ using System.Threading;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
+using Sabine.Shared.World;
+using Sabine.Zone.World.Maps;
 
 namespace Sabine.Zone.World.Entities
 {
 	/// <summary>
 	/// Represents an item, either inside a player's inventory or on a map.
 	/// </summary>
-	public class Item
+	public class Item : IEntity
 	{
 		private static int HandlePool = 0x6000_0000;
 
@@ -61,6 +63,27 @@ namespace Sabine.Zone.World.Entities
 		private int _amount = 1;
 
 		/// <summary>
+		/// Gets or sets the id of the map the item is on, if any.
+		/// </summary>
+		public int MapId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the item's position on the map it's on.
+		/// </summary>
+		public Position Position { get; set; }
+
+		/// <summary>
+		/// Gets or sets a reference to the map the item is on.
+		/// </summary>
+		public Map Map { get; set; }
+
+		/// <summary>
+		/// Returns true if this item is stackable and can have an
+		/// amount greater than 1.
+		/// </summary>
+		public bool IsStackable => !this.Type.IsEquip();
+
+		/// <summary>
 		/// Returns a reference to the item's data entry.
 		/// </summary>
 		public ItemData Data { get; private set; }
@@ -69,9 +92,11 @@ namespace Sabine.Zone.World.Entities
 		/// Creates new item from class id.
 		/// </summary>
 		/// <param name="classId"></param>
-		public Item(int classId)
+		public Item(int classId, int amount = 1)
 		{
 			this.Handle = GetNewHandle();
+			this.Amount = Math.Max(1, amount);
+
 			this.LoadData(classId);
 		}
 

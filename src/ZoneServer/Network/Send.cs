@@ -672,14 +672,14 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ITEM_PICKUP_ACK);
 
-			var wearSlots = item?.WearSlots;
-			if (item != null && !character.CanEquip(item))
+			var wearSlots = item.WearSlots;
+			if (!character.CanEquip(item))
 				wearSlots = EquipSlots.None;
 
-			packet.PutShort((short)item?.InventoryId);
-			packet.PutShort((short)item?.Amount);
-			packet.PutString(item?.StringId, 16);
-			packet.PutByte((byte)item?.Type); // type: 0~2 = item, 3 = etc, 4 = equip
+			packet.PutShort((short)item.InventoryId);
+			packet.PutShort((short)item.Amount);
+			packet.PutString(item.StringId, 16);
+			packet.PutByte((byte)item.Type);
 			packet.PutByte((byte)wearSlots);
 			packet.PutByte((byte)result);
 
@@ -749,6 +749,58 @@ namespace Sabine.Zone.Network
 				packet.PutByte((byte)item.EquippedOn);
 				packet.PutString(item.StringId, 16);
 			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Makes item appear for player, lying on the ground.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		public static void ZC_ITEM_ENTRY(PlayerCharacter character, Item item)
+		{
+			var packet = new Packet(Op.ZC_ITEM_ENTRY);
+
+			packet.PutInt(item.Handle);
+			packet.PutShort((short)item.Position.X);
+			packet.PutShort((short)item.Position.Y);
+			packet.PutShort((short)item.Amount);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutString(item.StringId, 16);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Makes item appear for players around it, dropping to the ground.
+		/// </summary>
+		/// <param name="item"></param>
+		public static void ZC_ITEM_FALL_ENTRY(Item item)
+		{
+			var packet = new Packet(Op.ZC_ITEM_FALL_ENTRY);
+
+			packet.PutInt(item.Handle);
+			packet.PutShort((short)item.Position.X);
+			packet.PutShort((short)item.Position.Y);
+			packet.PutByte(0);
+			packet.PutByte(0);
+			packet.PutShort((short)item.Amount);
+			packet.PutString(item.StringId, 16);
+
+			item.Map.Broadcast(packet, item, BroadcastTargets.All);
+		}
+
+		/// <summary>
+		/// Makes item with given handle disappear for the character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="handle"></param>
+		public static void ZC_ITEM_DISAPPEAR(PlayerCharacter character, int handle)
+		{
+			var packet = new Packet(Op.ZC_ITEM_DISAPPEAR);
+			packet.PutInt(handle);
 
 			character.Connection.Send(packet);
 		}

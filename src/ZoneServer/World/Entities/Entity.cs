@@ -9,6 +9,11 @@ namespace Sabine.Zone.World.Entities
 	public interface IEntity
 	{
 		/// <summary>
+		/// Returns the unique handle that identifies this entity on a map.
+		/// </summary>
+		int Handle { get; }
+
+		/// <summary>
 		/// Returns the id of the map the entity is currently on.
 		/// </summary>
 		int MapId { get; }
