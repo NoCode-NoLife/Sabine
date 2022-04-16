@@ -9,6 +9,7 @@ using Sabine.Shared.Database;
 using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
+using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
@@ -640,6 +641,13 @@ namespace Sabine.Zone.Network
 			{
 				// See CZ_USE_ITEM about negative responses.
 				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item they don't have.", conn.Account.Username);
+				conn.Close();
+				return;
+			}
+
+			if (!character.CanEquip(item))
+			{
+				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item they can't equip.", conn.Account.Username);
 				conn.Close();
 				return;
 			}

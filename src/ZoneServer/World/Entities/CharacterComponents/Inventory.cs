@@ -222,5 +222,33 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 			Send.ZC_REQ_TAKEOFF_EQUIP_ACK(this.Character, item.InventoryId, slots);
 		}
+
+		/// <summary>
+		/// Sends a list of all items to the client again to refresh it,
+		/// particularly the equip items.
+		/// </summary>
+		/// <remarks>
+		/// Since we can't send negative responses to item equip requests
+		/// (see CZ_USE_ITEM handler), we need to be able to tell the
+		/// client to not try to equip items they shouldn't be able to
+		/// equip in the first place. For this purpose we're setting the
+		/// wear slots to 0 for the character when sending the items.
+		/// After a job or level change, however, we need to update that
+		/// information, so the player is able to now equip those items.
+		/// This method simply removes all items from the inventory and
+		/// adds them again. The player doesn't notice and we get what
+		/// we want.
+		/// </remarks>
+		public void RefreshClient()
+		{
+			var character = this.Character;
+			var items = character.Inventory.GetItems();
+
+			foreach (var item in items)
+				Send.ZC_ITEM_THROW_ACK(character, item.InventoryId, item.Amount);
+
+			Send.ZC_EQUIPMENT_ITEMLIST(character, items);
+			Send.ZC_NORMAL_ITEMLIST(character, items);
+		}
 	}
 }

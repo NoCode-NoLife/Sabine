@@ -361,5 +361,28 @@ namespace Sabine.Zone.World.Entities
 				_visibleEntities.Clear();
 			}
 		}
+
+		/// <summary>
+		/// Returns true if the character is able to equip the given item,
+		/// based on its level and job requirements.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool CanEquip(Item item)
+		{
+			if (item.Data.SexAllowed != Sex.Any && item.Data.SexAllowed != this.Sex)
+				return false;
+
+			// There's no mention of required levels in the GameFAQs
+			// alpha guide. Did they not exist? Maybe finding enough
+			// Zeny was challenge enough?
+			if (this.Parameters.BaseLevel < item.Data.RequiredLevel)
+				return false;
+
+			if (!this.JobId.Matches(item.Data.JobsAllowed))
+				return false;
+
+			return true;
+		}
 	}
 }

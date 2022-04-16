@@ -672,11 +672,15 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ITEM_PICKUP_ACK);
 
-			packet.PutShort((short)item?.InventoryId); // NOT HANDLE!?
+			var wearSlots = item?.WearSlots;
+			if (item != null && !character.CanEquip(item))
+				wearSlots = EquipSlots.None;
+
+			packet.PutShort((short)item?.InventoryId);
 			packet.PutShort((short)item?.Amount);
 			packet.PutString(item?.StringId, 16);
 			packet.PutByte((byte)item?.Type); // type: 0~2 = item, 3 = etc, 4 = equip
-			packet.PutByte((byte)item?.WearSlots);
+			packet.PutByte((byte)wearSlots);
 			packet.PutByte((byte)result);
 
 			character.Connection.Send(packet);
@@ -728,6 +732,10 @@ namespace Sabine.Zone.Network
 				if (!item.Type.IsEquip())
 					continue;
 
+				var wearSlots = item.WearSlots;
+				if (!character.CanEquip(item))
+					wearSlots = EquipSlots.None;
+
 				// The first byte contains the size of the item
 				// struct plus the size byte, which the client
 				// memcpys for handling. It's currently unclear
@@ -736,7 +744,7 @@ namespace Sabine.Zone.Network
 				packet.PutByte(22);
 
 				packet.PutByte((byte)item.Type);
-				packet.PutByte((byte)item.WearSlots);
+				packet.PutByte((byte)wearSlots);
 				packet.PutShort((short)item.InventoryId);
 				packet.PutByte((byte)item.EquippedOn);
 				packet.PutString(item.StringId, 16);
