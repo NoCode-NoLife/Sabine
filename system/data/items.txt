@@ -5,17 +5,17 @@
 [
 // Healing
 //---------------------------------------------------------------------------
-{ id: 501, name: "Red_Potion", koreanName: "빨간물약", type: "Healing", weight: 70, price: 50 },
-{ id: 502, name: "Scarlet_Potion", koreanName: "주홍물약", type: "Healing", weight: 100, price: 200 },
-{ id: 503, name: "Yellow_Potion", koreanName: "노란물약", type: "Healing", weight: 130, price: 550 },
-{ id: 504, name: "White_Potion", koreanName: "하얀물약", type: "Healing", weight: 150, price: 1200 },
-{ id: 505, name: "Blue_Potion", koreanName: "파란물약", type: "Healing", weight: 150, price: 5000 },
+{ id: 501, name: "Red_Potion", koreanName: "빨간물약", type: "Healing", weight: 70, price: 60 },
+{ id: 502, name: "Scarlet_Potion", koreanName: "주홍물약", type: "Healing", weight: 100, price: 180 },
+{ id: 503, name: "Yellow_Potion", koreanName: "노란물약", type: "Healing", weight: 130, price: 500 },
+{ id: 504, name: "White_Potion", koreanName: "하얀물약", type: "Healing", weight: 150, price: 1000 },
+{ id: 505, name: "Blue_Potion", koreanName: "파란물약", type: "Healing", weight: 150, price: 2000 },
 { id: 506, name: "Green_Potion", koreanName: "초록물약", type: "Healing", weight: 70, price: 40 },
-{ id: 507, name: "Red_Herb", koreanName: "빨간약초", type: "Healing", weight: 30, price: 18 },
-{ id: 508, name: "Yellow_Herb", koreanName: "노란약초", type: "Healing", weight: 50, price: 40 },
-{ id: 509, name: "White_Herb", koreanName: "하얀약초", type: "Healing", weight: 70, price: 120 },
+{ id: 507, name: "Red_Herb", koreanName: "빨간약초", type: "Healing", weight: 30, price: 10 },
+{ id: 508, name: "Yellow_Herb", koreanName: "노란약초", type: "Healing", weight: 50, price: 50 },
+{ id: 509, name: "White_Herb", koreanName: "하얀약초", type: "Healing", weight: 70, price: 100 },
 { id: 510, name: "Blue_Herb", koreanName: "파란약초", type: "Healing", weight: 70, price: 60 },
-{ id: 511, name: "Green_Herb", koreanName: "초록약초", type: "Healing", weight: 30, price: 10 },
+{ id: 511, name: "Green_Herb", koreanName: "초록약초", type: "Healing", weight: 30, price: 20 },
 { id: 512, name: "Apple", koreanName: "사과", type: "Healing", weight: 20, price: 15 },
 { id: 513, name: "Banana", koreanName: "바나나", type: "Healing", weight: 20, price: 15 },
 { id: 514, name: "Grape", koreanName: "포도", type: "Healing", weight: 20, price: 200 },
@@ -140,7 +140,7 @@
 
 // Etc
 //---------------------------------------------------------------------------
-{ id: 902, name: "Tree_Root", koreanName: "나무뿌리", type: "Etc", weight: 10, price: 16 },
+{ id: 902, name: "Tree_Root", koreanName: "나무뿌리", type: "Etc", weight: 10, price: 46 },
 { id: 903, name: "Tongue_of_Reptiles", koreanName: "파충류혓바닥", type: "Etc", weight: 10, price: 50 },
 { id: 904, name: "Tail_of_scorpions", koreanName: "전갈의꼬리", type: "Etc", weight: 10, price: 130 },
 { id: 905, name: "Trunk", koreanName: "식물의줄기", type: "Etc", weight: 10, price: 80 },
