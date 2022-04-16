@@ -384,5 +384,23 @@ namespace Sabine.Zone.World.Entities
 
 			return true;
 		}
+
+		/// <summary>
+		/// Changes the character's look and updates the client.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="lookId"></param>
+		public void ChangeLook(SpriteType type, int lookId)
+		{
+			switch (type)
+			{
+				case SpriteType.Hair: this.HairId = lookId; break;
+				case SpriteType.Weapon: this.WeaponId = lookId; break;
+				default:
+					throw new ArgumentException($"Unsupported type '{type}'.");
+			}
+
+			Send.ZC_SPRITE_CHANGE(this, type, lookId);
+		}
 	}
 }

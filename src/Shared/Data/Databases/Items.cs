@@ -25,7 +25,7 @@ namespace Sabine.Shared.Data.Databases
 		public EquipSlots WearSlots { get; set; }
 		public int RequiredLevel { get; set; }
 		public int WeaponLevel { get; set; }
-		public int ViewId { get; set; }
+		public int LookId { get; set; }
 	}
 
 	/// <summary>
@@ -81,7 +81,7 @@ namespace Sabine.Shared.Data.Databases
 			data.WearSlots = entry.ReadEnum("equip", EquipSlots.None);
 			data.RequiredLevel = entry.ReadInt("equipLevel", 0);
 			data.WeaponLevel = entry.ReadInt("weaponLevel", 0);
-			data.ViewId = entry.ReadInt("look", 0);
+			data.LookId = entry.ReadInt("look", 0);
 
 			this.AddOrReplace(data.ClassId, data);
 		}

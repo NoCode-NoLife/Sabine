@@ -42,6 +42,9 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 				_items.Add(item);
 				_occupiedSlots |= item.EquippedOn;
+
+				if ((item.EquippedOn & EquipSlots.RightHand) != 0)
+					this.Character.WeaponId = item.Data.LookId;
 			}
 		}
 
@@ -200,6 +203,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			item.EquippedOn = slots;
 
 			Send.ZC_REQ_WEAR_EQUIP_ACK(this.Character, item.InventoryId, slots);
+
+			this.OnEquippedItem(item, slots);
 		}
 
 		/// <summary>
@@ -221,6 +226,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				_occupiedSlots &= ~slots;
 
 			Send.ZC_REQ_TAKEOFF_EQUIP_ACK(this.Character, item.InventoryId, slots);
+
+			this.OnUnequippedItem(item, slots);
 		}
 
 		/// <summary>
@@ -249,6 +256,28 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 			Send.ZC_EQUIPMENT_ITEMLIST(character, items);
 			Send.ZC_NORMAL_ITEMLIST(character, items);
+		}
+
+		/// <summary>
+		/// Called when the player equipped an item.
+		/// </summary>
+		/// <param name="item">The item that was equipped.</param>
+		/// <param name="slots">The slot(s) the item was equipped on.</param>
+		private void OnEquippedItem(Item item, EquipSlots slots)
+		{
+			if ((slots & EquipSlots.RightHand) != 0)
+				this.Character.ChangeLook(SpriteType.Weapon, item.Data.LookId);
+		}
+
+		/// <summary>
+		/// Called when the player unequipped an item.
+		/// </summary>
+		/// <param name="item">The item that was unequipped.</param>
+		/// <param name="slots">The slot(s) the item was unequipped from.</param>
+		private void OnUnequippedItem(Item item, EquipSlots slots)
+		{
+			if ((slots & EquipSlots.RightHand) != 0)
+				this.Character.ChangeLook(SpriteType.Weapon, 0);
 		}
 	}
 }
