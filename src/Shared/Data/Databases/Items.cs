@@ -72,7 +72,7 @@ namespace Sabine.Shared.Data.Databases
 			data.Type = entry.ReadEnum<ItemType>("type");
 			data.Weight = entry.ReadInt("weight");
 			data.Price = entry.ReadInt("price", 0);
-			data.SellPrice = entry.ReadInt("sell", 0);
+			data.SellPrice = entry.ReadInt("sell", data.Price / 2);
 			data.Attack = entry.ReadInt("atk", 0);
 			data.Defense = entry.ReadInt("def", 0);
 			data.AttackRange = entry.ReadInt("range", 0);
