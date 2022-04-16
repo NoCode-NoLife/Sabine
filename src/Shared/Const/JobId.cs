@@ -9,7 +9,7 @@ namespace Sabine.Shared.Const
 	{
 		Novice = 0,
 		Swordman = 1,
-		Magician = 2,
+		Mage = 2,
 		Archer = 3,
 		Acolyte = 4,
 		Merchant = 5,
@@ -24,7 +24,7 @@ namespace Sabine.Shared.Const
 	{
 		Novice = 0x01,
 		Swordman = 0x02,
-		Magician = 0x04,
+		Mage = 0x04,
 		Archer = 0x08,
 		Acolyte = 0x10,
 		Merchant = 0x20,
