@@ -33,7 +33,7 @@ namespace Sabine.Shared.Const
 		/// <summary>
 		/// Item tab.
 		/// </summary>
-		Item1 = 0,
+		Healing = 0,
 
 		/// <summary>
 		/// Item tab.
@@ -43,7 +43,7 @@ namespace Sabine.Shared.Const
 		/// <summary>
 		/// Item tab.
 		/// </summary>
-		Item3 = 2,
+		Usable = 2,
 
 		/// <summary>
 		/// Etc tab.
@@ -53,7 +53,12 @@ namespace Sabine.Shared.Const
 		/// <summary>
 		/// Equip tab.
 		/// </summary>
-		Equip = 4,
+		Weapon = 4,
+
+		/// <summary>
+		/// Equip tab.
+		/// </summary>
+		Armor = 5,
 	}
 
 	/// <summary>
@@ -73,5 +78,21 @@ namespace Sabine.Shared.Const
 		Accessory2 = 0x80,
 		//HeadUpper = 0x100,
 		//HeadMiddle = 0x200,
+	}
+
+	/// <summary>
+	/// Extension for item enums.
+	/// </summary>
+	public static class ItemConstExtensions
+	{
+		/// <summary>
+		/// Returns true if the type is an equip type.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public static bool IsEquip(this ItemType type)
+		{
+			return type >= ItemType.Weapon;
+		}
 	}
 }

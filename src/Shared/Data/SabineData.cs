@@ -8,6 +8,11 @@ namespace Sabine.Shared.Data
 	public static class SabineData
 	{
 		/// <summary>
+		/// db/items.txt
+		/// </summary>
+		public static ItemDb Items { get; } = new ItemDb();
+
+		/// <summary>
 		/// db/map_cache.dat
 		/// </summary>
 		public static MapCacheDb MapCache { get; } = new MapCacheDb();
