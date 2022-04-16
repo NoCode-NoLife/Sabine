@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
@@ -326,13 +327,13 @@ namespace Sabine.Zone.Network
 			var itemStringId = packet.GetString(16);
 
 			var character = conn.GetCurrentCharacter();
-			//var itemData = SabineData.Items.Find(itemStringId);
+			var itemData = SabineData.Items.Find(itemStringId);
 
-			//if (itemData == null)
-			//{
-			//	Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item data for '{0}' not found.", itemStringId);
-			//	return;
-			//}
+			if (itemData == null)
+			{
+				Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item data for '{0}' not found.", itemStringId);
+				return;
+			}
 
 			// The client usually identifies items by their string id
 			// and converts that to a Korean name to find the assets
@@ -344,8 +345,44 @@ namespace Sabine.Zone.Network
 			// we need to send back the Korean name in this instance.
 			// The title of the item description window will be mangled
 			// this way, but that's how it has to be.
+			var name = itemData.KoreanName;
 
-			Send.ZC_REQ_ITEM_EXPLANATION_ACK(character, "나이프", "Foobar!^ffffff_______^000000Heals 9001 HP.");
+			// Generate a description. We could put proper descriptions
+			// in a database, but this should work for now and it's kind
+			// of fun that you can just generate them. It would be good
+			// if someone could tell us what descriptions looked liked
+			// in the alpha, because the client seems to not have
+			// supported line-breaks.
+			var sb = new StringBuilder();
+
+			switch (itemData.Type)
+			{
+				case ItemType.Weapon:
+				{
+					sb.AppendFormat("Attack:^777777 {0}^000000", itemData.Attack);
+					sb.AppendFormat(", Weight:^777777 {0:0.#}^000000", itemData.Weight / 10f);
+					sb.AppendFormat(", Weapon Level:^777777 {0}^000000", itemData.WeaponLevel);
+					sb.AppendFormat(", Required Level:^777777 {0}^000000", itemData.RequiredLevel);
+					sb.AppendFormat(", Jobs:^777777 {0}^000000", itemData.JobsAllowed);
+					break;
+				}
+				case ItemType.Armor:
+				{
+					sb.AppendFormat(", Defense:^777777 {0}^000000", itemData.Defense);
+					sb.AppendFormat(", Weight:^777777 {0:0.#}^000000", itemData.Weight / 10f);
+					sb.AppendFormat(", Weapon Level:^777777 {0}^000000", itemData.WeaponLevel);
+					sb.AppendFormat(", Required Level:^777777 {0}^000000", itemData.RequiredLevel);
+					sb.AppendFormat(", Jobs:^777777 {0}^000000", itemData.JobsAllowed);
+					break;
+				}
+				default:
+				{
+					sb.AppendFormat("Weight:^777777 {0:0.#}^000000", itemData.Weight / 10f);
+					break;
+				}
+			}
+
+			Send.ZC_REQ_ITEM_EXPLANATION_ACK(character, name, sb.ToString());
 		}
 
 		/// <summary>
