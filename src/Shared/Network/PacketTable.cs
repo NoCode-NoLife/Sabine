@@ -52,7 +52,7 @@ namespace Sabine.Shared.Network
 			Register(Op.ZC_STOPMOVE, 0x0024, 10);
 			Register(Op.CZ_REQUEST_ACT, 0x0025, 7);
 			Register(Op.ZC_NOTIFY_ACT, 0x0026, 17);
-			Register(Op.CZ_REQUEST_CHAT, -1);
+			Register(Op.CZ_REQUEST_CHAT, 0x0027, -1);
 			Register(Op.ZC_NOTIFY_CHAT, 0x0028, -1);
 			Register(Op.ZC_NOTIFY_PLAYERCHAT, 0x0029, -1);
 			Register(Op.CZ_CONTACTNPC, 0x002B, 7);
