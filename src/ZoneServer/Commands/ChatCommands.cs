@@ -38,6 +38,7 @@ namespace Sabine.Zone.Commands
 			this.Add("warp", "<map> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
 			this.Add("spawn", "<monster id|name>", Localization.Get("Spawns monsters."), this.Spawn);
 			this.Add("stat", "<str|agi|vit|int|dex|luck|stp|skp> <modifier>", Localization.Get("Modifies the character's stats."), this.Stat);
+			this.Add("item", "<item> [amount]", Localization.Get("Spawns item for character."), this.Item);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -430,6 +431,58 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Stat {0} has been modified by {1}."), type, modifier);
 			if (sender != target)
 				target.ServerMessage(Localization.Get("{0} has modified your stats."), sender.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Adds item to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Item(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+				return CommandResult.InvalidArgument;
+
+			var itemIdent = args.Get(0);
+
+			if (!int.TryParse(itemIdent, out var classId))
+			{
+				if (!SabineData.Items.TryFind(itemIdent, out var itemData))
+				{
+					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemIdent);
+					return CommandResult.Okay;
+				}
+
+				classId = itemData.ClassId;
+			}
+
+			if (!SabineData.Items.TryFind(classId, out _))
+			{
+				sender.ServerMessage(Localization.Get("Item with id '{0}' not found."), classId);
+				return CommandResult.Okay;
+			}
+
+			var amount = 1;
+			if (args.Count > 1)
+			{
+				if (!int.TryParse(args.Get(1), out amount))
+					return CommandResult.InvalidArgument;
+			}
+
+			var item = new Item(classId);
+			item.Amount = Math.Max(1, amount);
+
+			target.Inventory.AddItem(item);
+
+			sender.ServerMessage(Localization.Get("Item '{0}' was added to inventory."), item.Data.Name);
+			if (target != sender)
+				target.ServerMessage(Localization.Get("{0} added item '{1}' to your inventory."), sender.Name, item.Data.Name);
 
 			return CommandResult.Okay;
 		}
