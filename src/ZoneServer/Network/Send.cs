@@ -718,6 +718,32 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Opens storage window if it's not open yet and fills it with
+		/// the given items, filtering for non-equip.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="items"></param>
+		public static void ZC_STORE_NORMAL_ITEMLIST(PlayerCharacter character, IEnumerable<Item> items)
+		{
+			var packet = new Packet(Op.ZC_STORE_NORMAL_ITEMLIST);
+
+			foreach (var item in items)
+			{
+				if (item.Type.IsEquip())
+					continue;
+
+				packet.PutByte(22);
+
+				packet.PutByte((byte)item.Type);
+				packet.PutShort((short)item.InventoryId);
+				packet.PutShort((short)item.Amount);
+				packet.PutString(item.StringId, 16);
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates the character's equip inventory tab using the given
 		/// list of items, filtering it for equip items.
 		/// </summary>
@@ -741,6 +767,37 @@ namespace Sabine.Zone.Network
 				// memcpys for handling. It's currently unclear
 				// why this size byte is necessary, but it's
 				// working this way.
+				packet.PutByte(22);
+
+				packet.PutByte((byte)item.Type);
+				packet.PutByte((byte)wearSlots);
+				packet.PutShort((short)item.InventoryId);
+				packet.PutByte((byte)item.EquippedOn);
+				packet.PutString(item.StringId, 16);
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Opens storage window if it's not open yet and fills it with
+		/// the given items, filtering for equip.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="items"></param>
+		public static void ZC_STORE_EQUIPMENT_ITEMLIST(PlayerCharacter character, IEnumerable<Item> items)
+		{
+			var packet = new Packet(Op.ZC_STORE_EQUIPMENT_ITEMLIST);
+
+			foreach (var item in items)
+			{
+				if (!item.Type.IsEquip())
+					continue;
+
+				var wearSlots = item.WearSlots;
+				if (!character.CanEquip(item))
+					wearSlots = EquipSlots.None;
+
 				packet.PutByte(22);
 
 				packet.PutByte((byte)item.Type);
@@ -872,6 +929,17 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)equipSlot);
 			packet.PutByte(true);
 
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Response to storage closing notification. Closes the storage
+		/// window on the character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CLOSE_STORE(PlayerCharacter character)
+		{
+			var packet = new Packet(Op.ZC_CLOSE_STORE);
 			character.Connection.Send(packet);
 		}
 	}

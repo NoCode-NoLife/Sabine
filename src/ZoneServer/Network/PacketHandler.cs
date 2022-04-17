@@ -716,5 +716,17 @@ namespace Sabine.Zone.Network
 
 			character.Inventory.UnequipItem(item);
 		}
+
+		/// <summary>
+		/// Notification that the player wants to close the storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CLOSE_STORE)]
+		public void CZ_CLOSE_STORE(ZoneConnection conn, Packet packet)
+		{
+			packet = new Packet(Op.ZC_CLOSE_STORE);
+			conn.Send(packet);
+		}
 	}
 }
