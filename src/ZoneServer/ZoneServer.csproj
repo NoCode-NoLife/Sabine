@@ -84,6 +84,9 @@
     <Compile Include="World\Maps\MapManager.cs" />
     <Compile Include="World\Maps\PathFinding\HercPathFinder.cs" />
     <Compile Include="World\Maps\PathFinding\PathFinder.cs" />
+    <Compile Include="World\Shops\NpcShop.cs" />
+    <Compile Include="World\Shops\ShopItem.cs" />
+    <Compile Include="World\Shops\ShopOpenType.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
     <Compile Include="Network\ZoneConnection.cs" />

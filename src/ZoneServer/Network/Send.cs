@@ -9,6 +9,7 @@ using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
 using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Shops;
 
 namespace Sabine.Zone.Network
 {
@@ -744,6 +745,54 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Sends a list of purchasable items to the character's client,
+		/// making it open a window where the player can do so.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="items"></param>
+		public static void ZC_PC_PURCHASE_ITEMLIST(PlayerCharacter character, IEnumerable<ShopItem> items)
+		{
+			var packet = new Packet(Op.ZC_PC_PURCHASE_ITEMLIST);
+
+			foreach (var item in items)
+			{
+				packet.PutInt(item.Price);
+				packet.PutByte(0);
+				packet.PutString(item.StringId, 16);
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends a list of items the character can sell to the client,
+		/// making it open a window where the player can do so.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="items"></param>
+		public static void ZC_PC_SELL_ITEMLIST(PlayerCharacter character, IEnumerable<Item> items)
+		{
+			var packet = new Packet(Op.ZC_PC_SELL_ITEMLIST);
+
+			foreach (var item in items)
+			{
+				// The client halves the price sent here, so we have
+				// to multiply our sell price to get it to display the
+				// correct amount. We could also send the buy price,
+				// but that would potentially cause unexpected behavior
+				// if someone were to set a selling price for an item
+				// that's not half of the buy price.
+
+				var sellPrice = item.Data.SellPrice * 2;
+
+				packet.PutShort((short)item.InventoryId);
+				packet.PutInt(sellPrice);
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates the character's equip inventory tab using the given
 		/// list of items, filtering it for equip items.
 		/// </summary>
@@ -940,6 +989,19 @@ namespace Sabine.Zone.Network
 		public static void ZC_CLOSE_STORE(PlayerCharacter character)
 		{
 			var packet = new Packet(Op.ZC_CLOSE_STORE);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Shows menu to select whether to buy or sell items.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npcHandle"></param>
+		public static void ZC_SELECT_DEALTYPE(PlayerCharacter character, int npcHandle)
+		{
+			var packet = new Packet(Op.ZC_SELECT_DEALTYPE);
+			packet.PutInt(npcHandle);
+
 			character.Connection.Send(packet);
 		}
 	}

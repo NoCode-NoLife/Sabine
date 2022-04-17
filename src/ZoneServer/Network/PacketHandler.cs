@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,7 @@ using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Shops;
 using Yggdrasil.Logging;
 
 namespace Sabine.Zone.Network
@@ -725,8 +728,142 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_CLOSE_STORE)]
 		public void CZ_CLOSE_STORE(ZoneConnection conn, Packet packet)
 		{
-			packet = new Packet(Op.ZC_CLOSE_STORE);
-			conn.Send(packet);
+			var character = conn.GetCurrentCharacter();
+			Send.ZC_CLOSE_STORE(character);
+		}
+
+		/// <summary>
+		/// Response to server's query about whether the player wants to
+		/// buy or sell items.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ACK_SELECT_DEALTYPE)]
+		public void CZ_ACK_SELECT_DEALTYPE(ZoneConnection conn, Packet packet)
+		{
+			var handle = packet.GetInt();
+			var option = (ShopActionType)packet.GetByte();
+
+			var character = conn.GetCurrentCharacter();
+			var shop = character.Vars.Temp.Get("Sabine.CurrentShop") as NpcShop;
+
+			if (shop == null)
+			{
+				Log.Warning("CZ_ACK_SELECT_DEALTYPE: User '{0}' tried to open a shop without one being active.", conn.Account.Username);
+				return;
+			}
+
+			if (option == ShopActionType.Buy)
+			{
+				var items = shop.GetItems();
+				Send.ZC_PC_PURCHASE_ITEMLIST(character, items);
+			}
+			else
+			{
+				var items = character.Inventory.GetItems();
+				Send.ZC_PC_SELL_ITEMLIST(character, items);
+			}
+		}
+
+		/// <summary>
+		/// Request to buy items from a shop.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PC_PURCHASE_ITEMLIST)]
+		public void CZ_PC_PURCHASE_ITEMLIST(ZoneConnection conn, Packet packet)
+		{
+			var character = conn.GetCurrentCharacter();
+			var shop = character.Vars.Temp.Get("Sabine.CurrentShop") as NpcShop;
+			var zenyCost = 0;
+
+			var len = packet.GetShort();
+
+			var count = (len - 4) / 18;
+			var buyItems = new Dictionary<ShopItem, int>();
+
+			for (var i = 0; i < count; ++i)
+			{
+				var amount = packet.GetShort();
+				var stringId = packet.GetString(16);
+
+				var item = shop.GetItem(stringId);
+				if (item == null)
+				{
+					Log.Warning("CZ_PC_PURCHASE_ITEMLIST: User '{0}' tried to buy an item that doesn't exist in the shop.", conn.Account.Username);
+					return;
+				}
+
+				buyItems[item] = amount;
+				zenyCost += item.Price * amount;
+			}
+
+			if (character.Parameters.Zeny < zenyCost)
+			{
+				Log.Debug("CZ_PC_PURCHASE_ITEMLIST: User '{0}' didn't have enough money to buy the selected items.", conn.Account.Username);
+				return;
+			}
+
+			foreach (var entry in buyItems)
+			{
+				var shopItem = entry.Key;
+				var amount = entry.Value;
+
+				var newItem = new Item(shopItem.ClassId, amount);
+				character.Inventory.AddItem(newItem);
+			}
+
+			character.Parameters.Modify(ParameterType.Zeny, -zenyCost);
+		}
+
+		/// <summary>
+		/// Request to sell items to a shop.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PC_SELL_ITEMLIST)]
+		public void CZ_PC_SELL_ITEMLIST(ZoneConnection conn, Packet packet)
+		{
+			var character = conn.GetCurrentCharacter();
+
+			var len = packet.GetShort();
+
+			var count = (len - 4) / 4;
+			var sellItems = new Dictionary<Item, int>();
+
+			for (var i = 0; i < count; ++i)
+			{
+				var invId = packet.GetShort();
+				var amount = packet.GetShort();
+
+				var item = character.Inventory.GetItem(invId);
+				if (item == null)
+				{
+					Log.Warning("CZ_PC_SELL_ITEMLIST: User '{0}' tried to sell an item they don't have.", conn.Account.Username);
+					return;
+				}
+
+				if (item.Amount < amount)
+				{
+					Log.Warning("CZ_PC_SELL_ITEMLIST: User '{0}' tried to sell more items than they have.", conn.Account.Username);
+					return;
+				}
+
+				sellItems[item] = amount;
+			}
+
+			var gainZeny = 0;
+
+			foreach (var entry in sellItems)
+			{
+				var item = entry.Key;
+				var amount = entry.Value;
+
+				character.Inventory.DecrementItem(item, amount);
+				gainZeny += item.Data.SellPrice * amount;
+			}
+
+			character.Parameters.Modify(ParameterType.Zeny, gainZeny);
 		}
 	}
 }

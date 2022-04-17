@@ -249,6 +249,21 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the NPC with the given handle, or null if it doesn't
+		/// exist.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public Npc GetNpc(int handle)
+		{
+			lock (_npcs)
+			{
+				_npcs.TryGetValue(handle, out var npc);
+				return npc;
+			}
+		}
+
+		/// <summary>
 		/// Returns a list of all NPCs on this map.
 		/// </summary>
 		/// <returns></returns>

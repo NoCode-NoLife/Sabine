@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Shops;
 using Yggdrasil.Logging;
 
 namespace Sabine.Zone.Scripting.Dialogues
@@ -255,6 +256,44 @@ namespace Sabine.Zone.Scripting.Dialogues
 		{
 			Send.ZC_CLOSE_DIALOG(this.Player, this.Npc.Handle);
 			throw new OperationCanceledException("Dialog closed by script.");
+		}
+
+		/// <summary>
+		/// Opens the shop for the player.
+		/// </summary>
+		/// <param name="shopName">Name of the shop to open.</param>
+		/// <param name="type">Whether to show the buy/sell selection or go straight to one of them.</param>
+		/// <exception cref="ArgumentException"></exception>
+		public void OpenShop(string shopName, ShopOpenType type = ShopOpenType.BuyAndSell)
+		{
+			if (!ZoneServer.Instance.World.NpcShops.TryGet(shopName, out var shop))
+				throw new ArgumentException($"Shop '{shopName}' not found.");
+
+			switch (type)
+			{
+				case ShopOpenType.BuyAndSell:
+				{
+					Send.ZC_SELECT_DEALTYPE(this.Player, this.Npc.Handle);
+					break;
+				}
+				case ShopOpenType.BuyOnly:
+				{
+					var items = shop.GetItems();
+					Send.ZC_PC_PURCHASE_ITEMLIST(this.Player, items);
+					break;
+				}
+				case ShopOpenType.SellOnly:
+				{
+					// TODO: Check for sellability?
+					var items = this.Player.Inventory.GetItems();
+					Send.ZC_PC_SELL_ITEMLIST(this.Player, items);
+					break;
+				}
+			}
+
+			this.Player.Vars.Temp.Set("Sabine.CurrentShop", shop);
+
+			this.Close();
 		}
 	}
 

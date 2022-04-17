@@ -88,6 +88,7 @@
     <Compile Include="Const\ParameterType.cs" />
     <Compile Include="Const\RaceType.cs" />
     <Compile Include="Const\Sex.cs" />
+    <Compile Include="Const\ShopActionType.cs" />
     <Compile Include="Const\Size.cs" />
     <Compile Include="Const\SpriteType.cs" />
     <Compile Include="Const\WhisperResult.cs" />

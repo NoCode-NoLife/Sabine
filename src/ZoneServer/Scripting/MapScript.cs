@@ -2,6 +2,7 @@
 using Sabine.Shared.World;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Shops;
 using Yggdrasil.Scripting;
 
 namespace Sabine.Zone.Scripting
@@ -75,6 +76,26 @@ namespace Sabine.Zone.Scripting
 			npc.Warp(from);
 
 			return npc;
+		}
+
+		/// <summary>
+		/// Creates shop and returns it. It can be filled via the callback
+		/// function or with the returned object.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="creationFunc"></param>
+		/// <returns></returns>
+		protected NpcShop AddShop(string name, Action<NpcShop> creationFunc = null)
+		{
+			var shop = new NpcShop(name);
+			creationFunc?.Invoke(shop);
+
+			if (ZoneServer.Instance.World.NpcShops.ContainsKey(name))
+				throw new ArgumentException($"A shop with the name '{name}' already exists.");
+
+			ZoneServer.Instance.World.NpcShops.Add(name, shop);
+
+			return shop;
 		}
 
 		/// <summary>

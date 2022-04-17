@@ -3,6 +3,8 @@ using System.Linq;
 using Sabine.Shared.Data;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Maps;
+using Sabine.Zone.World.Shops;
+using Yggdrasil.Collections;
 
 namespace Sabine.Zone.World
 {
@@ -20,6 +22,11 @@ namespace Sabine.Zone.World
 		/// The world's heartbeast, which controls timed events.
 		/// </summary>
 		public Heartbeat Heartbeat { get; } = new Heartbeat();
+
+		/// <summary>
+		/// Returns a reference to a collection of NPC shops in the world.
+		/// </summary>
+		public Collection<string, NpcShop> NpcShops { get; } = new Collection<string, NpcShop>();
 
 		/// <summary>
 		/// Loads world and its maps.
@@ -91,6 +98,8 @@ namespace Sabine.Zone.World
 		/// </summary>
 		public void RemoveScriptedEntities()
 		{
+			this.NpcShops.Clear();
+
 			// Yes, this is inefficient, but do we really care, with how
 			// rare script reloads are?
 			foreach (var map in this.Maps.GetAll())

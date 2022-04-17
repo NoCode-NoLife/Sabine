@@ -252,7 +252,12 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Gets or sets how many Zeny the character has.
 		/// </summary>
-		public int Zeny { get; set; }
+		public int Zeny
+		{
+			get => _zeny;
+			set { _zeny = Math.Max(0, value); }
+		}
+		private int _zeny = 0;
 
 		/// <summary>
 		/// Returns the value for the given stat.
@@ -315,6 +320,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.Luk: newValue = this.Luk += modifier; break;
 				case ParameterType.StatPoints: newValue = this.StatPoints += modifier; break;
 				case ParameterType.SkillPoints: newValue = this.SkillPoints += modifier; break;
+				case ParameterType.Zeny: newValue = this.Zeny = Math2.AddChecked(this.Zeny, modifier); break;
 
 				default:
 					throw new ArgumentException($"Unsupported stat type '{type}'.");

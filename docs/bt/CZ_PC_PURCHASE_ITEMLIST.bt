@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_PC_PURCHASE_ITEMLIST.bt
+//   Authors: exec
+//   Version: iRO Alpha
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    short amount;
+    char stingId[16];
+}
+BuyItemInfo;
+
+short op;
+short len;
+
+local int count = (len - 4) / sizeof(BuyItemInfo);
+if (count > 0)
+    BuyItemInfo items[count];

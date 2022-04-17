@@ -11,6 +11,12 @@ public class PronteraNpcsScript : MapScript
 {
 	public override void Load()
 	{
+		AddShop("GuideShop", shop =>
+		{
+			shop.AddItem("Red_Potion", 100);
+			shop.AddItem("Sword", 200);
+		});
+
 		AddNpc("Guide", 54, "prt_vilg02", 99, 89, async dialog =>
 		{
 			dialog.Msg("[Guide]");
@@ -27,7 +33,13 @@ public class PronteraNpcsScript : MapScript
 			switch (response)
 			{
 				case "good": dialog.Msg("That's nice to hear!"); break;
-				case "bad": dialog.Msg("Toughen up!"); break;
+				case "bad":
+				{
+					dialog.Msg("Aw, you should buy yourself something nice then! That will cheer you right up!");
+					await dialog.Next();
+					dialog.OpenShop("GuideShop");
+					break;
+				}
 			}
 
 			// Move along, just having fun here.
@@ -54,7 +66,7 @@ public class PronteraNpcsScript : MapScript
 			// Style test for how NPCs could look like. Msg would always
 			// send a wait at the end and codes like p and br could be
 			// used to split up the message. The NPC's name would become
-			// the default title and always be displayed with each
+			// the default title and would always be displayed with each
 			// message, unless unset.
 
 			//await dialog.MsgAdv("Hello, world!<p/>How are you?");
