@@ -10,6 +10,7 @@ using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
+using Yggdrasil.Util;
 
 namespace Sabine.Zone.Network
 {
@@ -576,14 +577,19 @@ namespace Sabine.Zone.Network
 		/// <param name="tick"></param>
 		/// <param name="damage"></param>
 		/// <param name="type"></param>
-		public static void ZC_NOTIFY_ACT(PlayerCharacter character, int handleSource, int handleTarget, int tick, short damage, ActionType type)
+		public static void ZC_NOTIFY_ACT(PlayerCharacter character, int handleSource, int handleTarget, int tick, int damage, ActionType type)
 		{
+			// Cap the damage, as the alpha client crashes if the damage
+			// is greater than 999. 0 is displayed as "Miss", while
+			// negative numbers become 0 damage.
+			damage = Math2.Clamp(-1, 999, damage);
+
 			var packet = new Packet(Op.ZC_NOTIFY_ACT);
 
 			packet.PutInt(handleSource);
 			packet.PutInt(handleTarget);
 			packet.PutInt(tick);
-			packet.PutShort(damage);
+			packet.PutShort((short)damage);
 			packet.PutByte((byte)type);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);
