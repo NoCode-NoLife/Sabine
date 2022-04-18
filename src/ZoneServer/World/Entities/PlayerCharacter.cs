@@ -422,6 +422,18 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
+		/// Changes character's job and updates the client.
+		/// </summary>
+		/// <param name="jobId"></param>
+		public void ChangeJob(JobId jobId)
+		{
+			this.JobId = jobId;
+			Send.ZC_SPRITE_CHANGE(this, SpriteType.Class, (int)jobId);
+
+			this.Inventory.RefreshClient();
+		}
+
+		/// <summary>
 		/// Drops item in range of the character.
 		/// </summary>
 		/// <param name="item"></param>

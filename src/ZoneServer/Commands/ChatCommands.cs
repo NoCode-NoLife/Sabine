@@ -39,6 +39,7 @@ namespace Sabine.Zone.Commands
 			this.Add("spawn", "<monster id|name>", Localization.Get("Spawns monsters."), this.Spawn);
 			this.Add("stat", "<str|agi|vit|int|dex|luck|stp|skp> <modifier>", Localization.Get("Modifies the character's stats."), this.Stat);
 			this.Add("item", "<item> [amount]", Localization.Get("Spawns item for character."), this.Item);
+			this.Add("job", "<job>", Localization.Get("Changes character's job."), this.Job);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -497,6 +498,37 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Item '{0}' was added to inventory."), item.Data.Name);
 			if (target != sender)
 				target.ServerMessage(Localization.Get("{0} added item '{1}' to your inventory."), sender.Name, item.Data.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Changes target's job.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Job(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var jobIdent = args.Get(0);
+
+			if (!Enum.TryParse<JobId>(jobIdent, out var jobId))
+			{
+				sender.ServerMessage(Localization.Get("Unknown job '{0}'."), jobIdent);
+				return CommandResult.Okay;
+			}
+
+			target.ChangeJob(jobId);
+
+			sender.ServerMessage(Localization.Get("Job changed to {0}."), jobId);
+			if (target != sender)
+				target.ServerMessage(Localization.Get("{0} changed your job to {1}."), sender.Name, jobId);
 
 			return CommandResult.Okay;
 		}
