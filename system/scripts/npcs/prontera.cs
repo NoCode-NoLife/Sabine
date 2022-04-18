@@ -37,7 +37,7 @@ public class PronteraNpcsScript : MapScript
 				{
 					dialog.Msg("That's nice to hear! Sounds like you're in the mood for a good deal!");
 					await dialog.Next();
-					dialog.OpenShop(NpcShop.Build(501, -1, 502, -1, 503, 250));
+					dialog.OpenShop(NpcShop.Build(501, -1, 502, -1, 503, 250), ShopOpenType.BuyOnly);
 					break;
 				}
 				case "bad":

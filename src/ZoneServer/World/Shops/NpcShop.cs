@@ -114,7 +114,7 @@ namespace Sabine.Zone.World.Shops
 		/// and returns it.
 		/// </summary>
 		/// <example>
-		/// Shop with Red and Scarlet Potions for default prices and White
+		/// Shop with Red and Scarlet Potions for default prices and Yellow
 		/// Potions for 50% off.
 		/// NpcShop.Build(501, -1, 502, -1, 503, 250);
 		/// </example>
