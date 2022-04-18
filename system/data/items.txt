@@ -82,11 +82,11 @@
 { id: 1607, name: "Staff", koreanName: "스태프", type: "Weapon", weight: 200, price: 8000, attack: 40, attackMin: 10, attackMax: 14, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 7 },
 { id: 1610, name: "Arc_Wand", koreanName: "아크완드", type: "Weapon", weight: 300, price: 20000, attack: 60, attackMin: 16, attackMax: 23, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 7 },
 
-{ id: 1701, name: "Bow", koreanName: "보우", type: "Weapon", weight: 200, price: 300, attack: 15, attackMin: 3, attackMax: 10, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
-{ id: 1704, name: "Composite_Bow", koreanName: "컴포지트보우", type: "Weapon", weight: 300, price: 5600, attack: 29, attackMin: 6, attackMax: 14, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
-{ id: 1707, name: "Great_Bow", koreanName: "그레이트보우", type: "Weapon", weight: 600, price: 12500, attack: 50, attackMin: 10, attackMax: 20, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
-{ id: 1710, name: "Crossbow", koreanName: "크로스보우", type: "Weapon", weight: 500, price: 21500, attack: 65, attackMin: 15, attackMax: 26, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
-{ id: 1713, name: "Arbalest", koreanName: "알바레스트", type: "Weapon", weight: 800, price: 54000, attack: 90, attackMin: 20, attackMax: 35, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 3 },
+{ id: 1701, name: "Bow", koreanName: "보우", type: "RangedWeapon", weight: 200, price: 300, attack: 15, attackMin: 3, attackMax: 10, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
+{ id: 1704, name: "Composite_Bow", koreanName: "컴포지트보우", type: "RangedWeapon", weight: 300, price: 5600, attack: 29, attackMin: 6, attackMax: 14, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
+{ id: 1707, name: "Great_Bow", koreanName: "그레이트보우", type: "RangedWeapon", weight: 600, price: 12500, attack: 50, attackMin: 10, attackMax: 20, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
+{ id: 1710, name: "Crossbow", koreanName: "크로스보우", type: "RangedWeapon", weight: 500, price: 21500, attack: 65, attackMin: 15, attackMax: 26, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
+{ id: 1713, name: "Arbalest", koreanName: "알바레스트", type: "RangedWeapon", weight: 800, price: 54000, attack: 90, attackMin: 20, attackMax: 35, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 3 },
 
 // Armors
 //---------------------------------------------------------------------------

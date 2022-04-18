@@ -59,6 +59,16 @@ namespace Sabine.Shared.Const
 		/// Equip tab.
 		/// </summary>
 		Armor = 5,
+
+		/// <summary>
+		/// Equip tab.
+		/// </summary>
+		/// <remarks>
+		/// The alpha client uses this type to modify the attack range.
+		/// By default, it's "17" (not in tiles), and it's increased
+		/// to "80" if a bow-type weapon is equipped.
+		/// </remarks>
+		RangedWeapon = 8,
 	}
 
 	/// <summary>

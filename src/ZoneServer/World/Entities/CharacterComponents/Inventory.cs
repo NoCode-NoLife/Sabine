@@ -22,6 +22,18 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		public PlayerCharacter Character { get; }
 
 		/// <summary>
+		/// Returns a reference to the item that is currently equipped
+		/// in the right hand, if any.
+		/// </summary>
+		public Item RightHand { get; private set; }
+
+		/// <summary>
+		/// Returns a reference to the item that is currently equipped
+		/// in the right hand, if any.
+		/// </summary>
+		public Item LeftHand { get; private set; }
+
+		/// <summary>
 		/// Creates new inventory for character.
 		/// </summary>
 		/// <param name="character"></param>
@@ -42,10 +54,13 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 				_items.Add(item);
 				_occupiedSlots |= item.EquippedOn;
-
-				if ((item.EquippedOn & EquipSlots.RightHand) != 0)
-					this.Character.WeaponId = item.Data.LookId;
 			}
+
+			if ((item.EquippedOn & EquipSlots.RightHand) != 0)
+				this.Character.WeaponId = item.Data.LookId;
+
+			if (item.EquippedOn != EquipSlots.None)
+				this.UpdateEquipReferences();
 		}
 
 		/// <summary>
@@ -160,6 +175,18 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Returns the item that is equipped in the given slot, or null
+		/// if no item is equipped in it.
+		/// </summary>
+		/// <param name="slot"></param>
+		/// <returns></returns>
+		private Item GetItemByEquipSlot(EquipSlots slot)
+		{
+			lock (_syncLock)
+				return _items.FirstOrDefault(a => (a.EquippedOn & slot) != 0);
+		}
+
+		/// <summary>
 		/// Returns a list with all items in the inventory.
 		/// </summary>
 		/// <returns></returns>
@@ -215,6 +242,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			Send.ZC_REQ_WEAR_EQUIP_ACK(this.Character, item.InventoryId, slots);
 
 			this.OnEquippedItem(item, slots);
+			this.UpdateEquipReferences();
 		}
 
 		/// <summary>
@@ -238,6 +266,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			Send.ZC_REQ_TAKEOFF_EQUIP_ACK(this.Character, item.InventoryId, slots);
 
 			this.OnUnequippedItem(item, slots);
+			this.UpdateEquipReferences();
 		}
 
 		/// <summary>
@@ -288,6 +317,18 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		{
 			if ((slots & EquipSlots.RightHand) != 0)
 				this.Character.ChangeLook(SpriteType.Weapon, 0);
+		}
+
+		/// <summary>
+		/// Updates all of the inventory's equip reference properties.
+		/// </summary>
+		public void UpdateEquipReferences()
+		{
+			// TODO: Maybe optimize this a little, though it won't really
+			//   matter.
+
+			this.RightHand = this.GetItemByEquipSlot(EquipSlots.RightHand);
+			this.LeftHand = this.GetItemByEquipSlot(EquipSlots.LeftHand);
 		}
 	}
 }

@@ -450,5 +450,22 @@ namespace Sabine.Zone.World.Entities
 
 			this.Map.AddItem(item);
 		}
+
+		/// <summary>
+		/// Returns the character's current attack range, based on its
+		/// state and equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public int GetAttackRange()
+		{
+			// Range is 3 for normal attacks and 16 for ranged
+			// in the alpha client. This is hardcoded, based on
+			// the type of the item that was equipped.
+
+			if (this.Inventory.RightHand?.Type == ItemType.RangedWeapon)
+				return 16;
+
+			return 3;
+		}
 	}
 }
