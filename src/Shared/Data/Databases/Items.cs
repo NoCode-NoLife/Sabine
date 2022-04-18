@@ -18,6 +18,8 @@ namespace Sabine.Shared.Data.Databases
 		public int Price { get; set; }
 		public int SellPrice { get; set; }
 		public int Attack { get; set; }
+		public int AttackMin { get; set; }
+		public int AttackMax { get; set; }
 		public int Defense { get; set; }
 		public int AttackRange { get; set; }
 		public JobFilter JobsAllowed { get; set; }
@@ -74,6 +76,8 @@ namespace Sabine.Shared.Data.Databases
 			data.Price = entry.ReadInt("price", 0);
 			data.SellPrice = entry.ReadInt("sell", data.Price / 2);
 			data.Attack = entry.ReadInt("attack", 0);
+			data.AttackMin = entry.ReadInt("attackMin", 0);
+			data.AttackMax = entry.ReadInt("attackMax", 0);
 			data.Defense = entry.ReadInt("defense", 0);
 			data.AttackRange = entry.ReadInt("range", 0);
 			data.JobsAllowed = entry.ReadEnum("jobs", JobFilter.All);

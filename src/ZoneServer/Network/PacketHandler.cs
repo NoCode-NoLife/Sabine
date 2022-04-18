@@ -363,9 +363,8 @@ namespace Sabine.Zone.Network
 			{
 				case ItemType.Weapon:
 				{
-					sb.AppendFormat("Attack:^777777 {0}^000000", itemData.Attack);
+					sb.AppendFormat("Attack:^777777 {0}-{1}^000000", itemData.AttackMin, itemData.AttackMax);
 					sb.AppendFormat(", Weight:^777777 {0:0.#}^000000", itemData.Weight / 10f);
-					sb.AppendFormat(", Weapon Level:^777777 {0}^000000", itemData.WeaponLevel);
 					sb.AppendFormat(", Required Level:^777777 {0}^000000", itemData.RequiredLevel);
 					sb.AppendFormat(", Jobs:^777777 {0}^000000", itemData.JobsAllowed);
 					break;
@@ -374,7 +373,6 @@ namespace Sabine.Zone.Network
 				{
 					sb.AppendFormat(", Defense:^777777 {0}^000000", itemData.Defense);
 					sb.AppendFormat(", Weight:^777777 {0:0.#}^000000", itemData.Weight / 10f);
-					sb.AppendFormat(", Weapon Level:^777777 {0}^000000", itemData.WeaponLevel);
 					sb.AppendFormat(", Required Level:^777777 {0}^000000", itemData.RequiredLevel);
 					sb.AppendFormat(", Jobs:^777777 {0}^000000", itemData.JobsAllowed);
 					break;
@@ -493,6 +491,8 @@ namespace Sabine.Zone.Network
 			var action = (ActionType)packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
+
+			// TODO: StopMove on act
 
 			switch (action)
 			{
