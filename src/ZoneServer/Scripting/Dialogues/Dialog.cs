@@ -259,7 +259,8 @@ namespace Sabine.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
-		/// Opens the shop for the player.
+		/// Opens a shop for the player, where the given items are
+		/// for sale.
 		/// </summary>
 		/// <param name="shopName">Name of the shop to open.</param>
 		/// <param name="type">Whether to show the buy/sell selection or go straight to one of them.</param>
@@ -269,6 +270,16 @@ namespace Sabine.Zone.Scripting.Dialogues
 			if (!ZoneServer.Instance.World.NpcShops.TryGet(shopName, out var shop))
 				throw new ArgumentException($"Shop '{shopName}' not found.");
 
+			this.OpenShop(shop, type);
+		}
+
+		/// <summary>
+		/// Opens the shop for the player.
+		/// </summary>
+		/// <param name="shopName">The shop to open.</param>
+		/// <param name="type">Whether to show the buy/sell selection or go straight to one of them.</param>
+		public void OpenShop(NpcShop shop, ShopOpenType type = ShopOpenType.BuyAndSell)
+		{
 			switch (type)
 			{
 				case ShopOpenType.BuyAndSell:

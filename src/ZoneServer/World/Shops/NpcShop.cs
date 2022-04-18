@@ -108,5 +108,34 @@ namespace Sabine.Zone.World.Shops
 			item = this.GetItem(stringId);
 			return item != null;
 		}
+
+		/// <summary>
+		/// Creates an NPC shop from a series of item class ids and prices
+		/// and returns it.
+		/// </summary>
+		/// <example>
+		/// Shop with Red and Scarlet Potions for default prices and White
+		/// Potions for 50% off.
+		/// NpcShop.Build(501, -1, 502, -1, 503, 250);
+		/// </example>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		public static NpcShop Build(params int[] args)
+		{
+			if (args.Length % 2 != 0)
+				throw new ArgumentException($"The number of arguments must be even, with an id and a price for every item.");
+
+			var shop = new NpcShop("__generated__");
+
+			for (var i = 0; i < args.Length; i += 2)
+			{
+				var classId = args[i + 0];
+				var price = args[i + 1];
+
+				shop.AddItem(classId, price);
+			}
+
+			return shop;
+		}
 	}
 }

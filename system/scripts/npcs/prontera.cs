@@ -5,6 +5,7 @@
 //---------------------------------------------------------------------------
 
 using Sabine.Zone.Scripting;
+using Sabine.Zone.World.Shops;
 using static Sabine.Zone.Scripting.Shortcuts;
 
 public class PronteraNpcsScript : MapScript
@@ -32,7 +33,13 @@ public class PronteraNpcsScript : MapScript
 			dialog.Msg("[Guide]");
 			switch (response)
 			{
-				case "good": dialog.Msg("That's nice to hear!"); break;
+				case "good":
+				{
+					dialog.Msg("That's nice to hear! Sounds like you're in the mood for a good deal!");
+					await dialog.Next();
+					dialog.OpenShop(NpcShop.Build(501, -1, 502, -1, 503, 250));
+					break;
+				}
 				case "bad":
 				{
 					dialog.Msg("Aw, you should buy yourself something nice then! That will cheer you right up!");
