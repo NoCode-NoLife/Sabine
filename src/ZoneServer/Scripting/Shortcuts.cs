@@ -1,6 +1,8 @@
 ﻿using System;
+using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
+using Sabine.Zone.Commands;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
@@ -161,6 +163,21 @@ namespace Sabine.Zone.Scripting
 				throw new ArgumentException($"Map '{mapStringId}' not found.");
 
 			return new Location(map.Id, new Position(x, y));
+		}
+
+		/// <summary>
+		/// Adds new chat command.
+		/// </summary>
+		/// <param name="name">Name of the command.</param>
+		/// <param name="usage">Description of the command's arguments.</param>
+		/// <param name="description">A description of what the command does.</param>
+		/// <param name="func">The handler function to execute when the command is used.</param>
+		/// <param name="selfAuthLevel">Authority level required to execute the command for yourself.</param>
+		/// <param name="targetAuthLevel">Authority level required to execute the command for someone else.</param>
+		public static void AddChatCommand(string name, string usage, string description, CommandFunc func, int selfAuthLevel, int targetAuthLevel)
+		{
+			ZoneServer.Instance.ChatCommands.Add(name, usage, description, func);
+			ZoneServer.Instance.Conf.Commands.Levels[name] = new AuthLevels() { Self = selfAuthLevel, Target = targetAuthLevel };
 		}
 	}
 }
