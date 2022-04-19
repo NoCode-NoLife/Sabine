@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Xsl;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
@@ -37,6 +38,7 @@ namespace Sabine.Zone.Commands
 			// GM commands
 			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
 			this.Add("warp", "<map> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
+			this.Add("jump", "[[+-]x] [[+-]y]", Localization.Get("Warps player to another position on the same map."), this.Jump);
 			this.Add("spawn", "<monster id|name>", Localization.Get("Spawns monsters."), this.Spawn);
 			this.Add("stat", "<str|agi|vit|int|dex|luck|stp|skp> <modifier>", Localization.Get("Modifies the character's stats."), this.Stat);
 			this.Add("item", "<item> [amount]", Localization.Get("Spawns item for character."), this.Item);
@@ -287,6 +289,58 @@ namespace Sabine.Zone.Commands
 			target.Warp(map.Id, warpPos);
 
 			sender.ServerMessage(Localization.Get("Warped to {0}, {1}, {2}."), map.StringId, warpPos.X, warpPos.Y);
+			if (sender != target)
+				target.ServerMessage(Localization.Get("You were warped by {0}."), sender.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Warps target to another position on the same map.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Jump(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			Position warpPos;
+
+			if (args.Count >= 2)
+			{
+				var xStr = args.Get(0);
+				var yStr = args.Get(1);
+				var pos = target.Position;
+
+				if (!int.TryParse(xStr, out var x))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(yStr, out var y))
+					return CommandResult.InvalidArgument;
+
+				// If one of the coordinates were prefixed with a plus or
+				// a minus, we apply both relative to the target's current
+				// position, because if you type "+4 0", you presumably
+				// mean to move 4 right, and not 4 right and down to
+				// the bottom of the map.
+				if (xStr.StartsWith("+") || xStr.StartsWith("-") || yStr.StartsWith("+") || yStr.StartsWith("-"))
+				{
+					x += pos.X;
+					y += pos.Y;
+				}
+
+				warpPos = new Position(x, y);
+			}
+			else
+			{
+				warpPos = target.Map.GetRandomWalkablePosition();
+			}
+
+			target.Warp(target.MapId, warpPos);
+
+			sender.ServerMessage(Localization.Get("Warped to {0}, {1}."), warpPos.X, warpPos.Y);
 			if (sender != target)
 				target.ServerMessage(Localization.Get("You were warped by {0}."), sender.Name);
 
