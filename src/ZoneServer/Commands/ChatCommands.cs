@@ -70,20 +70,6 @@ namespace Sabine.Zone.Commands
 		{
 			Log.Debug("Hello, test!");
 
-			int invId = 1000;
-
-			var items = new Item[] {
-				new World.Entities.Item("Red_Potion"){ InventoryId=invId++},
-				new World.Entities.Item("Scarlet_Potion"){ InventoryId=invId++},
-			};
-			Send.ZC_STORE_NORMAL_ITEMLIST(sender, items);
-
-			items = new Item[] {
-				new World.Entities.Item("Sword"){ InventoryId=invId++},
-				new World.Entities.Item("Dagger"){ InventoryId=invId++},
-			};
-			Send.ZC_STORE_EQUIPMENT_ITEMLIST(sender, items);
-
 			return CommandResult.Okay;
 		}
 
