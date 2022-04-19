@@ -422,8 +422,6 @@ namespace Sabine.Zone.Network
 			var character = conn.GetCurrentCharacter();
 			var npc = character.Map.GetCharacter(npcHandle);
 
-			Log.Debug("CZ_CHOOSE_MENU: {0}, 0x{1:X2}", npcHandle, choice);
-
 			// 0xFF is sent when there's no menu to choose anything from,
 			// so it's presumably a cancel action.
 
@@ -448,8 +446,6 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 			var npc = character.Map.GetCharacter(npcHandle);
-
-			Log.Debug("CZ_REQ_NEXT_SCRIPT.");
 
 			if (conn.CurrentDialog == null)
 			{
