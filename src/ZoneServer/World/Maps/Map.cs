@@ -165,7 +165,6 @@ namespace Sabine.Zone.World.Maps
 
 				_characters[character.Id] = character;
 				character.Map = this;
-				Log.Debug("+ Characters on {0}: {1}", this.StringId, _characters.Count);
 
 				Send.ZC_NOTIFY_NEWENTRY(character);
 			}
@@ -185,8 +184,6 @@ namespace Sabine.Zone.World.Maps
 
 				_characters.Remove(character.Id);
 				character.Map = null;
-
-				Log.Debug("- Characters on {0}: {1}", this.StringId, _characters.Count);
 			}
 		}
 
