@@ -61,6 +61,16 @@ namespace Sabine.Shared.Const
 		Armor = 5,
 
 		/// <summary>
+		/// Etc tab.
+		/// </summary>
+		Etc2 = 6,
+
+		/// <summary>
+		/// Etc tab.
+		/// </summary>
+		Etc3 = 7,
+
+		/// <summary>
 		/// Equip tab.
 		/// </summary>
 		/// <remarks>
@@ -69,6 +79,14 @@ namespace Sabine.Shared.Const
 		/// to "80" if a bow-type weapon is equipped.
 		/// </remarks>
 		RangedWeapon = 8,
+
+		/// <summary>
+		/// Equip tab.
+		/// </summary>
+		Weapon3 = 9,
+
+		// Items assigned types greater than 9 don't appear in the
+		// inventory on the alpha client.
 	}
 
 	/// <summary>

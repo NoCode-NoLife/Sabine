@@ -349,7 +349,7 @@ namespace Sabine.Zone.Network
 				}
 				case ItemType.Armor:
 				{
-					sb.AppendFormat(", Defense:^777777 {0}^000000", itemData.Defense);
+					sb.AppendFormat("Defense:^777777 {0}^000000", itemData.Defense);
 					sb.AppendFormat(", Weight:^777777 {0:0.#}^000000", itemData.Weight / 10f);
 					sb.AppendFormat(", Required Level:^777777 {0}^000000", itemData.RequiredLevel);
 					sb.AppendFormat(", Jobs:^777777 {0}^000000", itemData.JobsAllowed);
