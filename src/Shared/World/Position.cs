@@ -91,6 +91,18 @@ namespace Sabine.Shared.World
 		}
 
 		/// <summary>
+		/// Returns true if the other position is within a square with the
+		/// given length around this position.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <param name="range"></param>
+		/// <returns></returns>
+		public bool InSquareRange(Position otherPos, float length)
+		{
+			return (Math.Abs(this.X - otherPos.X) <= length && Math.Abs(this.Y - otherPos.Y) <= length);
+		}
+
+		/// <summary>
 		/// Returns distance between this and another position.
 		/// </summary>
 		/// <param name="otherPos"></param>

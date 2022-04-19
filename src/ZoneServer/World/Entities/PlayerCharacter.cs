@@ -225,6 +225,7 @@ namespace Sabine.Zone.World.Entities
 			this.IsWarping = true;
 			this.WarpLocation = location;
 
+			this.StopMove();
 			this.StopObserving();
 
 			//Log.Debug("Warping to {0}", location);
@@ -581,6 +582,8 @@ namespace Sabine.Zone.World.Entities
 			this.Position = _nextDestination;
 			//Log.Debug("  now at {0}", this.Position);
 
+			this.OnReachedTile(this.Position);
+
 			// Start next move if there's still something left in the queue
 			if (_pathQueue.Count != 0)
 			{
@@ -622,6 +625,24 @@ namespace Sabine.Zone.World.Entities
 
 			_currentMoveTime = TimeSpan.FromMilliseconds(speed);
 			_moving = true;
+		}
+
+		/// <summary>
+		/// Called when the character reached the given position while
+		/// moving.
+		/// </summary>
+		/// <param name="position"></param>
+		private void OnReachedTile(Position position)
+		{
+			// TODO: Add auto trigger system that we can check for things
+			//   to do when stepping onto tiles.
+
+			var warps = this.Map.GetAllNpcs(a => a.ClassId == 32 && a.Position.InSquareRange(position, 2));
+			if (warps.Length > 0)
+			{
+				var warp = warps[0];
+				this.Warp(warp.WarpDestination);
+			}
 		}
 	}
 }
