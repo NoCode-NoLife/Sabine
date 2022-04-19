@@ -145,6 +145,36 @@ namespace Sabine.Zone.World.Entities
 		public bool IsObserving { get; protected set; }
 
 		/// <summary>
+		/// Gets or sets the player's selected language.
+		/// </summary>
+		public string SelectedLanguage
+		{
+			get => _selectedLanguage;
+			set
+			{
+				_selectedLanguage = value;
+				this.Localizer = ZoneServer.Instance.Localization.Get(value);
+			}
+		}
+		private string _selectedLanguage;
+
+		/// <summary>
+		/// Returns the localizer for the player's selected language.
+		/// </summary>
+		public Localizer Localizer
+		{
+			get
+			{
+				if (_localizer == null)
+					_localizer = ZoneServer.Instance.Localization.GetDefault();
+
+				return _localizer;
+			}
+			private set => _localizer = value;
+		}
+		private Localizer _localizer;
+
+		/// <summary>
 		/// Creates a new character.
 		/// </summary>
 		public PlayerCharacter()
@@ -468,29 +498,5 @@ namespace Sabine.Zone.World.Entities
 
 			return 3;
 		}
-
-		public string SelectedLanguage
-		{
-			get => _selectedLanguage;
-			set
-			{
-				_selectedLanguage = value;
-				this.Localizer = ZoneServer.Instance.Localization.Get(value);
-			}
-		}
-		private string _selectedLanguage;
-
-		public Localizer Localizer
-		{
-			get
-			{
-				if (_localizer == null)
-					_localizer = ZoneServer.Instance.Localization.GetDefault();
-
-				return _localizer;
-			}
-			private set => _localizer = value;
-		}
-		private Localizer _localizer;
 	}
 }
