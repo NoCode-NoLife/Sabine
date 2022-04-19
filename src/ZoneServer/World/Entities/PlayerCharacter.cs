@@ -518,6 +518,11 @@ namespace Sabine.Zone.World.Entities
 			// Clear the current movement queue and fill it with the
 			// new path.
 			var path = this.Map.PathFinder.FindPath(fromPos, toPos);
+			if (path.Length == 0)
+			{
+				Log.Debug("PlayerCharacter.MoveTo: No move path found between {0} and {1} on {2}.", fromPos, toPos, this.Map.StringId);
+				return;
+			}
 
 			_pathQueue.Clear();
 			foreach (var pos in path)
