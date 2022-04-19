@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
+using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Maps.PathFinding;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Maps
 {
@@ -342,6 +345,33 @@ namespace Sabine.Zone.World.Maps
 				_items.TryGetValue(handle, out var item);
 				return item;
 			}
+		}
+
+		/// <summary>
+		/// Returns a random position on the map that characters can walk
+		/// on.
+		/// </summary>
+		/// <returns></returns>
+		public Position GetRandomWalkablePosition()
+		{
+			var rnd = RandomProvider.Get();
+
+			var width = this.CacheData.Width;
+			var height = this.CacheData.Height;
+			var tileCount = width * height;
+			var startIndex = rnd.Next();
+
+			for (var i = 0; i < tileCount; ++i)
+			{
+				var index = (startIndex + i) % tileCount;
+				var x = index % width;
+				var y = index / width;
+
+				if (this.CacheData.IsPassable(x, y))
+					return new Position(x, y);
+			}
+
+			throw new InvalidDataException("No walkable position found.");
 		}
 
 		/// <summary>

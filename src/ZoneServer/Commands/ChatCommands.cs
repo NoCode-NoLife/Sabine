@@ -245,7 +245,7 @@ namespace Sabine.Zone.Commands
 		/// <exception cref="NotImplementedException"></exception>
 		private CommandResult Warp(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
 		{
-			if (args.Count < 3)
+			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var mapId))
@@ -261,11 +261,22 @@ namespace Sabine.Zone.Commands
 				mapId = mapData.Id;
 			}
 
-			if (!int.TryParse(args.Get(1), out var x))
-				return CommandResult.InvalidArgument;
+			Position warpPos;
 
-			if (!int.TryParse(args.Get(2), out var y))
-				return CommandResult.InvalidArgument;
+			if (args.Count >= 3)
+			{
+				if (!int.TryParse(args.Get(1), out var x))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(2), out var y))
+					return CommandResult.InvalidArgument;
+
+				warpPos = new Position(x, y);
+			}
+			else
+			{
+				warpPos = target.Map.GetRandomWalkablePosition();
+			}
 
 			if (!ZoneServer.Instance.World.Maps.TryGet(mapId, out var map))
 			{
@@ -273,9 +284,9 @@ namespace Sabine.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			target.Warp(map.Id, new Position(x, y));
+			target.Warp(map.Id, warpPos);
 
-			sender.ServerMessage(Localization.Get("Warped to {0}, {1}, {2}."), map.StringId, x, y);
+			sender.ServerMessage(Localization.Get("Warped to {0}, {1}, {2}."), map.StringId, warpPos.X, warpPos.Y);
 			if (sender != target)
 				target.ServerMessage(Localization.Get("You were warped by {0}."), sender.Name);
 
