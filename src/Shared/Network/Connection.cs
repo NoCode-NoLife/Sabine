@@ -29,7 +29,7 @@ namespace Sabine.Shared.Network
 		/// <param name="length"></param>
 		protected override void ReveiveData(byte[] buffer, int length)
 		{
-			Log.Debug("< {0}", Hex.ToString(buffer, 0, length));
+			//Log.Debug("< {0}", Hex.ToString(buffer, 0, length));
 
 			_framer.ReceiveData(buffer, length);
 		}
@@ -42,8 +42,8 @@ namespace Sabine.Shared.Network
 		{
 			var packet = new Packet(buffer);
 
-			Log.Debug("< Op: 0x{0:X4} ({1})\r\n{2}", packet.Op, PacketTable.GetName(packet.Op), Hex.ToString(buffer, HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine));
-			Log.Debug("".PadRight(40, '-'));
+			//Log.Debug("< Op: 0x{0:X4} ({1})\r\n{2}", packet.Op, PacketTable.GetName(packet.Op), Hex.ToString(buffer, HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine));
+			//Log.Debug("".PadRight(40, '-'));
 
 			this.OnPacketReceived(packet);
 		}
@@ -62,8 +62,8 @@ namespace Sabine.Shared.Network
 		{
 			var buffer = _framer.Frame(packet);
 
-			Log.Debug("> Op: 0x{0:X4} ({1})\r\n{2}", packet.Op, PacketTable.GetName(packet.Op), Hex.ToString(buffer, HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine));
-			Log.Debug("".PadRight(40, '-'));
+			//Log.Debug("> Op: 0x{0:X4} ({1})\r\n{2}", packet.Op, PacketTable.GetName(packet.Op), Hex.ToString(buffer, HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine));
+			//Log.Debug("".PadRight(40, '-'));
 
 			var tableSize = PacketTable.GetSize(packet.Op);
 			if (tableSize != PacketTable.Dynamic && buffer.Length != tableSize)

@@ -227,6 +227,8 @@ namespace Sabine.Zone.World.Entities
 
 			this.StopObserving();
 
+			//Log.Debug("Warping to {0}", location);
+
 			Send.ZC_NPCACK_MAPMOVE(this, map.StringId, location.Position);
 		}
 
@@ -520,12 +522,12 @@ namespace Sabine.Zone.World.Entities
 			foreach (var pos in path)
 				_pathQueue.Enqueue(pos);
 
-			Log.Debug("Moving from {0} to {1}.", fromPos, toPos);
-			for (var i = 0; i < path.Length; i++)
-			{
-				var pos = path[i];
-				Log.Debug("  {0}: {1}", i + 1, pos);
-			}
+			//Log.Debug("Moving from {0} to {1}.", fromPos, toPos);
+			//for (var i = 0; i < path.Length; i++)
+			//{
+			//	var pos = path[i];
+			//	Log.Debug("  {0}: {1}", i + 1, pos);
+			//}
 
 			// Start the move to the next tile
 			this.NextMovement();
@@ -546,6 +548,8 @@ namespace Sabine.Zone.World.Entities
 			var stopPos = _nextDestination;
 			_pathQueue.Clear();
 			_moving = false;
+
+			//Log.Debug("Stopping at {0}", stopPos);
 
 			// The client doesn't react to ZC_STOPMOVE for its controlled
 			// character, so we need to send a move to make it stop.
@@ -575,7 +579,7 @@ namespace Sabine.Zone.World.Entities
 
 			// Update current position
 			this.Position = _nextDestination;
-			Log.Debug("  now at {0}", this.Position);
+			//Log.Debug("  now at {0}", this.Position);
 
 			// Start next move if there's still something left in the queue
 			if (_pathQueue.Count != 0)
