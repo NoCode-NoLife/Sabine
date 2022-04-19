@@ -9,6 +9,7 @@ using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.CharacterComponents;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -20,6 +21,11 @@ namespace Sabine.Zone.World.Entities
 	{
 		private readonly object _visibilityUpdateSyncLock = new object();
 		private readonly HashSet<int> _visibleEntities = new HashSet<int>();
+
+		private readonly Queue<Position> _pathQueue = new Queue<Position>();
+		private Position _nextDestination;
+		private TimeSpan _currentMoveTime;
+		private bool _moving;
 
 		/// <summary>
 		/// Gets or sets the connection that controls this player.
@@ -288,21 +294,13 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
-		/// Stops character's movement.
-		/// </summary>
-		public void StopMove()
-		{
-			var pos = this.Position; // TODO: Calculate current position
-			Send.ZC_STOPMOVE(this, pos);
-		}
-
-		/// <summary>
 		/// Updates character.
 		/// </summary>
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
 			this.UpdateVisibility();
+			this.UpdateMovement(elapsed);
 		}
 
 		/// <summary>
@@ -497,6 +495,129 @@ namespace Sabine.Zone.World.Entities
 				return 16;
 
 			return 3;
+		}
+
+		/// <summary>
+		/// Makes character move to the given position.
+		/// </summary>
+		/// <param name="toPos"></param>
+		public void MoveTo(Position toPos)
+		{
+			var character = this;
+			var fromPos = this.Position;
+
+			// If we're currently moving, the start position needs to be
+			// the next tile we move to, or the client will rubber-band
+			// back to the tile it was just on.
+			if (_moving)
+				fromPos = _nextDestination;
+
+			// Clear the current movement queue and fill it with the
+			// new path.
+			var path = this.Map.PathFinder.FindPath(fromPos, toPos);
+
+			_pathQueue.Clear();
+			foreach (var pos in path)
+				_pathQueue.Enqueue(pos);
+
+			Log.Debug("Moving from {0} to {1}.", fromPos, toPos);
+			for (var i = 0; i < path.Length; i++)
+			{
+				var pos = path[i];
+				Log.Debug("  {0}: {1}", i + 1, pos);
+			}
+
+			// Start the move to the next tile
+			this.NextMovement();
+
+			// Notify the clients
+			Send.ZC_NOTIFY_PLAYERMOVE(character, fromPos, toPos);
+			Send.ZC_NOTIFY_MOVE(character, fromPos, toPos);
+		}
+
+		/// <summary>
+		/// Stops character's current movement.
+		/// </summary>
+		public Position StopMove()
+		{
+			if (!_moving)
+				return this.Position;
+
+			var stopPos = _nextDestination;
+			_pathQueue.Clear();
+			_moving = false;
+
+			// The client doesn't react to ZC_STOPMOVE for its controlled
+			// character, so we need to send a move to make it stop.
+			// Unless that's not desired? Maybe there should a be
+			// forceStop parameter or something? TBD.
+
+			Send.ZC_STOPMOVE(this, stopPos);
+			Send.ZC_NOTIFY_PLAYERMOVE(this, this.Position, stopPos);
+
+			return stopPos;
+		}
+
+		/// <summary>
+		/// Updates the character's position based on its current movement.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateMovement(TimeSpan elapsed)
+		{
+			// Do nothing if we're not currently moving to a new tile
+			if (!_moving)
+				return;
+
+			// Wait until enough time has passed to reach the next tile
+			_currentMoveTime -= elapsed;
+			if (_currentMoveTime > TimeSpan.Zero)
+				return;
+
+			// Update current position
+			this.Position = _nextDestination;
+			Log.Debug("  now at {0}", this.Position);
+
+			// Start next move if there's still something left in the queue
+			if (_pathQueue.Count != 0)
+			{
+				this.NextMovement();
+				return;
+			}
+
+			_moving = false;
+		}
+
+		/// <summary>
+		/// Starts server-side move to the next tile in the character's
+		/// movement queue.
+		/// </summary>
+		/// <exception cref="InvalidOperationException"></exception>
+		private void NextMovement()
+		{
+			if (_pathQueue.Count == 0)
+				throw new InvalidOperationException("Path queue is empty.");
+
+			_nextDestination = _pathQueue.Dequeue();
+
+			var movingStright = this.Position.X == _nextDestination.X || this.Position.Y == _nextDestination.Y;
+			var speed = (float)this.Parameters.Speed;
+
+			// Speed appears to match diagonal movement, but it needs
+			// to be adjusted for straight moves, or the character will
+			// move slower on the server than on the client.
+			// Athena uses 'speed * 14 / 10' to slow down diagonal movement
+			// instead, so are characters possibly moving faster on the
+			// alpha client? That would explain why Athena's default walk
+			// speed value of 150 seems way too fast for the alpha client.
+			// Meanwhile, the client seems to use '10 * speed / 13'...? But
+			// our 'speed / 1.8f' seems to work well for the moment and gives
+			// us ~111 for 200 speed, while the client's formula gives us
+			// ~153, which is way off. This needs more research.
+			if (movingStright)
+				speed = speed / 1.8f;
+
+			_currentMoveTime = TimeSpan.FromMilliseconds(speed);
+			_moving = true;
 		}
 	}
 }

@@ -136,27 +136,8 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 			var fromPos = character.Position;
-			character.Position = toPos;
 
-			Log.Debug("{0} requests to move from {1},{2} to {3},{4}.", character.Name, fromPos.X, fromPos.Y, toPos.X, toPos.Y);
-
-			Send.ZC_NOTIFY_PLAYERMOVE(character, fromPos, toPos);
-			Send.ZC_NOTIFY_MOVE(character, fromPos, toPos);
-
-			var warps = character.Map.GetAllNpcs(a => a.ClassId == 32 && a.Position.InRange(toPos, 2));
-			if (warps.Length > 0)
-			{
-				var warp = warps[0];
-				var distance = fromPos.GetDistance(toPos);
-				var aproxWalkDur = distance * character.Parameters.Speed;
-
-				Log.Debug("Warp in {0} ms.", aproxWalkDur);
-
-				Task.Delay(aproxWalkDur).ContinueWith(_ =>
-				{
-					character.Warp(warp.WarpDestination);
-				});
-			}
+			character.MoveTo(toPos);
 
 			// Spawn some NPCs to visualize the path the server calculated
 			// for this move request.
@@ -492,7 +473,7 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 
-			// TODO: StopMove on act
+			character.StopMove();
 
 			switch (action)
 			{
