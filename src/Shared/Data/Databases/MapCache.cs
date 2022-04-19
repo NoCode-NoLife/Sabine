@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using Yggdrasil.Data.Binary;
 
@@ -22,6 +21,17 @@ namespace Sabine.Shared.Data.Databases
 		/// <param name="y"></param>
 		/// <returns></returns>
 		public bool IsPassable(int x, int y)
+		{
+			return this.Tiles[x, y].IsWalkable;
+		}
+
+		/// <summary>
+		/// Returns true if the given tile can be walked on.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool IsUnpassable(int x, int y)
 		{
 			return !this.Tiles[x, y].IsWalkable;
 		}

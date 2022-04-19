@@ -187,7 +187,7 @@ namespace Sabine.Zone.World.Maps.PathFinding
 				return false;
 
 			// Check destination cell
-			if (x1 < 0 || x1 >= md.Width || y1 < 0 || y1 >= md.Height || md.IsPassable(x1, y1))
+			if (x1 < 0 || x1 >= md.Width || y1 < 0 || y1 >= md.Height || md.IsUnpassable(x1, y1))
 				return false;
 
 			if (x0 == x1 && y0 == y1)
@@ -263,25 +263,25 @@ namespace Sabine.Zone.World.Maps.PathFinding
 					break;
 				}
 
-				if (y < ys && !md.IsPassable(x, y + 1)) allowed_dirs |= DirNorth;
-				if (y > 0 && !md.IsPassable(x, y - 1)) allowed_dirs |= DirSouth;
-				if (x < xs && !md.IsPassable(x + 1, y)) allowed_dirs |= DirEast;
-				if (x > 0 && !md.IsPassable(x - 1, y)) allowed_dirs |= DirWest;
+				if (y < ys && !md.IsUnpassable(x, y + 1)) allowed_dirs |= DirNorth;
+				if (y > 0 && !md.IsUnpassable(x, y - 1)) allowed_dirs |= DirSouth;
+				if (x < xs && !md.IsUnpassable(x + 1, y)) allowed_dirs |= DirEast;
+				if (x > 0 && !md.IsUnpassable(x - 1, y)) allowed_dirs |= DirWest;
 
 				// Process neighbors of current node
-				if (ChkDir(allowed_dirs, DirSouth | DirEast) && !md.IsPassable(x + 1, y - 1))
+				if (ChkDir(allowed_dirs, DirSouth | DirEast) && !md.IsUnpassable(x + 1, y - 1))
 					e += AddPath(open_set, tp, x + 1, y - 1, g_cost + MoveDiagonalCost, current, Heuristic(x + 1, y - 1, x1, y1)); // (x+1, y-1) 5
 				if (ChkDir(allowed_dirs, DirEast))
 					e += AddPath(open_set, tp, x + 1, y, g_cost + MoveCost, current, Heuristic(x + 1, y, x1, y1)); // (x+1, y) 6
-				if (ChkDir(allowed_dirs, DirNorth | DirEast) && !md.IsPassable(x + 1, y + 1))
+				if (ChkDir(allowed_dirs, DirNorth | DirEast) && !md.IsUnpassable(x + 1, y + 1))
 					e += AddPath(open_set, tp, x + 1, y + 1, g_cost + MoveDiagonalCost, current, Heuristic(x + 1, y + 1, x1, y1)); // (x+1, y+1) 7
 				if (ChkDir(allowed_dirs, DirNorth))
 					e += AddPath(open_set, tp, x, y + 1, g_cost + MoveCost, current, Heuristic(x, y + 1, x1, y1)); // (x, y+1) 0
-				if (ChkDir(allowed_dirs, DirNorth | DirWest) && !md.IsPassable(x - 1, y + 1))
+				if (ChkDir(allowed_dirs, DirNorth | DirWest) && !md.IsUnpassable(x - 1, y + 1))
 					e += AddPath(open_set, tp, x - 1, y + 1, g_cost + MoveDiagonalCost, current, Heuristic(x - 1, y + 1, x1, y1)); // (x-1, y+1) 1
 				if (ChkDir(allowed_dirs, DirWest))
 					e += AddPath(open_set, tp, x - 1, y, g_cost + MoveCost, current, Heuristic(x - 1, y, x1, y1)); // (x-1, y) 2
-				if (ChkDir(allowed_dirs, DirSouth | DirWest) && !md.IsPassable(x - 1, y - 1))
+				if (ChkDir(allowed_dirs, DirSouth | DirWest) && !md.IsUnpassable(x - 1, y - 1))
 					e += AddPath(open_set, tp, x - 1, y - 1, g_cost + MoveDiagonalCost, current, Heuristic(x - 1, y - 1, x1, y1)); // (x-1, y-1) 3
 				if (ChkDir(allowed_dirs, DirSouth))
 					e += AddPath(open_set, tp, x, y - 1, g_cost + MoveCost, current, Heuristic(x, y - 1, x1, y1)); // (x, y-1) 4
@@ -320,7 +320,7 @@ namespace Sabine.Zone.World.Maps.PathFinding
 				return false;
 
 			// Check destination cell
-			if (x1 < 0 || x1 >= md.Width || y1 < 0 || y1 >= md.Height || md.IsPassable(x1, y1))
+			if (x1 < 0 || x1 >= md.Width || y1 < 0 || y1 >= md.Height || md.IsUnpassable(x1, y1))
 				return false;
 
 			if (x0 == x1 && y0 == y1)
@@ -355,7 +355,7 @@ namespace Sabine.Zone.World.Maps.PathFinding
 				if (dx == 0 && dy == 0)
 					break; // success
 
-				if (md.IsPassable(x, y))
+				if (md.IsUnpassable(x, y))
 					break; // obstacle = failure
 			}
 
