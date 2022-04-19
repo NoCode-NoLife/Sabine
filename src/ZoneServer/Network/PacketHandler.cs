@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
-using Sabine.Shared.Database;
 using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
-using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
@@ -84,6 +79,8 @@ namespace Sabine.Zone.Network
 			Send.ZC_ACCEPT_ENTER(conn, character);
 
 			map.AddCharacter(character);
+
+			Log.Info("User '{0}' logged in.", account.Username);
 		}
 
 		/// <summary>

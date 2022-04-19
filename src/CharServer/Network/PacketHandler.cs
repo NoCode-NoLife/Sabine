@@ -57,6 +57,8 @@ namespace Sabine.Char.Network
 			conn.Characters.AddRange(characters);
 
 			Send.HC_ACCEPT_ENTER(conn, characters);
+
+			Log.Info("User '{0}' logged in.", account.Username);
 		}
 
 		/// <summary>
@@ -81,8 +83,6 @@ namespace Sabine.Char.Network
 				Log.Error("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}).", character.Name, character.Location.MapId);
 				return;
 			}
-
-			Log.Debug("Character selected: {0}", character.Name);
 
 			var zoneServerIp = CharServer.Instance.Conf.Zone.ServerIp;
 			var zoneServerPort = CharServer.Instance.Conf.Zone.BindPort;
@@ -162,6 +162,8 @@ namespace Sabine.Char.Network
 			conn.Characters.Add(character);
 
 			Send.HC_ACCEPT_MAKECHAR(conn, character);
+
+			Log.Info("User '{0}' created character '{1}'.", account.Username, character.Name);
 		}
 
 		/// <summary>
@@ -193,6 +195,8 @@ namespace Sabine.Char.Network
 			conn.Characters.Remove(character);
 
 			Send.HC_ACCEPT_DELETECHAR(conn);
+
+			Log.Info("User '{0}' deleted character '{1}'.", conn.Account.Username, character.Name);
 		}
 	}
 }

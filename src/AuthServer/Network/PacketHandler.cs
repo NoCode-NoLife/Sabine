@@ -50,6 +50,8 @@ namespace Sabine.Auth.Network
 
 				var hashedPassword = BCrypt.HashPassword(password, BCrypt.GenerateSalt());
 				account = db.CreateAccount(username, hashedPassword, sex, 0);
+
+				Log.Info("New account {0} was created.", username);
 			}
 
 			var passwordCorrect = BCrypt.CheckPassword(password, account.Password);
@@ -64,7 +66,7 @@ namespace Sabine.Auth.Network
 
 			Send.AC_ACCEPT_LOGIN(conn, account);
 
-			Log.Debug("User '{0}' logged in.", username);
+			Log.Info("User '{0}' logged in.", username);
 		}
 	}
 }
