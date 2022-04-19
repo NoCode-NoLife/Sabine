@@ -8,7 +8,7 @@ using Sabine.Zone.Scripting;
 using Sabine.Zone.World.Shops;
 using static Sabine.Zone.Scripting.Shortcuts;
 
-public class PronteraNpcsScript : MapScript
+public class PronteraNpcsScript : GeneralScript
 {
 	public override void Load()
 	{

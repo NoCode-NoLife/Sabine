@@ -5,8 +5,9 @@
 //---------------------------------------------------------------------------
 
 using Sabine.Zone.Scripting;
+using static Sabine.Zone.Scripting.Shortcuts;
 
-public class PronteraWarpsScript : MapScript
+public class PronteraWarpsScript : GeneralScript
 {
 	public override void Load()
 	{
@@ -14,7 +15,7 @@ public class PronteraWarpsScript : MapScript
 		Inside();
 	}
 
-	private void Overworld()
+	private static void Overworld()
 	{
 		// Prontera North Field <--> Prontera North
 		AddWarp(From("prt_fild01", 113, 22), To("prt_vilg02", 100, 174));
@@ -49,7 +50,7 @@ public class PronteraWarpsScript : MapScript
 		AddWarp(From("prt_fild00", 100, 180), To("prt_vilg01", 100, 24));
 	}
 
-	private void Inside()
+	private static void Inside()
 	{
 		// Prontera North <--> Building Center Northwest
 		AddWarp(From("prt_vilg02", 127, 119), To("prt_intr02", 50, 72));
