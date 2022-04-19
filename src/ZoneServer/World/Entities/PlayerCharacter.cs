@@ -23,6 +23,7 @@ namespace Sabine.Zone.World.Entities
 		private readonly HashSet<int> _visibleEntities = new HashSet<int>();
 
 		private readonly Queue<Position> _pathQueue = new Queue<Position>();
+		private Position _finalDestination;
 		private Position _nextDestination;
 		private TimeSpan _currentMoveTime;
 		private bool _moving;
@@ -149,6 +150,17 @@ namespace Sabine.Zone.World.Entities
 		/// its surroundings, actively updating the visible entities.
 		/// </summary>
 		public bool IsObserving { get; protected set; }
+
+		/// <summary>
+		/// Returns true if the character is currently moving.
+		/// </summary>
+		public bool IsMoving => _moving;
+
+		/// <summary>
+		/// Returns the final destination of the character's current
+		/// movement path.
+		/// </summary>
+		public Position Destination => _finalDestination;
 
 		/// <summary>
 		/// Gets or sets the player's selected language.
@@ -535,8 +547,13 @@ namespace Sabine.Zone.World.Entities
 			//	Log.Debug("  {0}: {1}", i + 1, pos);
 			//}
 
-			// Start the move to the next tile
-			this.NextMovement();
+			// Start the move to the next tile if we aren't moving already.
+			// If we are moving, we queued up the new path that starts at
+			// the current destination, where we were currently headed.
+			if (!_moving)
+				this.NextMovement();
+
+			_finalDestination = toPos;
 
 			// Notify the clients
 			Send.ZC_NOTIFY_PLAYERMOVE(character, fromPos, toPos);
