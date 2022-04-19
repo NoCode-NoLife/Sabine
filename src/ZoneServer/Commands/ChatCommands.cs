@@ -312,7 +312,6 @@ namespace Sabine.Zone.Commands
 			{
 				var xStr = args.Get(0);
 				var yStr = args.Get(1);
-				var pos = target.Position;
 
 				if (!int.TryParse(xStr, out var x))
 					return CommandResult.InvalidArgument;
@@ -327,6 +326,7 @@ namespace Sabine.Zone.Commands
 				// the bottom of the map.
 				if (xStr.StartsWith("+") || xStr.StartsWith("-") || yStr.StartsWith("+") || yStr.StartsWith("-"))
 				{
+					var pos = target.Position;
 					x += pos.X;
 					y += pos.Y;
 				}
