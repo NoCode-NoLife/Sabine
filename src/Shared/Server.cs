@@ -10,6 +10,7 @@ using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using Sabine.Shared.Configuration;
 using Sabine.Shared.Data;
 using Sabine.Shared.Database;
+using Sabine.Shared.L10N;
 using Sabine.Shared.Util;
 using Shared.Scripting;
 using Yggdrasil.Data;
@@ -34,6 +35,11 @@ namespace Sabine.Shared
 		/// Returns a reference to the server's script loader.
 		/// </summary>
 		protected ScriptLoader ScriptLoader { get; private set; }
+
+		/// <summary>
+		/// Returns a reference to the server's string localizer manager.
+		/// </summary>
+		public MultiLocalizer Localization { get; } = new MultiLocalizer();
 
 		/// <summary>
 		/// Starts the server.
@@ -84,32 +90,51 @@ namespace Sabine.Shared
 			Thread.CurrentThread.CurrentCulture = CultureInfo.DefaultThreadCurrentCulture;
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.DefaultThreadCurrentUICulture;
 
-			var language = conf.Localization.Language;
-			var path = Path.Combine("localization", language + ".po");
+			var serverLanguage = conf.Localization.Language;
+			var relativeFolderPath = "localization";
+			var systemFolderPath = Path.Combine("system", relativeFolderPath);
+			var userFolderPath = Path.Combine("system", relativeFolderPath);
 
-			Log.Info("Loading localization ({0})...", language);
+			Log.Info("Loading localization...");
 
-			// Try user first
-			try
+			// Load everything from user first, then check system, without
+			// overriding the ones loaded from user
+			foreach (var filePath in Directory.EnumerateFiles(userFolderPath, "*.po", SearchOption.AllDirectories))
 			{
-				var userPath = Path.Combine("user", path);
-				Localization.Load(userPath);
+				var languageName = Path.GetFileNameWithoutExtension(filePath);
+				this.Localization.Load(languageName, filePath);
+
+				Log.Info("  loaded {0}.", languageName);
 			}
-			catch (FileNotFoundException)
+
+			foreach (var filePath in Directory.EnumerateFiles(systemFolderPath, "*.po", SearchOption.AllDirectories))
 			{
-				// Try system second, if the file wasn't in user
-				try
-				{
-					var systemPath = Path.Combine("system", path);
-					Localization.Load(systemPath);
-				}
-				catch (FileNotFoundException)
-				{
-					// Warn if language wasn't the default
-					if (language != "en-US")
-						Log.Warning("Localization file '{0}.po' not found.", language);
-				}
+				var languageName = Path.GetFileNameWithoutExtension(filePath);
+				if (this.Localization.Contains(languageName))
+					continue;
+
+				this.Localization.Load(languageName, filePath);
+
+				Log.Info("  loaded {0}.", languageName);
 			}
+
+
+			Log.Info("  setting default language to {0}.", serverLanguage);
+
+			// Try to set the default localizer, and warn the user about
+			// missing localizers if the selected server language isn't
+			// US english.
+			if (!this.Localization.Contains(serverLanguage))
+			{
+				if (serverLanguage != "en-US")
+					Log.Warning("Localization file '{0}.po' not found.", serverLanguage);
+			}
+			else
+			{
+				this.Localization.SetDefault(serverLanguage);
+			}
+
+			Sabine.Shared.Util.Localization.SetLocalizer(this.Localization.GetDefault());
 		}
 
 		/// <summary>

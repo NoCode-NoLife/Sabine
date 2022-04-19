@@ -32,6 +32,7 @@ namespace Sabine.Zone.Commands
 			// Normal commands
 			this.Add("help", "[commandName]", Localization.Get("Displays a list of usable commands or details about one command."), this.Help);
 			this.Add("where", "", Localization.Get("Displays current location."), this.Where);
+			this.Add("language", "<language>", Localization.Get("Changes the localization language."), this.Language);
 
 			// GM commands
 			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
@@ -515,6 +516,40 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Job changed to {0}."), jobId);
 			if (target != sender)
 				target.ServerMessage(Localization.Get("{0} changed your job to {1}."), sender.Name, jobId);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Changes the target's selected localization language.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Language(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				var languages = ZoneServer.Instance.Localization.GetLanguages();
+				var available = string.Join(", ", languages);
+
+				sender.ServerMessage(Localization.Get("Available languages: {0}"), available);
+				return CommandResult.InvalidArgument;
+			}
+
+			var languageName = args.Get(0);
+			if (!ZoneServer.Instance.Localization.Contains(languageName))
+			{
+				sender.ServerMessage(Localization.Get("Language '{0}' is not available."), languageName);
+				return CommandResult.InvalidArgument;
+			}
+
+			target.SelectedLanguage = languageName;
+
+			sender.ServerMessage(Localization.Get("Language changed to {0}."), languageName);
 
 			return CommandResult.Okay;
 		}

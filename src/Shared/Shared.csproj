@@ -102,6 +102,8 @@
     <Compile Include="Data\Databases\Monsters.cs" />
     <Compile Include="Data\SabineData.cs" />
     <Compile Include="Extensions\DateTime.cs" />
+    <Compile Include="L10N\Localizer.cs" />
+    <Compile Include="L10N\MultiLocalizer.cs" />
     <Compile Include="Network\Connection.cs" />
     <Compile Include="Network\Helpers\Position.cs" />
     <Compile Include="Network\Op.cs" />
@@ -114,7 +116,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\CSharpCodeProvider.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="Util\Localization.cs" />
+    <Compile Include="L10N\Localization.cs" />
     <Compile Include="Util\RoMath.cs" />
     <Compile Include="Util\Variables.cs" />
     <Compile Include="World\Direction.cs" />

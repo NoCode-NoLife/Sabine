@@ -20,12 +20,14 @@ public class PronteraNpcsScript : MapScript
 
 		AddNpc("Guide", 54, "prt_vilg02", 99, 89, async dialog =>
 		{
+			dialog.PlayerLocalization(out var L, out var LN);
+
 			dialog.Msg("[Guide]");
 			dialog.Msg("Hello, world!");
 			await dialog.Next();
 
 			dialog.Msg("[Guide]");
-			dialog.Msg("How are you?");
+			dialog.Msg(L("How are you?"));
 			await dialog.Next();
 
 			var response = await dialog.Select(Option("Good!", "good"), Option("Meh.", "bad"));

@@ -116,6 +116,18 @@ namespace Sabine.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Returns delegates that translate strings to the language
+		/// selected by the player.
+		/// </summary>
+		/// <param name="L"></param>
+		/// <param name="LN"></param>
+		public void PlayerLocalization(out Func<string, string> L, out Func<string, string, int, string> LN)
+		{
+			L = this.Player.Localizer.Get;
+			LN = this.Player.Localizer.GetPlural;
+		}
+
+		/// <summary>
 		/// Sends message to player, adding to any messages already
 		/// in the dialog box..
 		/// </summary>
@@ -140,6 +152,15 @@ namespace Sabine.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Sends a message to the player with the NPC's name,
+		/// as typically placed before every message block.
+		/// </summary>
+		public void MsgNpcName()
+		{
+			this.Msg("[^0000FF{0}^000000]", this.Npc.Name);
+		}
+
+		/// <summary>
 		/// Experimental version of Msg that supports paging "&lt;p/&gt;",
 		/// line-breaks "&lt;br/&gt;", and automatically adds the name
 		/// of the NPC as a title.
@@ -155,7 +176,7 @@ namespace Sabine.Zone.Scripting.Dialogues
 				var page = pages[i];
 				var paragraphs = page.Split(new string[] { "<br/>" }, StringSplitOptions.None);
 
-				this.Msg("[^0000FF{0}^000000]", this.Npc.Name);
+				this.MsgNpcName();
 				foreach (var paragraph in paragraphs)
 					this.Msg(paragraph);
 

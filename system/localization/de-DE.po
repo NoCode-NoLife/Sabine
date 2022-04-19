@@ -1,0 +1,248 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Sabine\n"
+"POT-Creation-Date: 2022-04-19 10:36+0200\n"
+"PO-Revision-Date: 2022-04-19 10:36+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: ;Localization.Get:1;Localization.GetPlural:1,2;L:1;"
+"LN:1,2;LF:1;LNF:1,2\n"
+"X-Poedit-SearchPath-0: system/scripts\n"
+"X-Poedit-SearchPath-1: src\n"
+
+#: src/ZoneServer/Commands/ChatCommands.Management.cs:68
+msgid "Unknown command."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.Management.cs:79
+msgid ""
+"No authority levels were set for this command and no default level could be "
+"found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.Management.cs:89
+msgid "You're not authorized to use this command."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.Management.cs:101
+msgid "No target specified."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.Management.cs:108
+msgid "Target character not found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.Management.cs:139
+msgid "Failed to execute command."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.Management.cs:143
+#, csharp-format
+msgid "Invalid argument, usage: {0}{1} {2}"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:33
+msgid "Displays a list of usable commands or details about one command."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:34
+msgid "Displays current location."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:37
+msgid "Broadcasts message to everyone on the server."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:38
+msgid "Warps player to destination."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:39
+msgid "Spawns monsters."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:40
+msgid "Modifies the character's stats."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:41
+msgid "Spawns item for character."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:42
+msgid "Changes character's job."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:45
+msgid "Behaviour undefined."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:46
+msgid "Changes the target's sprite."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:47
+msgid "Reloads all scripts."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:50
+msgid "Toggles path debugging on and off."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:113
+msgid "Command not found or not available."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:119
+#, csharp-format
+msgid "Name: {0}"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:121
+#, csharp-format
+msgid "Aliases: {0}"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:122
+#, csharp-format
+msgid "Description: {0}"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:123
+#, csharp-format
+msgid "Arguments: {0}"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:141
+msgid "No commands found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:147
+msgid "Available commands:"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:188
+#, csharp-format
+msgid "You're here: {1}, {2:n0}, {3:n0}"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:190
+#, csharp-format
+msgid "{0} is here: {1}, {2:n0}, {3:n0}"
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:217
+msgid "Message was broadcasted."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:244
+#, csharp-format
+msgid "Changed {0} to {1}."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:270
+#, csharp-format
+msgid "Map '{0}' not found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:285
+msgid "Map not found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:291
+#, csharp-format
+msgid "Warped to {0}, {1}, {2}."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:293
+#, csharp-format
+msgid "You were warped by {0}."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:363
+msgid "Path debugging is now enabled."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:365
+msgid "Path debugging is now disabled."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:390
+#, csharp-format
+msgid "Monster '{0}' not found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:399
+#, csharp-format
+msgid "Monster with id '{0}' not found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:406
+msgid "Monsters spawned."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:442
+#, csharp-format
+msgid "Unknown stat type '{0}'."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:446
+#, csharp-format
+msgid "Stat {0} has been modified by {1}."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:448
+#, csharp-format
+msgid "{0} has modified your stats."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:473
+#, csharp-format
+msgid "Item '{0}' not found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:482
+#, csharp-format
+msgid "Item with id '{0}' not found."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:498
+#, csharp-format
+msgid "Item '{0}' was added to inventory."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:500
+#, csharp-format
+msgid "{0} added item '{1}' to your inventory."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:523
+#, csharp-format
+msgid "Unknown job '{0}'."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:529
+#, csharp-format
+msgid "Job changed to {0}."
+msgstr ""
+
+#: src/ZoneServer/Commands/ChatCommands.cs:531
+#, csharp-format
+msgid "{0} changed your job to {1}."
+msgstr ""
+
+#: src/ZoneServer/World/Entities/PlayerCharacter.cs:166
+#, csharp-format
+msgid "[Server] : {0}"
+msgstr ""
+
+#: system/scripts/npcs/prontera.cs:28
+msgid "How are you?"
+msgstr "Wie geht's dir?"
