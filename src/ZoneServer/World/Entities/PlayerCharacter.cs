@@ -138,7 +138,9 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		public PlayerCharacter(JobId jobId)
 		{
+			this.JobId = jobId;
 			this.Inventory = new Inventory(this);
+
 			this.LoadJobData(jobId);
 		}
 

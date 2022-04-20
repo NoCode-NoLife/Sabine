@@ -112,7 +112,7 @@ namespace Sabine.Zone.Database
 					cmd.AddParameter("@characterId", character.Id);
 
 					cmd.Set("name", character.Name);
-					cmd.Set("job", character.JobId);
+					cmd.Set("job", (int)character.JobId);
 					cmd.Set("mapId", character.MapId);
 					cmd.Set("x", character.Position.X);
 					cmd.Set("y", character.Position.Y);
