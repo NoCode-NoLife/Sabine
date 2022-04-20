@@ -306,6 +306,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		{
 			if ((slots & EquipSlots.RightHand) != 0)
 				this.Character.ChangeLook(SpriteType.Weapon, item.Data.LookId);
+
+			this.Character.Parameters.RecalculateSubStats();
 		}
 
 		/// <summary>
@@ -317,6 +319,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		{
 			if ((slots & EquipSlots.RightHand) != 0)
 				this.Character.ChangeLook(SpriteType.Weapon, 0);
+
+			this.Character.Parameters.RecalculateSubStats();
 		}
 
 		/// <summary>
@@ -340,6 +344,17 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			var items = this.GetItems(a => a.IsEquipped && !this.Character.CanEquip(a));
 			foreach (var item in items)
 				this.UnequipItem(item);
+		}
+
+		/// <summary>
+		/// Returns the total amount of defense granted to the player
+		/// from the currently equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public int GetEquipDefense()
+		{
+			var items = this.GetItems(a => a.IsEquipped && a.Data.Defense != 0);
+			return items.Sum(a => a.Data.Defense);
 		}
 	}
 }

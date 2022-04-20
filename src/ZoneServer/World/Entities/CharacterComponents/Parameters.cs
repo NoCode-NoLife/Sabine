@@ -231,12 +231,12 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Returns the character's current defense.
 		/// </summary>
-		public int Defense { get; set; } = 7;
+		public int Defense { get; set; }
 
 		/// <summary>
 		/// Gets or sets the character's base experience points.
 		/// </summary>
-		public int BaseExp { get; set; } = 10;
+		public int BaseExp { get; set; }
 
 		/// <summary>
 		/// Gets or sets the character's job experience points.
@@ -359,7 +359,10 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				this.RecalculateAttack();
 
 			if (type == ParameterType.Vit)
+			{
 				this.RecalculateHp();
+				this.RecalculateDefense();
+			}
 
 			if (type == ParameterType.Int)
 				this.RecalculateMagicAttack();
@@ -508,6 +511,30 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Recalculates character's attack parameters and updates the
+		/// property.
+		/// </summary>
+		/// <returns></returns>
+		public void RecalculateDefense()
+		{
+			if (_playerCharacter == null)
+				return;
+
+			// The alpha client has only one (visible) defense stat,
+			// which would presumably display the armor's defense,
+			// because it might be confusing if you equipped a 5
+			// defense armor, but your defense value didn't change.
+			// This armor defense was percentage-based later on,
+			// however, and doesn't mix with the point-based VIT
+			// defense bonus. Is that bonus maybe not displayed?
+			// Did it not exist? Did it play into the percentage?
+			// For now I'll ignore it for the display.
+			this.Defense = _playerCharacter.Inventory.GetEquipDefense();
+
+			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.Defense);
+		}
+
+		/// <summary>
 		/// Recalculates all sub-stats and updates the client.
 		/// </summary>
 		public void RecalculateSubStats()
@@ -516,6 +543,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			this.RecalculateSp();
 			this.RecalculateAttack();
 			this.RecalculateMagicAttack();
+			this.RecalculateDefense();
 		}
 
 		/// <summary>
