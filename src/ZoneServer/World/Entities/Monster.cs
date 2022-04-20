@@ -37,6 +37,10 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		private void ApplyData()
 		{
+			this.Parameters.HpMax = this.Data.Hp;
+			this.Parameters.Hp = this.Data.Hp;
+			this.Parameters.SpMax = this.Data.Sp;
+			this.Parameters.Sp = this.Data.Sp;
 			this.Parameters.Str = this.Data.Str;
 			this.Parameters.Agi = this.Data.Agi;
 			this.Parameters.Vit = this.Data.Vit;

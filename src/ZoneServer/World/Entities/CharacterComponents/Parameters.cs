@@ -161,7 +161,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		public int Speed { get; set; } = 200;
 
 		/// <summary>
-		/// Gets or sets how many HP the character currently has.
+		/// Gets or sets how many HP the character currently has,
+		/// capped between 0 and the max HP.
 		/// </summary>
 		public int Hp
 		{
@@ -181,7 +182,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		private int _hpMax = 40;
 
 		/// <summary>
-		/// Gets or sets how many SP the character currently has.
+		/// Gets or sets how many SP the character currently has,
+		/// capped between 0 and the max SP.
 		/// </summary>
 		public int Sp
 		{
@@ -315,6 +317,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			var newValue = 0;
 			switch (type)
 			{
+				case ParameterType.Hp: newValue = this.Hp += modifier; break;
+				case ParameterType.Sp: newValue = this.Sp += modifier; break;
 				case ParameterType.Str: newValue = this.Str += modifier; break;
 				case ParameterType.Agi: newValue = this.Agi += modifier; break;
 				case ParameterType.Vit: newValue = this.Vit += modifier; break;
