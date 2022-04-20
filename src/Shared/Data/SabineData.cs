@@ -13,6 +13,11 @@ namespace Sabine.Shared.Data
 		public static ExpDb ExpTables { get; } = new ExpDb();
 
 		/// <summary>
+		/// db/features.txt
+		/// </summary>
+		public static FeatureDb Features { get; } = new FeatureDb();
+
+		/// <summary>
 		/// db/items.txt
 		/// </summary>
 		public static ItemDb Items { get; } = new ItemDb();

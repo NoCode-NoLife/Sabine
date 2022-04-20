@@ -1,0 +1,28 @@
+// Sabine
+// Database File
+// 
+// A hierarchical feature tree that allows toggling entire feature sets
+// on and off. It's geared towards enabling certain updates in one go,
+// but it's also possible to pick and choose certain features.
+// See docs/features.txt for more information.
+// 
+// Note that some features in this file are currently for reference only,
+// and don't necessarily change the behavior of the server.
+//---------------------------------------------------------------------------
+
+[
+{ name: "Alpha", enabled: true, children: [
+	// Enables all first class jobs. At one point, players could only play
+	// as Swordmen.
+	{ name: "FirstClassJobs", enabled: true },
+]},
+
+{ name: "Beta1", enabled: false, children: [
+	// Enables the mage class, which was not available in the alpha.
+	{ name: "Mage", enabled: true },
+	
+	// Enables skills, which were not available in the alpha.
+	// This feature doesn't do anything if the alpha client is used.
+	{ name: "Skills", enabled: true },
+]},
+]
