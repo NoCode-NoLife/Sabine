@@ -29,6 +29,24 @@ namespace Sabine.Zone.World.Entities
 			this.Name = data.Name;
 
 			this.Data = data;
+			this.ApplyData();
+		}
+
+		/// <summary>
+		/// Modifies monster and its stats based on the loaded data.
+		/// </summary>
+		private void ApplyData()
+		{
+			this.Parameters.Str = this.Data.Str;
+			this.Parameters.Agi = this.Data.Agi;
+			this.Parameters.Vit = this.Data.Vit;
+			this.Parameters.Int = this.Data.Int;
+			this.Parameters.Dex = this.Data.Dex;
+			this.Parameters.Luk = this.Data.Luk;
+			this.Parameters.AtkMin = this.Data.AtkMin;
+			this.Parameters.AtkMax = this.Data.AtkMax;
+			this.Parameters.Defense = this.Data.Defense;
+			this.Parameters.Speed = this.Data.Speed;
 		}
 	}
 }
