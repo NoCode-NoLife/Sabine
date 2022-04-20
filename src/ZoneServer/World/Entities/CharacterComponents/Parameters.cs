@@ -428,15 +428,15 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			var mainStat = 0;
 			var secStat = 0;
 
-			if (weapon.Type != ItemType.RangedWeapon)
-			{
-				mainStat = this.Str;
-				secStat = this.Dex;
-			}
-			else
+			if (weapon?.Type == ItemType.RangedWeapon)
 			{
 				mainStat = this.Dex;
 				secStat = this.Str;
+			}
+			else
+			{
+				mainStat = this.Str;
+				secStat = this.Dex;
 			}
 
 			var fromStats = (int)(mainStat + Math.Pow(mainStat / 10, 2) + secStat / 5 + this.Luk / 5);
