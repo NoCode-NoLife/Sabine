@@ -67,9 +67,9 @@ namespace Sabine.Shared.Data.Databases
 			data.Name = entry.ReadString("name");
 
 			data.Modifiers.Weight = modifiersObj.ReadInt("weight");
-			data.Modifiers.HpFactor = modifiersObj.ReadInt("hpFactor");
-			data.Modifiers.HpMultiplier = modifiersObj.ReadInt("hpMultiplier");
-			data.Modifiers.SpFactor = modifiersObj.ReadInt("spFactor");
+			data.Modifiers.HpFactor = modifiersObj.ReadFloat("hpFactor");
+			data.Modifiers.HpMultiplier = modifiersObj.ReadFloat("hpMultiplier");
+			data.Modifiers.SpFactor = modifiersObj.ReadFloat("spFactor");
 
 			data.WeaponDelays.BareHand = weaponDelaysObj.ReadFloat("bareHand");
 			data.WeaponDelays.Dagger = weaponDelaysObj.ReadFloat("dagger");
