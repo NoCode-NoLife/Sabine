@@ -164,6 +164,7 @@ namespace Sabine.Shared
 		{
 			Log.Info("Loading data...");
 
+			this.LoadDataFile(SabineData.ExpTables, "exp.txt");
 			this.LoadDataFile(SabineData.Items, "items.txt");
 			this.LoadDataFile(SabineData.Jobs, "jobs.txt");
 			this.LoadDataFile(SabineData.Maps, "maps.txt");

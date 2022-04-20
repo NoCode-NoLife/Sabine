@@ -8,6 +8,11 @@ namespace Sabine.Shared.Data
 	public static class SabineData
 	{
 		/// <summary>
+		/// db/exp.txt
+		/// </summary>
+		public static ExpDb ExpTables { get; } = new ExpDb();
+
+		/// <summary>
 		/// db/items.txt
 		/// </summary>
 		public static ItemDb Items { get; } = new ItemDb();

@@ -96,6 +96,7 @@
     <Compile Include="Database\Db.cs" />
     <Compile Include="Database\MySQL\Commands.cs" />
     <Compile Include="Database\MySQL\Extensions.cs" />
+    <Compile Include="Data\Databases\Exp.cs" />
     <Compile Include="Data\Databases\Items.cs" />
     <Compile Include="Data\Databases\Jobs.cs" />
     <Compile Include="Data\Databases\MapCache.cs" />
