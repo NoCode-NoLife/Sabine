@@ -52,7 +52,7 @@ namespace Sabine.Zone.Network
 		/// Makes character appear on the player's client.
 		/// </summary>
 		/// <param name="newCharacter"></param>
-		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, ICharacter newCharacter)
+		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, IEntryCharacter newCharacter)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
 
@@ -82,7 +82,7 @@ namespace Sabine.Zone.Network
 		/// to be handling both players and NPCs well.
 		/// </remarks>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_STANDENTRY_NPC(ICharacter character)
+		public static void ZC_NOTIFY_STANDENTRY_NPC(IEntryCharacter character)
 		{
 			// Class id 32 appears to be a large shadow, possibly a warp,
 			// and 63 seems to be an effect, that uses the speed field
@@ -109,7 +109,7 @@ namespace Sabine.Zone.Network
 		/// a spawn effect.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_NEWENTRY(ICharacter character)
+		public static void ZC_NOTIFY_NEWENTRY(IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_NEWENTRY);
 
@@ -133,7 +133,7 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		public static void ZC_NOTIFY_MOVEENTRY(ICharacter character, Position from, Position to)
+		public static void ZC_NOTIFY_MOVEENTRY(IEntryCharacter character, Position from, Position to)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_MOVEENTRY);
 
@@ -368,11 +368,11 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="message"></param>
-		public static void ZC_NOTIFY_CHAT(PlayerCharacter character, string message)
+		public static void ZC_NOTIFY_CHAT(ICharacter character, string message)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_CHAT);
 
-			packet.PutInt(character.SessionId);
+			packet.PutInt(character.Handle);
 			packet.PutString(message);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
@@ -491,7 +491,7 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_EMOTION);
 
-			packet.PutInt(character.SessionId);
+			packet.PutInt(character.Handle);
 			packet.PutByte((byte)emotion);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);

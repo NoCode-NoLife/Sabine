@@ -12,18 +12,21 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 	/// </summary>
 	public class Parameters
 	{
+		private PlayerCharacter _playerCharacter;
+
 		/// <summary>
 		/// Returns the character these stats belong to.
 		/// </summary>
-		public PlayerCharacter Character { get; }
+		public ICharacter Character { get; }
 
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="character"></param>
-		public Parameters(PlayerCharacter character)
+		public Parameters(ICharacter character)
 		{
 			this.Character = character;
+			_playerCharacter = character as PlayerCharacter;
 		}
 
 		/// <summary>
@@ -406,15 +409,18 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <param name="types"></param>
 		public void UpdateClient(params ParameterType[] types)
 		{
+			if (_playerCharacter == null)
+				return;
+
 			if (types == null || types.Length == 0)
 				return;
 
 			foreach (var type in types)
 			{
 				if (!type.IsLong())
-					Send.ZC_PAR_CHANGE(this.Character, type);
+					Send.ZC_PAR_CHANGE(_playerCharacter, type);
 				else
-					Send.ZC_LONGPAR_CHANGE(this.Character, type);
+					Send.ZC_LONGPAR_CHANGE(_playerCharacter, type);
 			}
 		}
 	}

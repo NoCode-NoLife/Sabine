@@ -70,10 +70,12 @@
     <Compile Include="Scripting\GeneralScript.cs" />
     <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="World\Entities\Character.cs" />
+    <Compile Include="World\Entities\CharacterComponents\MovementController.cs" />
     <Compile Include="World\Entities\CharacterComponents\Inventory.cs" />
     <Compile Include="World\Entities\CharacterComponents\Parameters.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />
+    <Compile Include="World\Entities\IEntryCharacter.cs" />
     <Compile Include="World\Entities\Monster.cs" />
     <Compile Include="World\Entities\Npc.cs" />
     <Compile Include="World\Entities\PlayerCharacter.cs" />

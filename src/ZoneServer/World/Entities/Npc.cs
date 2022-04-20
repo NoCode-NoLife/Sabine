@@ -1,37 +1,27 @@
 ﻿using System;
 using System.Threading;
-using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.Scripting.Dialogues;
-using Sabine.Zone.World.Maps;
-using Shared.Const;
+using Sabine.Zone.World.Entities.CharacterComponents;
 
 namespace Sabine.Zone.World.Entities
 {
 	/// <summary>
 	/// Represents a non-player character.
 	/// </summary>
-	public class Npc : ICharacter, IUpdateable
+	public class Npc : ICharacter, IEntity, IUpdateable
 	{
 		private static int HandlePool = 0x3000_0000;
 
-		public int Handle { get; set; }
-		public string Name { get; set; }
-		public string Username { get; set; } = "";
-		public int ClassId { get; set; }
-		public int MapId { get; set; }
-		public Position Position { get; set; }
-		public Direction Direction { get; set; } = Direction.South;
-
-		public int Speed { get; set; } = 400;
-		public Sex Sex { get; set; }
-		public int HairId { get; set; }
-		public int WeaponId { get; set; }
+		/// <summary>
+		/// Returns the NPC's unique handle.
+		/// </summary>
+		public override int Handle { get; protected set; }
 
 		/// <summary>
-		/// Gets or sets the character's state.
+		/// Returns the NPC's class id, defining its look.
 		/// </summary>
-		public CharacterState State { get; set; }
+		public override int ClassId { get; protected set; }
 
 		// Temporary, for testing
 		public Location WarpDestination { get; set; }
@@ -43,16 +33,6 @@ namespace Sabine.Zone.World.Entities
 		public DialogFunc DialogFunc { get; set; }
 
 		/// <summary>
-		/// Gets or sets a reference to the map the NPC is currently on.
-		/// </summary>
-		public Map Map
-		{
-			get => _map;
-			set => _map = value ?? Map.Limbo;
-		}
-		private Map _map = Map.Limbo;
-
-		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		/// <param name="classId"></param>
@@ -60,6 +40,12 @@ namespace Sabine.Zone.World.Entities
 		{
 			this.Handle = GetNewHandle();
 			this.ClassId = classId;
+
+			this.Controller = new MovementController(this);
+			this.Parameters = new Parameters(this);
+
+			this.Direction = Direction.South;
+			this.Parameters.Speed = 400;
 		}
 
 		/// <summary>
@@ -83,7 +69,7 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		/// <param name="location"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public void Warp(Location location)
+		public override void Warp(Location location)
 		{
 			if (!ZoneServer.Instance.World.Maps.TryGet(location.MapId, out var newMap))
 				throw new ArgumentException($"Map '{location.MapId}' not found.");
@@ -103,6 +89,7 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			this.Controller.Update(elapsed);
 		}
 	}
 }

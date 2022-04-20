@@ -134,7 +134,7 @@ namespace Sabine.Zone.Network
 			var character = conn.GetCurrentCharacter();
 			var fromPos = character.Position;
 
-			character.MoveTo(toPos);
+			character.Controller.MoveTo(toPos);
 
 			// Spawn some NPCs to visualize the path the server calculated
 			// for this move request.
@@ -466,7 +466,7 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 
-			character.StopMove();
+			character.Controller.StopMove();
 
 			switch (action)
 			{

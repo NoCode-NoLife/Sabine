@@ -7,9 +7,7 @@ using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.CharacterComponents;
-using Sabine.Zone.World.Maps;
 using Shared.Const;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -22,16 +20,10 @@ namespace Sabine.Zone.World.Entities
 		private readonly object _visibilityUpdateSyncLock = new object();
 		private readonly HashSet<int> _visibleEntities = new HashSet<int>();
 
-		private readonly Queue<Position> _pathQueue = new Queue<Position>();
-		private Position _finalDestination;
-		private Position _nextDestination;
-		private TimeSpan _currentMoveTime;
-		private bool _moving;
-
 		/// <summary>
 		/// Gets or sets the connection that controls this player.
 		/// </summary>
-		public ZoneConnection Connection { get; set; } = new DummyConnection();
+		public ZoneConnection Connection { get; internal set; } = new DummyConnection();
 
 		/// <summary>
 		/// Returns the character's variable container.
@@ -39,19 +31,23 @@ namespace Sabine.Zone.World.Entities
 		public VariableContainer Vars { get; } = new VariableContainer();
 
 		/// <summary>
-		/// Returns this character's username.
+		/// Returns a reference to the character's inventory.
 		/// </summary>
-		public string Username => this.Connection.Account.Username;
+		public Inventory Inventory { get; }
 
 		/// <summary>
-		/// Returns this character's session id.
+		/// Returns this character's username.
 		/// </summary>
-		public int SessionId => this.Connection.Account.SessionId;
+		public override string Username => this.Connection.Account.Username;
 
 		/// <summary>
 		/// Returns the character's handle.
 		/// </summary>
-		public int Handle => this.SessionId;
+		public override int Handle
+		{
+			get => this.Connection.Account.SessionId;
+			protected set => throw new NotSupportedException();
+		}
 
 		/// <summary>
 		/// Gets or sets this character's id.
@@ -61,12 +57,12 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Gets or sets this character's name.
 		/// </summary>
-		public string Name { get; set; }
+		public override string Name { get; set; }
 
 		/// <summary>
 		/// Returns this character's/account's sex.
 		/// </summary>
-		public Sex Sex => this.Connection.Account.Sex;
+		public override Sex Sex => this.Connection.Account.Sex;
 
 		/// <summary>
 		/// Gets or sets this character's job.
@@ -74,55 +70,14 @@ namespace Sabine.Zone.World.Entities
 		public JobId JobId { get; set; } = JobId.Novice;
 
 		/// <summary>
-		/// Returns the character's speed from its parameters.
-		/// </summary>
-		public int Speed => this.Parameters.Speed;
-
-		/// <summary>
 		/// Returns the character's class id, which is equal to its
 		/// current job id.
 		/// </summary>
-		public int ClassId => (int)this.JobId;
-
-		/// <summary>
-		/// Gets or sets the character's hair.
-		/// </summary>
-		public int HairId { get; set; }
-
-		/// <summary>
-		/// Gets or sets the character's weapon.
-		/// </summary>
-		public int WeaponId { get; set; }
-
-		/// <summary>
-		/// Returns a reference to the character's parameters/stats.
-		/// </summary>
-		public Parameters Parameters { get; }
-
-		/// <summary>
-		/// Returns a reference to the character's inventory.
-		/// </summary>
-		public Inventory Inventory { get; }
-
-		/// <summary>
-		/// Gets or sets the character's state.
-		/// </summary>
-		public CharacterState State { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the map the character is on.
-		/// </summary>
-		public int MapId { get; set; } = 100036;
-
-		/// <summary>
-		/// Gets or sets the character's current position.
-		/// </summary>
-		public Position Position { get; set; } = new Position(99, 81);
-
-		/// <summary>
-		/// Gets or sets the direction the character is looking in.
-		/// </summary>
-		public Direction Direction { get; set; } = Direction.North;
+		public override int ClassId
+		{
+			get => (int)this.JobId;
+			protected set => throw new NotSupportedException();
+		}
 
 		/// <summary>
 		/// Returns true if character is warping to a new location.
@@ -136,31 +91,10 @@ namespace Sabine.Zone.World.Entities
 		public Location WarpLocation { get; private set; }
 
 		/// <summary>
-		/// Returns a reference to the map the character is currently on.
-		/// </summary>
-		public Map Map
-		{
-			get => _map;
-			set => _map = value ?? Map.Limbo;
-		}
-		private Map _map = Map.Limbo;
-
-		/// <summary>
 		/// Gets or sets whether the character is currently observing
 		/// its surroundings, actively updating the visible entities.
 		/// </summary>
 		public bool IsObserving { get; protected set; }
-
-		/// <summary>
-		/// Returns true if the character is currently moving.
-		/// </summary>
-		public bool IsMoving => _moving;
-
-		/// <summary>
-		/// Returns the final destination of the character's current
-		/// movement path.
-		/// </summary>
-		public Position Destination => _finalDestination;
 
 		/// <summary>
 		/// Gets or sets the player's selected language.
@@ -197,7 +131,6 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		public PlayerCharacter()
 		{
-			this.Parameters = new Parameters(this);
 			this.Inventory = new Inventory(this);
 		}
 
@@ -229,7 +162,7 @@ namespace Sabine.Zone.World.Entities
 		/// Warps character to given location.
 		/// </summary>
 		/// <param name="location"></param>
-		public void Warp(Location location)
+		public override void Warp(Location location)
 		{
 			if (!ZoneServer.Instance.World.Maps.TryGet(location.MapId, out var map))
 				throw new ArgumentException($"Map '{location.MapId}' not found.");
@@ -237,7 +170,7 @@ namespace Sabine.Zone.World.Entities
 			this.IsWarping = true;
 			this.WarpLocation = location;
 
-			this.StopMove();
+			this.Controller.StopMove();
 			this.StopObserving();
 
 			//Log.Debug("Warping to {0}", location);
@@ -315,7 +248,7 @@ namespace Sabine.Zone.World.Entities
 		public void Update(TimeSpan elapsed)
 		{
 			this.UpdateVisibility();
-			this.UpdateMovement(elapsed);
+			this.Controller.Update(elapsed);
 		}
 
 		/// <summary>
@@ -510,161 +443,6 @@ namespace Sabine.Zone.World.Entities
 				return 16;
 
 			return 3;
-		}
-
-		/// <summary>
-		/// Makes character move to the given position.
-		/// </summary>
-		/// <param name="toPos"></param>
-		public void MoveTo(Position toPos)
-		{
-			var character = this;
-			var fromPos = this.Position;
-
-			// If we're currently moving, the start position needs to be
-			// the next tile we move to, or the client will rubber-band
-			// back to the tile it was just on.
-			if (_moving)
-				fromPos = _nextDestination;
-
-			// Clear the current movement queue and fill it with the
-			// new path.
-			var path = this.Map.PathFinder.FindPath(fromPos, toPos);
-			if (path.Length == 0)
-			{
-				Log.Debug("PlayerCharacter.MoveTo: No move path found between {0} and {1} on {2}.", fromPos, toPos, this.Map.StringId);
-				return;
-			}
-
-			_pathQueue.Clear();
-			foreach (var pos in path)
-				_pathQueue.Enqueue(pos);
-
-			//Log.Debug("Moving from {0} to {1}.", fromPos, toPos);
-			//for (var i = 0; i < path.Length; i++)
-			//{
-			//	var pos = path[i];
-			//	Log.Debug("  {0}: {1}", i + 1, pos);
-			//}
-
-			// Start the move to the next tile if we aren't moving already.
-			// If we are moving, we queued up the new path that starts at
-			// the current destination, where we were currently headed.
-			if (!_moving)
-				this.NextMovement();
-
-			_finalDestination = toPos;
-
-			// Notify the clients
-			Send.ZC_NOTIFY_PLAYERMOVE(character, fromPos, toPos);
-			Send.ZC_NOTIFY_MOVE(character, fromPos, toPos);
-		}
-
-		/// <summary>
-		/// Stops character's current movement.
-		/// </summary>
-		public Position StopMove()
-		{
-			if (!_moving)
-				return this.Position;
-
-			var stopPos = _nextDestination;
-			_pathQueue.Clear();
-			_moving = false;
-
-			//Log.Debug("Stopping at {0}", stopPos);
-
-			// The client doesn't react to ZC_STOPMOVE for its controlled
-			// character, so we need to send a move to make it stop.
-			// Unless that's not desired? Maybe there should a be
-			// forceStop parameter or something? TBD.
-
-			Send.ZC_STOPMOVE(this, stopPos);
-			Send.ZC_NOTIFY_PLAYERMOVE(this, this.Position, stopPos);
-
-			return stopPos;
-		}
-
-		/// <summary>
-		/// Updates the character's position based on its current movement.
-		/// </summary>
-		/// <param name="elapsed"></param>
-		private void UpdateMovement(TimeSpan elapsed)
-		{
-			// Do nothing if we're not currently moving to a new tile
-			if (!_moving)
-				return;
-
-			// Wait until enough time has passed to reach the next tile
-			_currentMoveTime -= elapsed;
-			if (_currentMoveTime > TimeSpan.Zero)
-				return;
-
-			// Update current position
-			this.Position = _nextDestination;
-			//Log.Debug("  now at {0}", this.Position);
-
-			this.OnReachedTile(this.Position);
-
-			// Start next move if there's still something left in the queue
-			if (_pathQueue.Count != 0)
-			{
-				this.NextMovement();
-				return;
-			}
-
-			_moving = false;
-		}
-
-		/// <summary>
-		/// Starts server-side move to the next tile in the character's
-		/// movement queue.
-		/// </summary>
-		/// <exception cref="InvalidOperationException"></exception>
-		private void NextMovement()
-		{
-			if (_pathQueue.Count == 0)
-				throw new InvalidOperationException("Path queue is empty.");
-
-			_nextDestination = _pathQueue.Dequeue();
-
-			var movingStright = this.Position.X == _nextDestination.X || this.Position.Y == _nextDestination.Y;
-			var speed = (float)this.Parameters.Speed;
-
-			// Speed appears to match diagonal movement, but it needs
-			// to be adjusted for straight moves, or the character will
-			// move slower on the server than on the client.
-			// Athena uses 'speed * 14 / 10' to slow down diagonal movement
-			// instead, so are characters possibly moving faster on the
-			// alpha client? That would explain why Athena's default walk
-			// speed value of 150 seems way too fast for the alpha client.
-			// Meanwhile, the client seems to use '10 * speed / 13'...? But
-			// our 'speed / 1.8f' seems to work well for the moment and gives
-			// us ~111 for 200 speed, while the client's formula gives us
-			// ~153, which is way off. This needs more research.
-			if (movingStright)
-				speed = speed / 1.8f;
-
-			_currentMoveTime = TimeSpan.FromMilliseconds(speed);
-			_moving = true;
-		}
-
-		/// <summary>
-		/// Called when the character reached the given position while
-		/// moving.
-		/// </summary>
-		/// <param name="position"></param>
-		private void OnReachedTile(Position position)
-		{
-			// TODO: Add auto trigger system that we can check for things
-			//   to do when stepping onto tiles.
-
-			var warps = this.Map.GetAllNpcs(a => a.ClassId == 32 && a.Position.InSquareRange(position, 2));
-			if (warps.Length > 0)
-			{
-				var warp = warps[0];
-				this.Warp(warp.WarpDestination);
-			}
 		}
 	}
 }
