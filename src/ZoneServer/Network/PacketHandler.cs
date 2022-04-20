@@ -347,6 +347,7 @@ namespace Sabine.Zone.Network
 			switch (itemData.Type)
 			{
 				case ItemType.Weapon:
+				case ItemType.RangedWeapon:
 				{
 					sb.AppendFormat("Attack:^777777 {0}-{1}^000000", itemData.AttackMin, itemData.AttackMax);
 					sb.AppendFormat(", Weight:^777777 {0:0.#}^000000", itemData.Weight / 10f);
