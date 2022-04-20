@@ -206,17 +206,17 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Returns the character's current min attack.
 		/// </summary>
-		public int AtkMin { get; set; } = 10;
+		public int AttackMin { get; set; } = 1;
 
 		/// <summary>
 		/// Returns the character's current max attack.
 		/// </summary>
-		public int AtkMax { get; set; } = 15;
+		public int AttackMax { get; set; } = 1;
 
 		/// <summary>
 		/// Returns the character's current magic attack.
 		/// </summary>
-		public int MAtk { get; set; } = 1;
+		public int MagicAttack { get; set; } = 1;
 
 		/// <summary>
 		/// Returns the character's current defense.
@@ -296,10 +296,10 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.JobExpNeeded: return this.JobExpNeeded;
 				case ParameterType.Weight: return this.Weight;
 				case ParameterType.WeightMax: return this.WeightMax;
-				case ParameterType.AtkMin: return this.AtkMin;
-				case ParameterType.AtkMax: return this.AtkMax;
+				case ParameterType.AttackMin: return this.AttackMin;
+				case ParameterType.AttackMax: return this.AttackMax;
 				case ParameterType.Defense: return this.Defense;
-				case ParameterType.MAtk: return this.MAtk;
+				case ParameterType.MagicAttack: return this.MagicAttack;
 
 				default:
 					throw new ArgumentException($"Invalid stat type '{type}'.");
@@ -451,11 +451,11 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				fromWeaponMax = weapon.Data.AttackMax;
 			}
 
-			this.AtkMin = fromStats + fromWeaponMin;
-			this.AtkMax = fromStats + fromWeaponMax;
+			this.AttackMin = fromStats + fromWeaponMin;
+			this.AttackMax = fromStats + fromWeaponMax;
 
-			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AtkMin);
-			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AtkMax);
+			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AttackMin);
+			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AttackMax);
 		}
 
 		/// <summary>

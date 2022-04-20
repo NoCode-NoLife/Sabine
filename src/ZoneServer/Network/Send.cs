@@ -355,10 +355,10 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)character.Parameters.DexNeeded);
 			packet.PutByte((byte)character.Parameters.Luk);
 			packet.PutByte((byte)character.Parameters.LukNeeded);
-			packet.PutByte((byte)character.Parameters.AtkMin);
-			packet.PutByte((byte)character.Parameters.AtkMax);
+			packet.PutByte((byte)character.Parameters.AttackMin);
+			packet.PutByte((byte)character.Parameters.AttackMax);
 			packet.PutByte((byte)character.Parameters.Defense);
-			packet.PutByte((byte)character.Parameters.MAtk);
+			packet.PutByte((byte)character.Parameters.MagicAttack);
 
 			character.Connection.Send(packet);
 		}

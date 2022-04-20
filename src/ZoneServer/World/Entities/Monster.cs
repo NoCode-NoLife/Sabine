@@ -47,8 +47,8 @@ namespace Sabine.Zone.World.Entities
 			this.Parameters.Int = this.Data.Int;
 			this.Parameters.Dex = this.Data.Dex;
 			this.Parameters.Luk = this.Data.Luk;
-			this.Parameters.AtkMin = this.Data.AtkMin;
-			this.Parameters.AtkMax = this.Data.AtkMax;
+			this.Parameters.AttackMin = this.Data.AttackMin;
+			this.Parameters.AttackMax = this.Data.AttackMax;
 			this.Parameters.Defense = this.Data.Defense;
 			this.Parameters.Speed = this.Data.Speed;
 		}

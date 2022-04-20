@@ -21,8 +21,8 @@ namespace Sabine.Shared.Data.Databases
 		public int AttackRange { get; set; }
 		public int ViewRange { get; set; }
 		public int ChaseRange { get; set; }
-		public int AtkMin { get; set; }
-		public int AtkMax { get; set; }
+		public int AttackMin { get; set; }
+		public int AttackMax { get; set; }
 		public int Defense { get; set; }
 		public int MagicDefense { get; set; }
 		public int Str { get; set; }
@@ -102,8 +102,8 @@ namespace Sabine.Shared.Data.Databases
 			data.AttackRange = entry.ReadInt("attackRange", 1);
 			data.ViewRange = entry.ReadInt("viewRange", 10);
 			data.ChaseRange = entry.ReadInt("chaseRange", 12);
-			data.AtkMin = entry.ReadInt("atkMin", 1);
-			data.AtkMax = entry.ReadInt("atkMax", 1);
+			data.AttackMin = entry.ReadInt("attackMin", 1);
+			data.AttackMax = entry.ReadInt("attackMax", 1);
 			data.Defense = entry.ReadInt("def", 0);
 			data.MagicDefense = entry.ReadInt("mdef", 0);
 			data.Str = entry.ReadInt("str", 1);

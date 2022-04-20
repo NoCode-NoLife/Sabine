@@ -32,10 +32,10 @@
 		JobExpNeeded = 23, // Long
 		Weight = 24,
 		WeightMax = 25,
-		AtkMin = 32,
-		AtkMax = 33,
+		AttackMin = 32,
+		AttackMax = 33,
 		Defense = 34,
-		MAtk = 35,
+		MagicAttack = 35,
 	}
 
 	/// <summary>
