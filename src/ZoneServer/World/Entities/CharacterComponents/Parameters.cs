@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security;
 using Sabine.Shared.Const;
 using Sabine.Shared.Util;
 using Sabine.Zone.Network;
@@ -346,6 +345,24 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			}
 
 			this.UpdateClient(type);
+
+			// TODO: These player character checks are annoying~ Make a
+			//   PlayerCharacterParameters class or something.
+
+			// Send a status update if one of the base stats changed,
+			// as the stat points needed for raising it again might've
+			// changed as well.			
+			if (_playerCharacter != null && type >= ParameterType.Str && type <= ParameterType.Luk)
+				Send.ZC_STATUS(_playerCharacter);
+
+			if (type == ParameterType.Str || type == ParameterType.Dex || type == ParameterType.Luk)
+				this.RecalculateAttack();
+
+			if (type == ParameterType.Vit)
+				this.RecalculateHp();
+
+			if (type == ParameterType.Int)
+				this.RecalculateMagicAttack();
 
 			return newValue;
 		}
