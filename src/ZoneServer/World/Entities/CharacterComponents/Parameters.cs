@@ -214,9 +214,20 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		public int AttackMax { get; set; } = 1;
 
 		/// <summary>
-		/// Returns the character's current magic attack.
+		/// Returns the character's current singular magic attack value,
+		/// as used by the alpha client.
 		/// </summary>
-		public int MagicAttack { get; set; } = 1;
+		public int MagicAttack => this.MagicAttackMin;
+
+		/// <summary>
+		/// Returns the character's current min magic attack.
+		/// </summary>
+		public int MagicAttackMin { get; set; } = 1;
+
+		/// <summary>
+		/// Returns the character's current max magic attack.
+		/// </summary>
+		public int MagicAttackMax { get; set; } = 1;
 
 		/// <summary>
 		/// Returns the character's current defense.
@@ -464,6 +475,22 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Recalculates character's attack parameters and updates the
+		/// property.
+		/// </summary>
+		/// <returns></returns>
+		public void RecalculateMagicAttack()
+		{
+			if (_playerCharacter == null)
+				return;
+
+			this.MagicAttackMin = (int)(this.Int + Math.Pow(this.Int / 7, 2));
+			this.MagicAttackMax = (int)(this.Int + Math.Pow(this.Int / 5, 2));
+
+			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.MagicAttack);
+		}
+
+		/// <summary>
 		/// Recalculates all sub-stats and updates the client.
 		/// </summary>
 		public void RecalculateSubStats()
@@ -471,6 +498,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			this.RecalculateHp();
 			this.RecalculateSp();
 			this.RecalculateAttack();
+			this.RecalculateMagicAttack();
 		}
 
 		/// <summary>
