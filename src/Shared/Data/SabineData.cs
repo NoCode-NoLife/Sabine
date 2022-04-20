@@ -13,6 +13,11 @@ namespace Sabine.Shared.Data
 		public static ItemDb Items { get; } = new ItemDb();
 
 		/// <summary>
+		/// db/jobs.txt
+		/// </summary>
+		public static JobDb Jobs { get; } = new JobDb();
+
+		/// <summary>
 		/// db/map_cache.dat
 		/// </summary>
 		public static MapCacheDb MapCache { get; } = new MapCacheDb();

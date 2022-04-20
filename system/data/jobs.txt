@@ -1,0 +1,13 @@
+// Sabine
+// Database File
+//---------------------------------------------------------------------------
+
+[
+{ id: 0, name: "Novice",   modifiers: { weight: 20000, hpFactor: 0.0, hpMultiplier: 5, spFactor: 1.0 }, weaponDelays: { bareHand: 5.0, dagger:  6.5, sword:  7.0, bow: 20.0, spear: 20.0, axe: 20.0, mace:  7.0, rod:  6.5 } },
+{ id: 1, name: "Swordman", modifiers: { weight: 28000, hpFactor: 0.7, hpMultiplier: 5, spFactor: 2.0 }, weaponDelays: { bareHand: 4.0, dagger:  5.0, sword:  5.5, bow: 20.0, spear:  6.5, axe:  7.0, mace:  6.5, rod: 20.0 } },
+{ id: 2, name: "Mage",     modifiers: { weight: 22000, hpFactor: 0.3, hpMultiplier: 5, spFactor: 6.0 }, weaponDelays: { bareHand: 5.0, dagger:  6.0, sword: 20.0, bow: 20.0, spear: 20.0, axe: 20.0, mace: 20.0, rod:  7.0 } },
+{ id: 3, name: "Archer",   modifiers: { weight: 26000, hpFactor: 0.5, hpMultiplier: 5, spFactor: 2.0 }, weaponDelays: { bareHand: 4.0, dagger:  6.0, sword: 20.0, bow:  7.0, spear: 20.0, axe: 20.0, mace: 20.0, rod: 20.0 } },
+{ id: 4, name: "Acolyte",  modifiers: { weight: 24000, hpFactor: 0.4, hpMultiplier: 5, spFactor: 5.0 }, weaponDelays: { bareHand: 4.0, dagger: 20.0, sword: 20.0, bow: 20.0, spear: 20.0, axe:  6.0, mace: 20.0, rod:  6.0 } },
+{ id: 5, name: "Merchant", modifiers: { weight: 28000, hpFactor: 0.4, hpMultiplier: 5, spFactor: 3.0 }, weaponDelays: { bareHand: 4.0, dagger:  6.0, sword:  7.0, bow: 20.0, spear: 20.0, axe:  7.0, mace:  7.0, rod: 20.0 } },
+{ id: 6, name: "Thief",    modifiers: { weight: 24000, hpFactor: 0.5, hpMultiplier: 5, spFactor: 2.0 }, weaponDelays: { bareHand: 4.0, dagger:  5.0, sword:  6.5, bow:  8.0, spear: 20.0, axe: 20.0, mace: 20.0, rod: 20.0 } },
+]
