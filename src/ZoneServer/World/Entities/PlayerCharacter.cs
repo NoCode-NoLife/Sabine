@@ -519,7 +519,7 @@ namespace Sabine.Zone.World.Entities
 			var exp = this.Parameters.JobExp;
 			var level = this.Parameters.JobLevel;
 			var expNeeded = this.Parameters.JobExpNeeded;
-			var maxLevel = SabineData.ExpTables.GetMaxLevel(ExpTableType.Base, this.JobId);
+			var maxLevel = SabineData.ExpTables.GetMaxLevel(ExpTableType.Job, this.JobId);
 			var levelsGained = 0;
 
 			exp = Math2.AddChecked(exp, amount);
