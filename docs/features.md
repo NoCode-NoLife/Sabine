@@ -12,7 +12,7 @@ relationship. `Beta1` is the overall parent, followed by its children
 "Mage" and "Skills".
 
 system/data/features.txt
-```json
+```
 { name: "Beta1", enabled: true, children: [
 	{ name: "Mage", enabled: true },
 	{ name: "Skills", enabled: true },
@@ -25,7 +25,7 @@ if you take `Beta1` and put it on its own, either further down in the system
 features file, or in a separate features file in the user folder.
 
 user/data/features.txt
-```json
+```
 { name: "Beta1", enabled: false },
 ```
 
@@ -34,7 +34,7 @@ If you wanted to disable all but one of them, you could first disable `Beta1`
 and then enable the one you want. For example:
 
 user/data/features.txt
-```json
+```
 { name: "Beta1", enabled: false },
 { name: "Skills", enabled: true },
 ```
