@@ -471,5 +471,88 @@ namespace Sabine.Zone.World.Entities
 
 			return 3;
 		}
+
+		/// <summary>
+		/// Increases the character's exp by the given amount and levels
+		/// them up if possible.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void GainBaseExp(int amount)
+		{
+			var exp = this.Parameters.BaseExp;
+			var level = this.Parameters.BaseLevel;
+			var expNeeded = this.Parameters.BaseExpNeeded;
+			var maxLevel = SabineData.ExpTables.GetMaxLevel(ExpTableType.Base, this.JobId);
+			var levelsGained = 0;
+
+			exp = Math.Max(0, Math2.AddChecked(exp, amount));
+
+			while (level < maxLevel && exp >= expNeeded)
+			{
+				exp -= expNeeded;
+
+				level++;
+				levelsGained++;
+
+				expNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Base, this.JobId, level);
+			}
+
+			if (levelsGained != 0)
+			{
+				this.Parameters.BaseLevel = level;
+				this.Parameters.BaseExpNeeded = expNeeded;
+
+				this.Parameters.UpdateClient(ParameterType.BaseLevel, ParameterType.BaseExpNeeded);
+			}
+
+			this.Parameters.BaseExp = exp;
+			this.Parameters.UpdateClient(ParameterType.BaseExp);
+		}
+
+		/// <summary>
+		/// Increases the character's exp by the given amount and levels
+		/// them up if possible.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void GainJobExp(int amount)
+		{
+			var exp = this.Parameters.JobExp;
+			var level = this.Parameters.JobLevel;
+			var expNeeded = this.Parameters.JobExpNeeded;
+			var maxLevel = SabineData.ExpTables.GetMaxLevel(ExpTableType.Base, this.JobId);
+			var levelsGained = 0;
+
+			exp = Math2.AddChecked(exp, amount);
+			if (exp < 0)
+				exp = 0;
+
+			while (level < maxLevel && exp >= expNeeded)
+			{
+				exp -= expNeeded;
+
+				level++;
+				levelsGained++;
+
+				expNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Job, this.JobId, level);
+			}
+
+			if (levelsGained != 0)
+			{
+				this.Parameters.JobLevel = level;
+				this.Parameters.JobExpNeeded = expNeeded;
+
+				this.Parameters.UpdateClient(ParameterType.JobExpNeeded);
+
+				// The alpha client offers no way to update the job level.
+				// It's only set once, on login, based on the data given
+				// to it by the char server.
+
+				//this.Parameters.UpdateClient(ParameterType.JobLevel);
+				this.ServerMessage(Localization.Get("You have reached job level {0}."), level);
+			}
+
+			this.Parameters.JobExp = exp;
+			this.Parameters.UpdateClient(ParameterType.JobExp);
+		}
 	}
 }
