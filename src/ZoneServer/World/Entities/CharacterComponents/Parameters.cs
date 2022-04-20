@@ -372,13 +372,14 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (_playerCharacter == null)
 				return this.HpMax;
 
+			var baseVal = 35f;
 			var statMultiplier = 1;
 			var statFactor = 0;
 			var statAdditions = 0;
 			var itemStatMultipliers = 1;
 			var sigmaOfBaseLevel = RoMath.Sigma(this.BaseLevel - 1);
 
-			this.HpMax = (int)Math.Floor((Math.Floor((35f + this.BaseLevel * statMultiplier + sigmaOfBaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultipliers);
+			this.HpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statMultiplier + sigmaOfBaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultipliers);
 
 			if (this.Hp > this.HpMax)
 				this.Hp = this.HpMax;
@@ -398,13 +399,14 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (_playerCharacter == null)
 				return this.SpMax;
 
+			var baseVal = 10f;
 			var statMultiplier = 1;
 			var statFactor = 0;
 			var statAdditions = 0;
 			var itemStatMultiplier = 1;
 			var sigmaOfBaseLevel = RoMath.Sigma(this.BaseLevel - 1);
 
-			this.SpMax = (int)Math.Floor((Math.Floor((10f + this.BaseLevel * statMultiplier + sigmaOfBaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultiplier);
+			this.SpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statMultiplier + sigmaOfBaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultiplier);
 
 			if (this.Sp > this.SpMax)
 				this.Sp = this.SpMax;
