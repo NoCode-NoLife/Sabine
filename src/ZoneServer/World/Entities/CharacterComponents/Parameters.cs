@@ -372,9 +372,11 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (_playerCharacter == null)
 				return this.HpMax;
 
+			var modifiers = _playerCharacter.JobData.Modifiers;
+
 			var baseVal = 35f;
-			var statMultiplier = 1;
-			var statFactor = 0;
+			var statMultiplier = modifiers.HpMultiplier;
+			var statFactor = modifiers.HpFactor;
 			var statAdditions = 0;
 			var itemStatMultipliers = 1;
 			var sigmaOfBaseLevel = RoMath.Sigma(this.BaseLevel - 1);
@@ -399,14 +401,15 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (_playerCharacter == null)
 				return this.SpMax;
 
+			var modifiers = _playerCharacter.JobData.Modifiers;
+
 			var baseVal = 10f;
-			var statMultiplier = 1;
-			var statFactor = 0;
+			var statFactor = modifiers.SpFactor;
 			var statAdditions = 0;
 			var itemStatMultiplier = 1;
 			var sigmaOfBaseLevel = RoMath.Sigma(this.BaseLevel - 1);
 
-			this.SpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statMultiplier + sigmaOfBaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultiplier);
+			this.SpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultiplier);
 
 			if (this.Sp > this.SpMax)
 				this.Sp = this.SpMax;

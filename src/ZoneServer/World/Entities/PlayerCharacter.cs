@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data;
+using Sabine.Shared.Data.Databases;
 using Sabine.Shared.L10N;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
@@ -67,7 +69,12 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Gets or sets this character's job.
 		/// </summary>
-		public JobId JobId { get; set; } = JobId.Novice;
+		public JobId JobId { get; private set; }
+
+		/// <summary>
+		/// Returns a reference to the character's job's data.
+		/// </summary>
+		public JobData JobData { get; private set; }
 
 		/// <summary>
 		/// Returns the character's class id, which is equal to its
@@ -129,9 +136,23 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Creates a new character.
 		/// </summary>
-		public PlayerCharacter()
+		public PlayerCharacter(JobId jobId)
 		{
 			this.Inventory = new Inventory(this);
+			this.LoadJobData(jobId);
+		}
+
+		/// <summary>
+		/// Loads the data for the given job.
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <exception cref="ArgumentException"></exception>
+		private void LoadJobData(JobId jobId)
+		{
+			if (!SabineData.Jobs.TryFind(jobId, out var jobData))
+				throw new ArgumentException($"No data found for job {jobId}.");
+
+			this.JobData = jobData;
 		}
 
 		/// <summary>
@@ -405,10 +426,13 @@ namespace Sabine.Zone.World.Entities
 		public void ChangeJob(JobId jobId)
 		{
 			this.JobId = jobId;
-			Send.ZC_SPRITE_CHANGE(this, SpriteType.Class, (int)jobId);
+			this.LoadJobData(jobId);
 
 			this.Inventory.CheckEquipRequirements();
 			this.Inventory.RefreshClient();
+			this.Parameters.RecalculateSubStats();
+
+			Send.ZC_SPRITE_CHANGE(this, SpriteType.Class, (int)jobId);
 		}
 
 		/// <summary>

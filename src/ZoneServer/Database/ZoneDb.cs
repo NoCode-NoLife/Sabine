@@ -35,11 +35,12 @@ namespace Sabine.Zone.Database
 						if (!reader.Read())
 							return null;
 
-						character = new PlayerCharacter();
+						var jobId = (JobId)reader.GetInt32("job");
+
+						character = new PlayerCharacter(jobId);
 
 						character.Id = reader.GetInt32("characterId");
 						character.Name = reader.GetStringSafe("name");
-						character.JobId = (JobId)reader.GetInt32("job");
 						character.MapId = reader.GetInt32("mapId");
 						character.HairId = reader.GetInt32("hair");
 						character.WeaponId = reader.GetInt32("weapon");
