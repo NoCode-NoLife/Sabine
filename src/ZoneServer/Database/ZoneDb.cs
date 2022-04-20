@@ -49,10 +49,10 @@ namespace Sabine.Zone.Database
 						character.Parameters.JobLevel = reader.GetInt32("jobLevel");
 						character.Parameters.BaseExp = reader.GetInt32("baseExp");
 						character.Parameters.JobExp = reader.GetInt32("jobExp");
-						character.Parameters.Hp = reader.GetInt32("hp");
 						character.Parameters.HpMax = reader.GetInt32("hpMax");
-						character.Parameters.Sp = reader.GetInt32("sp");
+						character.Parameters.Hp = reader.GetInt32("hp");
 						character.Parameters.SpMax = reader.GetInt32("spMax");
+						character.Parameters.Sp = reader.GetInt32("sp");
 						character.Parameters.Str = reader.GetInt32("str");
 						character.Parameters.Agi = reader.GetInt32("agi");
 						character.Parameters.Vit = reader.GetInt32("vit");
@@ -60,6 +60,7 @@ namespace Sabine.Zone.Database
 						character.Parameters.Dex = reader.GetInt32("dex");
 						character.Parameters.Luk = reader.GetInt32("luk");
 						character.Parameters.StatPoints = reader.GetInt32("statPoints");
+						character.Parameters.SkillPoints = reader.GetInt32("skillPoints");
 						character.Parameters.Weight = reader.GetInt32("weight");
 						character.Parameters.WeightMax = reader.GetInt32("weightMax");
 
@@ -89,6 +90,7 @@ namespace Sabine.Zone.Database
 			}
 
 			character.Vars.Perm.Load(this.GetVars("vars_character", character.Id));
+			character.Parameters.Recalculate();
 
 			return character;
 		}
@@ -132,6 +134,7 @@ namespace Sabine.Zone.Database
 					cmd.Set("dex", character.Parameters.Dex);
 					cmd.Set("luk", character.Parameters.Luk);
 					cmd.Set("statPoints", character.Parameters.StatPoints);
+					cmd.Set("skillPoints", character.Parameters.SkillPoints);
 					cmd.Set("weight", character.Parameters.Weight);
 					cmd.Set("weightMax", character.Parameters.WeightMax);
 
