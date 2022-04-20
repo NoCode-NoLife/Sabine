@@ -414,6 +414,49 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			return this.SpMax;
 		}
 
+		/// <summary>
+		/// Recalculates character's attack parameters and updates the
+		/// property.
+		/// </summary>
+		/// <returns></returns>
+		public void RecalculateAttack()
+		{
+			if (_playerCharacter == null)
+				return;
+
+			var weapon = _playerCharacter.Inventory.RightHand;
+			var mainStat = 0;
+			var secStat = 0;
+
+			if (weapon.Type != ItemType.RangedWeapon)
+			{
+				mainStat = this.Str;
+				secStat = this.Dex;
+			}
+			else
+			{
+				mainStat = this.Dex;
+				secStat = this.Str;
+			}
+
+			var fromStats = (int)(mainStat + Math.Pow(mainStat / 10, 2) + secStat / 5 + this.Luk / 5);
+			var fromWeapon = 0;
+			var fromWeaponMin = 0;
+			var fromWeaponMax = 0;
+
+			if (weapon != null)
+			{
+				fromWeapon = weapon.Data.Attack;
+				fromWeaponMin = weapon.Data.AttackMin;
+				fromWeaponMax = weapon.Data.AttackMax;
+			}
+
+			this.AtkMin = fromStats + fromWeaponMin;
+			this.AtkMax = fromStats + fromWeaponMax;
+
+			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AtkMin);
+			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AtkMax);
+		}
 
 		/// <summary>
 		/// Recalculates all sub-stats and updates the client.
@@ -422,6 +465,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		{
 			this.RecalculateHp();
 			this.RecalculateSp();
+			this.RecalculateAttack();
 		}
 
 		/// <summary>
