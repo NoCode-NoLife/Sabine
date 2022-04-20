@@ -407,6 +407,7 @@ namespace Sabine.Zone.World.Entities
 			this.JobId = jobId;
 			Send.ZC_SPRITE_CHANGE(this, SpriteType.Class, (int)jobId);
 
+			this.Inventory.CheckEquipRequirements();
 			this.Inventory.RefreshClient();
 		}
 

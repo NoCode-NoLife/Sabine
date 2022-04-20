@@ -53,6 +53,11 @@ namespace Sabine.Zone.World.Entities
 		public EquipSlots EquippedOn { get; set; }
 
 		/// <summary>
+		/// Returns true if the item is currently equipped.
+		/// </summary>
+		public bool IsEquipped => this.EquippedOn != EquipSlots.None;
+
+		/// <summary>
 		/// Gets or sets the item's amount.
 		/// </summary>
 		public int Amount

@@ -330,5 +330,16 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			this.RightHand = this.GetItemByEquipSlot(EquipSlots.RightHand);
 			this.LeftHand = this.GetItemByEquipSlot(EquipSlots.LeftHand);
 		}
+
+		/// <summary>
+		/// Unequips items the character should currently not be able to
+		/// equip, like after changing its level or job.
+		/// </summary>
+		public void CheckEquipRequirements()
+		{
+			var items = this.GetItems(a => a.IsEquipped && !this.Character.CanEquip(a));
+			foreach (var item in items)
+				this.UnequipItem(item);
+		}
 	}
 }
