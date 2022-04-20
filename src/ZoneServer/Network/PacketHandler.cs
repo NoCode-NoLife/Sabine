@@ -98,10 +98,17 @@ namespace Sabine.Zone.Network
 			else
 				character.StartObserving();
 
+			// Send all stats/parameters to the client that it didn't
+			// get from the char server yet. Also send a few that
+			// might've changed during character loading.
 			Send.ZC_STATUS(character);
 			Send.ZC_PAR_CHANGE(character, ParameterType.Weight);
 			Send.ZC_PAR_CHANGE(character, ParameterType.WeightMax);
 			Send.ZC_PAR_CHANGE(character, ParameterType.SkillPoints);
+			Send.ZC_PAR_CHANGE(character, ParameterType.HpMax);
+			Send.ZC_PAR_CHANGE(character, ParameterType.Hp);
+			Send.ZC_PAR_CHANGE(character, ParameterType.SpMax);
+			Send.ZC_PAR_CHANGE(character, ParameterType.Sp);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.BaseExpNeeded);
 			Send.ZC_LONGPAR_CHANGE(character, ParameterType.JobExpNeeded);
 

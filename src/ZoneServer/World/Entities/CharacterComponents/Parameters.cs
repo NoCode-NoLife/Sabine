@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security;
 using Sabine.Shared.Const;
 using Sabine.Shared.Util;
 using Sabine.Zone.Network;
@@ -12,7 +13,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 	/// </summary>
 	public class Parameters
 	{
-		private PlayerCharacter _playerCharacter;
+		private readonly PlayerCharacter _playerCharacter;
 
 		/// <summary>
 		/// Returns the character these stats belong to.
@@ -366,8 +367,11 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// the new max value.
 		/// </summary>
 		/// <returns></returns>
-		private int RecalculateHp()
+		public int RecalculateHp()
 		{
+			if (_playerCharacter == null)
+				return this.HpMax;
+
 			var statMultiplier = 1;
 			var statFactor = 0;
 			var statAdditions = 0;
@@ -389,8 +393,11 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// the new max value.
 		/// </summary>
 		/// <returns></returns>
-		private int RecalculateSp()
+		public int RecalculateSp()
 		{
+			if (_playerCharacter == null)
+				return this.SpMax;
+
 			var statMultiplier = 1;
 			var statFactor = 0;
 			var statAdditions = 0;
@@ -405,6 +412,16 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			this.UpdateClient(ParameterType.Sp, ParameterType.SpMax);
 
 			return this.SpMax;
+		}
+
+
+		/// <summary>
+		/// Recalculates all sub-stats and updates the client.
+		/// </summary>
+		public void RecalculateSubStats()
+		{
+			this.RecalculateHp();
+			this.RecalculateSp();
 		}
 
 		/// <summary>
