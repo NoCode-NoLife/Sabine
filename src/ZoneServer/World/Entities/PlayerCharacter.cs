@@ -15,7 +15,7 @@ namespace Sabine.Zone.World.Entities
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class PlayerCharacter : ICharacter, IUpdateable
+	public class PlayerCharacter : Character, IUpdateable
 	{
 		private readonly object _visibilityUpdateSyncLock = new object();
 		private readonly HashSet<int> _visibleEntities = new HashSet<int>();
@@ -305,7 +305,7 @@ namespace Sabine.Zone.World.Entities
 
 					switch (entity)
 					{
-						case ICharacter character: Send.ZC_NOTIFY_STANDENTRY(this, character); break;
+						case Character character: Send.ZC_NOTIFY_STANDENTRY(this, character); break;
 						case Item item: Send.ZC_ITEM_ENTRY(this, item); break;
 					}
 				}

@@ -174,7 +174,7 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		public static void ZC_NOTIFY_MOVE(ICharacter character, Position from, Position to)
+		public static void ZC_NOTIFY_MOVE(Character character, Position from, Position to)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_MOVE);
 
@@ -210,7 +210,7 @@ namespace Sabine.Zone.Network
 		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="stopPos"></param>
-		public static void ZC_STOPMOVE(ICharacter character, Position stopPos)
+		public static void ZC_STOPMOVE(Character character, Position stopPos)
 		{
 			var packet = new Packet(Op.ZC_STOPMOVE);
 
@@ -226,7 +226,7 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="target"></param>
-		public static void ZC_ACK_REQNAME(PlayerCharacter character, ICharacter target)
+		public static void ZC_ACK_REQNAME(PlayerCharacter character, Character target)
 		{
 			var packet = new Packet(Op.ZC_ACK_REQNAME);
 
@@ -368,7 +368,7 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="message"></param>
-		public static void ZC_NOTIFY_CHAT(ICharacter character, string message)
+		public static void ZC_NOTIFY_CHAT(Character character, string message)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_CHAT);
 
@@ -458,7 +458,7 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="type"></param>
 		/// <param name="value"></param>
-		public static void ZC_SPRITE_CHANGE(ICharacter character, SpriteType type, int value)
+		public static void ZC_SPRITE_CHANGE(Character character, SpriteType type, int value)
 		{
 			var packet = new Packet(Op.ZC_SPRITE_CHANGE);
 
@@ -519,7 +519,7 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="direction"></param>
 		/// <exception cref="NotImplementedException"></exception>
-		public static void ZC_CHANGE_DIRECTION(ICharacter character, Direction direction)
+		public static void ZC_CHANGE_DIRECTION(Character character, Direction direction)
 		{
 			var packet = new Packet(Op.ZC_CHANGE_DIRECTION);
 

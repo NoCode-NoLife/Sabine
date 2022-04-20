@@ -9,7 +9,7 @@ namespace Sabine.Zone.World.Entities
 	/// <summary>
 	/// Represents a non-player character.
 	/// </summary>
-	public class Npc : ICharacter, IEntity, IUpdateable
+	public class Npc : Character, IUpdateable
 	{
 		private static int HandlePool = 0x3000_0000;
 

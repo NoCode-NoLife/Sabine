@@ -10,7 +10,7 @@ namespace Sabine.Zone.World.Entities
 	/// A character that can interact with the world and can be
 	/// interacted with, such as a player or an NPC.
 	/// </summary>
-	public abstract class ICharacter : IEntryCharacter
+	public abstract class Character : IEntryCharacter
 	{
 		/// <summary>
 		/// Returns the character's unique handle, which it's identified
@@ -106,7 +106,7 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Initializes character's components.
 		/// </summary>
-		public ICharacter()
+		public Character()
 		{
 			this.Parameters = new Parameters(this);
 			this.Controller = new MovementController(this);

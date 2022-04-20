@@ -17,13 +17,13 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Returns the character these stats belong to.
 		/// </summary>
-		public ICharacter Character { get; }
+		public Character Character { get; }
 
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="character"></param>
-		public Parameters(ICharacter character)
+		public Parameters(Character character)
 		{
 			this.Character = character;
 			_playerCharacter = character as PlayerCharacter;

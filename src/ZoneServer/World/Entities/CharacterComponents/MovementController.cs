@@ -22,7 +22,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <summary>
 		/// Returns the character this controller belongs to.
 		/// </summary>
-		public ICharacter Character { get; }
+		public Character Character { get; }
 
 		/// <summary>
 		/// Returns true if the character is currently moving.
@@ -39,7 +39,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// Creates new controller.
 		/// </summary>
 		/// <param name="character"></param>
-		public MovementController(ICharacter character)
+		public MovementController(Character character)
 		{
 			this.Character = character;
 			_playerCharacter = character as PlayerCharacter;

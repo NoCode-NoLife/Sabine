@@ -193,7 +193,7 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public ICharacter GetCharacter(int handle)
+		public Character GetCharacter(int handle)
 		{
 			lock (_characters)
 			{
