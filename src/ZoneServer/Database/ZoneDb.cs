@@ -91,7 +91,7 @@ namespace Sabine.Zone.Database
 			}
 
 			character.Vars.Perm.Load(this.GetVars("vars_character", character.Id));
-			character.Parameters.RecalculateSubStats();
+			character.Parameters.RecalculateAll();
 
 			return character;
 		}

@@ -307,7 +307,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if ((slots & EquipSlots.RightHand) != 0)
 				this.Character.ChangeLook(SpriteType.Weapon, item.Data.LookId);
 
-			this.Character.Parameters.RecalculateSubStats();
+			this.Character.Parameters.RecalculateAll();
 		}
 
 		/// <summary>
@@ -320,7 +320,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if ((slots & EquipSlots.RightHand) != 0)
 				this.Character.ChangeLook(SpriteType.Weapon, 0);
 
-			this.Character.Parameters.RecalculateSubStats();
+			this.Character.Parameters.RecalculateAll();
 		}
 
 		/// <summary>

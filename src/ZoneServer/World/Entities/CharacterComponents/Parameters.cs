@@ -1,5 +1,7 @@
 ﻿using System;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data;
+using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Util;
 using Sabine.Zone.Network;
 using Yggdrasil.Util;
@@ -535,15 +537,32 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Sets the base EXP and job EXP the character currently needs to
+		/// reach the next levels.
+		/// </summary>
+		public void RecalculateExp()
+		{
+			if (_playerCharacter == null)
+				return;
+
+			this.BaseExpNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Base, _playerCharacter.JobId, this.BaseLevel);
+			this.JobExpNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Job, _playerCharacter.JobId, this.BaseLevel);
+
+			Send.ZC_LONGPAR_CHANGE(_playerCharacter, ParameterType.BaseExpNeeded);
+			Send.ZC_LONGPAR_CHANGE(_playerCharacter, ParameterType.JobExpNeeded);
+		}
+
+		/// <summary>
 		/// Recalculates all sub-stats and updates the client.
 		/// </summary>
-		public void RecalculateSubStats()
+		public void RecalculateAll()
 		{
 			this.RecalculateHp();
 			this.RecalculateSp();
 			this.RecalculateAttack();
 			this.RecalculateMagicAttack();
 			this.RecalculateDefense();
+			this.RecalculateExp();
 		}
 
 		/// <summary>
