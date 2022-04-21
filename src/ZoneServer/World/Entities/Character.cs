@@ -133,7 +133,7 @@ namespace Sabine.Zone.World.Entities
 				this.State = CharacterState.Dead;
 
 				if (this is Npc npc)
-					Task.Delay(800).ContinueWith(_ => this.Map.RemoveNpc(npc));
+					this.Map.RemoveNpc(npc);
 			}
 		}
 	}
