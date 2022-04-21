@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: CZ_REQ_ITEM_EXPLANATION_BYNAME.bt
+//      File: CZ_REQUEST_MOVE.bt
 //   Authors: exec
 //   Version: i20010830 (iRO Alpha)
 //   Purpose: 
@@ -11,8 +11,7 @@
 //   History: 
 //------------------------------------------------
 
-short op;
-short len;
+#include "inc/PackedPosition.bt"
 
-char name[16];
-char description[len - 4 - 16];
+short op;
+PackedPosition pos;

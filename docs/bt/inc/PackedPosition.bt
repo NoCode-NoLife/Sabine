@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: PackedPosition.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    unsigned byte b1;
+    unsigned byte b2;
+    unsigned byte b3;
+}
+PackedPosition <read=readPackedMove>;
+
+string readPackedMove(PackedPosition &val)
+{
+    local int b1 = val.b1;
+    local int b2 = val.b2;
+    local int b3 = val.b3;
+
+	local int x = (b2 >> 6) | 4 * b1;
+	local int y = (b3 >> 4) | 16 * (b2 & 0x3F);
+	local int dir = (Direction)(b3 & 0x0F);
+
+    string result;
+    SPrintf(result, "X: %d, Y: %d ==> X: %d, Y: %d", x1, y1, x2, x2);
+    return result;
+}

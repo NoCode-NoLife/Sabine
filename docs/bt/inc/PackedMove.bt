@@ -1,0 +1,44 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: PackedMove.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    unsigned byte b1;
+    unsigned byte b2;
+    unsigned byte b3;
+    unsigned byte b4;
+    unsigned byte b5;
+    unsigned byte b6;
+}
+PackedMove <read=readPackedMove>;
+
+string readPackedMove(PackedMove &val)
+{
+    local int b1 = val.b1;
+    local int b2 = val.b2;
+    local int b3 = val.b3;
+    local int b4 = val.b4;
+    local int b5 = val.b5;
+    local int b6 = val.b6;
+
+	local int x1 = ((b1 << 2) | (b2 >> 6));
+	local int y1 = ((b2 & 0x3F) << 4) | (b3 >> 4);
+	local int x2 = ((b3 & 0x0F) << 6) | (b4 >> 2);
+	local int y2 = (b5 | ((b4 & 3) << 8));
+	local int sx = (b6 >> 4);
+	local int sy = (b6 & 0xF);
+
+    string result;
+    SPrintf(result, "X: %d, Y: %d ==> X: %d, Y: %d", x1, y1, x2, x2);
+    return result;
+}

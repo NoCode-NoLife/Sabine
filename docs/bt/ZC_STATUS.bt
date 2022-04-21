@@ -1,0 +1,32 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_STATUS.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+
+short statPoints;
+unsigned byte str;
+unsigned byte strStpNeeded;
+unsigned byte agi;
+unsigned byte agiStpNeeded;
+unsigned byte vit;
+unsigned byte vitStpNeeded;
+unsigned byte int_;
+unsigned byte intStpNeeded;
+unsigned byte dex;
+unsigned byte dexStpNeeded;
+unsigned byte luk;
+unsigned byte lukStpNeeded;
+unsigned byte attackMin;
+unsigned byte attackMax;
+unsigned byte defense;
+unsigned byte magicAttack;

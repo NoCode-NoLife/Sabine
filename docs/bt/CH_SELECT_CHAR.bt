@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: CZ_REQ_ITEM_EXPLANATION_BYNAME.bt
+//      File: CH_SELECT_CHAR.bt
 //   Authors: exec
 //   Version: i20010830 (iRO Alpha)
 //   Purpose: 
@@ -12,7 +12,4 @@
 //------------------------------------------------
 
 short op;
-short len;
-
-char name[16];
-char description[len - 4 - 16];
+byte slot;

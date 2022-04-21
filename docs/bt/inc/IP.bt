@@ -1,0 +1,28 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: IP.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    unsigned byte b1;
+    unsigned byte b2;
+    unsigned byte b3;
+    unsigned byte b4;
+}
+IP <read=readIP>;
+
+string readIP(IP &value)
+{
+    string result;
+    SPrintf(result, "%d.%d.%d.%d", value.b1, value.b2, value.b3, value.b4);
+    return result;
+}
