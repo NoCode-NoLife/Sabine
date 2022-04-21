@@ -319,7 +319,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
-		/// Modifies the given stat and updates the client.
+		/// Modifies the given parameter and updates the client. Returns the
+		/// parameter's new value after the modification.
 		/// </summary>
 		/// <param name="type"></param>
 		/// <param name="modifier"></param>
@@ -327,20 +328,19 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <exception cref="ArgumentException"></exception>
 		public int Modify(ParameterType type, int modifier)
 		{
-			var newValue = 0;
 			switch (type)
 			{
-				case ParameterType.Hp: newValue = this.Hp += modifier; break;
-				case ParameterType.Sp: newValue = this.Sp += modifier; break;
-				case ParameterType.Str: newValue = this.Str += modifier; break;
-				case ParameterType.Agi: newValue = this.Agi += modifier; break;
-				case ParameterType.Vit: newValue = this.Vit += modifier; break;
-				case ParameterType.Int: newValue = this.Int += modifier; break;
-				case ParameterType.Dex: newValue = this.Dex += modifier; break;
-				case ParameterType.Luk: newValue = this.Luk += modifier; break;
-				case ParameterType.StatPoints: newValue = this.StatPoints += modifier; break;
-				case ParameterType.SkillPoints: newValue = this.SkillPoints += modifier; break;
-				case ParameterType.Zeny: newValue = this.Zeny = Math2.AddChecked(this.Zeny, modifier); break;
+				case ParameterType.Hp: this.Hp += modifier; break;
+				case ParameterType.Sp: this.Sp += modifier; break;
+				case ParameterType.Str: this.Str += modifier; break;
+				case ParameterType.Agi: this.Agi += modifier; break;
+				case ParameterType.Vit: this.Vit += modifier; break;
+				case ParameterType.Int: this.Int += modifier; break;
+				case ParameterType.Dex: this.Dex += modifier; break;
+				case ParameterType.Luk: this.Luk += modifier; break;
+				case ParameterType.StatPoints: this.StatPoints += modifier; break;
+				case ParameterType.SkillPoints: this.SkillPoints += modifier; break;
+				case ParameterType.Zeny: this.Zeny = Math2.AddChecked(this.Zeny, modifier); break;
 
 				default:
 					throw new ArgumentException($"Unsupported stat type '{type}'.");
@@ -369,7 +369,9 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (type == ParameterType.Int)
 				this.RecalculateMagicAttack();
 
-			return newValue;
+			// Get new value after it was properly assigned and potentially
+			// capped in the property.
+			return this.Get(type);
 		}
 
 		/// <summary>
