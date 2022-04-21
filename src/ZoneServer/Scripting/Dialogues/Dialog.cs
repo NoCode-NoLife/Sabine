@@ -20,6 +20,8 @@ namespace Sabine.Zone.Scripting.Dialogues
 		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
 		private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
 
+		private DialogActionType _lastAction;
+
 		/// <summary>
 		/// Returns a reference to the character that initiated the dialog.
 		/// </summary>
@@ -74,8 +76,30 @@ namespace Sabine.Zone.Scripting.Dialogues
 			{
 				await dialogFunc(this);
 
-				await this.Next();
-				this.Close();
+				// Try to choose the appropriate action to take after
+				// the dialog function ended. A common issue one might
+				// run into is that Close wasn't called before the script
+				// ended, which could result in the player getting stuck.
+				// We could simply call Close, but at least in the alpha
+				// client this closes the dialog window immediately.
+				// We want to wait for the player to click the last
+				// button though, so we need a Next first. However,
+				// if the user put a Next at the end of the script
+				// for whatever reason, we would be calling it twice,
+				// forcing the player to click twice before the dialog
+				// closes, so we'll check what happened last during the
+				// dialog, to see what we can do to clean everything up
+				// neatly.
+
+				if (_lastAction == DialogActionType.Message /*&& isAlpha*/)
+				{
+					await this.Next();
+					this.Close();
+				}
+				else if (_lastAction == DialogActionType.Input)
+				{
+					this.Close();
+				}
 			}
 			catch (OperationCanceledException)
 			{
@@ -142,16 +166,6 @@ namespace Sabine.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
-		/// Sends message to player, adding to any messages already
-		/// in the dialog box..
-		/// </summary>
-		/// <param name="message"></param>
-		public void Msg(string message)
-		{
-			Send.ZC_SAY_DIALOG(this.Player, this.Npc.Handle, message);
-		}
-
-		/// <summary>
 		/// Sends a message to the player with the NPC's name,
 		/// as typically placed before every message block.
 		/// </summary>
@@ -186,6 +200,17 @@ namespace Sabine.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Sends message to player, adding to any messages already
+		/// in the dialog box..
+		/// </summary>
+		/// <param name="message"></param>
+		public void Msg(string message)
+		{
+			_lastAction = DialogActionType.Message;
+			Send.ZC_SAY_DIALOG(this.Player, this.Npc.Handle, message);
+		}
+
+		/// <summary>
 		/// Display a continuation button on the dialog window and
 		/// waits for the player to click it before resuming the
 		/// script.
@@ -193,6 +218,8 @@ namespace Sabine.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task Next()
 		{
+			_lastAction = DialogActionType.Input;
+
 			Send.ZC_WAIT_DIALOG(this.Player, this.Npc.Handle);
 
 			this.State = DialogState.Waiting;
@@ -247,6 +274,8 @@ namespace Sabine.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task<int> SelectSimple(string optionsString)
 		{
+			_lastAction = DialogActionType.Input;
+
 			Send.ZC_MENU_LIST(this.Player, this.Npc.Handle, optionsString);
 
 			// Wait for response
@@ -275,6 +304,8 @@ namespace Sabine.Zone.Scripting.Dialogues
 		/// <exception cref="OperationCanceledException"></exception>
 		public void Close()
 		{
+			_lastAction = DialogActionType.Close;
+
 			Send.ZC_CLOSE_DIALOG(this.Player, this.Npc.Handle);
 			throw new OperationCanceledException("Dialog closed by script.");
 		}

@@ -72,7 +72,7 @@ public class PronteraNpcsScript : GeneralScript
 			//	case 2: mes("Toughen up!"); break;
 			//}
 
-			// Style test for how NPCs could look like. Msg would always
+			// Style test for what NPCs could look like. Msg would always
 			// send a wait at the end and codes like p and br could be
 			// used to split up the message. The NPC's name would become
 			// the default title and would always be displayed with each
