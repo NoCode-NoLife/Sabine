@@ -167,6 +167,20 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Removes character from clients around it.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		public static void ZC_NOTIFY_VANISH(Character character, DisappearType type)
+		{
+			var packet = new Packet(Op.ZC_NOTIFY_VANISH);
+			packet.PutInt(character.Handle);
+			packet.PutByte((byte)type);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+		}
+
+		/// <summary>
 		/// Makes character move from one position to the other on clients
 		/// of players around it.
 		/// </summary>

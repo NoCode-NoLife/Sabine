@@ -12,6 +12,7 @@ using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Sabine.Zone.Network
 {
@@ -497,7 +498,13 @@ namespace Sabine.Zone.Network
 						return;
 					}
 
-					Send.ZC_NOTIFY_ACT(character, character.Handle, target.Handle, DateTime.Now.GetUnixTimestamp(), 10, ActionType.Attack);
+					var rnd = RandomProvider.Get();
+					var damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
+					target.TakeDamage(damage);
+
+					character.ServerMessage("{0}: {1}/{2} HP", target.Name, target.Parameters.Hp, target.Parameters.HpMax);
+
+					Send.ZC_NOTIFY_ACT(character, character.Handle, target.Handle, DateTime.Now.GetUnixTimestamp(), damage, ActionType.Attack);
 					break;
 				}
 				default:

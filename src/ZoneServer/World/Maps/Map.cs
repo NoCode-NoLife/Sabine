@@ -246,6 +246,21 @@ namespace Sabine.Zone.World.Maps
 				_npcs.Remove(npc.Handle);
 				npc.Map = null;
 			}
+
+			// Removing dead NPCs/monsters is tricky. We need to use a
+			// special disappear type to make them use their death animation,
+			// but if we then send another vanish packet with the Vanish
+			// type, they "disappear" with an effect, even though they
+			// were already gone. We have to send only one vanish packet,
+			// so we have to update the players on demand. Gotta admit,
+			// I'm starting to doubt this visibility update system,
+			// it doesn't seem to work well with RO.
+
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+					character.RemoveVisibleEntity(npc);
+			}
 		}
 
 		/// <summary>

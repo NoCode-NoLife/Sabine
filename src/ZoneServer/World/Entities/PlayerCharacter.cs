@@ -357,6 +357,28 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
+		/// Removes entity from the ones the character can see.
+		/// </summary>
+		/// <param name="entity"></param>
+		public void RemoveVisibleEntity(IEntity entity)
+		{
+			if (!this.IsObserving)
+				return;
+
+			lock (_visibilityUpdateSyncLock)
+			{
+				if (entity is Character character)
+					Send.ZC_NOTIFY_VANISH(this, entity.Handle, character.IsDead ? DisappearType.StrikedDead : DisappearType.Vanish);
+				else if (entity is Item)
+					Send.ZC_ITEM_DISAPPEAR(this, entity.Handle);
+				else
+					throw new ArgumentException($"Unsupported entity type '{entity.GetType().Name}'.");
+
+				_visibleEntities.Remove(entity.Handle);
+			}
+		}
+
+		/// <summary>
 		/// Adds handle to the character's visible entities.
 		/// </summary>
 		/// <param name="handle"></param>

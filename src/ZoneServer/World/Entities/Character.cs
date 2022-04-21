@@ -1,5 +1,8 @@
-﻿using Sabine.Shared.Const;
+﻿using System;
+using System.Threading.Tasks;
+using Sabine.Shared.Const;
 using Sabine.Shared.World;
+using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.CharacterComponents;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
@@ -98,6 +101,11 @@ namespace Sabine.Zone.World.Entities
 		public Parameters Parameters { get; protected set; }
 
 		/// <summary>
+		/// Returns true if the character's HP have reached 0.
+		/// </summary>
+		public bool IsDead => this.Parameters.Hp == 0;
+
+		/// <summary>
 		/// Warps character to the given location.
 		/// </summary>
 		/// <param name="location"></param>
@@ -110,6 +118,23 @@ namespace Sabine.Zone.World.Entities
 		{
 			this.Parameters = new Parameters(this);
 			this.Controller = new MovementController(this);
+		}
+
+		/// <summary>
+		/// Reduces the character's HP by the given amount.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void TakeDamage(int amount)
+		{
+			var remainingHp = this.Parameters.Modify(ParameterType.Hp, -amount);
+
+			if (remainingHp == 0)
+			{
+				this.State = CharacterState.Dead;
+
+				if (this is Npc npc)
+					Task.Delay(800).ContinueWith(_ => this.Map.RemoveNpc(npc));
+			}
 		}
 	}
 }
