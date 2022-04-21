@@ -554,5 +554,17 @@ namespace Sabine.Zone.World.Entities
 			this.Parameters.JobExp = exp;
 			this.Parameters.UpdateClient(ParameterType.JobExp);
 		}
+
+		/// <summary>
+		/// Restores characters HP and SP and heals any negative status
+		/// effects.
+		/// </summary>
+		public void Heal()
+		{
+			this.Parameters.Hp = this.Parameters.HpMax;
+			this.Parameters.Sp = this.Parameters.SpMax;
+
+			this.Parameters.UpdateClient(ParameterType.Hp, ParameterType.Sp);
+		}
 	}
 }

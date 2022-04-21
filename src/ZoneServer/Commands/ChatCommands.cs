@@ -43,6 +43,7 @@ namespace Sabine.Zone.Commands
 			this.Add("stat", "<str|agi|vit|int|dex|luck|stp|skp> <modifier>", Localization.Get("Modifies the character's stats."), this.Stat);
 			this.Add("item", "<item> [amount]", Localization.Get("Spawns item for character."), this.Item);
 			this.Add("job", "<job>", Localization.Get("Changes character's job."), this.Job);
+			this.Add("heal", "", Localization.Get("Restores character's health."), this.Heal);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -615,6 +616,26 @@ namespace Sabine.Zone.Commands
 			target.SelectedLanguage = languageName;
 
 			sender.ServerMessage(Localization.Get("Language changed to {0}."), languageName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Restores target's health.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Heal(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			target.Heal();
+
+			sender.ServerMessage(Localization.Get("Healed."));
+			if (target != sender)
+				target.ServerMessage(Localization.Get("You were healed by {0}."), sender.Name);
 
 			return CommandResult.Okay;
 		}
