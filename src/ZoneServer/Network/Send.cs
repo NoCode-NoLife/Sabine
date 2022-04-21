@@ -1028,5 +1028,17 @@ namespace Sabine.Zone.Network
 
 			character.Connection.Send(packet);
 		}
+
+		/// <summary>
+		/// Displays MVP animation above the character's head.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_MVP(Character character)
+		{
+			var packet = new Packet(Op.ZC_MVP);
+			packet.PutInt(character.Handle);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+		}
 	}
 }

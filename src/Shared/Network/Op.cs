@@ -154,5 +154,13 @@
 		public const int ZC_DELETE_ITEM_FROM_STORE = 0x0091;
 		public const int CZ_CLOSE_STORE = 0x0092;
 		public const int ZC_CLOSE_STORE = 0x0093;
+
+		//public const int ZC_MVP_GETTING_SPECIAL_EXP = 0x00A4;
+		public const int ZC_MVP = 0x00A5;
+		//public const int ZC_THROW_MVPITEM = 0x00A6;
+		//public const int ZC_SKILLINFO_UPDATE = 0x00A7;
+		//public const int ZC_SKILLINFO_LIST = 0x00A8;
+		//public const int ZC_ACK_TOUSESKILL = 0x00A9;
+		//public const int ZC_ADD_SKILL = 0x00AA;
 	}
 }

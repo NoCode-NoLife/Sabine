@@ -177,7 +177,7 @@ namespace Sabine.Shared.Network
 			Register(0x00A2, -1);
 			Register(0x00A3, 18);
 			Register(0x00A4, 6);
-			Register(0x00A5, 6);
+			Register(Op.ZC_MVP, 0x00A5, 6);
 			Register(0x00A6, 2);
 			Register(0x00A7, 9);
 			Register(0x00A8, -1);
