@@ -241,8 +241,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 			Send.ZC_REQ_WEAR_EQUIP_ACK(this.Character, item.InventoryId, slots);
 
-			this.OnEquippedItem(item, slots);
 			this.UpdateEquipReferences();
+			this.OnEquippedItem(item, slots);
 		}
 
 		/// <summary>
@@ -265,8 +265,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 			Send.ZC_REQ_TAKEOFF_EQUIP_ACK(this.Character, item.InventoryId, slots);
 
-			this.OnUnequippedItem(item, slots);
 			this.UpdateEquipReferences();
+			this.OnUnequippedItem(item, slots);
 		}
 
 		/// <summary>
