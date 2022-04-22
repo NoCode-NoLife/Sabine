@@ -51,7 +51,7 @@ namespace Sabine.Shared.Data.Databases
 	public class DropData
 	{
 		public int ItemId { get; set; }
-		public int Chance { get; set; }
+		public float Chance { get; set; }
 	}
 
 	/// <summary>
@@ -131,7 +131,7 @@ namespace Sabine.Shared.Data.Databases
 					var drop = new DropData();
 
 					drop.ItemId = dropEntry.ReadInt("itemId");
-					drop.Chance = dropEntry.ReadInt("chance");
+					drop.Chance = dropEntry.ReadFloat("chance");
 
 					data.Drops.Add(drop);
 				}
@@ -146,7 +146,7 @@ namespace Sabine.Shared.Data.Databases
 					var drop = new DropData();
 
 					drop.ItemId = dropEntry.ReadInt("itemId");
-					drop.Chance = dropEntry.ReadInt("chance");
+					drop.Chance = dropEntry.ReadFloat("chance");
 
 					data.MvpDrops.Add(drop);
 				}

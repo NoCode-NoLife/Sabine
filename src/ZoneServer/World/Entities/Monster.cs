@@ -122,7 +122,7 @@ namespace Sabine.Zone.World.Entities
 				var dropRate = ZoneServer.Instance.Conf.World.ItemDropRate / 100f;
 				var dropChance = dropData.Chance * dropRate;
 
-				if (dropChance < rnd.Next(10000))
+				if (dropChance < rnd.Next(100))
 					continue;
 
 				await Task.Delay(100);
