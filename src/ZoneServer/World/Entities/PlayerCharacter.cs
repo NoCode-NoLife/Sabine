@@ -314,10 +314,10 @@ namespace Sabine.Zone.World.Entities
 			if (!this.IsObserving)
 				return;
 
+			var visibleEntities = this.Map.GetVisibleEntities(this);
+
 			lock (_visibilityUpdateSyncLock)
 			{
-				var visibleEntities = this.Map.GetVisibleEntities(this);
-
 				var appeared = visibleEntities.Where(a => !_visibleEntities.Contains(a.Handle));
 				var disappeared = _visibleEntities.Where(a => !visibleEntities.Exists(b => b.Handle == a));
 
