@@ -71,7 +71,7 @@ namespace Sabine.Shared
 		/// Loads all configuration files.
 		/// </summary>
 		/// <returns></returns>
-		protected ConfFiles LoadConf()
+		public ConfFiles LoadConf()
 		{
 			Log.Info("Loading configuration...");
 
