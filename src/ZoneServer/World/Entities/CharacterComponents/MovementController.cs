@@ -188,11 +188,20 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			// alpha client? That would explain why Athena's default walk
 			// speed value of 150 seems way too fast for the alpha client.
 			// Meanwhile, the client seems to use '10 * speed / 13'...? But
-			// our 'speed / 1.8f' seems to work well for the moment and gives
+			// our 'speed / 1.81f' seems to work well for the moment and gives
 			// us ~111 for 200 speed, while the client's formula gives us
 			// ~153, which is way off. This needs more research.
+			// 
+			// Update: Changed the divisor to 1.81, because 1.8 tended
+			// to lack behind the client, causing a light rubberbanding.
+			// This seems to be kind of impossible to get right. There
+			// will always be a small difference between client and
+			// server, causing the character to run fast or slower
+			// at times. Ideally we would want to not send a start
+			// position, so the client can figure that part out
+			// itself, making it at least look smooth...
 			if (movingStright)
-				speed = speed / 1.8f;
+				speed = speed / 1.81f;
 
 			_currentMoveTime = TimeSpan.FromMilliseconds(speed);
 			_moving = true;
