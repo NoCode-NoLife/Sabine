@@ -152,10 +152,6 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			character.Position = _nextDestination;
 			//Log.Debug("  now at {0}", this.Position);
 
-			Npc npc = null;
-			System.Threading.Tasks.Task.Run(() => (npc = new Npc(66)).Warp(character.Map.Id, character.Position));
-			System.Threading.Tasks.Task.Delay(3000).ContinueWith(_ => npc.Map.RemoveNpc(npc));
-
 			this.OnReachedTile(character.Position);
 
 			// Start next move if there's still something left in the queue
