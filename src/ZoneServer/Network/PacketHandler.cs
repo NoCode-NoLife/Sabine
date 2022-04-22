@@ -501,6 +501,9 @@ namespace Sabine.Zone.Network
 						return;
 					}
 
+					if (target.IsDead)
+						return;
+
 					var rnd = RandomProvider.Get();
 					var damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
 					target.TakeDamage(damage, character);

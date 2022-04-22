@@ -64,12 +64,22 @@ namespace Sabine.Zone.World.Entities
 		/// animation.
 		/// </summary>
 		/// <param name="killer"></param>
-		public override void Kill(Character killer)
+		public async override void Kill(Character killer)
 		{
 			base.Kill(killer);
 
 			this.GiveExp(killer);
 			this.GiveMvpExp(killer);
+
+			// Removing the monster with a delay seems wonky, but if we
+			// don't, the client will not display the damage for the last
+			// hit and the monster will disappear before the hit animation
+			// is even done. It feels good with a 1s delay though.
+			// Especially with Porings, which pop at the height of their
+			// hit animation. Alternative implementation: DisappearTime,
+			// which will despawn the monster after X amount of time.
+			await Task.Delay(1000);
+
 			this.DropItems(killer);
 			this.DropMvpItems(killer);
 
