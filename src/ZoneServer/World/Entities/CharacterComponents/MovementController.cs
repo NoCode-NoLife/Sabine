@@ -85,7 +85,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			// If we are moving, we queued up the new path that starts at
 			// the current destination, where we were currently headed.
 			if (!_moving)
-				this.NextMovement();
+				this.NextMovement(TimeSpan.Zero);
 
 			_finalDestination = toPos;
 
@@ -152,12 +152,16 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			character.Position = _nextDestination;
 			//Log.Debug("  now at {0}", this.Position);
 
+			Npc npc = null;
+			System.Threading.Tasks.Task.Run(() => (npc = new Npc(66)).Warp(character.Map.Id, character.Position));
+			System.Threading.Tasks.Task.Delay(3000).ContinueWith(_ => npc.Map.RemoveNpc(npc));
+
 			this.OnReachedTile(character.Position);
 
 			// Start next move if there's still something left in the queue
 			if (_pathQueue.Count != 0)
 			{
-				this.NextMovement();
+				this.NextMovement(TimeSpan.Zero - _currentMoveTime);
 				return;
 			}
 
@@ -169,7 +173,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// movement queue.
 		/// </summary>
 		/// <exception cref="InvalidOperationException"></exception>
-		private void NextMovement()
+		private void NextMovement(TimeSpan remainder)
 		{
 			if (_pathQueue.Count == 0)
 				throw new InvalidOperationException("Path queue is empty.");
@@ -200,10 +204,22 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			// at times. Ideally we would want to not send a start
 			// position, so the client can figure that part out
 			// itself, making it at least look smooth...
+			// 
+			// Update: After realizing that I'm stupid, and that I can't
+			// start the next move with the full speed on every update,
+			// because the update time is not consistent, I'm now
+			// including the "remainder" in the next move time, to
+			// compensate for the time that has already passed since
+			// the move was actually finished (usually a few ms).
+			// With this change, the new divisor is 1.307, or rather,
+			// it matches the client's '10 * speed / 13', which seems
+			// to work for the most part now, though it's still not
+			// absolutely perfect. Diagonal movement meanwhile seems
+			// to still work very well somehow.
 			if (movingStright)
-				speed = speed / 1.81f;
+				speed = speed * 10f / 13f;
 
-			_currentMoveTime = TimeSpan.FromMilliseconds(speed);
+			_currentMoveTime = TimeSpan.FromMilliseconds(speed) - remainder;
 			_moving = true;
 		}
 
