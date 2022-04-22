@@ -14,6 +14,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
 namespace Sabine.Zone.Commands
@@ -485,14 +486,28 @@ namespace Sabine.Zone.Commands
 				monsterId = monsterData1.Id;
 			}
 
+			var amount = 1;
+			if (args.Count > 1)
+			{
+				if (!int.TryParse(args.Get(1), out amount))
+					return CommandResult.InvalidArgument;
+
+				amount = Math2.Clamp(1, 1000, amount);
+			}
+
 			if (!SabineData.Monsters.Contains(monsterId))
 			{
 				sender.ServerMessage(Localization.Get("Monster with id '{0}' not found."), monsterId);
 				return CommandResult.Okay;
 			}
 
-			var monster = new Monster(monsterId);
-			monster.Warp(sender.GetLocation());
+			for (var i = 0; i < amount; ++i)
+			{
+				var monster = new Monster(monsterId);
+				var pos = target.Position.GetRandomInSquareRange(4);
+
+				monster.Warp(sender.MapId, pos);
+			}
 
 			sender.ServerMessage(Localization.Get("Monsters spawned."));
 
