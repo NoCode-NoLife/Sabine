@@ -1,4 +1,5 @@
 ﻿using Sabine.Char.Database;
+using Sabine.Shared.Data;
 using Sabine.Shared.Network;
 
 namespace Sabine.Char.Network.Helpers
@@ -15,10 +16,21 @@ namespace Sabine.Char.Network.Helpers
 		/// <param name="character"></param>
 		public static void AddCharacter(this Packet packet, Character character)
 		{
+			var jobLevel = character.JobLevel;
+			var jobExp = character.JobExp;
+
+			// Always display job level and EXP as 0 if the feature
+			// isn't enabled
+			if (!SabineData.Features.IsEnabled("JobLevels"))
+			{
+				jobLevel = 0;
+				jobExp = 0;
+			}
+
 			packet.PutInt(character.Id);
 			packet.PutInt(character.BaseExp);
 			packet.PutInt(character.Zeny);
-			packet.PutInt(character.JobExp);
+			packet.PutInt(jobExp);
 			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
@@ -33,7 +45,7 @@ namespace Sabine.Char.Network.Helpers
 			packet.PutString(character.Name, 16);
 			packet.PutByte((byte)character.JobId);
 			packet.PutByte((byte)character.BaseLevel);
-			packet.PutByte((byte)character.JobLevel);
+			packet.PutByte((byte)jobLevel);
 			packet.PutByte((byte)character.Str);
 			packet.PutByte((byte)character.Agi);
 			packet.PutByte((byte)character.Vit);

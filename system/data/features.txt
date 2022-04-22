@@ -18,6 +18,9 @@
 ]},
 
 { name: "Beta1", enabled: false, children: [
+	// Enables characters to raise their job level.
+	{ name: "JobLevels", enabled: true },
+	
 	// Enables the mage class, which was not available in the alpha.
 	{ name: "Mage", enabled: true },
 	

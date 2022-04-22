@@ -521,6 +521,10 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="amount"></param>
 		public void GainJobExp(int amount)
 		{
+			// Don't give any job EXP if the feature is disabled
+			if (!SabineData.Features.IsEnabled("JobLevels"))
+				return;
+
 			var exp = this.Parameters.JobExp;
 			var level = this.Parameters.JobLevel;
 			var expNeeded = this.Parameters.JobExpNeeded;

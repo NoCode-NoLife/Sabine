@@ -155,11 +155,6 @@ namespace Sabine.Char.Network
 			character.Zeny = CharServer.Instance.Conf.Char.StartZeny;
 			character.Location = new Location(mapData.Id, CharServer.Instance.Conf.Char.StartPosition);
 
-			// In the alpha your job level was 0 and stayed that way. Let's
-			// set it to 0 on creation, and we can change it from the zone
-			// server if necessary.
-			character.JobLevel = 0;
-
 			db.CreateCharacter(account, ref character);
 			conn.Characters.Add(character);
 

@@ -5,6 +5,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data;
 using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
@@ -323,6 +324,15 @@ namespace Sabine.Zone.Network
 		public static void ZC_LONGPAR_CHANGE(PlayerCharacter character, ParameterType type)
 		{
 			var value = character.Parameters.Get(type);
+
+			// Always display job level and EXP as 0 if the feature
+			// isn't enabled
+			if (type == ParameterType.JobExp || type == ParameterType.JobExpNeeded)
+			{
+				if (!SabineData.Features.IsEnabled("JobLevels"))
+					value = 0;
+			}
+
 			ZC_LONGPAR_CHANGE(character, type, value);
 		}
 
