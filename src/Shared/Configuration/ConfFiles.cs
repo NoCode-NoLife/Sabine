@@ -38,6 +38,11 @@ namespace Sabine.Shared.Configuration
 		public LocalizationConf Localization { get; } = new LocalizationConf();
 
 		/// <summary>
+		/// world.conf
+		/// </summary>
+		public WorldConf World { get; } = new WorldConf();
+
+		/// <summary>
 		/// Loads all conf files.
 		/// </summary>
 		public void Load()
@@ -49,6 +54,7 @@ namespace Sabine.Shared.Configuration
 			this.Commands.Load("system/conf/commands.conf");
 			this.Database.Load("system/conf/database.conf");
 			this.Localization.Load("system/conf/localization.conf");
+			this.World.Load("system/conf/world.conf");
 		}
 	}
 }

@@ -72,6 +72,7 @@
     <Compile Include="Configuration\Files\Commands.cs" />
     <Compile Include="Configuration\Files\DatabaseConf.cs" />
     <Compile Include="Configuration\Files\Localization.cs" />
+    <Compile Include="Configuration\Files\WorldConf.cs" />
     <Compile Include="Configuration\Files\ZoneConf.cs" />
     <Compile Include="ConsoleHeader.cs" />
     <Compile Include="Const\Action.cs" />

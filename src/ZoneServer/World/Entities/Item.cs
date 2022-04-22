@@ -170,10 +170,12 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="pos"></param>
 		public void Drop(Map map, Position pos)
 		{
+			var disappearSeconds = ZoneServer.Instance.Conf.World.ItemDisappearTime;
+
 			this.MapId = map.Id;
 			this.Position = pos;
 			this.EquippedOn = EquipSlots.None;
-			this.DropDisappearTime = DateTime.Now.AddSeconds(30);
+			this.DropDisappearTime = DateTime.Now.AddSeconds(disappearSeconds);
 
 			map.AddItem(this);
 		}

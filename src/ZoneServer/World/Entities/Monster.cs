@@ -119,7 +119,8 @@ namespace Sabine.Zone.World.Entities
 			for (var i = 0; i < dropsData.Count; ++i)
 			{
 				var dropData = dropsData[i];
-				var dropChance = dropData.Chance;
+				var dropRate = ZoneServer.Instance.Conf.World.ItemDropRate / 100f;
+				var dropChance = dropData.Chance * dropRate;
 
 				if (dropChance < rnd.Next(10000))
 					continue;
