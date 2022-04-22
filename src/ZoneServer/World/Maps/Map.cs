@@ -109,6 +109,16 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			this.UpdateCharacters(elapsed);
+			this.RemoveDroppedItems();
+		}
+
+		/// <summary>
+		/// Runs Update on all characters.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateCharacters(TimeSpan elapsed)
+		{
 			// Create a list of updatables instead of locking and then
 			// updating monsters and characters separately, so that
 			// actions taken by components that get updated don't
@@ -128,6 +138,36 @@ namespace Sabine.Zone.World.Maps
 
 				_updateEntities.Clear();
 			}
+		}
+
+		/// <summary>
+		/// Removes overdue items.
+		/// </summary>
+		/// <exception cref="NotImplementedException"></exception>
+		private void RemoveDroppedItems()
+		{
+			IList<Item> items = null;
+			var now = DateTime.Now;
+
+			lock (_items)
+			{
+				foreach (var item in _items.Values)
+				{
+					if (now < item.DropDisappearTime)
+						continue;
+
+					if (items == null)
+						items = new List<Item>();
+
+					items.Add(item);
+				}
+			}
+
+			if (items == null)
+				return;
+
+			foreach (var item in items)
+				this.RemoveItem(item);
 		}
 
 		/// <summary>

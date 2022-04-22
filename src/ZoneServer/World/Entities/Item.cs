@@ -94,6 +94,12 @@ namespace Sabine.Zone.World.Entities
 		public ItemData Data { get; private set; }
 
 		/// <summary>
+		/// Returns the time at which this item should be removed from
+		/// the map it was dropped on.
+		/// </summary>
+		public DateTime DropDisappearTime { get; private set; } = DateTime.MaxValue;
+
+		/// <summary>
 		/// Creates new item from class id.
 		/// </summary>
 		/// <param name="classId"></param>
@@ -167,6 +173,7 @@ namespace Sabine.Zone.World.Entities
 			this.MapId = map.Id;
 			this.Position = pos;
 			this.EquippedOn = EquipSlots.None;
+			this.DropDisappearTime = DateTime.Now.AddSeconds(30);
 
 			map.AddItem(this);
 		}
