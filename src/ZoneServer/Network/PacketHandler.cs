@@ -502,7 +502,7 @@ namespace Sabine.Zone.Network
 
 					var rnd = RandomProvider.Get();
 					var damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
-					target.TakeDamage(damage);
+					target.TakeDamage(damage, character);
 
 					character.ServerMessage("{0}: {1}/{2} HP", target.Name, target.Parameters.Hp, target.Parameters.HpMax);
 

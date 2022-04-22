@@ -3,6 +3,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.World.Entities.CharacterComponents;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
+using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
 {
@@ -118,20 +119,43 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
-		/// Reduces the character's HP by the given amount.
+		/// Reduces the character's HP by the given amount, returns the
+		/// character's remaining HP.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void TakeDamage(int amount)
+		/// <param name="attacker"></param>
+		/// <returns></returns>
+		public virtual int TakeDamage(int amount, Character attacker)
 		{
 			var remainingHp = this.Parameters.Modify(ParameterType.Hp, -amount);
 
 			if (remainingHp == 0)
-			{
-				this.State = CharacterState.Dead;
+				this.Kill(attacker);
 
-				if (this is Npc npc)
-					this.Map.RemoveNpc(npc);
-			}
+			return remainingHp;
+		}
+
+		/// <summary>
+		/// Kills the character.
+		/// </summary>
+		/// <param name="killer"></param>
+		public virtual void Kill(Character killer)
+		{
+			// TODO: Figure out what needs to happen when we kill
+			//   different kinds of entities.
+
+			this.Parameters.Hp = 0;
+			this.State = CharacterState.Dead;
+		}
+
+		/// <summary>
+		/// Drops item in range of the character.
+		/// </summary>
+		/// <param name="item"></param>
+		public void Drop(Item item)
+		{
+			var pos = this.Position.GetRandomInSquareRange(1);
+			item.Drop(this.Map, pos);
 		}
 	}
 }

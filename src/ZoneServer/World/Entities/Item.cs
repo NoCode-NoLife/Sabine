@@ -156,5 +156,19 @@ namespace Sabine.Zone.World.Entities
 		{
 			this.Data = data;
 		}
+
+		/// <summary>
+		/// Adds item to the map, dropping it at the given position.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="pos"></param>
+		public void Drop(Map map, Position pos)
+		{
+			this.MapId = map.Id;
+			this.Position = pos;
+			this.EquippedOn = EquipSlots.None;
+
+			map.AddItem(this);
+		}
 	}
 }

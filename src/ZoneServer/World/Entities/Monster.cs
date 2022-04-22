@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
+using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
 {
@@ -51,6 +55,82 @@ namespace Sabine.Zone.World.Entities
 			this.Parameters.AttackMax = this.Data.AttackMax;
 			this.Parameters.Defense = this.Data.Defense;
 			this.Parameters.Speed = this.Data.Speed;
+		}
+
+		/// <summary>
+		/// Kills the monster and removes it from the map with a death
+		/// animation.
+		/// </summary>
+		/// <param name="killer"></param>
+		public override void Kill(Character killer)
+		{
+			base.Kill(killer);
+
+			this.GiveExp(killer);
+			this.DropItems(killer);
+			this.DropMvpItems(killer);
+
+			this.Map.RemoveNpc(this);
+		}
+
+		/// <summary>
+		/// Gives EXP to the character(s) that killed the monster.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void GiveExp(Character killer)
+		{
+			if (!(killer is PlayerCharacter playerCharacter))
+				return;
+
+			var baseExp = this.Data.BaseExp;
+			var jobExp = this.Data.BaseExp;
+
+			playerCharacter.GainBaseExp(baseExp);
+			playerCharacter.GainJobExp(jobExp);
+		}
+
+		/// <summary>
+		/// Drops the monster's items.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void DropItems(Character killer)
+			=> this.DropRandomItems(killer, this.Data.Drops);
+
+		/// <summary>
+		/// Drops the monster's MVP items.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void DropMvpItems(Character killer)
+			=> this.DropRandomItems(killer, this.Data.MvpDrops);
+
+		/// <summary>
+		/// Drops the monster's items.
+		/// </summary>
+		/// <param name="killer"></param>
+		private async void DropRandomItems(Character killer, IList<DropData> dropsData)
+		{
+			if (dropsData.Count == 0)
+				return;
+
+			var rnd = RandomProvider.Get();
+			var map = this.Map;
+			var pos = this.Position;
+
+			for (var i = 0; i < dropsData.Count; ++i)
+			{
+				var dropData = dropsData[i];
+				var dropChance = dropData.Chance;
+
+				if (dropChance < rnd.Next(10000))
+					continue;
+
+				await Task.Delay(100);
+
+				var item = new Item(dropData.ItemId);
+				var dropPos = pos.GetRandomInSquareRange(1);
+
+				item.Drop(map, dropPos);
+			}
 		}
 	}
 }

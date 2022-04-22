@@ -1,4 +1,5 @@
 ﻿using System;
+using Yggdrasil.Util;
 
 namespace Sabine.Shared.World
 {
@@ -110,6 +111,39 @@ namespace Sabine.Shared.World
 		public int GetDistance(Position otherPos)
 		{
 			return (int)Math.Sqrt(Math.Pow(this.X - otherPos.X, 2) + Math.Pow(this.Y - otherPos.Y, 2));
+		}
+
+		/// <summary>
+		/// Returns random position in range around this position.
+		/// </summary>
+		/// <param name="range"></param>
+		/// <returns></returns>
+		public Position GetRandomInRange(int range)
+		{
+			var rnd = RandomProvider.Get();
+
+			var distance = rnd.Next(range + 1);
+			var angle = rnd.NextDouble() * Math.PI * 2;
+
+			var x = this.X + distance * Math.Cos(angle);
+			var y = this.Y + distance * Math.Sin(angle);
+
+			return new Position((int)x, (int)y);
+		}
+
+		/// <summary>
+		/// Returns random position in range around this position.
+		/// </summary>
+		/// <param name="range"></param>
+		/// <returns></returns>
+		public Position GetRandomInSquareRange(int range)
+		{
+			var rnd = RandomProvider.Get();
+
+			var x = this.X + rnd.Next(-range, range + 1);
+			var y = this.Y + rnd.Next(-range, range + 1);
+
+			return new Position((int)x, (int)y);
 		}
 	}
 }

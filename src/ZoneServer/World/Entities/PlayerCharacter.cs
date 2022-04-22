@@ -461,24 +461,6 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
-		/// Drops item in range of the character.
-		/// </summary>
-		/// <param name="item"></param>
-		public void Drop(Item item)
-		{
-			var rnd = RandomProvider.Get();
-			var pos = this.Position;
-
-			pos.X += rnd.Next(-1, 2);
-			pos.Y += rnd.Next(-1, 2);
-
-			item.MapId = this.MapId;
-			item.Position = pos;
-
-			this.Map.AddItem(item);
-		}
-
-		/// <summary>
 		/// Returns the character's current attack range, based on its
 		/// state and equipped items.
 		/// </summary>
