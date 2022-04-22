@@ -228,7 +228,9 @@ namespace Sabine.Zone.Network
 
 			if (target == null)
 			{
-				Log.Debug("CZ_REQNAME: User {0} requested the name of a character that doesn't exist.", conn.Account.Username);
+				// Don't warn, since this can easily happen when the client
+				// requests the name for a character that just disappeared.
+				//Log.Debug("CZ_REQNAME: User {0} requested the name of a character that doesn't exist.", conn.Account.Username);
 				return;
 			}
 
