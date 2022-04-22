@@ -76,7 +76,7 @@
     <Compile Include="World\Entities\CharacterComponents\Parameters.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />
-    <Compile Include="World\Entities\IEntryCharacter.cs" />
+    <Compile Include="World\Entities\EntryCharacter.cs" />
     <Compile Include="World\Entities\Monster.cs" />
     <Compile Include="World\Entities\Npc.cs" />
     <Compile Include="World\Entities\PlayerCharacter.cs" />
