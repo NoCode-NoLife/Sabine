@@ -40,7 +40,7 @@ namespace Sabine.Zone.Commands
 			this.Add("broadcast", "<message>", Localization.Get("Broadcasts message to everyone on the server."), this.Broadcast);
 			this.Add("warp", "<map> <x> <y>", Localization.Get("Warps player to destination."), this.Warp);
 			this.Add("jump", "[[+-]x] [[+-]y]", Localization.Get("Warps player to another position on the same map."), this.Jump);
-			this.Add("spawn", "<monster id|name>", Localization.Get("Spawns monsters."), this.Spawn);
+			this.Add("spawn", "<monster id|name> [amount] [hp:amount]", Localization.Get("Spawns monsters."), this.Spawn);
 			this.Add("stat", "<str|agi|vit|int|dex|luck|stp|skp> <modifier>", Localization.Get("Modifies the character's stats."), this.Stat);
 			this.Add("item", "<item> [amount]", Localization.Get("Spawns item for character."), this.Item);
 			this.Add("job", "<job>", Localization.Get("Changes character's job."), this.Job);
@@ -487,12 +487,21 @@ namespace Sabine.Zone.Commands
 			}
 
 			var amount = 1;
-			if (args.Count > 1)
+			if (args.Contains(1))
 			{
 				if (!int.TryParse(args.Get(1), out amount))
 					return CommandResult.InvalidArgument;
 
 				amount = Math2.Clamp(1, 1000, amount);
+			}
+
+			var hpMax = -1;
+			if (args.Contains("hp"))
+			{
+				if (!int.TryParse(args.Get("hp"), out hpMax))
+					return CommandResult.InvalidArgument;
+
+				hpMax = Math2.Clamp(1, 1_000_000, hpMax);
 			}
 
 			if (!SabineData.Monsters.Contains(monsterId))
@@ -504,8 +513,11 @@ namespace Sabine.Zone.Commands
 			for (var i = 0; i < amount; ++i)
 			{
 				var monster = new Monster(monsterId);
-				var pos = target.Position.GetRandomInSquareRange(4);
 
+				if (hpMax > 0)
+					monster.Parameters.Hp = monster.Parameters.HpMax = hpMax;
+
+				var pos = target.Position.GetRandomInSquareRange(4);
 				monster.Warp(sender.MapId, pos);
 			}
 
