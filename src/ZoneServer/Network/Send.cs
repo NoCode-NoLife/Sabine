@@ -71,6 +71,28 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Makes character appear on the clients around it.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_NOTIFY_STANDENTRY(IEntryCharacter character)
+		{
+			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
+
+			packet.PutInt(character.Handle);
+			packet.PutShort((short)character.Speed);
+			packet.PutByte((byte)character.ClassId);
+			packet.PutByte((byte)character.Sex);
+			packet.AddPackedPosition(character.Position, character.Direction);
+			packet.PutShort(0);
+			packet.PutByte((byte)character.HairId);
+			packet.PutByte((byte)character.WeaponId);
+			packet.PutByte(0); // Possibly a sprite option that wasn't implemented yet, like headgears.
+			packet.PutByte((byte)character.State);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
+		}
+
+		/// <summary>
 		/// Makes character appear on clients of players  around it.
 		/// </summary>
 		/// <remarks>
@@ -933,6 +955,18 @@ namespace Sabine.Zone.Network
 			packet.PutInt(handle);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Makes item disappear on clients around it.
+		/// </summary>
+		/// <param name="item"></param>
+		public static void ZC_ITEM_DISAPPEAR(Item item)
+		{
+			var packet = new Packet(Op.ZC_ITEM_DISAPPEAR);
+			packet.PutInt(item.Handle);
+
+			item.Map.Broadcast(packet, item, BroadcastTargets.All);
 		}
 
 		/// <summary>

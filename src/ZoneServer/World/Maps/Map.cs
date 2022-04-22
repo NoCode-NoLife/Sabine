@@ -152,6 +152,32 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Adds entity to visible entities on all players.
+		/// </summary>
+		/// <param name="entity"></param>
+		private void AddVisibleEntity(IEntity entity)
+		{
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+					character.AddVisibleEntity(entity);
+			}
+		}
+
+		/// <summary>
+		/// Removes entity from visible entities on all players.
+		/// </summary>
+		/// <param name="entity"></param>
+		private void RemoveVisibleEntity(IEntity entity)
+		{
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+					character.RemoveVisibleEntity(entity);
+			}
+		}
+
+		/// <summary>
 		/// Adds character to this map.
 		/// </summary>
 		/// <param name="character"></param>
@@ -165,9 +191,10 @@ namespace Sabine.Zone.World.Maps
 
 				_characters[character.Id] = character;
 				character.Map = this;
-
-				Send.ZC_NOTIFY_NEWENTRY(character);
 			}
+
+			this.AddVisibleEntity(character);
+			Send.ZC_NOTIFY_NEWENTRY(character);
 		}
 
 		/// <summary>
@@ -183,8 +210,12 @@ namespace Sabine.Zone.World.Maps
 					throw new ArgumentException($"A character with the id '{character.Id}' doesn't exists on the map.");
 
 				_characters.Remove(character.Id);
-				character.Map = null;
 			}
+
+			Send.ZC_NOTIFY_VANISH(character, DisappearType.Vanish);
+			this.RemoveVisibleEntity(character);
+
+			character.Map = null;
 		}
 
 		/// <summary>
@@ -226,9 +257,16 @@ namespace Sabine.Zone.World.Maps
 
 				_npcs[npc.Handle] = npc;
 				npc.Map = this;
-
-				Send.ZC_NOTIFY_NEWENTRY(npc);
 			}
+
+			this.AddVisibleEntity(npc);
+
+			// Use a NEWENTRY for NPCs, so they get a spawn effect, but
+			// STANDENTRY for monsters, to just make them appear.
+			if (npc is Monster)
+				Send.ZC_NOTIFY_STANDENTRY(npc);
+			else
+				Send.ZC_NOTIFY_NEWENTRY(npc);
 		}
 
 		/// <summary>
@@ -244,23 +282,16 @@ namespace Sabine.Zone.World.Maps
 					throw new ArgumentException($"An NPC with the id '{npc.Handle}' doesn't exists on the map.");
 
 				_npcs.Remove(npc.Handle);
-				npc.Map = null;
 			}
 
-			// Removing dead NPCs/monsters is tricky. We need to use a
-			// special disappear type to make them use their death animation,
-			// but if we then send another vanish packet with the Vanish
-			// type, they "disappear" with an effect, even though they
-			// were already gone. We have to send only one vanish packet,
-			// so we have to update the players on demand. Gotta admit,
-			// I'm starting to doubt this visibility update system,
-			// it doesn't seem to work well with RO.
+			this.RemoveVisibleEntity(npc);
 
-			lock (_characters)
-			{
-				foreach (var character in _characters.Values)
-					character.RemoveVisibleEntity(npc);
-			}
+			if (npc.IsDead)
+				Send.ZC_NOTIFY_VANISH(npc, DisappearType.StrikedDead);
+			else
+				Send.ZC_NOTIFY_VANISH(npc, DisappearType.Vanish);
+
+			npc.Map = null;
 		}
 
 		/// <summary>
@@ -313,18 +344,10 @@ namespace Sabine.Zone.World.Maps
 
 				_items[item.Handle] = item;
 				item.Map = this;
-
-				Send.ZC_ITEM_FALL_ENTRY(item);
 			}
 
-			// Notify characters about the new item, so no additional
-			// entry packets are sent, which would mess with the
-			// drop animation. This could probably be handled better.
-			lock (_characters)
-			{
-				foreach (var character in _characters.Values)
-					character.MarkVisible(item.Handle);
-			}
+			Send.ZC_ITEM_FALL_ENTRY(item);
+			this.AddVisibleEntity(item);
 		}
 
 		/// <summary>
@@ -340,8 +363,12 @@ namespace Sabine.Zone.World.Maps
 					throw new ArgumentException($"An item with the id '{item.Handle}' doesn't exists on the map.");
 
 				_items.Remove(item.Handle);
-				item.Map = null;
 			}
+
+			Send.ZC_ITEM_DISAPPEAR(item);
+			this.RemoveVisibleEntity(item);
+
+			item.Map = null;
 		}
 
 		/// <summary>

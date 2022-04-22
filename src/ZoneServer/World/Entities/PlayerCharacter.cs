@@ -357,35 +357,36 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
-		/// Removes entity from the ones the character can see.
+		/// Adds entity to list of character's visible entities without
+		/// updating the client.
 		/// </summary>
-		/// <param name="entity"></param>
-		public void RemoveVisibleEntity(IEntity entity)
+		/// <remarks>
+		/// AddVisibleEntity and RemoveVisibleEntity are to be used in
+		/// cases where an outside source needs to control an entity's
+		/// appear or disappear packets.
+		/// </remarks>
+		/// <param name="handle"></param>
+		internal void AddVisibleEntity(IEntity entity)
 		{
 			if (!this.IsObserving)
 				return;
 
 			lock (_visibilityUpdateSyncLock)
-			{
-				if (entity is Character character)
-					Send.ZC_NOTIFY_VANISH(this, entity.Handle, character.IsDead ? DisappearType.StrikedDead : DisappearType.Vanish);
-				else if (entity is Item)
-					Send.ZC_ITEM_DISAPPEAR(this, entity.Handle);
-				else
-					throw new ArgumentException($"Unsupported entity type '{entity.GetType().Name}'.");
-
-				_visibleEntities.Remove(entity.Handle);
-			}
+				_visibleEntities.Add(entity.Handle);
 		}
 
 		/// <summary>
-		/// Adds handle to the character's visible entities.
+		/// Removes entity from list of character's visible entities without
+		/// updating the client.
 		/// </summary>
-		/// <param name="handle"></param>
-		public void MarkVisible(int handle)
+		/// <param name="entity"></param>
+		internal void RemoveVisibleEntity(IEntity entity)
 		{
+			if (!this.IsObserving)
+				return;
+
 			lock (_visibilityUpdateSyncLock)
-				_visibleEntities.Add(handle);
+				_visibleEntities.Remove(entity.Handle);
 		}
 
 		/// <summary>
