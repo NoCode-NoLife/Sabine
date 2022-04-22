@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="commands\go.cs" />
+    <Compile Include="const\ItemId.cs" />
     <Compile Include="npcs\prontera.cs" />
     <Compile Include="warps\prontera.cs" />
   </ItemGroup>

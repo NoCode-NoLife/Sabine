@@ -14,8 +14,8 @@ public class PronteraNpcsScript : GeneralScript
 	{
 		AddShop("GuideShop", shop =>
 		{
-			shop.AddItem("Red_Potion", 100);
-			shop.AddItem("Sword", 200);
+			shop.AddItem(ItemId.RedPotion, 100);
+			shop.AddItem(ItemId.Sword, 200);
 		});
 
 		AddNpc("Guide", 54, "prt_vilg02", 99, 89, async dialog =>
