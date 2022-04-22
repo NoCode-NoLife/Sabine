@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
+using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
@@ -273,13 +274,31 @@ namespace Sabine.Zone.Network
 			// that they had planned a "team name" kind of feature,
 			// similar to ToS, to have a common identifier between
 			// characters on one account. Not a terrible idea, but
-			// sending the account name to other players is not
+			// sending the account names of other players is not
 			// exactly ideal, so... maybe let's not do that.
 			// However, maybe we could add a display name for the
 			// accounts, which could be used here.
 
+			var secName = "";
+
+			if (target is Monster)
+			{
+				var hpDisplayType = ZoneServer.Instance.Conf.World.DisplayMonsterHp;
+
+				switch (hpDisplayType)
+				{
+					case DisplayMonsterHpType.Percentage:
+						secName = string.Format("{0:0}%", 100f / target.Parameters.HpMax * target.Parameters.Hp);
+						break;
+
+					case DisplayMonsterHpType.Actual:
+						secName = string.Format("{0}/{1}", target.Parameters.Hp, target.Parameters.HpMax);
+						break;
+				}
+			}
+
 			packet.PutInt(target.Handle);
-			packet.PutString("", 16); // target.Username
+			packet.PutString(secName, 16); // target.Username
 			packet.PutString(target.Name, 16);
 
 			character.Connection.Send(packet);

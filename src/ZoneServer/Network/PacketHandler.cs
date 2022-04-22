@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Extensions;
@@ -504,7 +505,10 @@ namespace Sabine.Zone.Network
 					var damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
 					target.TakeDamage(damage, character);
 
-					character.ServerMessage("{0}: {1}/{2} HP", target.Name, target.Parameters.Hp, target.Parameters.HpMax);
+					// Update the monster's name if the display HP option
+					// was enabled
+					if (ZoneServer.Instance.Conf.World.DisplayMonsterHp != DisplayMonsterHpType.No)
+						Send.ZC_ACK_REQNAME(character, target);
 
 					Send.ZC_NOTIFY_ACT(character, character.Handle, target.Handle, DateTime.Now.GetUnixTimestamp(), damage, ActionType.Attack);
 					break;

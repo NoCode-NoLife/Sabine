@@ -9,6 +9,7 @@ namespace Sabine.Shared.Configuration.Files
 	{
 		public int ItemDropRate { get; set; }
 		public int ItemDisappearTime { get; set; }
+		public DisplayMonsterHpType DisplayMonsterHp { get; set; }
 
 		/// <summary>
 		/// Loads the conf file and its options from the given path.
@@ -19,6 +20,14 @@ namespace Sabine.Shared.Configuration.Files
 
 			this.ItemDropRate = this.GetInt("item_drop_rate", 100);
 			this.ItemDisappearTime = this.GetInt("item_disappear_time", 30);
+			this.DisplayMonsterHp = this.GetEnum("display_monster_hp", DisplayMonsterHpType.No);
 		}
+	}
+
+	public enum DisplayMonsterHpType
+	{
+		No,
+		Percentage,
+		Actual,
 	}
 }
