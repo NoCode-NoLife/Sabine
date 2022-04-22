@@ -155,7 +155,7 @@
 		public const int CZ_CLOSE_STORE = 0x0092;
 		public const int ZC_CLOSE_STORE = 0x0093;
 
-		//public const int ZC_MVP_GETTING_SPECIAL_EXP = 0x00A4;
+		public const int ZC_MVP_GETTING_SPECIAL_EXP = 0x00A4;
 		public const int ZC_MVP = 0x00A5;
 		//public const int ZC_THROW_MVPITEM = 0x00A6;
 		//public const int ZC_SKILLINFO_UPDATE = 0x00A7;

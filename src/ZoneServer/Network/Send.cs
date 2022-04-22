@@ -1103,5 +1103,18 @@ namespace Sabine.Zone.Network
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);
 		}
+
+		/// <summary>
+		/// Displays message to the player, telling them that they were
+		/// the MVP and that they'll receive an EXP bonus.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_MVP_GETTING_SPECIAL_EXP(PlayerCharacter character, int expAmount)
+		{
+			var packet = new Packet(Op.ZC_MVP_GETTING_SPECIAL_EXP);
+			packet.PutInt(expAmount);
+
+			character.Connection.Send(packet);
+		}
 	}
 }

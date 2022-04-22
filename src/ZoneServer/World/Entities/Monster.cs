@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
+using Sabine.Shared.Network;
+using Sabine.Zone.Network;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -67,6 +69,7 @@ namespace Sabine.Zone.World.Entities
 			base.Kill(killer);
 
 			this.GiveExp(killer);
+			this.GiveMvpExp(killer);
 			this.DropItems(killer);
 			this.DropMvpItems(killer);
 
@@ -87,6 +90,25 @@ namespace Sabine.Zone.World.Entities
 
 			playerCharacter.GainBaseExp(baseExp);
 			playerCharacter.GainJobExp(jobExp);
+		}
+
+		/// <summary>
+		/// Gives EXP for killing an MVP if applicable.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void GiveMvpExp(Character killer)
+		{
+			if (!(killer is PlayerCharacter playerCharacter))
+				return;
+
+			var exp = this.Data.MvpExp;
+			if (exp <= 0)
+				return;
+
+			playerCharacter.GainBaseExp(exp);
+
+			Send.ZC_MVP(playerCharacter);
+			Send.ZC_MVP_GETTING_SPECIAL_EXP(playerCharacter, exp);
 		}
 
 		/// <summary>

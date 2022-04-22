@@ -18,6 +18,7 @@ namespace Sabine.Shared.Data.Databases
 		public int Sp { get; set; }
 		public int BaseExp { get; set; }
 		public int JobExp { get; set; }
+		public int MvpExp { get; set; }
 		public int AttackRange { get; set; }
 		public int ViewRange { get; set; }
 		public int ChaseRange { get; set; }
@@ -99,6 +100,7 @@ namespace Sabine.Shared.Data.Databases
 			data.Sp = entry.ReadInt("sp", 0);
 			data.BaseExp = entry.ReadInt("exp", 0);
 			data.JobExp = entry.ReadInt("jexp", 0);
+			data.MvpExp = entry.ReadInt("mvpExp", 0);
 			data.AttackRange = entry.ReadInt("attackRange", 1);
 			data.ViewRange = entry.ReadInt("viewRange", 10);
 			data.ChaseRange = entry.ReadInt("chaseRange", 12);
