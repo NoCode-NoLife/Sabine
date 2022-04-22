@@ -1,0 +1,172 @@
+Red Potion#빨간물약#
+Scarlet Potion#주홍물약#
+Yellow Potion#노란물약#
+White Potion#하얀물약#
+Blue Potion#파란물약#
+Green Potion#초록물약#
+Red Herb#빨간약초#
+Yellow Herb#노란약초#
+White Herb#하얀약초#
+Blue Herb#파란약초#
+Green Herb#초록약초#
+Amulet#반혼부#
+Apple#사과#
+Banana#바나나#
+Grape#포도#
+Meat#고기#
+Tree Root#나무뿌리#
+Reptile Tongue#파충류혓바닥#
+Scorpion Tail#전갈의꼬리#
+Stem#식물의줄기#
+Scale#비늘줄기#
+Resin#고목나무진#
+Spawn#개구리알#
+Jellopy#젤로피#
+Garlet#가렛#
+Sel#셀#
+Zargon#자르곤#
+Yellow Gemstone#상아색룬#
+Red Gemstone#진홍색룬#
+Blue Gemstone#바다색룬#
+Clear Jewel#투명한보석#
+Blue Jewel#파란색보석#
+Skyblue Jewel#하늘색보석#
+Golden Jewel#노란색보석#
+Scarlet Jewel#분홍색보석#
+Wine Jewel#붉은색보석#
+Azure Jewel#초록색보석#
+Tooth of Bat#박쥐의이빨#
+Fluff#솜털#
+Castoff Skin#번데기껍질#
+Feather of Bird#새의깃털#
+Claw of Birds#새의발톱#
+Web#끈적이는물갈퀴#
+Leather#동물가죽#
+Claw of Wolves#늑대의발톱#
+Mushroom Spore#버섯포자#
+Orc's Cuspid#오크의송곳니#
+Horn of Devil#악마의뿔#
+Moth dust#나비날개분#
+Bill of Birds#새의부리#
+Scale of Snakes#뱀의비늘#
+Horn of Cukres#쿠크레의더듬이#
+Immortal Heart#멈추지않는심장#
+Beast's Mane#반인반수의갈기털#
+Rotten Bandage#썩은붕대#
+Orcish Voucher#오크족전사의증표#
+Skel Bone#스켈본#
+Dead's Memento#사자의유품#
+Shell#단단한껍질#
+Scale Skin#비늘피부#
+Posion Cuspid#독송곳니#
+Sticky Mucus#끈적끈적한액체#
+
+Sword#소드#
+Falchion#팔시온#
+Blade#블레이드#
+Lapier#레이피어#
+Scimiter#시미터#
+Slayer#슬레이어#
+Katana#카타나#
+Bastard Sword#바스타드소드#
+Tsurugi#쯔루기#
+Two-hand Sword#투핸드소드#
+Knife#나이프#
+Cutter#커터#
+Main-gauche#망고슈#
+Dirk#더크#
+Sword Breaker#소드브레이커#
+Mail Breaker#메일브레이커#
+Dagger#대거#
+Stiletto#스틸레토#
+Gladius#그라디우스#
+Damascus#다마스커스#
+Axe#액스#
+Battle Axe#배틀액스#
+War Hammer#워해머#
+Buster#버스터#
+Two-hand Axe#투핸드액스#
+Javelin#쟈브린#
+Guisarme#귀사름#
+Lance#란스#
+Spear#스피어#
+Pike#파이크#
+Glaive#그레이브#
+Partizan#파르티잔#
+Trident#트라이던트#
+Halberd#할버드#
+Club#클럽#
+Mace#메이스#
+Smasher#스매셔#
+Flail#플레일#
+Morning Star#모닝스타#
+Sword Mace#소드메이스#
+Rod#롯드#
+Wand#완드#
+Staff#스태프#
+Arc Wand#아크완드#
+
+Bow#보우#
+Composite Bow#컴포지트보우#
+Great Bow#그레이트보우#
+Crossbow#크로스보우#
+Arbalest#알바레스트#
+
+Guard#가드#
+Buckler#버클러#
+Shield#실드#
+Ribbon#리본#
+Hair Band#헤어밴드#
+Mask#마스크#
+Hat#햇#
+Cap#캡#
+Helm#헬름#
+Circlet#서클릿#
+Tiara#티아라#
+Crown#크라운#
+Goggle#고글#
+Biretta#비레타#
+Cotton Shirt#코튼셔츠#
+Leather Jacket#가죽재킷#
+Adventure Suit#여행자의옷#
+Mantle#하프코트#
+Coat#롱코트#
+Mink Coat#밍크코트#
+Padded Armor#아머#
+Chain Mail#메일#
+Plate Armor#플레이트#
+Gallabiya#작업복#
+Lord's Clothes#영주의옷#
+Glitter Cloth#빤짝이옷#
+Formal Dress#양복#
+Silk Robe#실크로브#
+Scapulare#사제복#
+Saint Robe#법의#
+Holy Robe#성베#
+Wooden Mail#나무갑옷#
+Tights#타이즈#
+Silver Robe#실버로브#
+Magic Coat#매직코트#
+Thieves' Cloth#도적의옷#
+Ninja Suit#닌자복#
+Sandals#샌들#
+Shoes#슈즈#
+Boots#부츠#
+Hood#후드#
+Muffler#머플러#
+Manteau#망토#
+Ring#링#
+Earring#이어링#
+Necklace#네클리스#
+Glove#글러브#
+Brooch#브로치#
+Clip#클립#
+Rosary#로자리오#
+Resident Cert#주민등록등본#
+Business Cert#사업자등록등본#
+Trading License#상인신청서#
+Swordman's Card#검사자격수검표#
+Swordman Permit#검사자격증#
+Merchant Permit#상인자격증#
+Clothes Receipt#셔츠영수증#
+Working Shirt#작업용셔츠#
