@@ -1,4 +1,5 @@
-﻿using Sabine.Shared.Const;
+﻿using System;
+using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.World.Entities.CharacterComponents;
 using Sabine.Zone.World.Maps;
@@ -11,7 +12,7 @@ namespace Sabine.Zone.World.Entities
 	/// A character that can interact with the world and can be
 	/// interacted with, such as a player or an NPC.
 	/// </summary>
-	public abstract class Character : IEntryCharacter
+	public abstract class Character : IEntryCharacter, IUpdateable
 	{
 		/// <summary>
 		/// Returns the character's unique handle, which it's identified
@@ -99,9 +100,31 @@ namespace Sabine.Zone.World.Entities
 		public Parameters Parameters { get; protected set; }
 
 		/// <summary>
+		/// Returns the character's components.
+		/// </summary>
+		public CharacterComponents.CharacterComponents Components { get; } = new CharacterComponents.CharacterComponents();
+
+		/// <summary>
 		/// Returns true if the character's HP have reached 0.
 		/// </summary>
 		public bool IsDead => this.Parameters.Hp == 0;
+
+		/// <summary>
+		/// Initializes character.
+		/// </summary>
+		public Character()
+		{
+			this.Components.Add(this.Controller = new MovementController(this));
+		}
+
+		/// <summary>
+		/// Updates the character's components.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public virtual void Update(TimeSpan elapsed)
+		{
+			this.Components.Update(elapsed);
+		}
 
 		/// <summary>
 		/// Warps character to the given location.

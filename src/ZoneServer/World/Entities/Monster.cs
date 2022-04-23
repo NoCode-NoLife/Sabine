@@ -33,9 +33,6 @@ namespace Sabine.Zone.World.Entities
 			this.ClassId = data.SpriteId;
 			this.Name = data.Name;
 
-			this.Parameters = new NpcParameters(this);
-			this.Controller = new MovementController(this);
-
 			this.Data = data;
 			this.ApplyData();
 		}

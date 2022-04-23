@@ -9,7 +9,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 	/// <summary>
 	/// Controls a character's movement.
 	/// </summary>
-	public class MovementController : IUpdateable
+	public class MovementController : ICharacterComponent
 	{
 		private readonly PlayerCharacter _playerCharacter;
 

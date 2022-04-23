@@ -9,7 +9,7 @@ namespace Sabine.Zone.World.Entities
 	/// <summary>
 	/// Represents a non-player character.
 	/// </summary>
-	public class Npc : Character, IUpdateable
+	public class Npc : Character
 	{
 		private static int HandlePool = 0x3000_0000;
 
@@ -42,7 +42,6 @@ namespace Sabine.Zone.World.Entities
 			this.ClassId = classId;
 
 			this.Parameters = new NpcParameters(this);
-			this.Controller = new MovementController(this);
 
 			this.Direction = Direction.South;
 			this.Parameters.Speed = 400;
@@ -81,15 +80,6 @@ namespace Sabine.Zone.World.Entities
 
 			curMap.RemoveNpc(this);
 			newMap.AddNpc(this);
-		}
-
-		/// <summary>
-		/// Updates NPC.
-		/// </summary>
-		/// <param name="elapsed"></param>
-		public void Update(TimeSpan elapsed)
-		{
-			this.Controller.Update(elapsed);
 		}
 	}
 }

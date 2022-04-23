@@ -17,7 +17,7 @@ namespace Sabine.Zone.World.Entities
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class PlayerCharacter : Character, IUpdateable
+	public class PlayerCharacter : Character
 	{
 		private readonly object _visibilityUpdateSyncLock = new object();
 		private readonly HashSet<int> _visibleEntities = new HashSet<int>();
@@ -142,7 +142,6 @@ namespace Sabine.Zone.World.Entities
 			this.Inventory = new Inventory(this);
 
 			this.Parameters = new PlayerCharacterParameters(this);
-			this.Controller = new MovementController(this);
 
 			this.LoadJobData(jobId);
 		}
@@ -271,10 +270,10 @@ namespace Sabine.Zone.World.Entities
 		/// Updates character.
 		/// </summary>
 		/// <param name="elapsed"></param>
-		public void Update(TimeSpan elapsed)
+		public override void Update(TimeSpan elapsed)
 		{
+			base.Update(elapsed);
 			this.UpdateVisibility();
-			this.Controller.Update(elapsed);
 		}
 
 		/// <summary>
