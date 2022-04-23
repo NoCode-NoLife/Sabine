@@ -129,3 +129,24 @@ any information about their exact stats. The MvPs in particular were
 presumably much weaker than in later versions, because first class
 characters had to be able to kill them, but without any official
 information, we can't say what their stats were for sure.
+
+### Item Descriptions
+
+Unlike newer clients, the alpha client doesn't have any item descriptions
+in its data. Instead, it sends a request to the server to receive them.
+This server currently auto-generates the descriptions based on the items'
+stats, which is why they're a little sparse.
+
+What's interesting about the descriptions, is that they seem to not
+support line-breaks. That means you can't create clean key:value lines,
+like this:
+
+```
+Attack: 1~2
+Weight: 10
+Type: Foobar
+```
+
+The alpha client displays it all in one line. This might indicate
+that items didn't have the detailed descriptions we know today,
+but that they just described the items.
