@@ -57,6 +57,8 @@ namespace Sabine.Zone.World.Entities
 			this.Parameters.AttackMax = this.Data.AttackMax;
 			this.Parameters.Defense = this.Data.Defense;
 			this.Parameters.Speed = this.Data.Speed;
+			this.Parameters.Flee = this.Data.Level + this.Data.Agi;
+			this.Parameters.Hit = this.Data.Level + this.Data.Dex;
 		}
 
 		/// <summary>

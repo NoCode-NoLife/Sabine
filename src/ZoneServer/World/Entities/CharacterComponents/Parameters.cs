@@ -278,6 +278,18 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		private int _zeny = 0;
 
 		/// <summary>
+		/// Gets or sets the character's hit value, which determines how
+		/// likely they are to hit or miss an enemy.
+		/// </summary>
+		public int Hit { get; set; } = 2;
+
+		/// <summary>
+		/// Gets or sets the character's flee value, which determines how
+		/// likely they are to evade an enemy attack.
+		/// </summary>
+		public int Flee { get; set; } = 2;
+
+		/// <summary>
 		/// Returns the value for the given stat.
 		/// </summary>
 		/// <param name="type"></param>
@@ -359,6 +371,12 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 			if (type == ParameterType.Str || type == ParameterType.Dex || type == ParameterType.Luk)
 				this.RecalculateAttack();
+
+			if (type == ParameterType.Dex)
+				this.RecalculateHit();
+
+			if (type == ParameterType.Agi)
+				this.RecalculateFlee();
 
 			if (type == ParameterType.Vit)
 			{
@@ -555,6 +573,30 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Calculates and sets the character's current hit value.
+		/// </summary>
+		public void RecalculateHit()
+		{
+			if (_playerCharacter == null)
+				return;
+
+			this.Hit = this.BaseLevel + this.Dex;
+			//Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.Hit);
+		}
+
+		/// <summary>
+		/// Calculates and sets the character's current flee value.
+		/// </summary>
+		public void RecalculateFlee()
+		{
+			if (_playerCharacter == null)
+				return;
+
+			this.Flee = this.BaseLevel + this.Agi;
+			//Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.Flee);
+		}
+
+		/// <summary>
 		/// Recalculates all sub-stats and updates the client.
 		/// </summary>
 		public void RecalculateAll()
@@ -564,6 +606,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			this.RecalculateAttack();
 			this.RecalculateMagicAttack();
 			this.RecalculateDefense();
+			this.RecalculateHit();
+			this.RecalculateFlee();
 			this.RecalculateExp();
 		}
 

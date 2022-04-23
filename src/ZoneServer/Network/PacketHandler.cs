@@ -505,13 +505,19 @@ namespace Sabine.Zone.Network
 						return;
 
 					var rnd = RandomProvider.Get();
-					var damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
-					target.TakeDamage(damage, character);
+					var hitChance = Math2.Clamp(0, 95, 80 + character.Parameters.Hit - target.Parameters.Flee);
+					var damage = 0;
 
-					// Update the monster's name if the display HP option
-					// was enabled
-					if (ZoneServer.Instance.Conf.World.DisplayMonsterHp != DisplayMonsterHpType.No)
-						Send.ZC_ACK_REQNAME(character, target);
+					if (rnd.Next(100) < hitChance)
+					{
+						damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
+						target.TakeDamage(damage, character);
+
+						// Update the monster's name if the display HP option
+						// was enabled
+						if (ZoneServer.Instance.Conf.World.DisplayMonsterHp != DisplayMonsterHpType.No)
+							Send.ZC_ACK_REQNAME(character, target);
+					}
 
 					Send.ZC_NOTIFY_ACT(character, character.Handle, target.Handle, DateTime.Now.GetUnixTimestamp(), damage, ActionType.Attack);
 					break;
