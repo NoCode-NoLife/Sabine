@@ -442,6 +442,11 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 			this.HpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statMultiplier + sigmaOfBaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultipliers);
 
+			// I'll admit, I'm getting lazy by this point. Figuring out
+			// formulas isn't my strong suit. Half HP and double SP don't
+			// match the screen shots, but it's close and simple.
+			this.HpMax /= 2;
+
 			if (this.Hp > this.HpMax)
 				this.Hp = this.HpMax;
 
@@ -469,6 +474,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			var sigmaOfBaseLevel = RoMath.Sigma(this.BaseLevel - 1);
 
 			this.SpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultiplier);
+			this.SpMax *= 2;
 
 			if (this.Sp > this.SpMax)
 				this.Sp = this.SpMax;
