@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
@@ -550,8 +551,19 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			// however, and doesn't mix with the point-based VIT
 			// defense bonus. Is that bonus maybe not displayed?
 			// Did it not exist? Did it play into the percentage?
-			// For now I'll ignore it for the display.
 			this.Defense = _playerCharacter.Inventory.GetEquipDefense();
+
+			// Update: Based on screen shots, we can see that either
+			// equip had different defense stats, or that VIT did play
+			// into the DEF stat *somehow*, which would make sense.
+			// The following formula is made up and *not* accurate,
+			// but it gets us pretty close to the screen shots, and
+			// with full VIT and the best equipment you would have
+			// about 57% damage reduction. It's also possible that
+			// these values were combined in some way, but not used
+			// together. This will be difficult to proof either way
+			// though.
+			this.Defense += this.Vit / 3;
 
 			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.Defense);
 		}
