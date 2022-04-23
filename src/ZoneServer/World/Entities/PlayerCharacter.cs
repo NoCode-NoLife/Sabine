@@ -553,6 +553,7 @@ namespace Sabine.Zone.World.Entities
 			{
 				this.Parameters.Set(ParameterType.JobLevel, level);
 				this.Parameters.Set(ParameterType.JobExpNeeded, expNeeded);
+				this.Parameters.Modify(ParameterType.SkillPoints, levelsGained);
 
 				// The alpha client offers no way to update the job level.
 				// It's only set once, on login, based on the data given
