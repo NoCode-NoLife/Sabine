@@ -597,6 +597,26 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Calculates the character's max weight and updates the client.
+		/// </summary>
+		private void RecalculateWeight()
+		{
+			if (_playerCharacter == null)
+				return;
+
+			this.Weight = _playerCharacter.Inventory.GetItems().Sum(a => a.Data.Weight);
+			this.WeightMax = 2000 + _playerCharacter.JobData.Modifiers.Weight + this.Str * 30;
+
+			// The exact alpha weight formula is currently unknown,
+			// but it seems like characters had ~16~25% of the weight
+			// they would have in later versions.
+			if (!SabineData.Features.IsEnabled("HigherMaxWeight"))
+				this.WeightMax /= 5;
+
+			this.UpdateClient(ParameterType.Weight, ParameterType.WeightMax);
+		}
+
+		/// <summary>
 		/// Recalculates all sub-stats and updates the client.
 		/// </summary>
 		public void RecalculateAll()
@@ -609,6 +629,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			this.RecalculateHit();
 			this.RecalculateFlee();
 			this.RecalculateExp();
+			this.RecalculateWeight();
 		}
 
 		/// <summary>

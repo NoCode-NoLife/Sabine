@@ -30,5 +30,8 @@
 	
 	// Gives new characters a few Zeny to start with.
 	{ name: "StartZeny", enabled: true },
+	
+	// Gives characters a higher max weight.
+	{ name: "HigherMaxWeight", enabled: true },
 ]},
 ]
