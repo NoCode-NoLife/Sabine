@@ -16,7 +16,6 @@ namespace Sabine.Shared.Configuration.Files
 		public string Name { get; set; }
 		public string StartMapStringId { get; set; }
 		public Position StartPosition { get; set; }
-		public int StartZeny { get; set; }
 
 		/// <summary>
 		/// Loads the conf file and its options from the given path.
@@ -29,7 +28,6 @@ namespace Sabine.Shared.Configuration.Files
 			this.BindPort = this.GetInt("char_bind_port", 7000);
 			this.ServerIp = this.GetString("char_server_ip", "127.0.0.1");
 			this.Name = this.GetString("char_server_name", "Sabine");
-			this.StartZeny = this.GetInt("player_start_zeny", 500);
 
 			this.ReadStartLocation("player_start_location", "prt_vilg02,99,81");
 		}

@@ -74,20 +74,6 @@ namespace Sabine.Zone.Network
 				character.SetLocation(fallbackLocation);
 			}
 
-			// Make a few initial changes to new characters.
-			// TODO: Maybe move to a script.
-			if (!character.Vars.Perm.GetBool("Sabina.CharacterInitiated"))
-			{
-				// Give the character a few Zeny
-				if (SabineData.Features.IsEnabled("StartZeny"))
-				{
-					var startZeny = ZoneServer.Instance.Conf.Char.StartZeny;
-					character.Parameters.Zeny += startZeny;
-				}
-
-				character.Vars.Perm.SetBool("Sabina.CharacterInitiated", true);
-			}
-
 			conn.Account = account;
 			conn.Character = character;
 			character.Connection = conn;
