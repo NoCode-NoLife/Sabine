@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,6 +46,7 @@ namespace Sabine.Zone.Commands
 			this.Add("item", "<item> [amount]", Localization.Get("Spawns item for character."), this.Item);
 			this.Add("job", "<job>", Localization.Get("Changes character's job."), this.Job);
 			this.Add("heal", "", Localization.Get("Restores character's health."), this.Heal);
+			this.Add("level", "<level>", Localization.Get("Sets the character's base level."), this.Level);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -701,6 +703,33 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Healed."));
 			if (target != sender)
 				target.ServerMessage(Localization.Get("You were healed by {0}."), sender.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Changes target's base level.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Level(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args.Get(0), out var newLevel))
+				return CommandResult.InvalidArgument;
+
+			target.Parameters.BaseLevel = newLevel;
+			Send.ZC_PAR_CHANGE(target, ParameterType.BaseLevel);
+
+			sender.ServerMessage(Localization.Get("Base level was set to {0}."), newLevel);
+			if (target != sender)
+				target.ServerMessage(Localization.Get("Your base level was set to {0} by {1}."), newLevel, sender.Name);
 
 			return CommandResult.Okay;
 		}
