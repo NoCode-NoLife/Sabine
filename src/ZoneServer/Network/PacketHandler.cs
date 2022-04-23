@@ -513,6 +513,9 @@ namespace Sabine.Zone.Network
 						damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
 						target.TakeDamage(damage, character);
 
+						target.StunEndTime = DateTime.Now.AddSeconds(1);
+						target.Controller.StopMove();
+
 						// Update the monster's name if the display HP option
 						// was enabled
 						if (ZoneServer.Instance.Conf.World.DisplayMonsterHp != DisplayMonsterHpType.No)

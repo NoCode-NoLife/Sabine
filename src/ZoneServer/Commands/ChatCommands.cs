@@ -14,6 +14,7 @@ using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Entities.Components.Characters;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
@@ -515,6 +516,7 @@ namespace Sabine.Zone.Commands
 			for (var i = 0; i < amount; ++i)
 			{
 				var monster = new Monster(monsterId);
+				monster.Components.Add(new MonsterAi(monster));
 
 				if (hpMax > 0)
 					monster.Parameters.Hp = monster.Parameters.HpMax = hpMax;

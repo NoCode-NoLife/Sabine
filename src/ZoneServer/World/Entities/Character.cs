@@ -110,6 +110,16 @@ namespace Sabine.Zone.World.Entities
 		public bool IsDead => this.Parameters.Hp == 0;
 
 		/// <summary>
+		/// Gets or sets the time at which the character's stun ends.
+		/// </summary>
+		public DateTime StunEndTime { get; set; }
+
+		/// <summary>
+		/// Returns true if the character is currently stunned.
+		/// </summary>
+		public bool IsStunned => DateTime.Now < this.StunEndTime;
+
+		/// <summary>
 		/// Initializes character.
 		/// </summary>
 		public Character()

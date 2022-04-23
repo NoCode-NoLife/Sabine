@@ -22,6 +22,7 @@ namespace Sabine.Zone.World.Maps
 	public class Map : IUpdateable
 	{
 		private readonly Dictionary<int, PlayerCharacter> _characters = new Dictionary<int, PlayerCharacter>();
+
 		private readonly Dictionary<int, Npc> _npcs = new Dictionary<int, Npc>();
 		private readonly Dictionary<int, Item> _items = new Dictionary<int, Item>();
 		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
@@ -451,6 +452,16 @@ namespace Sabine.Zone.World.Maps
 			}
 
 			throw new InvalidDataException("No walkable position found.");
+		}
+
+		/// <summary>
+		/// Returns true if the given tile can be walked on.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public bool IsPassable(Position pos)
+		{
+			return this.CacheData.IsPassable(pos.X, pos.Y);
 		}
 
 		/// <summary>
