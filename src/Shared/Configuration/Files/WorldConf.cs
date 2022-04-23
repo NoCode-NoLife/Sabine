@@ -20,7 +20,7 @@ namespace Sabine.Shared.Configuration.Files
 
 			this.ItemDropRate = this.GetInt("item_drop_rate", 100);
 			this.ItemDisappearTime = this.GetInt("item_disappear_time", 30);
-			this.DisplayMonsterHp = this.GetEnum("display_monster_hp", DisplayMonsterHpType.No);
+			this.DisplayMonsterHp = (DisplayMonsterHpType)this.GetInt("display_monster_hp", (int)DisplayMonsterHpType.No);
 		}
 	}
 
