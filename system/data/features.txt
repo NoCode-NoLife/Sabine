@@ -27,5 +27,8 @@
 	// Enables skills, which were not available in the alpha.
 	// This feature doesn't do anything if the alpha client is used.
 	{ name: "Skills", enabled: true },
+	
+	// Gives new characters a few Zeny to start with.
+	{ name: "StartZeny", enabled: true },
 ]},
 ]

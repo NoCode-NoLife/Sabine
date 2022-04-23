@@ -152,7 +152,6 @@ namespace Sabine.Char.Network
 
 			character.Hp = character.HpMax = (int)(40 * (1 + character.Vit / 100.0));
 			character.Sp = character.SpMax = (int)(10 * (1 + character.Int / 100.0));
-			character.Zeny = CharServer.Instance.Conf.Char.StartZeny;
 			character.Location = new Location(mapData.Id, CharServer.Instance.Conf.Char.StartPosition);
 
 			db.CreateCharacter(account, ref character);
