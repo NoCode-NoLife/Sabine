@@ -206,6 +206,11 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		private int _spMax = 10;
 
 		/// <summary>
+		/// Returns the character's current attack.
+		/// </summary>
+		public int Attack { get; set; } = 1;
+
+		/// <summary>
 		/// Returns the character's current min attack.
 		/// </summary>
 		public int AttackMin { get; set; } = 1;
@@ -219,17 +224,17 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// Returns the character's current singular magic attack value,
 		/// as used by the alpha client.
 		/// </summary>
-		public int MagicAttack => this.MagicAttackMin;
+		public int MagicAttack { get; set; }
 
 		/// <summary>
 		/// Returns the character's current min magic attack.
 		/// </summary>
-		public int MagicAttackMin { get; set; } = 1;
+		public int MagicAttackMin { get; set; }
 
 		/// <summary>
 		/// Returns the character's current max magic attack.
 		/// </summary>
-		public int MagicAttackMax { get; set; } = 1;
+		public int MagicAttackMax { get; set; }
 
 		/// <summary>
 		/// Returns the character's current defense.
@@ -498,7 +503,17 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				secStat = this.Dex;
 			}
 
+			// Another sub-stat, another formula, another attempt at
+			// guessing math based on screen shots. Since the alpha
+			// client uses min/max attack stats, maybe it worked like
+			// magic did later on, so let's try using that formula,
+			// but adjust it slightly for the lower attack values
+			// seen in screen shots.
+
 			var fromStats = (int)(mainStat + Math.Pow(mainStat / 10, 2) + secStat / 5 + this.Luk / 5);
+			var fromStatsMin = (int)(mainStat + Math.Pow(mainStat / 7, 2)) / 3;
+			var fromStatsMax = (int)(mainStat + Math.Pow(mainStat / 5, 2)) / 3;
+
 			var fromWeapon = 0;
 			var fromWeaponMin = 0;
 			var fromWeaponMax = 0;
@@ -510,8 +525,9 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				fromWeaponMax = weapon.Data.AttackMax;
 			}
 
-			this.AttackMin = fromStats + fromWeaponMin;
-			this.AttackMax = fromStats + fromWeaponMax;
+			this.Attack = fromStats + fromWeapon;
+			this.AttackMin = fromStatsMin + fromWeaponMin;
+			this.AttackMax = fromStatsMax + fromWeaponMax;
 
 			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AttackMin);
 			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AttackMax);
@@ -527,6 +543,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 			if (_playerCharacter == null)
 				return;
 
+			this.MagicAttack = (int)(this.Int + Math.Pow(this.Int / 10, 2)) / 2;
 			this.MagicAttackMin = (int)(this.Int + Math.Pow(this.Int / 7, 2));
 			this.MagicAttackMax = (int)(this.Int + Math.Pow(this.Int / 5, 2));
 
