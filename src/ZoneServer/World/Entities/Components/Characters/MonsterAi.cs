@@ -95,7 +95,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 				if (pos == this.Character.Position)
 					continue;
 
-				if (!pos.InRange(_initialPosition, _wanderAwayDistance))
+				if (!pos.InSquareRange(_initialPosition, _wanderAwayDistance))
 					continue;
 
 				if (this.Character.Map.IsPassable(pos))
