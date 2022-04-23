@@ -63,7 +63,7 @@ namespace Sabine.Zone.World.Entities
 		public int Amount
 		{
 			get => _amount;
-			set => _amount = Math.Max(0, value);
+			set => _amount = Math2.Clamp(0, short.MaxValue, value);
 		}
 		private int _amount = 1;
 
