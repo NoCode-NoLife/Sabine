@@ -150,12 +150,12 @@
 { id: 2505, name: "Manteau", koreanName: "망토", type: "Armor", weight: 100, price: 8000, defense: 3, jobs: "Swordman|Merchant|Thief", equip: "Robe", equipLevel: 0, look: 0 },
 
 { id: 2601, name: "Ring", koreanName: "링", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
-{ id: 2602, name: "Earring", koreanName: "이어링", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
-{ id: 2603, name: "Necklace", koreanName: "네클리스", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
+{ id: 2602, name: "Earring", koreanName: "이어링", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory2", equipLevel: 20, look: 0 },
+{ id: 2603, name: "Necklace", koreanName: "네클리스", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory2", equipLevel: 20, look: 0 },
 { id: 2604, name: "Glove", koreanName: "글러브", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
 { id: 2605, name: "Brooch", koreanName: "브로치", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
 { id: 2607, name: "Clip", koreanName: "클립", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "All", equip: "Accessory1", equipLevel: 0, look: 0 },
-{ id: 2608, name: "Rosary", koreanName: "묵주", type: "Armor", weight: 100, price: 15000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
+{ id: 2608, name: "Rosary", koreanName: "묵주", type: "Armor", weight: 100, price: 15000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory2", equipLevel: 20, look: 0 },
 
 // Etc
 //---------------------------------------------------------------------------

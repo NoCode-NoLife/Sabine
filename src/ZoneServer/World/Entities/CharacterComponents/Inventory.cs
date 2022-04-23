@@ -231,6 +231,12 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 
 			lock (_syncLock)
 			{
+				//if (slots == (EquipSlots.Accessory1 | EquipSlots.Accessory2))
+				//{
+				//	var acc2InUse = _items.Any(a => a.EquippedOn == EquipSlots.Accessory2);
+				//	slots = acc2InUse ? EquipSlots.Accessory1 : EquipSlots.Accessory2;
+				//}
+
 				if ((_occupiedSlots & slots) != 0)
 					throw new ArgumentException($"Other items are already occupying the given slots (Slots: {slots}, Occupied: {_occupiedSlots}).");
 
