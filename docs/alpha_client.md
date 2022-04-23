@@ -78,3 +78,54 @@ will load the item names from there.
 
 If you don't use this name table, you will likely experience errors,
 because the client will not be able to find certain item sprites.
+
+Differences
+-----------------------------------------------------------------------------
+
+There are certain differences between the alpha and newer versions of
+the game, some of which might seem like bugs or errors. In this section
+we'll briefly discuss these, to avoid confusion.
+
+### Accessories
+
+Usually, you're able to equip accessories in an accessory slot of your
+choosing, but in the alpha, the client will always send an unequip packet
+for the accessory slots if they're in use already. You can't ignore this
+packet, because that would interfer with normal unequipping, so you have
+to do it, which means that you can't equip two accessories at once if
+they're marked to go in "both" slots. This leads us to believe that
+accessories had dedicated slots they were going in, such as rings going
+in Accessory1 and necklaces in Accessory2. From screen shots we know
+that it was possible to equip two accessories, and this implementation
+made the most sense to us. That's why you're limited in where you can
+equip accessories on this server if you're using the alpha client.
+
+### Next/Close
+
+In the alpha, dialogues have only one possible button: "OK". There are
+no separate Next and Close buttons, and the client will always show the
+one button. Further, the "Close" function closes the dialog right away,
+unlike newer versions, where it displays a Close button before closing
+the dialog window.
+
+Additionally, it was possible to cancel a dialog at any time by clicking
+anywhere outside the dialog window. Scripters need to be aware of this,
+to not accidentally close off some dialog option, because they assumed
+the dialog would go from start to finish without interruptions.
+
+### Stats
+
+Unfortunately, there's very few screen shots, videos, and information
+about stats during the alpha. A few things we've been able to figure
+out, however. For example, Novices didn't get any Zeny when they first
+started, characters had a much lower maximum weight, and the stats
+were different in general. Don't be surprised when your stats are
+different from what you're used to. That being said, the formulas
+we're using are largely guess-work, based on the limited resources
+we had, and if something seems wrong, do report it.
+
+Monsters are even more difficult to nail down, because we don't have
+any information about their exact stats. The MvPs in particular were
+presumably much weaker than in later versions, because first class
+characters had to be able to kill them, but without any official
+information, we can't say what their stats were for sure.
