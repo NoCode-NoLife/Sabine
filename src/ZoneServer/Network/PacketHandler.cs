@@ -505,7 +505,7 @@ namespace Sabine.Zone.Network
 						return;
 
 					var rnd = RandomProvider.Get();
-					var hitChance = Math2.Clamp(0, 95, 80 + character.Parameters.Hit - target.Parameters.Flee);
+					var hitChance = Math.Max(0, 80 + character.Parameters.Hit - target.Parameters.Flee);
 					var damage = 0;
 
 					if (rnd.Next(100) < hitChance)
