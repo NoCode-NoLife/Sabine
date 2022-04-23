@@ -489,6 +489,7 @@ namespace Sabine.Zone.World.Entities
 			var expNeeded = this.Parameters.BaseExpNeeded;
 			var maxLevel = SabineData.ExpTables.GetMaxLevel(ExpTableType.Base, this.JobId);
 			var levelsGained = 0;
+			var statPointsGained = 0;
 
 			exp = Math.Max(0, Math2.AddChecked(exp, amount));
 
@@ -498,6 +499,7 @@ namespace Sabine.Zone.World.Entities
 
 				level++;
 				levelsGained++;
+				statPointsGained += (level / 5) + 2;
 
 				expNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Base, this.JobId, level);
 			}
@@ -506,8 +508,10 @@ namespace Sabine.Zone.World.Entities
 			{
 				this.Parameters.BaseLevel = level;
 				this.Parameters.BaseExpNeeded = expNeeded;
+				this.Parameters.StatPoints += statPointsGained;
+				this.Parameters.SkillPoints += levelsGained;
 
-				this.Parameters.UpdateClient(ParameterType.BaseLevel, ParameterType.BaseExpNeeded);
+				this.Parameters.UpdateClient(ParameterType.BaseLevel, ParameterType.BaseExpNeeded, ParameterType.StatPoints, ParameterType.SkillPoints);
 			}
 
 			this.Parameters.BaseExp = exp;
