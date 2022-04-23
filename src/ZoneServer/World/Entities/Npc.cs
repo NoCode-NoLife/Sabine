@@ -2,7 +2,7 @@
 using System.Threading;
 using Sabine.Shared.World;
 using Sabine.Zone.Scripting.Dialogues;
-using Sabine.Zone.World.Entities.CharacterComponents;
+using Sabine.Zone.World.Entities.Components.Characters;
 
 namespace Sabine.Zone.World.Entities
 {

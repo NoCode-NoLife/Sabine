@@ -1,4 +1,4 @@
-﻿namespace Sabine.Zone.World.Entities.CharacterComponents
+﻿namespace Sabine.Zone.World.Entities.Components.Characters
 {
 	/// <summary>
 	/// Represents a character's parameters (stats, sub-stats, and

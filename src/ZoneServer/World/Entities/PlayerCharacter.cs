@@ -8,7 +8,7 @@ using Sabine.Shared.L10N;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
-using Sabine.Zone.World.Entities.CharacterComponents;
+using Sabine.Zone.World.Entities.Components.Characters;
 using Shared.Const;
 using Yggdrasil.Util;
 

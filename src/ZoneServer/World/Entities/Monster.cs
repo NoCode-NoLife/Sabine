@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
 using Sabine.Zone.Network;
-using Sabine.Zone.World.Entities.CharacterComponents;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities

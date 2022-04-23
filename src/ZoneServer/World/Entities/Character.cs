@@ -1,7 +1,7 @@
 ﻿using System;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
-using Sabine.Zone.World.Entities.CharacterComponents;
+using Sabine.Zone.World.Entities.Components.Characters;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
 using Yggdrasil.Util;
@@ -102,7 +102,7 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Returns the character's components.
 		/// </summary>
-		public CharacterComponents.CharacterComponents Components { get; } = new CharacterComponents.CharacterComponents();
+		public CharacterComponents Components { get; } = new CharacterComponents();
 
 		/// <summary>
 		/// Returns true if the character's HP have reached 0.

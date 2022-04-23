@@ -4,7 +4,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Yggdrasil.Logging;
 
-namespace Sabine.Zone.World.Entities.CharacterComponents
+namespace Sabine.Zone.World.Entities.Components.Characters
 {
 	/// <summary>
 	/// Controls a character's movement.

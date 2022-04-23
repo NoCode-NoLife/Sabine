@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sabine.Zone.World.Entities.CharacterComponents
+namespace Sabine.Zone.World.Entities.Components.Characters
 {
 	/// <summary>
 	/// Describes a character component.
