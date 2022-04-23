@@ -556,7 +556,8 @@ namespace Sabine.Zone.World.Entities
 
 				// The alpha client offers no way to update the job level.
 				// It's only set once, on login, based on the data given
-				// to it by the char server.
+				// to it by the char server, so we should inform the player
+				// about reaching the next level if job leveling is enabled.
 				this.ServerMessage(Localization.Get("You have reached job level {0}."), level);
 			}
 

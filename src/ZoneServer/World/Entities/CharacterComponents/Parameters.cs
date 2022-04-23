@@ -274,7 +274,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		public int Flee { get; set; } = 2;
 
 		/// <summary>
-		/// Returns the value for the given stat.
+		/// Returns the value for the given parameter.
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
@@ -311,7 +311,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.JobLevel: return this.JobLevel;
 
 				default:
-					throw new ArgumentException($"Invalid stat type '{type}'.");
+					throw new ArgumentException($"Invalid parameter type '{type}'.");
 			}
 		}
 
@@ -355,7 +355,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.JobLevel: this.JobLevel = value; break;
 
 				default:
-					throw new ArgumentException($"Invalid stat type '{type}'.");
+					throw new ArgumentException($"Invalid parameter type '{type}'.");
 			}
 
 			var after = this.Get(type);
@@ -407,7 +407,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.JobLevel: this.JobLevel += modifier; break;
 
 				default:
-					throw new ArgumentException($"Unsupported stat type '{type}'.");
+					throw new ArgumentException($"Unsupported parameter type '{type}'.");
 			}
 
 			// Get new value after it was properly assigned and potentially
