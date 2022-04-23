@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_ITEM_PICKUP_ACK.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+
+short inventoryId;
+short amount;
+char stringId[16];
+byte type;
+byte wearSlots;
+byte result;

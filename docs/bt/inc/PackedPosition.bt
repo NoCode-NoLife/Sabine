@@ -27,9 +27,9 @@ string readPackedMove(PackedPosition &val)
 
 	local int x = (b2 >> 6) | 4 * b1;
 	local int y = (b3 >> 4) | 16 * (b2 & 0x3F);
-	local int dir = (Direction)(b3 & 0x0F);
+	local int dir = (b3 & 0x0F);
 
     string result;
-    SPrintf(result, "X: %d, Y: %d ==> X: %d, Y: %d", x1, y1, x2, x2);
+    SPrintf(result, "X: %d, Y: %d, Dir: %d", x, y, dir);
     return result;
 }

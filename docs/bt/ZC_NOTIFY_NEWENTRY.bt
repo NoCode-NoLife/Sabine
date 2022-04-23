@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_NOTIFY_NEWENTRY.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/PackedPosition.bt"
+
+short op;
+
+int handle;
+short speed;
+byte classId;
+byte sex;
+PackedPosition pos;
+short s1;
+byte hairId;
+byte weaponId;
+byte b1;

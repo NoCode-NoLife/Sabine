@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_NORMAL_ITEMLIST.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    byte itemSize;
+    byte type;
+    short inventoryId;
+    short amount;
+    char stringId[16];
+}
+Item <read=readItem>;
+
+string readItem(Item &val)
+{
+    string result;
+    SPrintf(result, "%s, %d EA", val.stringId, val.amount);
+    return result;
+}
+
+short op;
+short len;
+
+while(!FEof())
+    Item item;
