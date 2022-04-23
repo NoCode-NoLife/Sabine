@@ -110,15 +110,6 @@ namespace Sabine.Zone.World.Entities
 		public abstract void Warp(Location location);
 
 		/// <summary>
-		/// Initializes character's components.
-		/// </summary>
-		public Character()
-		{
-			this.Parameters = new Parameters(this);
-			this.Controller = new MovementController(this);
-		}
-
-		/// <summary>
 		/// Reduces the character's HP by the given amount, returns the
 		/// character's remaining HP.
 		/// </summary>

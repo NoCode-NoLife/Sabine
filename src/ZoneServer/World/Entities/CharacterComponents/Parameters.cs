@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Sabine.Shared.Const;
-using Sabine.Shared.Data;
-using Sabine.Shared.Data.Databases;
-using Sabine.Shared.Util;
-using Sabine.Zone.Network;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities.CharacterComponents
@@ -13,25 +8,8 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 	/// Represents a character's parameters (stats, sub-stats, and
 	/// anything related).
 	/// </summary>
-	public class Parameters
+	public abstract class Parameters
 	{
-		private readonly PlayerCharacter _playerCharacter;
-
-		/// <summary>
-		/// Returns the character these stats belong to.
-		/// </summary>
-		public Character Character { get; }
-
-		/// <summary>
-		/// Creates new instance.
-		/// </summary>
-		/// <param name="character"></param>
-		public Parameters(Character character)
-		{
-			this.Character = character;
-			_playerCharacter = character as PlayerCharacter;
-		}
-
 		/// <summary>
 		/// Gets or sets the character's STR stat.
 		/// </summary>
@@ -337,6 +315,55 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
+		/// Sets the value for the given stat.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public int Set(ParameterType type, int value)
+		{
+			var before = this.Get(type);
+
+			switch (type)
+			{
+				case ParameterType.Speed: this.Speed = value; break;
+				case ParameterType.BaseExp: this.BaseExp = value; break;
+				case ParameterType.JobExp: this.JobExp = value; break;
+				case ParameterType.Hp: this.Hp = value; break;
+				case ParameterType.HpMax: this.HpMax = value; break;
+				case ParameterType.Sp: this.Sp = value; break;
+				case ParameterType.SpMax: this.SpMax = value; break;
+				case ParameterType.StatPoints: this.StatPoints = value; break;
+				case ParameterType.BaseLevel: this.BaseLevel = value; break;
+				case ParameterType.SkillPoints: this.SkillPoints = value; break;
+				case ParameterType.Str: this.Str = value; break;
+				case ParameterType.Agi: this.Agi = value; break;
+				case ParameterType.Vit: this.Vit = value; break;
+				case ParameterType.Int: this.Int = value; break;
+				case ParameterType.Dex: this.Dex = value; break;
+				case ParameterType.Luk: this.Luk = value; break;
+				case ParameterType.Zeny: this.Zeny = value; break;
+				case ParameterType.BaseExpNeeded: this.BaseExpNeeded = value; break;
+				case ParameterType.JobExpNeeded: this.JobExpNeeded = value; break;
+				case ParameterType.Weight: this.Weight = value; break;
+				case ParameterType.WeightMax: this.WeightMax = value; break;
+				case ParameterType.AttackMin: this.AttackMin = value; break;
+				case ParameterType.AttackMax: this.AttackMax = value; break;
+				case ParameterType.Defense: this.Defense = value; break;
+				case ParameterType.MagicAttack: this.MagicAttack = value; break;
+
+				default:
+					throw new ArgumentException($"Invalid stat type '{type}'.");
+			}
+
+			var after = this.Get(type);
+
+			this.OnModified(type, before, after);
+
+			return after;
+		}
+
+		/// <summary>
 		/// Modifies the given parameter and updates the client. Returns the
 		/// parameter's new value after the modification.
 		/// </summary>
@@ -346,56 +373,57 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		/// <exception cref="ArgumentException"></exception>
 		public int Modify(ParameterType type, int modifier)
 		{
+			var before = this.Get(type);
+
 			switch (type)
 			{
+				case ParameterType.Speed: this.Speed += modifier; break;
+				case ParameterType.BaseExp: this.BaseExp += modifier; break;
+				case ParameterType.JobExp: this.JobExp += modifier; break;
 				case ParameterType.Hp: this.Hp += modifier; break;
+				case ParameterType.HpMax: this.HpMax += modifier; break;
 				case ParameterType.Sp: this.Sp += modifier; break;
+				case ParameterType.SpMax: this.SpMax += modifier; break;
+				case ParameterType.StatPoints: this.StatPoints += modifier; break;
+				case ParameterType.BaseLevel: this.BaseLevel += modifier; break;
+				case ParameterType.SkillPoints: this.SkillPoints += modifier; break;
 				case ParameterType.Str: this.Str += modifier; break;
 				case ParameterType.Agi: this.Agi += modifier; break;
 				case ParameterType.Vit: this.Vit += modifier; break;
 				case ParameterType.Int: this.Int += modifier; break;
 				case ParameterType.Dex: this.Dex += modifier; break;
 				case ParameterType.Luk: this.Luk += modifier; break;
-				case ParameterType.StatPoints: this.StatPoints += modifier; break;
-				case ParameterType.SkillPoints: this.SkillPoints += modifier; break;
 				case ParameterType.Zeny: this.Zeny = Math2.AddChecked(this.Zeny, modifier); break;
+				case ParameterType.BaseExpNeeded: this.BaseExpNeeded += modifier; break;
+				case ParameterType.JobExpNeeded: this.JobExpNeeded += modifier; break;
+				case ParameterType.Weight: this.Weight += modifier; break;
+				case ParameterType.WeightMax: this.WeightMax += modifier; break;
+				case ParameterType.AttackMin: this.AttackMin += modifier; break;
+				case ParameterType.AttackMax: this.AttackMax += modifier; break;
+				case ParameterType.Defense: this.Defense += modifier; break;
+				case ParameterType.MagicAttack: this.MagicAttack += modifier; break;
 
 				default:
 					throw new ArgumentException($"Unsupported stat type '{type}'.");
 			}
 
-			this.UpdateClient(type);
-
-			// TODO: These player character checks are annoying~ Make a
-			//   PlayerCharacterParameters class or something.
-
-			// Send a status update if one of the base stats changed,
-			// as the stat points needed for raising it again might've
-			// changed as well.			
-			if (_playerCharacter != null && type >= ParameterType.Str && type <= ParameterType.Luk)
-				Send.ZC_STATUS(_playerCharacter);
-
-			if (type == ParameterType.Str || type == ParameterType.Dex || type == ParameterType.Luk)
-				this.RecalculateAttack();
-
-			if (type == ParameterType.Dex)
-				this.RecalculateHit();
-
-			if (type == ParameterType.Agi)
-				this.RecalculateFlee();
-
-			if (type == ParameterType.Vit)
-			{
-				this.RecalculateHp();
-				this.RecalculateDefense();
-			}
-
-			if (type == ParameterType.Int)
-				this.RecalculateMagicAttack();
-
 			// Get new value after it was properly assigned and potentially
 			// capped in the property.
-			return this.Get(type);
+			var after = this.Get(type);
+
+			this.OnModified(type, before, after);
+
+			return after;
+		}
+
+		/// <summary>
+		/// Called when a parameter was modified via Modify.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="before"></param>
+		/// <param name="after"></param>
+		protected virtual void OnModified(ParameterType type, int before, int after)
+		{
 		}
 
 		/// <summary>
@@ -422,270 +450,31 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 		}
 
 		/// <summary>
-		/// Recalculates character's HP, updates the property, and returns
-		/// the new max value.
+		/// Recalculates all sub-stats.
 		/// </summary>
-		/// <returns></returns>
-		public int RecalculateHp()
+		public virtual void RecalculateAll()
 		{
-			if (_playerCharacter == null)
-				return this.HpMax;
-
-			var modifiers = _playerCharacter.JobData.Modifiers;
-
-			var baseVal = 35f;
-			var statMultiplier = modifiers.HpMultiplier;
-			var statFactor = modifiers.HpFactor;
-			var statAdditions = 0;
-			var itemStatMultipliers = 1;
-			var sigmaOfBaseLevel = RoMath.Sigma(this.BaseLevel - 1);
-
-			this.HpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statMultiplier + sigmaOfBaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultipliers);
-
-			// I'll admit, I'm getting lazy by this point. Figuring out
-			// formulas isn't my strong suit. Half HP and double SP don't
-			// match the screen shots, but it's close and simple.
-			this.HpMax /= 2;
-
-			if (this.Hp > this.HpMax)
-				this.Hp = this.HpMax;
-
-			this.UpdateClient(ParameterType.Hp, ParameterType.HpMax);
-
-			return this.HpMax;
 		}
+	}
+
+	/// <summary>
+	/// Represents a character's parameters (stats, sub-stats, and
+	/// anything related).
+	/// </summary>
+	public class Parameters<TCharacter> : Parameters where TCharacter : Character
+	{
+		/// <summary>
+		/// Returns the character these parameters belong to.
+		/// </summary>
+		public TCharacter Character { get; }
 
 		/// <summary>
-		/// Recalculates character's SP, updates the property, and returns
-		/// the new max value.
+		/// Creates new instance.
 		/// </summary>
-		/// <returns></returns>
-		public int RecalculateSp()
+		/// <param name="character"></param>
+		public Parameters(TCharacter character)
 		{
-			if (_playerCharacter == null)
-				return this.SpMax;
-
-			var modifiers = _playerCharacter.JobData.Modifiers;
-
-			var baseVal = 10f;
-			var statFactor = modifiers.SpFactor;
-			var statAdditions = 0;
-			var itemStatMultiplier = 1;
-			var sigmaOfBaseLevel = RoMath.Sigma(this.BaseLevel - 1);
-
-			this.SpMax = (int)Math.Floor((Math.Floor((baseVal + this.BaseLevel * statFactor) * (1 + this.Vit / 100f)) + statAdditions) * itemStatMultiplier);
-			this.SpMax *= 2;
-
-			if (this.Sp > this.SpMax)
-				this.Sp = this.SpMax;
-
-			this.UpdateClient(ParameterType.Sp, ParameterType.SpMax);
-
-			return this.SpMax;
-		}
-
-		/// <summary>
-		/// Recalculates character's attack parameters and updates the
-		/// property.
-		/// </summary>
-		/// <returns></returns>
-		public void RecalculateAttack()
-		{
-			if (_playerCharacter == null)
-				return;
-
-			var weapon = _playerCharacter.Inventory.RightHand;
-			var mainStat = 0;
-			var secStat = 0;
-
-			if (weapon?.Type == ItemType.RangedWeapon)
-			{
-				mainStat = this.Dex;
-				secStat = this.Str;
-			}
-			else
-			{
-				mainStat = this.Str;
-				secStat = this.Dex;
-			}
-
-			// Another sub-stat, another formula, another attempt at
-			// guessing math based on screen shots. Since the alpha
-			// client uses min/max attack stats, maybe it worked like
-			// magic did later on, so let's try using that formula,
-			// but adjust it slightly for the lower attack values
-			// seen in screen shots.
-
-			var fromStats = (int)(mainStat + Math.Pow(mainStat / 10, 2) + secStat / 5 + this.Luk / 5);
-			var fromStatsMin = (int)(mainStat + Math.Pow(mainStat / 7, 2)) / 3;
-			var fromStatsMax = (int)(mainStat + Math.Pow(mainStat / 5, 2)) / 3;
-
-			var fromWeapon = 0;
-			var fromWeaponMin = 0;
-			var fromWeaponMax = 0;
-
-			if (weapon != null)
-			{
-				fromWeapon = weapon.Data.Attack;
-				fromWeaponMin = weapon.Data.AttackMin;
-				fromWeaponMax = weapon.Data.AttackMax;
-			}
-
-			this.Attack = fromStats + fromWeapon;
-			this.AttackMin = fromStatsMin + fromWeaponMin;
-			this.AttackMax = fromStatsMax + fromWeaponMax;
-
-			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AttackMin);
-			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.AttackMax);
-		}
-
-		/// <summary>
-		/// Recalculates character's attack parameters and updates the
-		/// property.
-		/// </summary>
-		/// <returns></returns>
-		public void RecalculateMagicAttack()
-		{
-			if (_playerCharacter == null)
-				return;
-
-			this.MagicAttack = (int)(this.Int + Math.Pow(this.Int / 10, 2)) / 2;
-			this.MagicAttackMin = (int)(this.Int + Math.Pow(this.Int / 7, 2));
-			this.MagicAttackMax = (int)(this.Int + Math.Pow(this.Int / 5, 2));
-
-			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.MagicAttack);
-		}
-
-		/// <summary>
-		/// Recalculates character's attack parameters and updates the
-		/// property.
-		/// </summary>
-		/// <returns></returns>
-		public void RecalculateDefense()
-		{
-			if (_playerCharacter == null)
-				return;
-
-			// The alpha client has only one (visible) defense stat,
-			// which would presumably display the armor's defense,
-			// because it might be confusing if you equipped a 5
-			// defense armor, but your defense value didn't change.
-			// This armor defense was percentage-based later on,
-			// however, and doesn't mix with the point-based VIT
-			// defense bonus. Is that bonus maybe not displayed?
-			// Did it not exist? Did it play into the percentage?
-			this.Defense = _playerCharacter.Inventory.GetEquipDefense();
-
-			// Update: Based on screen shots, we can see that either
-			// equip had different defense stats, or that VIT did play
-			// into the DEF stat *somehow*, which would make sense.
-			// The following formula is made up and *not* accurate,
-			// but it gets us pretty close to the screen shots, and
-			// with full VIT and the best equipment you would have
-			// about 57% damage reduction. It's also possible that
-			// these values were combined in some way, but not used
-			// together. This will be difficult to proof either way
-			// though.
-			this.Defense += this.Vit / 3;
-
-			Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.Defense);
-		}
-
-		/// <summary>
-		/// Sets the base EXP and job EXP the character currently needs to
-		/// reach the next levels.
-		/// </summary>
-		public void RecalculateExp()
-		{
-			if (_playerCharacter == null)
-				return;
-
-			this.BaseExpNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Base, _playerCharacter.JobId, this.BaseLevel);
-			this.JobExpNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Job, _playerCharacter.JobId, this.JobLevel);
-
-			Send.ZC_LONGPAR_CHANGE(_playerCharacter, ParameterType.BaseExpNeeded);
-			Send.ZC_LONGPAR_CHANGE(_playerCharacter, ParameterType.JobExpNeeded);
-		}
-
-		/// <summary>
-		/// Calculates and sets the character's current hit value.
-		/// </summary>
-		public void RecalculateHit()
-		{
-			if (_playerCharacter == null)
-				return;
-
-			this.Hit = this.BaseLevel + this.Dex;
-			//Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.Hit);
-		}
-
-		/// <summary>
-		/// Calculates and sets the character's current flee value.
-		/// </summary>
-		public void RecalculateFlee()
-		{
-			if (_playerCharacter == null)
-				return;
-
-			this.Flee = this.BaseLevel + this.Agi;
-			//Send.ZC_PAR_CHANGE(_playerCharacter, ParameterType.Flee);
-		}
-
-		/// <summary>
-		/// Calculates the character's max weight and updates the client.
-		/// </summary>
-		private void RecalculateWeight()
-		{
-			if (_playerCharacter == null)
-				return;
-
-			this.Weight = _playerCharacter.Inventory.GetItems().Sum(a => a.Data.Weight);
-			this.WeightMax = 2000 + _playerCharacter.JobData.Modifiers.Weight + this.Str * 30;
-
-			// The exact alpha weight formula is currently unknown,
-			// but it seems like characters had ~16~25% of the weight
-			// they would have in later versions.
-			if (!SabineData.Features.IsEnabled("HigherMaxWeight"))
-				this.WeightMax /= 5;
-
-			this.UpdateClient(ParameterType.Weight, ParameterType.WeightMax);
-		}
-
-		/// <summary>
-		/// Recalculates all sub-stats and updates the client.
-		/// </summary>
-		public void RecalculateAll()
-		{
-			this.RecalculateHp();
-			this.RecalculateSp();
-			this.RecalculateAttack();
-			this.RecalculateMagicAttack();
-			this.RecalculateDefense();
-			this.RecalculateHit();
-			this.RecalculateFlee();
-			this.RecalculateExp();
-			this.RecalculateWeight();
-		}
-
-		/// <summary>
-		/// Updates the given parameters on the character's client.
-		/// </summary>
-		/// <param name="types"></param>
-		public void UpdateClient(params ParameterType[] types)
-		{
-			if (_playerCharacter == null)
-				return;
-
-			if (types == null || types.Length == 0)
-				return;
-
-			foreach (var type in types)
-			{
-				if (!type.IsLong())
-					Send.ZC_PAR_CHANGE(_playerCharacter, type);
-				else
-					Send.ZC_LONGPAR_CHANGE(_playerCharacter, type);
-			}
+			this.Character = character;
 		}
 	}
 }

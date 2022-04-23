@@ -73,6 +73,8 @@
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\Entities\CharacterComponents\MovementController.cs" />
     <Compile Include="World\Entities\CharacterComponents\Inventory.cs" />
+    <Compile Include="World\Entities\CharacterComponents\NpcParameters.cs" />
+    <Compile Include="World\Entities\CharacterComponents\PlayerCharacterParameters.cs" />
     <Compile Include="World\Entities\CharacterComponents\Parameters.cs" />
     <Compile Include="World\Entities\Entity.cs" />
     <Compile Include="World\Entities\Item.cs" />

@@ -41,8 +41,8 @@ namespace Sabine.Zone.World.Entities
 			this.Handle = GetNewHandle();
 			this.ClassId = classId;
 
+			this.Parameters = new NpcParameters(this);
 			this.Controller = new MovementController(this);
-			this.Parameters = new Parameters(this);
 
 			this.Direction = Direction.South;
 			this.Parameters.Speed = 400;

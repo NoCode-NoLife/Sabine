@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
-using Sabine.Shared.Network;
 using Sabine.Zone.Network;
-using Yggdrasil.Logging;
+using Sabine.Zone.World.Entities.CharacterComponents;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -34,6 +33,9 @@ namespace Sabine.Zone.World.Entities
 			this.ClassId = data.SpriteId;
 			this.Name = data.Name;
 
+			this.Parameters = new NpcParameters(this);
+			this.Controller = new MovementController(this);
+
 			this.Data = data;
 			this.ApplyData();
 		}
@@ -43,22 +45,29 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		private void ApplyData()
 		{
+			this.Parameters.BaseLevel = this.Data.Level;
+
 			this.Parameters.HpMax = this.Data.Hp;
 			this.Parameters.Hp = this.Data.Hp;
 			this.Parameters.SpMax = this.Data.Sp;
 			this.Parameters.Sp = this.Data.Sp;
+
 			this.Parameters.Str = this.Data.Str;
 			this.Parameters.Agi = this.Data.Agi;
 			this.Parameters.Vit = this.Data.Vit;
 			this.Parameters.Int = this.Data.Int;
 			this.Parameters.Dex = this.Data.Dex;
 			this.Parameters.Luk = this.Data.Luk;
+
 			this.Parameters.AttackMin = this.Data.AttackMin;
 			this.Parameters.AttackMax = this.Data.AttackMax;
+			this.Parameters.MagicAttackMin = this.Data.AttackMin;
+			this.Parameters.MagicAttackMax = this.Data.AttackMax;
 			this.Parameters.Defense = this.Data.Defense;
-			this.Parameters.Speed = this.Data.Speed;
-			this.Parameters.Flee = this.Data.Level + this.Data.Agi;
-			this.Parameters.Hit = this.Data.Level + this.Data.Dex;
+			this.Parameters.Hit = this.Parameters.BaseLevel + this.Parameters.Dex;
+			this.Parameters.Flee = this.Parameters.BaseLevel + this.Parameters.Agi;
+
+			this.Parameters.RecalculateAll();
 		}
 
 		/// <summary>

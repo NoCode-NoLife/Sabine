@@ -141,6 +141,9 @@ namespace Sabine.Zone.World.Entities
 			this.JobId = jobId;
 			this.Inventory = new Inventory(this);
 
+			this.Parameters = new PlayerCharacterParameters(this);
+			this.Controller = new MovementController(this);
+
 			this.LoadJobData(jobId);
 		}
 
@@ -506,16 +509,13 @@ namespace Sabine.Zone.World.Entities
 
 			if (levelsGained != 0)
 			{
-				this.Parameters.BaseLevel = level;
-				this.Parameters.BaseExpNeeded = expNeeded;
-				this.Parameters.StatPoints += statPointsGained;
-				this.Parameters.SkillPoints += levelsGained;
-
-				this.Parameters.UpdateClient(ParameterType.BaseLevel, ParameterType.BaseExpNeeded, ParameterType.StatPoints, ParameterType.SkillPoints);
+				this.Parameters.Set(ParameterType.BaseLevel, level);
+				this.Parameters.Set(ParameterType.BaseExpNeeded, expNeeded);
+				this.Parameters.Modify(ParameterType.StatPoints, statPointsGained);
+				this.Parameters.Modify(ParameterType.SkillPoints, levelsGained);
 			}
 
-			this.Parameters.BaseExp = exp;
-			this.Parameters.UpdateClient(ParameterType.BaseExp);
+			this.Parameters.Set(ParameterType.BaseExp, exp);
 		}
 
 		/// <summary>
@@ -554,7 +554,7 @@ namespace Sabine.Zone.World.Entities
 				this.Parameters.JobLevel = level;
 				this.Parameters.JobExpNeeded = expNeeded;
 
-				this.Parameters.UpdateClient(ParameterType.JobExpNeeded);
+				Send.ZC_LONGPAR_CHANGE(this, ParameterType.JobExpNeeded);
 
 				// The alpha client offers no way to update the job level.
 				// It's only set once, on login, based on the data given
@@ -565,7 +565,7 @@ namespace Sabine.Zone.World.Entities
 			}
 
 			this.Parameters.JobExp = exp;
-			this.Parameters.UpdateClient(ParameterType.JobExp);
+			Send.ZC_LONGPAR_CHANGE(this, ParameterType.JobExp);
 		}
 
 		/// <summary>
@@ -574,10 +574,8 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		public void Heal()
 		{
-			this.Parameters.Hp = this.Parameters.HpMax;
-			this.Parameters.Sp = this.Parameters.SpMax;
-
-			this.Parameters.UpdateClient(ParameterType.Hp, ParameterType.Sp);
+			this.Parameters.Set(ParameterType.Hp, this.Parameters.HpMax);
+			this.Parameters.Set(ParameterType.Sp, this.Parameters.SpMax);
 		}
 	}
 }
