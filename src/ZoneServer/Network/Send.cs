@@ -745,6 +745,16 @@ namespace Sabine.Zone.Network
 		/// <param name="item"></param>
 		/// <param name="result"></param>
 		public static void ZC_ITEM_PICKUP_ACK(PlayerCharacter character, Item item, PickUpResult result)
+			=> ZC_ITEM_PICKUP_ACK(character, item, item.Amount, result);
+
+		/// <summary>
+		/// Adds item to inventory with the given amount. If the item
+		/// already exists, the amount is added to the existing stack.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		/// <param name="result"></param>
+		public static void ZC_ITEM_PICKUP_ACK(PlayerCharacter character, Item item, int amount, PickUpResult result)
 		{
 			var packet = new Packet(Op.ZC_ITEM_PICKUP_ACK);
 
@@ -753,7 +763,7 @@ namespace Sabine.Zone.Network
 				wearSlots = EquipSlots.None;
 
 			packet.PutShort((short)item.InventoryId);
-			packet.PutShort((short)item.Amount);
+			packet.PutShort((short)amount);
 			packet.PutString(item.StringId, 16);
 			packet.PutByte((byte)item.Type);
 			packet.PutByte((byte)wearSlots);

@@ -80,7 +80,11 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 					if (existingStack != null)
 					{
 						var addAmount = item.Amount;
-						Send.ZC_ITEM_THROW_ACK(this.Character, existingStack.InventoryId, -addAmount);
+						existingStack.Amount += addAmount;
+
+						// Sending a pick up packet for the existing stack
+						// adds the amount to it.
+						Send.ZC_ITEM_PICKUP_ACK(this.Character, existingStack, addAmount, PickUpResult.Okay);
 						return;
 					}
 				}
