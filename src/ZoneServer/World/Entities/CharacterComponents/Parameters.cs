@@ -308,6 +308,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.AttackMax: return this.AttackMax;
 				case ParameterType.Defense: return this.Defense;
 				case ParameterType.MagicAttack: return this.MagicAttack;
+				case ParameterType.JobLevel: return this.JobLevel;
 
 				default:
 					throw new ArgumentException($"Invalid stat type '{type}'.");
@@ -351,6 +352,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.AttackMax: this.AttackMax = value; break;
 				case ParameterType.Defense: this.Defense = value; break;
 				case ParameterType.MagicAttack: this.MagicAttack = value; break;
+				case ParameterType.JobLevel: this.JobLevel = value; break;
 
 				default:
 					throw new ArgumentException($"Invalid stat type '{type}'.");
@@ -402,6 +404,7 @@ namespace Sabine.Zone.World.Entities.CharacterComponents
 				case ParameterType.AttackMax: this.AttackMax += modifier; break;
 				case ParameterType.Defense: this.Defense += modifier; break;
 				case ParameterType.MagicAttack: this.MagicAttack += modifier; break;
+				case ParameterType.JobLevel: this.JobLevel += modifier; break;
 
 				default:
 					throw new ArgumentException($"Unsupported stat type '{type}'.");

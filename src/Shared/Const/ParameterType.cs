@@ -36,6 +36,11 @@
 		AttackMax = 33,
 		Defense = 34,
 		MagicAttack = 35,
+
+		// This is where the parameters supported by the alpha client end,
+		// but it's fine to send newer ones, as they are simply ignored.
+
+		JobLevel = 55,
 	}
 
 	/// <summary>

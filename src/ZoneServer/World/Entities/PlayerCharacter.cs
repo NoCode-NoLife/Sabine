@@ -551,21 +551,16 @@ namespace Sabine.Zone.World.Entities
 
 			if (levelsGained != 0)
 			{
-				this.Parameters.JobLevel = level;
-				this.Parameters.JobExpNeeded = expNeeded;
-
-				Send.ZC_LONGPAR_CHANGE(this, ParameterType.JobExpNeeded);
+				this.Parameters.Set(ParameterType.JobLevel, level);
+				this.Parameters.Set(ParameterType.JobExpNeeded, expNeeded);
 
 				// The alpha client offers no way to update the job level.
 				// It's only set once, on login, based on the data given
 				// to it by the char server.
-
-				//this.Parameters.UpdateClient(ParameterType.JobLevel);
 				this.ServerMessage(Localization.Get("You have reached job level {0}."), level);
 			}
 
-			this.Parameters.JobExp = exp;
-			Send.ZC_LONGPAR_CHANGE(this, ParameterType.JobExp);
+			this.Parameters.Set(ParameterType.JobExp, exp);
 		}
 
 		/// <summary>
