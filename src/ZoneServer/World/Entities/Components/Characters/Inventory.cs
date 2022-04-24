@@ -384,6 +384,17 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
+		/// Adds the given amount of items to the inventory.
+		/// </summary>
+		/// <param name="classId"></param>
+		/// <param name="amount"></param>
+		public void Add(int classId, int amount)
+		{
+			var item = new Item(classId, amount);
+			this.AddItem(item);
+		}
+
+		/// <summary>
 		/// Removes the given amount of the item from the inventory.
 		/// Returns the actual amount that was removed.
 		/// </summary>

@@ -6,6 +6,8 @@
 //// https://gamefaqs.gamespot.com/pc/561051-ragnarok-online/faqs/14086
 //---------------------------------------------------------------------------
 
+using System.Collections;
+using Sabine.Shared.Const;
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
@@ -127,6 +129,58 @@ public class PronteraNpcsScript : GeneralScript
 			shop.AddItem(ItemId.Banana);
 			shop.AddItem(ItemId.Grape);
 			shop.AddItem(ItemId.Meat);
+		});
+
+		// Seller for certificates
+		AddNpc("Resident Office", 42, "prt_intr01", 30, 76, 6, async dialog =>
+		{
+			await dialog.MsgAdv("What can I do for you?");
+			var response = await dialog.Select(Option("Buy Resident Certificate", "buy_resident"), Option("Buy Business Certificate", "buy_business"), Option("Nevermind.", "nvm"));
+
+			var itemClassId = 0;
+			var price = 0;
+
+			switch (response)
+			{
+				default:
+				case "nvm":
+				{
+					await dialog.MsgAdv("Please don't distract me if you don't need anything.");
+					return;
+				}
+				case "buy_resident":
+				{
+					await dialog.MsgAdv("A Resident Certificate? Certainly. That's 500 Zeny.");
+					itemClassId = 20002;
+					price = 500;
+					break;
+				}
+				case "buy_business":
+				{
+					await dialog.MsgAdv("A Business Certificate? Certainly. That's 1000 Zeny.");
+					itemClassId = 20003;
+					price = 1000;
+					break;
+				}
+			}
+
+			response = await dialog.Select(Option("Here you go.", "yes"), Option("I changed my mind.", "no"));
+			if (response == "no")
+			{
+				await dialog.MsgAdv("Hm, okay then.");
+				return;
+			}
+
+			if (dialog.Player.Parameters.Zeny < price)
+			{
+				await dialog.MsgAdv("What's this, you don't have the money? Please don't distract me then.");
+				return;
+			}
+
+			dialog.Player.Parameters.Modify(ParameterType.Zeny, -price);
+			dialog.Player.Inventory.Add(itemClassId, 1);
+
+			await dialog.MsgAdv("Thank you, have a good day.");
 		});
 	}
 }
