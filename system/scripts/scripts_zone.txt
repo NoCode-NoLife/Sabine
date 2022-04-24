@@ -6,6 +6,7 @@ custom/test.cs
 
 const/*
 commands/*
+monsters/*
 npcs/*
 warps/*
 
