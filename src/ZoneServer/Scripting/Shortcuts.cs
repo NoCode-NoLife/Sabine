@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
@@ -11,6 +14,8 @@ namespace Sabine.Zone.Scripting
 {
 	public static class Shortcuts
 	{
+		private static long AnonymousShopCounter = 1;
+
 		/// <summary>
 		/// Returns an option element, to be used with the Menu function.
 		/// </summary>
@@ -59,7 +64,6 @@ namespace Sabine.Zone.Scripting
 		/// <returns></returns>
 		public static string LNF(string key, string keyPlural, int n, params object[] args)
 			=> string.Format(Localization.GetPlural(key, keyPlural, n), args);
-
 
 		/// <summary>
 		/// Spawns an NPC at the given location.
@@ -121,6 +125,31 @@ namespace Sabine.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Spawns an NPC at the given location.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="classId"></param>
+		/// <param name="mapStringId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="dialogFunc"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static (Npc, NpcShop) AddShopNpc(string name, int classId, string mapStringId, int x, int y, int direction, ShopCreationFunc creationFunc = null)
+		{
+			var shopName = "__AnonymousShop__" + Interlocked.Increment(ref AnonymousShopCounter);
+			var shop = AddShop(shopName, creationFunc);
+
+			var npc = AddNpc(name, classId, mapStringId, x, y, direction, async dialog =>
+			{
+				dialog.OpenShop(shop);
+				await Task.Yield();
+			});
+
+			return (npc, shop);
+		}
+
+		/// <summary>
 		/// Spawns a warp at the given location.
 		/// </summary>
 		/// <param name="from"></param>
@@ -151,7 +180,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="name"></param>
 		/// <param name="creationFunc"></param>
 		/// <returns></returns>
-		public static NpcShop AddShop(string name, Action<NpcShop> creationFunc = null)
+		public static NpcShop AddShop(string name, ShopCreationFunc creationFunc = null)
 		{
 			var shop = new NpcShop(name);
 			creationFunc?.Invoke(shop);
@@ -213,5 +242,7 @@ namespace Sabine.Zone.Scripting
 			ZoneServer.Instance.ChatCommands.Add(name, usage, description, func);
 			ZoneServer.Instance.Conf.Commands.Levels[name] = new AuthLevels() { Self = selfAuthLevel, Target = targetAuthLevel };
 		}
+
+		public delegate void ShopCreationFunc(NpcShop shop);
 	}
 }

@@ -27,28 +27,6 @@ namespace Sabine.Zone.World.Shops
 		}
 
 		/// <summary>
-		/// Adds item with the given string id to the shop with its
-		/// default price.
-		/// </summary>
-		/// <param name="stringId">String id of the item to add.</param>
-		public void AddItem(string stringId)
-			=> this.AddItem(stringId, -1);
-
-		/// <summary>
-		/// Adds item with the given string id and price to the shop.
-		/// </summary>
-		/// <param name="stringId">String id of the item to add.</param>
-		/// <param name="price">Price to sell the item at. use -1 for the default price.</param>
-		/// <exception cref="ArgumentException"></exception>
-		public void AddItem(string stringId, int price)
-		{
-			if (!SabineData.Items.TryFind(stringId, out var itemData))
-				throw new ArgumentException($"Item '{stringId}' not found.");
-
-			this.AddItem(itemData.ClassId, price);
-		}
-
-		/// <summary>
 		/// Adds item with the given class id to the shop with its
 		/// default price.
 		/// </summary>
@@ -72,6 +50,16 @@ namespace Sabine.Zone.World.Shops
 
 			lock (_items)
 				_items.Add(item);
+		}
+
+		/// <summary>
+		/// Adds the given items with their default prices.
+		/// </summary>
+		/// <param name="classIds"></param>
+		public void AddItems(params int[] classIds)
+		{
+			foreach (var classId in classIds)
+				this.AddItem(classId);
 		}
 
 		/// <summary>
