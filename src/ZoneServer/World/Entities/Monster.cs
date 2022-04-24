@@ -19,6 +19,11 @@ namespace Sabine.Zone.World.Entities
 		public MonsterData Data { get; }
 
 		/// <summary>
+		/// Raised when the monster was killed.
+		/// </summary>
+		public event Action<Monster> Killed;
+
+		/// <summary>
 		/// Creates new monster.
 		/// </summary>
 		/// <param name="monsterId"></param>
@@ -89,6 +94,8 @@ namespace Sabine.Zone.World.Entities
 
 			this.DropItems(killer);
 			this.DropMvpItems(killer);
+
+			this.Killed?.Invoke(this);
 
 			this.Map.RemoveNpc(this);
 		}

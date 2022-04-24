@@ -368,8 +368,11 @@ namespace Sabine.Zone.Commands
 		private CommandResult ReloadScripts(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
 		{
 			sender.ServerMessage(Localization.Get("Reloading scripts..."));
+
 			ZoneServer.Instance.World.RemoveScriptedEntities();
 			ZoneServer.Instance.ReloadScripts();
+			ZoneServer.Instance.World.Spawners.InitialSpawn();
+
 			sender.ServerMessage(Localization.Get("Done."));
 
 			return CommandResult.Okay;

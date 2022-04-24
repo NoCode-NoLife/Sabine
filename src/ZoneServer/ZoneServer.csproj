@@ -97,6 +97,8 @@
     <Compile Include="World\Shops\NpcShop.cs" />
     <Compile Include="World\Shops\ShopItem.cs" />
     <Compile Include="World\Shops\ShopOpenType.cs" />
+    <Compile Include="World\Spawning\Spawner.cs" />
+    <Compile Include="World\Spawning\Spawners.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
     <Compile Include="Network\ZoneConnection.cs" />

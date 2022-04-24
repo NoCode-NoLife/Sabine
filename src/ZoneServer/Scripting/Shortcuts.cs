@@ -3,18 +3,26 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Sabine.Shared.Configuration.Files;
+using Sabine.Shared.Data;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Commands;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
+using Sabine.Zone.World.Spawning;
 
 namespace Sabine.Zone.Scripting
 {
 	public static class Shortcuts
 	{
 		private static long AnonymousShopCounter = 1;
+
+		/// <summary>
+		/// A function that initializes a shop.
+		/// </summary>
+		/// <param name="shop"></param>
+		public delegate void ShopCreationFunc(NpcShop shop);
 
 		/// <summary>
 		/// Returns an option element, to be used with the Menu function.
@@ -243,6 +251,48 @@ namespace Sabine.Zone.Scripting
 			ZoneServer.Instance.Conf.Commands.Levels[name] = new AuthLevels() { Self = selfAuthLevel, Target = targetAuthLevel };
 		}
 
-		public delegate void ShopCreationFunc(NpcShop shop);
+		/// <summary>
+		/// Creates a permanent monster spawner.
+		/// </summary>
+		/// <param name="mapStringId"></param>
+		/// <param name="monsterName"></param>
+		/// <param name="monsterId"></param>
+		/// <param name="amount"></param>
+		public static void AddSpawner(string mapStringId, string monsterName, int monsterId, int amount)
+			=> AddSpawner(mapStringId, monsterName, monsterId, amount, TimeSpan.Zero, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
+
+		/// <summary>
+		/// Creates a permanent monster spawner.
+		/// </summary>
+		/// <param name="mapStringId"></param>
+		/// <param name="monsterName"></param>
+		/// <param name="monsterId"></param>
+		/// <param name="amount"></param>
+		/// <param name="initialDelay"></param>
+		/// <param name="respawnDelay"></param>
+		public static void AddSpawner(string mapStringId, string monsterName, int monsterId, int amount, TimeSpan initialDelay, TimeSpan respawnDelay)
+			=> AddSpawner(mapStringId, monsterName, monsterId, amount, initialDelay, respawnDelay, respawnDelay);
+
+		/// <summary>
+		/// Creates a permanent monster spawner.
+		/// </summary>
+		/// <param name="mapStringId"></param>
+		/// <param name="monsterName"></param>
+		/// <param name="monsterId"></param>
+		/// <param name="amount"></param>
+		/// <param name="initialDelay"></param>
+		/// <param name="respawnDelayMin"></param>
+		/// <param name="respawnDelayMax"></param>
+		public static void AddSpawner(string mapStringId, string monsterName, int monsterId, int amount, TimeSpan initialDelay, TimeSpan respawnDelayMin, TimeSpan respawnDelayMax)
+		{
+			if (mapStringId.EndsWith(".gat"))
+				mapStringId = mapStringId.Substring(0, mapStringId.Length - 4);
+
+			if (!SabineData.Maps.TryFind(mapStringId, out var map))
+				throw new ArgumentException($"Map '{mapStringId}' not found.");
+
+			var spawner = new Spawner(monsterId, amount, initialDelay, respawnDelayMin, respawnDelayMax, map.Id);
+			ZoneServer.Instance.World.Spawners.Add(spawner);
+		}
 	}
 }

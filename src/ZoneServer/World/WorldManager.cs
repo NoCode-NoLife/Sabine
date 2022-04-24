@@ -4,6 +4,7 @@ using Sabine.Shared.Data;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
+using Sabine.Zone.World.Spawning;
 using Yggdrasil.Collections;
 
 namespace Sabine.Zone.World
@@ -27,6 +28,11 @@ namespace Sabine.Zone.World
 		/// Returns a reference to a collection of NPC shops in the world.
 		/// </summary>
 		public Collection<string, NpcShop> NpcShops { get; } = new Collection<string, NpcShop>();
+
+		/// <summary>
+		/// Returns the world's monster spawner collection.
+		/// </summary>
+		public Spawners Spawners { get; } = new Spawners();
 
 		/// <summary>
 		/// Loads world and its maps.
@@ -99,6 +105,7 @@ namespace Sabine.Zone.World
 		public void RemoveScriptedEntities()
 		{
 			this.NpcShops.Clear();
+			this.Spawners.Clear();
 
 			// Yes, this is inefficient, but do we really care, with how
 			// rare script reloads are?

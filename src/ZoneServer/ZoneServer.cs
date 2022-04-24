@@ -59,6 +59,7 @@ namespace Sabine.Zone
 			this.LoadCommands();
 			this.LoadWorld();
 			this.LoadScripts("system/scripts/scripts_zone.txt", this.Conf);
+			this.InitialSpawn();
 
 			this.World.Heartbeat.Start();
 
@@ -70,6 +71,15 @@ namespace Sabine.Zone
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
 
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Executes initial spawn.
+		/// </summary>
+		private void InitialSpawn()
+		{
+			Log.Info("Populating world with monsters...");
+			this.World.Spawners.InitialSpawn();
 		}
 
 		/// <summary>
