@@ -6,7 +6,6 @@
 //// https://gamefaqs.gamespot.com/pc/561051-ragnarok-online/faqs/14086
 //---------------------------------------------------------------------------
 
-using System.Collections;
 using Sabine.Shared.Const;
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;

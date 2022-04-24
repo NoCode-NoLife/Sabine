@@ -53,6 +53,7 @@
     <Compile Include="custom\test.cs" />
     <Compile Include="npcs\jobs.cs" />
     <Compile Include="npcs\prontera.cs" />
+    <Compile Include="warps\morocc.cs" />
     <Compile Include="warps\prontera.cs" />
   </ItemGroup>
   <ItemGroup>
