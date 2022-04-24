@@ -231,6 +231,10 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 			var character = this.Character;
 
+			// TODO: Add option for warping monsters
+			if (character is Monster)
+				return;
+
 			var warps = character.Map.GetAllNpcs(a => a.ClassId == 32 && a.Position.InSquareRange(position, 2));
 			if (warps.Length > 0)
 			{
