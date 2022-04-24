@@ -240,23 +240,6 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
-		/// Sets character's map id and position.
-		/// </summary>
-		/// <param name="location"></param>
-		public void SetLocation(Location location)
-		{
-			this.MapId = location.MapId;
-			this.Position = location.Position;
-		}
-
-		/// <summary>
-		/// Returns the character's location.
-		/// </summary>
-		/// <returns></returns>
-		public Location GetLocation()
-			=> new Location(this.MapId, this.Position);
-
-		/// <summary>
 		/// Makes character sit down.
 		/// </summary>
 		public void SitDown()
