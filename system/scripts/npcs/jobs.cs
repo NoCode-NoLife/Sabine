@@ -106,6 +106,98 @@ public class JobChangerNpcScripts : GeneralScript
 			await dialog.MsgAdv("Very well. You are now a Merchant. Good luck.");
 		});
 
+		// Thief job changer in the pyramid in Morocc Village
+		AddNpc("Job Tester", 53, "moc_intr04", 173, 42, 5, async dialog =>
+		{
+			var player = dialog.Player;
+
+			if (player.JobId == JobId.Thief)
+			{
+				await dialog.MsgAdv("Hello, how is life as an Thief?");
+				return;
+			}
+			else if (player.JobId != JobId.Novice)
+			{
+				await dialog.MsgAdv("You have made your choice.");
+				return;
+			}
+
+			await dialog.MsgAdv("Hello, would you like to become an Thief?");
+			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
+
+			if (response == "no")
+			{
+				await dialog.MsgAdv("Come back if you change your mind.");
+				return;
+			}
+
+			await dialog.MsgAdv("To become a Thief, you need to reach level 6.<p/>You also need to pay a fee of 400 Zeny. Would you like to continue?");
+			response = await dialog.Select(Option("Yes.", "yes"), Option("I changed my mind.", "no"));
+
+			if (response == "no")
+			{
+				await dialog.MsgAdv("Alright, come back any time.");
+				return;
+			}
+
+			if (player.Parameters.BaseLevel < 6 || player.Parameters.Zeny < 400)
+			{
+				await dialog.MsgAdv("Unfortunately you don't meet the requirements.");
+				return;
+			}
+
+			player.Parameters.Modify(ParameterType.Zeny, -400);
+			player.ChangeJob(JobId.Thief);
+
+			await dialog.MsgAdv("Very well. You are now a Thief. Good luck.");
+		});
+
+		// Archer job changer in the large building in Archers' Village
+		AddNpc("Job Tester", 53, "moc_intr02", 26, 176, 5, async dialog =>
+		{
+			var player = dialog.Player;
+
+			if (player.JobId == JobId.Archer)
+			{
+				await dialog.MsgAdv("Hello, how is life as an Archer?");
+				return;
+			}
+			else if (player.JobId != JobId.Novice)
+			{
+				await dialog.MsgAdv("You have made your choice.");
+				return;
+			}
+
+			await dialog.MsgAdv("Hello, would you like to become an Archer?");
+			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
+
+			if (response == "no")
+			{
+				await dialog.MsgAdv("Come back if you change your mind.");
+				return;
+			}
+
+			await dialog.MsgAdv("To become a Archer, you need to reach level 8 and aquire 20 Feather of Birds. Would you like to continue?");
+			response = await dialog.Select(Option("Yes.", "yes"), Option("I changed my mind.", "no"));
+
+			if (response == "no")
+			{
+				await dialog.MsgAdv("Alright, come back any time.");
+				return;
+			}
+
+			if (player.Parameters.BaseLevel < 8 || !player.Inventory.Contains(ItemId.FeatherofBird, 20))
+			{
+				await dialog.MsgAdv("Unfortunately you don't meet the requirements.");
+				return;
+			}
+
+			player.Inventory.Remove(ItemId.FeatherofBird, 20);
+			player.ChangeJob(JobId.Archer);
+
+			await dialog.MsgAdv("Very well. You are now a Archer. Good luck.");
+		});
+
 		// Acolyte job changer in the cathedral in North Prontera
 		AddNpc("Job Tester", 53, "prt_intr02", 35, 177, 3, async dialog =>
 		{
