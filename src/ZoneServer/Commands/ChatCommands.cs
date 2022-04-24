@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Security;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Xsl;
@@ -255,13 +256,16 @@ namespace Sabine.Zone.Commands
 			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args.Get(0), out var mapId))
-			{
-				var mapStringId = args.Get(0);
+			var mapIdent = args.Get(0).Trim(',');
 
-				if (!SabineData.Maps.TryFind(mapStringId, out var mapData))
+			if (!int.TryParse(mapIdent, out var mapId))
+			{
+				if (mapIdent.EndsWith(".gat"))
+					mapIdent = mapIdent.Substring(0, mapIdent.Length - 4);
+
+				if (!SabineData.Maps.TryFind(mapIdent, out var mapData))
 				{
-					sender.ServerMessage(Localization.Get("Map '{0}' not found."), mapStringId);
+					sender.ServerMessage(Localization.Get("Map '{0}' not found."), mapIdent);
 					return CommandResult.Okay;
 				}
 
@@ -272,10 +276,10 @@ namespace Sabine.Zone.Commands
 
 			if (args.Count >= 3)
 			{
-				if (!int.TryParse(args.Get(1), out var x))
+				if (!int.TryParse(args.Get(1).Trim(','), out var x))
 					return CommandResult.InvalidArgument;
 
-				if (!int.TryParse(args.Get(2), out var y))
+				if (!int.TryParse(args.Get(2).Trim(','), out var y))
 					return CommandResult.InvalidArgument;
 
 				warpPos = new Position(x, y);
