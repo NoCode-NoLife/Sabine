@@ -42,11 +42,16 @@ namespace Sabine.Shared.Data.Databases
 	/// </summary>
 	public class MapCacheTile
 	{
+		public int X { get; set; }
+		public int Y { get; set; }
 		public TileType Type { get; set; }
+
 		public bool IsWalkable => this.Type != TileType.Unpassable;
 
-		public MapCacheTile(TileType type)
+		public MapCacheTile(int x, int y, TileType type)
 		{
+			this.X = x;
+			this.Y = y;
 			this.Type = type;
 		}
 	}
@@ -135,7 +140,7 @@ namespace Sabine.Shared.Data.Databases
 						for (var x = 0; x < data.Width; ++x)
 						{
 							var type = (TileType)brms.ReadByte();
-							data.Tiles[x, y] = new MapCacheTile(type);
+							data.Tiles[x, y] = new MapCacheTile(x, y, type);
 						}
 					}
 

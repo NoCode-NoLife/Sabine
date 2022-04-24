@@ -6,7 +6,6 @@ using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
-using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
@@ -438,20 +437,39 @@ namespace Sabine.Zone.World.Maps
 
 			var width = this.CacheData.Width;
 			var height = this.CacheData.Height;
-			var tileCount = width * height;
-			var startIndex = rnd.Next();
 
-			for (var i = 0; i < tileCount; ++i)
+			// Try to find a random position
+			for (var i = 0; i < 100; ++i)
 			{
-				var index = (startIndex + i) % tileCount;
-				var x = index % width;
-				var y = index / width;
+				var x = rnd.Next(1, width);
+				var y = rnd.Next(1, height);
 
 				if (this.CacheData.IsPassable(x, y))
 					return new Position(x, y);
 			}
 
-			throw new InvalidDataException("No walkable position found.");
+			// If the random search failed, go overboard and get all
+			// passable tiles to choose a random one from all of them.
+			// The data format should probably be changed a little,
+			// because we need to find a lot of random positions,
+			// and a simple list of walkable tiles would be mighty
+			// helpful.
+			var tiles = new List<MapCacheTile>();
+
+			for (var y = 0; y < height; ++y)
+			{
+				for (var x = 0; x < width; ++x)
+				{
+					if (this.CacheData.Tiles[x, y].IsWalkable)
+						tiles.Add(this.CacheData.Tiles[x, y]);
+				}
+			}
+
+			if (tiles.Count == 0)
+				throw new InvalidDataException("No walkable position found.");
+
+			var rndTile = tiles[rnd.Next(tiles.Count)];
+			return new Position(rndTile.X, rndTile.Y);
 		}
 
 		/// <summary>
