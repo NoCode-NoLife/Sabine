@@ -472,8 +472,12 @@ namespace Sabine.Zone.World.Entities
 			this.Inventory.CheckEquipRequirements();
 			this.Inventory.RefreshClient();
 			this.Parameters.RecalculateAll();
+			this.Heal();
 
 			Send.ZC_SPRITE_CHANGE(this, SpriteType.Class, (int)jobId);
+
+			// Send a BaseLevel change packet to get the level up animation
+			Send.ZC_PAR_CHANGE(this, ParameterType.BaseLevel);
 		}
 
 		/// <summary>
