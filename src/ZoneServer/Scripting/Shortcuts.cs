@@ -73,12 +73,46 @@ namespace Sabine.Zone.Scripting
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
 		public static Npc AddNpc(string name, int classId, string mapStringId, int x, int y, DialogFunc dialogFunc = null)
+			=> AddNpc(name, classId, mapStringId, x, y, Direction.South, dialogFunc);
+
+		/// <summary>
+		/// Spawns an NPC at the given location.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="classId"></param>
+		/// <param name="mapStringId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="direction"></param>
+		/// <param name="dialogFunc"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static Npc AddNpc(string name, int classId, string mapStringId, int x, int y, int direction, DialogFunc dialogFunc = null)
+			=> AddNpc(name, classId, mapStringId, x, y, (Direction)direction, dialogFunc);
+
+		/// <summary>
+		/// Spawns an NPC at the given location.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="classId"></param>
+		/// <param name="mapStringId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="direction"></param>
+		/// <param name="dialogFunc"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static Npc AddNpc(string name, int classId, string mapStringId, int x, int y, Direction direction, DialogFunc dialogFunc = null)
 		{
+			if (mapStringId.EndsWith(".gat"))
+				mapStringId = mapStringId.Substring(0, mapStringId.Length - 4);
+
 			if (!ZoneServer.Instance.World.Maps.TryGetByStringId(mapStringId, out var map))
 				throw new ArgumentException($"Map '{mapStringId}' not found.");
 
 			var npc = new Npc(classId);
 			npc.Name = name;
+			npc.Direction = direction;
 			npc.DialogFunc = dialogFunc;
 
 			npc.Warp(map.Id, new Position(x, y));
