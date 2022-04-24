@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Sabine.Shared.Const;
 using Sabine.Zone.Network;
 
@@ -365,6 +366,52 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		{
 			var items = this.GetItems(a => a.IsEquipped && a.Data.Defense != 0);
 			return items.Sum(a => a.Data.Defense);
+		}
+
+		/// <summary>
+		/// Returns true if the inventory contains at least the given
+		/// amount of the item.
+		/// </summary>
+		/// <param name="classId"></param>
+		/// <returns></returns>
+		public bool Contains(int classId, int amount = 1)
+		{
+			lock (_syncLock)
+			{
+				var count = _items.Where(a => a.ClassId == classId).Sum(a => a.Amount);
+				return count >= amount;
+			}
+		}
+
+		/// <summary>
+		/// Removes the given amount of the item from the inventory.
+		/// Returns the actual amount that was removed.
+		/// </summary>
+		/// <param name="clawofWolves"></param>
+		/// <param name="amount"></param>
+		public int Remove(int classId, int amount)
+		{
+			var totalRemovedAmount = 0;
+
+			lock (_syncLock)
+			{
+				foreach (var item in _items)
+				{
+					if (item.ClassId != classId)
+						continue;
+
+					var removeAmount = Math.Min(amount, item.Amount);
+					this.DecrementItem(item, removeAmount);
+
+					amount -= removeAmount;
+					totalRemovedAmount += removeAmount;
+
+					if (amount == 0)
+						break;
+				}
+			}
+
+			return totalRemovedAmount;
 		}
 	}
 }
