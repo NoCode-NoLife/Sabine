@@ -59,7 +59,7 @@ namespace Sabine.Zone.Network
 
 			if (!ZoneServer.Instance.World.Maps.TryGet(character.MapId, out var map))
 			{
-				Log.Warning("CZ_ENTER: Map '{0}' not found for character '{1}'.", character.MapId, character.Name);
+				Log.Warning("CZ_ENTER: Map '{0}' not found for character '{1}', trying fallback.", character.MapId, character.Name);
 
 				var fallbackLocation = new Location(100036, 99, 81); // "prt_vilg02"
 
