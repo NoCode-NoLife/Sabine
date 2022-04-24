@@ -171,7 +171,8 @@ namespace Sabine.Zone.Scripting.Dialogues
 		/// </summary>
 		public void MsgNpcName()
 		{
-			this.Msg("[^0000FF{0}^000000]", this.Npc.Name);
+			//this.Msg("[^0000FF{0}^000000]", this.Npc.Name);
+			this.Msg("[{0}]", this.Npc.Name);
 		}
 
 		/// <summary>
