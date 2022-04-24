@@ -203,6 +203,9 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="location"></param>
 		public override void Warp(Location location)
 		{
+			if (this.IsWarping)
+				throw new InvalidOperationException("A warp is already in progress.");
+
 			if (!ZoneServer.Instance.World.Maps.TryGet(location.MapId, out var map))
 				throw new ArgumentException($"Map '{location.MapId}' not found.");
 
