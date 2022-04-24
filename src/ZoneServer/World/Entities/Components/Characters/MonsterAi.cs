@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Sabine.Shared.World;
+using Sabine.Zone.Network;
 using Yggdrasil.Ai.Enumerable;
 
 namespace Sabine.Zone.World.Entities.Components.Characters
@@ -11,7 +12,11 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 	public class MonsterAi : EnumerableAi, ICharacterComponent
 	{
 		private Position _initialPosition;
-		private readonly int _wanderAwayDistance = 10;
+		private bool _initialPositionSet;
+
+		private readonly int _wanderMinDistance = 3;
+		private readonly int _wanderMaxDistance = 20;
+		private readonly int _wanderAwayDistance = 30;
 
 		/// <summary>
 		/// Returns the character this component belongs to.
@@ -25,7 +30,6 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		public MonsterAi(Monster monster)
 		{
 			this.Character = monster;
-			_initialPosition = this.Character.Position;
 		}
 
 		/// <summary>
@@ -37,10 +41,10 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			if (this.Character.IsDead)
 				return;
 
-			if (this.Character.IsStunned)
+			if (!_initialPositionSet)
 			{
-				this.ClearRoutine();
-				return;
+				_initialPositionSet = true;
+				_initialPosition = this.Character.Position;
 			}
 
 			this.Heartbeat();
@@ -74,7 +78,15 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// <returns></returns>
 		private IEnumerable Wander(int range)
 		{
-			var pos = this.FindWanderPosition(range);
+			if (this.Character.IsStunned)
+				yield break;
+
+			if (range < _wanderMinDistance)
+				range = _wanderMinDistance;
+
+			if (!this.TryFindWanderPosition(range, out var pos))
+				yield break;
+
 			this.Character.Controller.MoveTo(pos);
 
 			while (this.Character.Controller.IsMoving)
@@ -83,26 +95,40 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 		/// <summary>
 		/// Finds a passable position in range around the character that
-		/// it can wander towards.
+		/// it can wander to.
 		/// </summary>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		private Position FindWanderPosition(int range)
+		private bool TryFindWanderPosition(int range, out Position pos)
 		{
+			pos = new Position(0, 0);
+
 			for (var i = 0; i < 100; ++i)
 			{
-				var pos = this.Character.Position.GetRandomInSquareRange(range);
-				if (pos == this.Character.Position)
-					continue;
+				pos = this.Character.Position.GetRandomInRange(2, range);
 
+				// TODO: Do monsters even stay at and return to their spawn
+				//   position in RO...? It's been too long. I feel like they
+				//   don't? Gotta look into that.
 				if (!pos.InSquareRange(_initialPosition, _wanderAwayDistance))
 					continue;
 
 				if (this.Character.Map.IsPassable(pos))
-					return pos;
+					return true;
 			}
 
-			return this.Character.Position;
+			return false;
+		}
+
+		/// <summary>
+		/// Let's character say something.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		private IEnumerable Say(string message)
+		{
+			Send.ZC_NOTIFY_CHAT(this.Character, "wander...");
+			yield break;
 		}
 	}
 }

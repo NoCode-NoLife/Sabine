@@ -119,10 +119,20 @@ namespace Sabine.Shared.World
 		/// <param name="range"></param>
 		/// <returns></returns>
 		public Position GetRandomInRange(int range)
+			=> this.GetRandomInRange(0, range);
+
+		/// <summary>
+		/// Returns random position around this position, that is at
+		/// least minRange away.
+		/// </summary>
+		/// <param name="minRange"></param>
+		/// <param name="maxRange"></param>
+		/// <returns></returns>
+		public Position GetRandomInRange(int minRange, int maxRange)
 		{
 			var rnd = RandomProvider.Get();
 
-			var distance = rnd.Next(range + 1);
+			var distance = rnd.Next(minRange, maxRange + 1);
 			var angle = rnd.NextDouble() * Math.PI * 2;
 
 			var x = this.X + distance * Math.Cos(angle);
