@@ -47,8 +47,8 @@ public class MoroccMonstersScript : GeneralScript
 
 		// Inside Morocc Jungle
 		AddSpawner("dungeon001", "Elder Willow", 1033, 30);
-		AddSpawner("dungeon000", "Poporing", 1031, 20);
-		AddSpawner("dungeon000", "Anacondaq", 1030, 20);
+		AddSpawner("dungeon001", "Poporing", 1031, 20);
+		AddSpawner("dungeon001", "Anacondaq", 1030, 20);
 		AddSpawner("dungeon001", "Doppelganger", 1046, 1, initialDelay: TimeSpan.FromHours(3), respawnDelay: TimeSpan.FromHours(6));
 
 		// Pyramid 1F
