@@ -54,6 +54,12 @@ namespace Sabine.Zone.World.Entities
 		public virtual int WeaponId { get; set; }
 
 		/// <summary>
+		/// Returns a character's top headgear look, specifying what headgear
+		/// they're wearing.
+		/// </summary>
+		public virtual int HeadTopId { get; set; }
+
+		/// <summary>
 		/// Returns a character's current state.
 		/// </summary>
 		public virtual CharacterState State { get; set; }

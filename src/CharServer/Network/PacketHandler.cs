@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sabine.Char.Database;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Network;
@@ -22,8 +24,20 @@ namespace Sabine.Char.Network
 		[PacketHandler(Op.CH_ENTER)]
 		public void CH_ENTER(CharConnection conn, Packet packet)
 		{
-			var sessionId = packet.GetInt();
-			var accountId = packet.GetInt();
+			int accountId, sessionId, sessionId2 = 0;
+
+			if (Game.Version < Versions.Beta1)
+			{
+				sessionId = packet.GetInt();
+				accountId = packet.GetInt();
+			}
+			else
+			{
+				accountId = packet.GetInt();
+				sessionId2 = packet.GetInt();
+				sessionId = packet.GetInt();
+			}
+
 			var b1 = packet.GetByte(); // 1? language?
 			var b2 = packet.GetByte(); // 0?
 			var sex = packet.GetByte();
@@ -80,7 +94,6 @@ namespace Sabine.Char.Network
 
 			if (!SabineData.Maps.TryFind(character.Location.MapId, out var mapData))
 			{
-				Log.Error("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}).", character.Name, character.Location.MapId);
 				Log.Warning("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}), checking for fallbacks.", character.Name, character.Location.MapId);
 
 				var fallbacks = new Dictionary<string, Position>()
@@ -105,8 +118,8 @@ namespace Sabine.Char.Network
 				if (!fallbackFound)
 				{
 					Log.Error("CH_SELECT_CHAR: No maps found that character '{0}' could login on.", character.Name);
-				return;
-			}
+					return;
+				}
 
 				Log.Info("CH_SELECT_CHAR: Moving character '{0}' to '{1}'.", character.Name, mapData.StringId);
 
@@ -129,7 +142,7 @@ namespace Sabine.Char.Network
 		{
 			var character = new Character();
 
-			character.Name = packet.GetString(16);
+			character.Name = packet.GetString(Sizes.CharacterNames);
 			character.Str = packet.GetByte();
 			character.Agi = packet.GetByte();
 			character.Vit = packet.GetByte();

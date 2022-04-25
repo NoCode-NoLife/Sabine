@@ -1,4 +1,6 @@
 ﻿using Sabine.Char.Database;
+using Sabine.Shared;
+using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Network;
 
@@ -34,15 +36,28 @@ namespace Sabine.Char.Network.Helpers
 			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
+			packet.PutInt(0); // ?
+
+			if (Game.Version >= Versions.Beta1)
+			{
+				packet.PutInt(0); // Karma?
+				packet.PutInt(0); // Manner?
+			}
+
 			packet.PutShort((short)character.StatPoints);
 			packet.PutShort((short)character.Hp);
 			packet.PutShort((short)character.HpMax);
 			packet.PutShort((short)character.Sp);
 			packet.PutShort((short)character.SpMax);
 			packet.PutShort((short)character.Speed);
-			packet.PutShort(0); // Karma
-			packet.PutShort(0); // Manner
-			packet.PutString(character.Name, 16);
+
+			if (Game.Version < Versions.Beta1)
+			{
+				packet.PutInt(0); // Karma?
+				packet.PutInt(0); // Manner?
+			}
+
+			packet.PutString(character.Name, Sizes.CharacterNames);
 			packet.PutByte((byte)character.JobId);
 			packet.PutByte((byte)character.BaseLevel);
 			packet.PutByte((byte)jobLevel);
@@ -56,7 +71,7 @@ namespace Sabine.Char.Network.Helpers
 			packet.PutByte(0); // Gap
 			packet.PutByte((byte)character.HairId);
 			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte(0); // ?
+			packet.PutByte((byte)character.HeadTopId);
 		}
 	}
 }

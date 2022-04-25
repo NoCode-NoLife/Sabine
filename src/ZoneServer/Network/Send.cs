@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
+using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
@@ -69,6 +70,11 @@ namespace Sabine.Zone.Network
 			packet.PutByte(0); // Possibly a sprite option that wasn't implemented yet, like headgears.
 			packet.PutByte((byte)newCharacter.State);
 
+			if (Game.Version >= Versions.Beta1)
+			{
+				packet.PutEmpty(7);
+			}
+
 			player.Connection.Send(packet);
 		}
 
@@ -82,13 +88,25 @@ namespace Sabine.Zone.Network
 
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
+
+			if (Game.Version >= Versions.Beta1)
+			{
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte(0); // status effect?
+				packet.PutByte(0);
+				packet.PutByte(0); // status effect?
+			}
+
 			packet.PutByte((byte)character.ClassId);
 			packet.PutByte((byte)character.Sex);
 			packet.AddPackedPosition(character.Position, character.Direction);
 			packet.PutShort(0);
 			packet.PutByte((byte)character.HairId);
 			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte(0); // Possibly a sprite option that wasn't implemented yet, like headgears.
+			packet.PutByte((byte)character.HeadTopId);
 			packet.PutByte((byte)character.State);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
@@ -299,8 +317,8 @@ namespace Sabine.Zone.Network
 			}
 
 			packet.PutInt(target.Handle);
-			packet.PutString(secName, 16); // target.Username
-			packet.PutString(target.Name, 16);
+			packet.PutString(secName, Sizes.CharacterNames); // target.Username
+			packet.PutString(target.Name, Sizes.CharacterNames);
 
 			character.Connection.Send(packet);
 		}
@@ -424,6 +442,11 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)character.Parameters.AttackMax);
 			packet.PutByte((byte)character.Parameters.Defense);
 			packet.PutByte((byte)character.Parameters.MagicAttack);
+
+			if (Game.Version >= Versions.Beta1)
+			{
+				packet.PutEmpty(24);
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -572,7 +595,7 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_REQ_ITEM_EXPLANATION_ACK);
 
-			packet.PutString(name, 16);
+			packet.PutString(name, Sizes.ItemNames);
 			packet.PutString(description);
 
 			character.Connection.Send(packet);
@@ -764,7 +787,7 @@ namespace Sabine.Zone.Network
 
 			packet.PutShort((short)item.InventoryId);
 			packet.PutShort((short)amount);
-			packet.PutString(item.StringId, 16);
+			packet.PutString(item.StringId, Sizes.ItemNames);
 			packet.PutByte((byte)item.Type);
 			packet.PutByte((byte)wearSlots);
 			packet.PutByte((byte)result);
@@ -787,17 +810,30 @@ namespace Sabine.Zone.Network
 				if (item.Type.IsEquip())
 					continue;
 
+				var size = 6 + Sizes.ItemNames;
+				if (Game.Version >= Versions.Beta1)
+					size += 4;
+
 				// The first byte contains the size of the item
 				// struct plus the size byte, which the client
 				// memcpys for handling. It's currently unclear
 				// why this size byte is necessary, but it's
 				// working this way.
-				packet.PutByte(22);
+				packet.PutByte((byte)size);
 
 				packet.PutByte((byte)item.Type);
 				packet.PutShort((short)item.InventoryId);
 				packet.PutShort((short)item.Amount);
-				packet.PutString(item.StringId, 16);
+
+				if (Game.Version >= Versions.Beta1)
+				{
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+				}
+
+				packet.PutString(item.StringId, Sizes.ItemNames);
 			}
 
 			character.Connection.Send(packet);
@@ -818,12 +854,25 @@ namespace Sabine.Zone.Network
 				if (item.Type.IsEquip())
 					continue;
 
-				packet.PutByte(22);
+				var size = 6 + Sizes.ItemNames;
+				if (Game.Version >= Versions.Beta1)
+					size += 4;
+
+				packet.PutByte((byte)size);
 
 				packet.PutByte((byte)item.Type);
 				packet.PutShort((short)item.InventoryId);
 				packet.PutShort((short)item.Amount);
-				packet.PutString(item.StringId, 16);
+
+				if (Game.Version >= Versions.Beta1)
+				{
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+				}
+
+				packet.PutString(item.StringId, Sizes.ItemNames);
 			}
 
 			character.Connection.Send(packet);
@@ -843,7 +892,7 @@ namespace Sabine.Zone.Network
 			{
 				packet.PutInt(item.Price);
 				packet.PutByte(0);
-				packet.PutString(item.StringId, 16);
+				packet.PutString(item.StringId, Sizes.ItemNames);
 			}
 
 			character.Connection.Send(packet);
@@ -896,18 +945,43 @@ namespace Sabine.Zone.Network
 				if (!character.CanEquip(item))
 					wearSlots = EquipSlots.None;
 
+				var size = 6 + Sizes.ItemNames;
+				if (Game.Version >= Versions.Beta1)
+					size += 16;
+
 				// The first byte contains the size of the item
 				// struct plus the size byte, which the client
 				// memcpys for handling. It's currently unclear
 				// why this size byte is necessary, but it's
 				// working this way.
-				packet.PutByte(22);
+				packet.PutByte((byte)size);
 
 				packet.PutByte((byte)item.Type);
 				packet.PutByte((byte)wearSlots);
 				packet.PutShort((short)item.InventoryId);
 				packet.PutByte((byte)item.EquippedOn);
-				packet.PutString(item.StringId, 16);
+
+				if (Game.Version >= Versions.Beta1)
+				{
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+				}
+
+				packet.PutString(item.StringId, Sizes.ItemNames);
 			}
 
 			character.Connection.Send(packet);
@@ -932,13 +1006,38 @@ namespace Sabine.Zone.Network
 				if (!character.CanEquip(item))
 					wearSlots = EquipSlots.None;
 
-				packet.PutByte(22);
+				var size = 6 + Sizes.ItemNames;
+				if (Game.Version >= Versions.Beta1)
+					size += 16;
+
+				packet.PutByte((byte)size);
 
 				packet.PutByte((byte)item.Type);
 				packet.PutByte((byte)wearSlots);
 				packet.PutShort((short)item.InventoryId);
 				packet.PutByte((byte)item.EquippedOn);
-				packet.PutString(item.StringId, 16);
+
+				if (Game.Version >= Versions.Beta1)
+				{
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+					packet.PutByte(0);
+				}
+
+				packet.PutString(item.StringId, Sizes.ItemNames);
 			}
 
 			character.Connection.Send(packet);
@@ -959,7 +1058,7 @@ namespace Sabine.Zone.Network
 			packet.PutShort((short)item.Amount);
 			packet.PutByte(0);
 			packet.PutByte(0);
-			packet.PutString(item.StringId, 16);
+			packet.PutString(item.StringId, Sizes.ItemNames);
 
 			character.Connection.Send(packet);
 		}
@@ -978,7 +1077,7 @@ namespace Sabine.Zone.Network
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutShort((short)item.Amount);
-			packet.PutString(item.StringId, 16);
+			packet.PutString(item.StringId, Sizes.ItemNames);
 
 			item.Map.Broadcast(packet, item, BroadcastTargets.All);
 		}

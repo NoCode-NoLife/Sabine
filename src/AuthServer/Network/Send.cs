@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database;
 using Sabine.Shared.Network;
@@ -34,9 +35,19 @@ namespace Sabine.Auth.Network
 		{
 			var packet = new Packet(Op.AC_ACCEPT_LOGIN);
 
-			packet.PutInt(account.Id);
-			packet.PutByte((byte)account.Sex);
-			packet.PutInt(account.SessionId);
+			if (Game.Version < Versions.Beta1)
+			{
+				packet.PutInt(account.Id);
+				packet.PutByte((byte)account.Sex);
+				packet.PutInt(account.SessionId);
+			}
+			else
+			{
+				packet.PutInt(account.SessionId);
+				packet.PutInt(account.Id);
+				packet.PutInt(account.SessionId);
+				packet.PutByte((byte)account.Sex);
+			}
 
 			// for server in servers
 			{

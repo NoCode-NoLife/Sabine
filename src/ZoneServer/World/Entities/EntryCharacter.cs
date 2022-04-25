@@ -39,6 +39,12 @@ namespace Sabine.Zone.World.Entities
 		int WeaponId { get; }
 
 		/// <summary>
+		/// Returns a character's top headgear look, specifying what headgear
+		/// they're wearing.
+		/// </summary>
+		int HeadTopId { get; }
+
+		/// <summary>
 		/// Returns the direction the character is turned towards.
 		/// </summary>
 		Direction Direction { get; }

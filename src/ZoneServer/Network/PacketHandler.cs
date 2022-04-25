@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
@@ -30,14 +31,29 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_ENTER)]
 		public void CZ_ENTER(ZoneConnection conn, Packet packet)
 		{
-			var sessionId = packet.GetInt();
-			var characterId = packet.GetInt();
-			var accountId = packet.GetInt();
-			var sex = packet.GetByte();
+			int sessionId, accountId, characterId;
+			byte sex;
+
+			if (Game.Version < Versions.Beta1)
+			{
+				sessionId = packet.GetInt();
+				characterId = packet.GetInt();
+				accountId = packet.GetInt();
+				sex = packet.GetByte();
+			}
+			else
+			{
+				accountId = packet.GetInt();
+				characterId = packet.GetInt();
+				sessionId = packet.GetInt();
+				_ = packet.GetInt();
+				sex = packet.GetByte();
+			}
 
 			var account = ZoneServer.Instance.Database.GetAccountById(accountId);
 			if (account == null)
 			{
+				Log.Debug("CZ_ENTER: Account '{0}' not found.", accountId);
 				conn.Close();
 				return;
 			}
@@ -127,6 +143,11 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_REQUEST_TIME)]
 		public void CZ_REQUEST_TIME(ZoneConnection conn, Packet packet)
 		{
+			var clientTime = -1;
+
+			if (Game.Version >= Versions.Beta1)
+				clientTime = packet.GetInt();
+
 			Send.ZC_NOTIFY_TIME(conn, DateTime.Now);
 		}
 
