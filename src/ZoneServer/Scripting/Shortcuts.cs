@@ -294,5 +294,21 @@ namespace Sabine.Zone.Scripting
 			var spawner = new Spawner(monsterId, amount, initialDelay, respawnDelayMin, respawnDelayMax, map.Id);
 			ZoneServer.Instance.World.Spawners.Add(spawner);
 		}
+
+		/// <summary>
+		/// Returns false if any of the given maps don't exist in the world.
+		/// </summary>
+		/// <param name="mapStringId"></param>
+		/// <returns></returns>
+		public static bool MapsExist(params string[] mapStringIds)
+		{
+			foreach (var stringId in mapStringIds)
+			{
+				if (!ZoneServer.Instance.World.Maps.TryGetByStringId(stringId, out _))
+					return false;
+			}
+
+			return true;
+		}
 	}
 }

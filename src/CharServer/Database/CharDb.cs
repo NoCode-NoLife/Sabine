@@ -143,5 +143,25 @@ namespace Sabine.Char.Database
 				return cmd.ExecuteNonQuery() != 0;
 			}
 		}
+
+		/// <summary>
+		/// Updates character's location in the database.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="mapId"></param>
+		/// <param name="pos"></param>
+		public void UpdateCharacterLocation(Character character, int mapId, Position pos)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+			{
+				cmd.AddParameter("@characterId", character.Id);
+				cmd.Set("mapId", mapId);
+				cmd.Set("x", pos.X);
+				cmd.Set("y", pos.Y);
+
+				cmd.Execute();
+			}
+		}
 	}
 }
