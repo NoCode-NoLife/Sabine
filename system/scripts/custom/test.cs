@@ -12,6 +12,9 @@ public class TestNpcScript : GeneralScript
 {
 	public override void Load()
 	{
+		if (!MapsExist("prt_vilg02"))
+			return;
+
 		AddShop("TestShop1", shop =>
 		{
 			shop.AddItem(ItemId.RedPotion, 100);

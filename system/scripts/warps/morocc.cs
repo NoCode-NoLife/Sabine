@@ -11,6 +11,9 @@ public class MoroccWarpsScript : GeneralScript
 {
 	public override void Load()
 	{
+		if (!MapsExist("moc_fild04", "moc_vilg00", "moc_intr00", "dungeon000"))
+			return;
+
 		// Morocc South-East Field
 		AddWarp(To("moc_fild04", 162, 194), From("prt_fild00", 79, 21));
 

@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Sabine.Shared;
 using Sabine.Shared.Data;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
@@ -21,8 +22,16 @@ public class GoCommandScript : GeneralScript
 {
 	public override void Load()
 	{
-		this.RegisterDestination("prontera", "prt_vilg02", 99, 78);
-		this.RegisterDestination("morocc", "moc_vilg01", 98, 95);
+		if (Game.Version < Versions.Beta1)
+		{
+			this.RegisterDestination("prontera", "prt_vilg02", 99, 78);
+			this.RegisterDestination("morocc", "moc_vilg01", 98, 95);
+		}
+		else
+		{
+			this.RegisterDestination("prontera", "prontera", 99, 78);
+			this.RegisterDestination("morocc", "morocc", 98, 95);
+		}
 
 		AddChatCommand("go", "<destination>", Localization.Get("Warps to a specific destination."), this.Go, 50, 50);
 	}

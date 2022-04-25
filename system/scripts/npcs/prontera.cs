@@ -14,6 +14,9 @@ public class PronteraNpcsScript : GeneralScript
 {
 	public override void Load()
 	{
+		if (!MapsExist("prt_vilg01", "prt_intr01", "prt_intr02"))
+			return;
+
 		LoadNpcs();
 		LoadShops();
 	}
