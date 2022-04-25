@@ -168,9 +168,20 @@ namespace Sabine.Shared
 			this.LoadDataFile(SabineData.ExpTables, "exp.txt");
 			this.LoadDataFile(SabineData.Items, "items.txt");
 			this.LoadDataFile(SabineData.Jobs, "jobs.txt");
-			this.LoadDataFile(SabineData.Maps, "maps.txt");
-			this.LoadDataFile(SabineData.MapCache, "map_cache.dat");
 			this.LoadDataFile(SabineData.Monsters, "monsters.txt");
+			this.LoadDataFile(SabineData.Maps, "maps.txt");
+
+			var cacheFileName = "map_cache.dat";
+			for (var i = 0; i <= Game.Version; ++i)
+			{
+				var fileName = $"map_cache_{i}.dat";
+				var filePath = Path.Combine("system", "data", fileName);
+
+				if (File.Exists(filePath))
+					cacheFileName = fileName;
+			}
+
+			this.LoadDataFile(SabineData.MapCache, cacheFileName);
 		}
 
 		/// <summary>
@@ -199,7 +210,7 @@ namespace Sabine.Shared
 
 				if (File.Exists(userPath))
 				{
-					db.LoadFile(systemPath);
+					db.LoadFile(userPath);
 					foreach (var ex in db.GetWarnings())
 						Log.Warning(ex);
 				}

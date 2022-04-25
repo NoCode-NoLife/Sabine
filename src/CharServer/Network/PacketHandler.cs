@@ -81,7 +81,36 @@ namespace Sabine.Char.Network
 			if (!SabineData.Maps.TryFind(character.Location.MapId, out var mapData))
 			{
 				Log.Error("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}).", character.Name, character.Location.MapId);
+				Log.Warning("CH_SELECT_CHAR: Character '{0}' is on an invalid map ({1}), checking for fallbacks.", character.Name, character.Location.MapId);
+
+				var fallbacks = new Dictionary<string, Position>()
+				{
+					["prt_vilg02"] = new Position(99, 81),
+					["prontera"] = new Position(156, 191),
+				};
+
+				var selectedFallback = default(KeyValuePair<string, Position>);
+				var fallbackFound = false;
+
+				foreach (var fallback in fallbacks)
+				{
+					if (SabineData.Maps.TryFind(fallback.Key, out mapData))
+					{
+						selectedFallback = fallback;
+						fallbackFound = true;
+						break;
+					}
+				}
+
+				if (!fallbackFound)
+				{
+					Log.Error("CH_SELECT_CHAR: No maps found that character '{0}' could login on.", character.Name);
 				return;
+			}
+
+				Log.Info("CH_SELECT_CHAR: Moving character '{0}' to '{1}'.", character.Name, mapData.StringId);
+
+				CharServer.Instance.Database.UpdateCharacterLocation(character, mapData.Id, selectedFallback.Value);
 			}
 
 			var zoneServerIp = CharServer.Instance.Conf.Zone.ServerIp;
