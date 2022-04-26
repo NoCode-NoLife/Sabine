@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using System.Runtime.InteropServices;
 using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
-using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
+using Sabine.Zone.Network.Helpers;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Util;
@@ -54,26 +52,13 @@ namespace Sabine.Zone.Network
 		/// <summary>
 		/// Makes character appear on the player's client.
 		/// </summary>
-		/// <param name="newCharacter"></param>
-		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, IEntryCharacter newCharacter)
+		/// <param name="character"></param>
+		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
 
-			packet.PutInt(newCharacter.Handle);
-			packet.PutShort((short)newCharacter.Speed);
-			packet.PutByte((byte)newCharacter.ClassId);
-			packet.PutByte((byte)newCharacter.Sex);
-			packet.AddPackedPosition(newCharacter.Position, newCharacter.Direction);
-			packet.PutShort(0);
-			packet.PutByte((byte)newCharacter.HairId);
-			packet.PutByte((byte)newCharacter.WeaponId);
-			packet.PutByte(0); // Possibly a sprite option that wasn't implemented yet, like headgears.
-			packet.PutByte((byte)newCharacter.State);
-
-			if (Game.Version >= Versions.Beta1)
-			{
-				packet.PutEmpty(7);
-			}
+			packet.AddCharacterEntry(character);
+			packet.PutByte((byte)character.State);
 
 			player.Connection.Send(packet);
 		}
@@ -86,34 +71,14 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
 
-			packet.PutInt(character.Handle);
-			packet.PutShort((short)character.Speed);
-
-			if (Game.Version >= Versions.Beta1)
-			{
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(0);
-				packet.PutByte(0); // status effect?
-				packet.PutByte(0);
-				packet.PutByte(0); // status effect?
-			}
-
-			packet.PutByte((byte)character.ClassId);
-			packet.PutByte((byte)character.Sex);
-			packet.AddPackedPosition(character.Position, character.Direction);
-			packet.PutShort(0);
-			packet.PutByte((byte)character.HairId);
-			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte((byte)character.HeadTopId);
+			packet.AddCharacterEntry(character);
 			packet.PutByte((byte)character.State);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
 
 		/// <summary>
-		/// Makes character appear on clients of players  around it.
+		/// Makes NPC appear on clients of players  around it.
 		/// </summary>
 		/// <remarks>
 		/// Currently the only known difference to ZC_NOTIFY_STANDENTRY
@@ -131,19 +96,21 @@ namespace Sabine.Zone.Network
 			// as the effect id?
 
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY_NPC);
-
-			packet.PutInt(character.Handle);
-			packet.PutShort((short)character.Speed);
-			packet.PutByte((byte)character.ClassId);
-			packet.PutByte((byte)character.Sex);
-			packet.AddPackedPosition(character.Position, character.Direction);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte((byte)character.HairId);
-			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte(0);
+			packet.AddCharacterEntry(character);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
+		}
+
+		/// <summary>
+		/// Makes NPC appear on the player's client.
+		/// </summary>
+		/// <param name="player"></param>
+		public static void ZC_NOTIFY_STANDENTRY_NPC(PlayerCharacter player, IEntryCharacter character)
+		{
+			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY_NPC);
+			packet.AddCharacterEntry(character);
+
+			player.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -154,16 +121,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_NOTIFY_NEWENTRY(IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_NEWENTRY);
-
-			packet.PutInt(character.Handle);
-			packet.PutShort((short)character.Speed);
-			packet.PutByte((byte)character.ClassId);
-			packet.PutByte((byte)character.Sex);
-			packet.AddPackedPosition(character.Position, character.Direction);
-			packet.PutShort(0);
-			packet.PutByte((byte)character.HairId);
-			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte(0);
+			packet.AddCharacterEntry(character);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
@@ -177,10 +135,22 @@ namespace Sabine.Zone.Network
 		/// <param name="to"></param>
 		public static void ZC_NOTIFY_MOVEENTRY(IEntryCharacter character, Position from, Position to)
 		{
+			// Same as the others, but with a packed move instead of the
+			// character's packed position.
+
 			var packet = new Packet(Op.ZC_NOTIFY_MOVEENTRY);
 
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
+
+			if (Game.Version >= Versions.Beta1)
+			{
+				packet.PutShort(0);
+				packet.PutShort(0);
+				packet.PutShort(0); // status effect?
+				packet.PutByte(0);  // status effect?
+			}
+
 			packet.PutByte((byte)character.ClassId);
 			packet.PutByte((byte)character.Sex);
 			packet.AddPackedMove(from, to, 8, 8);

@@ -67,6 +67,7 @@
     <Compile Include="Commands\ConsoleCommands.cs" />
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Network\DummyConnection.cs" />
+    <Compile Include="Network\Helpers\Character.cs" />
     <Compile Include="Scripting\Dialogues\Dialog.cs" />
     <Compile Include="Scripting\Dialogues\DialogActionType.cs" />
     <Compile Include="Scripting\Dialogues\DialogOption.cs" />
