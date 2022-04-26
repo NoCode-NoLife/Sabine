@@ -11,6 +11,7 @@ using Sabine.Shared.Configuration;
 using Sabine.Shared.Data;
 using Sabine.Shared.Database;
 using Sabine.Shared.L10N;
+using Sabine.Shared.Network;
 using Sabine.Shared.Util;
 using Shared.Scripting;
 using Yggdrasil.Data;
@@ -76,6 +77,10 @@ namespace Sabine.Shared
 			Log.Info("Loading configuration...");
 
 			this.Conf.Load();
+
+			// Set game version from conf...
+			PacketTable.Load();
+
 			return this.Conf;
 		}
 

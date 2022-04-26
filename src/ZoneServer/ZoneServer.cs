@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Sabine.Shared;
+using Sabine.Shared.Network;
 using Sabine.Zone.Commands;
 using Sabine.Zone.Database;
 using Sabine.Zone.Network;
@@ -60,6 +63,7 @@ namespace Sabine.Zone
 			this.LoadWorld();
 			this.LoadScripts("system/scripts/scripts_zone.txt", this.Conf);
 			this.InitialSpawn();
+			this.CreateDebugInfo();
 
 			this.World.Heartbeat.Start();
 
@@ -102,6 +106,41 @@ namespace Sabine.Zone
 			Log.Info("Loading commands...");
 
 			this.ChatCommands.Load();
+		}
+
+		/// <summary>
+		/// Creates potential debug information in the user folder.
+		/// </summary>
+		private void CreateDebugInfo()
+		{
+			var packetTable = PacketTable.GetTable();
+			var filePath = "user/debug/packet_table_" + Game.Version + ".txt";
+			var folderPath = Path.GetDirectoryName(filePath);
+
+			if (!Directory.Exists(folderPath))
+				Directory.CreateDirectory(folderPath);
+
+			using (var fs = new FileStream(filePath, FileMode.Create))
+			using (var sw = new StreamWriter(fs))
+			{
+				var longestName = packetTable.Max(a => a.Op.ToString().Length);
+				var col1 = Math.Max(42, longestName + 2);
+				var col2 = 8;
+				var col3 = 5;
+
+				sw.WriteLine("{0,-" + col1 + "} | {1,-" + col2 + "} | {2}", "Name", "Op", "Size");
+				sw.WriteLine("".PadRight(col1 + col2 + col3 + 3 * 2 + 2, '-'));
+
+				foreach (var entry in packetTable)
+					sw.WriteLine("{0,-" + col1 + "} | 0x{1,-" + (col2 - 2) + ":X4} | {2,-" + col3 + "}", entry.Op, entry.OpNetwork, entry.Size);
+			}
+
+			using (var fs = new FileStream(Path.ChangeExtension(filePath, ".cs"), FileMode.Create))
+			using (var sw = new StreamWriter(fs))
+			{
+				foreach (var entry in packetTable)
+					sw.WriteLine("Register(Op.{0}, 0x{1:X4}, {2});", entry.Op, entry.OpNetwork, entry.Size);
+			}
 		}
 
 		/// <summary>

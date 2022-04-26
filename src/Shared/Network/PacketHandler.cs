@@ -10,7 +10,7 @@ namespace Sabine.Shared.Network
 	/// <typeparam name="TConnection"></typeparam>
 	public class PacketHandler<TConnection>
 	{
-		protected Dictionary<int, PacketHandlerFunc> _handlers = new Dictionary<int, PacketHandlerFunc>();
+		protected Dictionary<Op, PacketHandlerFunc> _handlers = new Dictionary<Op, PacketHandlerFunc>();
 
 		/// <summary>
 		/// Creates new packet handler and loads handler methods on itself.
@@ -41,7 +41,7 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		/// <param name="op"></param>
 		/// <param name="func"></param>
-		public void Add(int op, PacketHandlerFunc func)
+		public void Add(Op op, PacketHandlerFunc func)
 		{
 			_handlers[op] = func;
 		}
@@ -56,7 +56,7 @@ namespace Sabine.Shared.Network
 		{
 			if (!_handlers.TryGetValue(packet.Op, out var func))
 			{
-				Log.Debug("PacketHandler: No handler found for 0x{0:X4} ({1}).\r\n{2}", packet.Op, PacketTable.GetName(packet.Op), packet.ToString());
+				Log.Debug("PacketHandler: No handler found for 0x{0:X4} ({1}).\r\n{2}", (int)packet.Op, packet.Op.ToString(), packet.ToString());
 				return false;
 			}
 
@@ -81,13 +81,13 @@ namespace Sabine.Shared.Network
 		/// <summary>
 		/// Returns the opcodes this handler handles.
 		/// </summary>
-		public int[] Ops { get; private set; }
+		public Op[] Ops { get; private set; }
 
 		/// <summary>
 		/// Creates new attribute.
 		/// </summary>
 		/// <param name="ops"></param>
-		public PacketHandlerAttribute(params int[] ops)
+		public PacketHandlerAttribute(params Op[] ops)
 		{
 			this.Ops = ops;
 		}

@@ -41,6 +41,7 @@ namespace Sabine.Shared.Network
 		protected virtual void OnMessageReceived(byte[] buffer)
 		{
 			var packet = new Packet(buffer);
+			packet.Op = PacketTable.ToHost((int)packet.Op);
 
 			//Log.Debug("< Op: 0x{0:X4} ({1})\r\n{2}", packet.Op, PacketTable.GetName(packet.Op), Hex.ToString(buffer, HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine));
 			//Log.Debug("".PadRight(40, '-'));
@@ -65,9 +66,19 @@ namespace Sabine.Shared.Network
 			//Log.Debug("> Op: 0x{0:X4} ({1})\r\n{2}", packet.Op, PacketTable.GetName(packet.Op), Hex.ToString(buffer, HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine));
 			//Log.Debug("".PadRight(40, '-'));
 
-			var tableSize = PacketTable.GetSize(packet.Op);
+			var opNetwork = PacketTable.ToNetwork(packet.Op);
+
+			var tableSize = PacketTable.GetSize(opNetwork);
 			if (tableSize != PacketTable.Dynamic && buffer.Length != tableSize)
-				Log.Warning("Connection: Invalid packet size for '{0:X4}' ({1}) ({2} != {3}).", packet.Op, PacketTable.GetName(packet.Op), buffer.Length, tableSize);
+			{
+				var name = packet.Op.ToString();
+				var nameNetwork = PacketTable.GetName(opNetwork);
+
+				Log.Warning("Connection: Invalid packet size for '{0:X4}' ({1}) ({2} != {3}).", opNetwork, nameNetwork, buffer.Length, tableSize);
+
+				if (name != nameNetwork)
+					Log.Warning("Connection: Potential packet table error. Packet's op is '{0}', while the table's network op is '{1}'.", name, nameNetwork);
+			}
 
 			this.Send(buffer);
 		}

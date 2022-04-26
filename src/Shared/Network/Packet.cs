@@ -19,13 +19,13 @@ namespace Sabine.Shared.Network
 		/// <summary>
 		/// Gets or sets the packet's opcode.
 		/// </summary>
-		public int Op { get; set; }
+		public Op Op { get; set; }
 
 		/// <summary>
 		/// Creates new packet to write to.
 		/// </summary>
 		/// <param name="op"></param>
-		public Packet(int op)
+		public Packet(Op op)
 		{
 			this.Op = op;
 
@@ -42,7 +42,7 @@ namespace Sabine.Shared.Network
 			_buffer = new BufferReaderWriter(buffer);
 			_buffer.Endianness = Endianness.LittleEndian;
 
-			this.Op = _buffer.ReadInt16();
+			this.Op = (Op)_buffer.ReadInt16();
 			_bodyStart = _buffer.Index;
 		}
 

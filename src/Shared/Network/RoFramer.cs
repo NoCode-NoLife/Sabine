@@ -48,13 +48,14 @@ namespace Sabine.Shared.Network
 		/// <returns></returns>
 		public byte[] Frame(Packet packet)
 		{
-			var tableSize = PacketTable.GetSize(packet.Op);
+			var opNetwork = PacketTable.ToNetwork(packet.Op);
+			var tableSize = PacketTable.GetSize(opNetwork);
 
 			var bodyBuffer = packet.Build();
 			var buffer = new BufferReaderWriter();
 			buffer.Endianness = Endianness.LittleEndian;
 
-			buffer.WriteInt16((short)packet.Op);
+			buffer.WriteInt16((short)opNetwork);
 
 			if (tableSize == PacketTable.Dynamic)
 			{
