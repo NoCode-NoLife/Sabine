@@ -78,7 +78,9 @@ namespace Sabine.Shared
 
 			this.Conf.Load();
 
-			// Set game version from conf...
+			Game.Version = this.Conf.Version.PacketVersion;
+			Log.Info("Using packet version {0}.", Game.Version);
+
 			PacketTable.Load();
 
 			return this.Conf;

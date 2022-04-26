@@ -23,7 +23,7 @@ namespace Sabine.Shared.Configuration
 		public ZoneConf Zone { get; } = new ZoneConf();
 
 		/// <summary>
-		/// database.conf
+		/// commands.conf
 		/// </summary>
 		public CommandsConf Commands { get; } = new CommandsConf();
 
@@ -33,9 +33,14 @@ namespace Sabine.Shared.Configuration
 		public DatabaseConf Database { get; } = new DatabaseConf();
 
 		/// <summary>
-		/// database.conf
+		/// localization.conf
 		/// </summary>
 		public LocalizationConf Localization { get; } = new LocalizationConf();
+
+		/// <summary>
+		/// version.conf
+		/// </summary>
+		public VersionConf Version { get; } = new VersionConf();
 
 		/// <summary>
 		/// world.conf
@@ -54,6 +59,7 @@ namespace Sabine.Shared.Configuration
 			this.Commands.Load("system/conf/commands.conf");
 			this.Database.Load("system/conf/database.conf");
 			this.Localization.Load("system/conf/localization.conf");
+			this.Version.Load("system/conf/version.conf");
 			this.World.Load("system/conf/world.conf");
 		}
 	}

@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfFiles.cs" />
+    <Compile Include="Configuration\Files\VersionConf.cs" />
     <Compile Include="Configuration\Files\AuthConf.cs" />
     <Compile Include="Configuration\Files\CharConf.cs" />
     <Compile Include="Configuration\Files\Commands.cs" />
