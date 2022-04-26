@@ -235,7 +235,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			if (character is Monster)
 				return;
 
-			var warps = character.Map.GetAllNpcs(a => a.ClassId == 32 && a.Position.InSquareRange(position, 2));
+			var warps = character.Map.GetAllNpcs(a => a.ClassId == 32 && a.Position.InSquareRange(position, 2) && a.WarpDestination.MapId != 0);
 			if (warps.Length > 0)
 			{
 				var warp = warps[0];

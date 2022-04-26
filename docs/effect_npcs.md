@@ -1,10 +1,10 @@
 Effect NPCs
 =============================================================================
 
-When an NPC with the class id 63 is spawned, the client uses its speed
-value as an effect id to spawn a stationary effect. It's possible that
-this was never really used, since some effects seem glitched, this file
-includes a list of them, just in case.
+When an NPC with the class id 63 is spawned, the alpha client uses its
+speed parameter as an effect id to spawn a stationary effect. It's possible
+that this was never really used, since some effects seem glitched, but this
+file lists the effects, just in case.
 
 The alpha client has effect ids ranging from 0 to 20, though nothing
 happens for some, while others are missing textures by default, resulting
