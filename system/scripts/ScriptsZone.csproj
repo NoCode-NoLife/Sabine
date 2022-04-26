@@ -57,6 +57,7 @@
     <Compile Include="episodes\alpha\monsters\prontera.cs" />
     <Compile Include="episodes\alpha\warps\morocc.cs" />
     <Compile Include="episodes\alpha\warps\prontera.cs" />
+    <Compile Include="episodes\beta1\warps\prontera.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shared\Shared.csproj">
@@ -73,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="episodes\alpha\scripts.txt" />
+    <Content Include="episodes\beta1\scripts.txt" />
     <Content Include="scripts_zone.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,5 +8,6 @@ const/*
 commands/*
 
 require "episodes/alpha/scripts.txt"
+require "episodes/beta1/scripts.txt"
 
 include "/user/scripts/scripts_zone.txt"

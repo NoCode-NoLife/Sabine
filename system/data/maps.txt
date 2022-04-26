@@ -4,6 +4,7 @@
 
 [
 // iRO Alpha Maps (2001-08-30)
+//---------------------------------------------------------------------------
 { id: 100001, versionMax: 1, stringId: "dungeon000", name: "Morocc Jungle" },
 { id: 100002, versionMax: 1, stringId: "dungeon001", name: "Inside Morocc Jungle" },
 { id: 100003, versionMax: 1, stringId: "fay_vilg00", name: "" },
@@ -47,6 +48,7 @@
 // iRO Beta Maps (2002-02-20)
 // Commented maps appear in the client's mapnametable, but aren't actually
 // present in the data.
+//---------------------------------------------------------------------------
 { id: 200001, versionMin: 2, stringId: "alb_ship", name: "Harbour Alberta" },
 { id: 200002, versionMin: 2, stringId: "alberta", name: "Harbour Alberta" },
 { id: 200003, versionMin: 2, stringId: "alberta_in", name: "Alberta Inside" },
@@ -115,4 +117,13 @@
 //{ id: 200066, versionMin: 2, stringId: "temp", name: "Temp" },
 { id: 200067, versionMin: 2, stringId: "treasure01", name: "Sunken Vessel" },
 { id: 200068, versionMin: 2, stringId: "treasure02", name: "Sunken Vessel" },
+
+// Izlude doesn't appear in the English mapnametable_e.txt. This might
+// indicate that it wasn't there from the start.
+{ id: 200069, versionMin: 2, stringId: "izlude", name: "Izlude" },
+{ id: 200070, versionMin: 2, stringId: "izlude_in", name: "Izlude Inside" },
+{ id: 200071, versionMin: 2, stringId: "iz_dun00", name: "Izlude Dungeon" },
+{ id: 200072, versionMin: 2, stringId: "iz_dun01", name: "Izlude Dungeon" },
+{ id: 200073, versionMin: 2, stringId: "iz_dun02", name: "Izlude Dungeon" },
+{ id: 200074, versionMin: 2, stringId: "izlu2dun", name: "Bialan Island" },
 ]
