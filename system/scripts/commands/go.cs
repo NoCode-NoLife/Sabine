@@ -24,13 +24,17 @@ public class GoCommandScript : GeneralScript
 	{
 		if (Game.Version < Versions.Beta1)
 		{
-			this.RegisterDestination("prontera", "prt_vilg02", 99, 78);
 			this.RegisterDestination("morocc", "moc_vilg01", 98, 95);
+			this.RegisterDestination("prontera", "prt_vilg02", 99, 78);
 		}
 		else
 		{
-			this.RegisterDestination("prontera", "prontera", 99, 78);
-			this.RegisterDestination("morocc", "morocc", 98, 95);
+			this.RegisterDestination("alberta", "alberta", 116, 57);
+			this.RegisterDestination("geffen", "geffen", 119, 71);
+			this.RegisterDestination("izlude", "izlude", 127, 109);
+			this.RegisterDestination("morocc", "morocc", 158, 93);
+			this.RegisterDestination("payon", "payon", 89, 126);
+			this.RegisterDestination("prontera", "prontera", 155, 180);
 		}
 
 		AddChatCommand("go", "<destination>", Localization.Get("Warps to a specific destination."), this.Go, 50, 50);
