@@ -8,7 +8,7 @@
 		/// <summary>
 		/// The packet version to use.
 		/// </summary>
-		public static int Version = 2;
+		public static int Version = 0;
 	}
 
 	/// <summary>
