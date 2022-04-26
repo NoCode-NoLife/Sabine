@@ -42,7 +42,7 @@ public class MoroccMonstersScript : GeneralScript
 		AddSpawner("dungeon000", "Fabre", 1007, 20);
 		AddSpawner("dungeon000", "Scorpion", 1001, 15);
 		AddSpawner("dungeon000", "Poporing", 1031, 15);
-		AddSpawner("dungeon000", "Creamy", 82, 10);
+		AddSpawner("dungeon000", "Creamy", 1018, 10);
 		AddSpawner("dungeon000", "Anacondaq", 1030, 10);
 
 		// Inside Morocc Jungle
@@ -59,7 +59,7 @@ public class MoroccMonstersScript : GeneralScript
 		AddSpawner("moc_dugn01", "Isis", 1029, 10);
 
 		// Pyramid 2F
-		AddSpawner("moc_dugn02", "Mummy", 105, 20);
+		AddSpawner("moc_dugn02", "Mummy", 1041, 20);
 		AddSpawner("moc_dugn02", "Vorit", 1032, 20);
 		AddSpawner("moc_dugn02", "Osiris", 1046, 1, initialDelay: TimeSpan.FromHours(3), respawnDelay: TimeSpan.FromHours(6));
 	}
