@@ -36,10 +36,10 @@ namespace Sabine.Char.Network.Helpers
 			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
-			packet.PutInt(0); // ?
 
 			if (Game.Version >= Versions.Beta1)
 			{
+				packet.PutInt(0); // ?
 				packet.PutInt(0); // Karma?
 				packet.PutInt(0); // Manner?
 			}
@@ -53,8 +53,8 @@ namespace Sabine.Char.Network.Helpers
 
 			if (Game.Version < Versions.Beta1)
 			{
-				packet.PutInt(0); // Karma?
-				packet.PutInt(0); // Manner?
+				packet.PutShort(0); // Karma?
+				packet.PutShort(0); // Manner?
 			}
 
 			packet.PutString(character.Name, Sizes.CharacterNames);
