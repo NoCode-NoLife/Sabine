@@ -17,17 +17,17 @@
 	public static class Versions
 	{
 		/// <summary>
-		/// The packet version for the iRO Alpha client (2001-08-30)
+		/// The packet version for the iRO Alpha client (2001-08-30).
 		/// </summary>
 		public const int Alpha = 0;
 
 		/// <summary>
-		/// The packet version for the iRO Beta 1 client (2002-02-20)
+		/// The packet version for the iRO Beta 1 client (2002-02-20).
 		/// </summary>
 		public const int Beta1 = 2;
 
 		/// <summary>
-		/// The packet version for the jRO Beta 2 client (2002-08-09)
+		/// The packet version for the jRO Beta 2 client (2002-08-09).
 		/// </summary>
 		public const int Beta2 = 3;
 	}
