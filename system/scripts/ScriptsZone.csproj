@@ -51,12 +51,12 @@
     <Compile Include="commands\go.cs" />
     <Compile Include="const\ItemId.cs" />
     <Compile Include="custom\test.cs" />
-    <Compile Include="npcs\jobs.cs" />
-    <Compile Include="npcs\prontera.cs" />
-    <Compile Include="monsters\morocc.cs" />
-    <Compile Include="monsters\prontera.cs" />
-    <Compile Include="warps\morocc.cs" />
-    <Compile Include="warps\prontera.cs" />
+    <Compile Include="episodes\alpha\npcs\jobs.cs" />
+    <Compile Include="episodes\alpha\npcs\prontera.cs" />
+    <Compile Include="episodes\alpha\monsters\morocc.cs" />
+    <Compile Include="episodes\alpha\monsters\prontera.cs" />
+    <Compile Include="episodes\alpha\warps\morocc.cs" />
+    <Compile Include="episodes\alpha\warps\prontera.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shared\Shared.csproj">
@@ -72,6 +72,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="episodes\alpha\scripts.txt" />
     <Content Include="scripts_zone.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

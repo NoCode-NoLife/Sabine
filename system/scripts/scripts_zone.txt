@@ -6,8 +6,7 @@ custom/test.cs
 
 const/*
 commands/*
-monsters/*
-npcs/*
-warps/*
+
+require "episodes/alpha/scripts.txt"
 
 include "/user/scripts/scripts_zone.txt"
