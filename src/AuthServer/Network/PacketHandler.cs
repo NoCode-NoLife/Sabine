@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Xml.Schema;
 using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Network;
@@ -21,13 +20,16 @@ namespace Sabine.Auth.Network
 		[PacketHandler(Op.CA_LOGIN)]
 		public void CA_LOGIN(AuthConnection conn, Packet packet)
 		{
-			var version = 0;
+			int version = 0, langType = 1;
 
 			if (Game.Version >= Versions.Beta1)
 				version = packet.GetInt();
 
 			var username = packet.GetString(Sizes.Usernames);
 			var password = packet.GetString(Sizes.Usernames);
+
+			if (Game.Version >= Versions.Beta2)
+				langType = packet.GetByte();
 
 			var db = AuthServer.Instance.Database;
 

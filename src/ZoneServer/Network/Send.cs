@@ -256,38 +256,44 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ACK_REQNAME);
 
-			// The first string is displayed in parantheses after the
-			// character name. It seems like it's intended for the
-			// account name, because that's what the client displays
-			// for the player character itself. This might indicate
-			// that they had planned a "team name" kind of feature,
-			// similar to ToS, to have a common identifier between
-			// characters on one account. Not a terrible idea, but
-			// sending the account names of other players is not
-			// exactly ideal, so... maybe let's not do that.
-			// However, maybe we could add a display name for the
-			// accounts, which could be used here.
+			packet.PutInt(target.Handle);
 
-			var secName = "";
-
-			if (target is Monster)
+			if (Game.Version < Versions.Beta2)
 			{
-				var hpDisplayType = ZoneServer.Instance.Conf.World.DisplayMonsterHp;
+				// The first string is displayed in parantheses after the
+				// character name. It seems like it's intended for the
+				// account name, because that's what the client displays
+				// for the player character itself. This might indicate
+				// that they had planned a "team name" kind of feature,
+				// similar to ToS, to have a common identifier between
+				// characters on one account. Not a terrible idea, but
+				// sending the account names of other players is not
+				// exactly ideal, so... maybe let's not do that.
+				// However, maybe we could add a display name for the
+				// accounts, which could be used here.
+				// Also: 16-24 free bytes for monster HP!
 
-				switch (hpDisplayType)
+				var secName = "";
+
+				if (target is Monster)
 				{
-					case DisplayMonsterHpType.Percentage:
-						secName = string.Format("{0:0}%", 100f / target.Parameters.HpMax * target.Parameters.Hp);
-						break;
+					var hpDisplayType = ZoneServer.Instance.Conf.World.DisplayMonsterHp;
 
-					case DisplayMonsterHpType.Actual:
-						secName = string.Format("{0}/{1}", target.Parameters.Hp, target.Parameters.HpMax);
-						break;
+					switch (hpDisplayType)
+					{
+						case DisplayMonsterHpType.Percentage:
+							secName = string.Format("{0:0}%", 100f / target.Parameters.HpMax * target.Parameters.Hp);
+							break;
+
+						case DisplayMonsterHpType.Actual:
+							secName = string.Format("{0}/{1}", target.Parameters.Hp, target.Parameters.HpMax);
+							break;
+					}
 				}
+
+				packet.PutString(secName, Sizes.CharacterNames); // target.Username
 			}
 
-			packet.PutInt(target.Handle);
-			packet.PutString(secName, Sizes.CharacterNames); // target.Username
 			packet.PutString(target.Name, Sizes.CharacterNames);
 
 			character.Connection.Send(packet);
@@ -341,7 +347,15 @@ namespace Sabine.Zone.Network
 			var packet = new Packet(Op.ZC_PAR_CHANGE);
 
 			packet.PutShort((short)type);
-			packet.PutShort((short)value);
+
+			// Apparently Gravity thought it was a good idea to upgrade
+			// ZC_PAR_CHANGE to integers, but keep two separate packets
+			// for some reason. The two packets still handle specific
+			// parameters, you can't use one for both.
+			if (Game.Version < Versions.Beta2)
+				packet.PutShort((short)value);
+			else
+				packet.PutInt(value);
 
 			character.Connection.Send(packet);
 		}

@@ -132,7 +132,7 @@ namespace Sabine.Zone
 				sw.WriteLine("".PadRight(col1 + col2 + col3 + 3 * 2 + 2, '-'));
 
 				foreach (var entry in packetTable)
-					sw.WriteLine("{0,-" + col1 + "} | 0x{1,-" + (col2 - 2) + ":X4} | {2,-" + col3 + "}", entry.Op, entry.OpNetwork, entry.Size);
+					sw.WriteLine("{0,-" + col1 + "} | 0x{1,-" + (col2 - 2) + ":X4} | {2}", entry.Op, entry.OpNetwork, entry.Size);
 			}
 
 			using (var fs = new FileStream(Path.ChangeExtension(filePath, ".cs"), FileMode.Create))

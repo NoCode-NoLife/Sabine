@@ -57,21 +57,47 @@ namespace Sabine.Char.Network.Helpers
 				packet.PutShort(0); // Manner?
 			}
 
-			packet.PutString(character.Name, Sizes.CharacterNames);
-			packet.PutByte((byte)character.JobId);
-			packet.PutByte((byte)character.BaseLevel);
-			packet.PutByte((byte)jobLevel);
-			packet.PutByte((byte)character.Str);
-			packet.PutByte((byte)character.Agi);
-			packet.PutByte((byte)character.Vit);
-			packet.PutByte((byte)character.Int);
-			packet.PutByte((byte)character.Dex);
-			packet.PutByte((byte)character.Luk);
-			packet.PutByte((byte)character.Slot);
-			packet.PutByte(0); // Gap
-			packet.PutByte((byte)character.HairId);
-			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte((byte)character.HeadTopId);
+			if (Game.Version < Versions.Beta2)
+			{
+				packet.PutString(character.Name, Sizes.CharacterNames);
+				packet.PutByte((byte)character.JobId);
+				packet.PutByte((byte)character.BaseLevel);
+				packet.PutByte((byte)jobLevel);
+				packet.PutByte((byte)character.Str);
+				packet.PutByte((byte)character.Agi);
+				packet.PutByte((byte)character.Vit);
+				packet.PutByte((byte)character.Int);
+				packet.PutByte((byte)character.Dex);
+				packet.PutByte((byte)character.Luk);
+				packet.PutByte((byte)character.Slot);
+				packet.PutByte(0); // Gap
+				packet.PutByte((byte)character.HairId);
+				packet.PutByte((byte)character.WeaponId);
+				packet.PutByte((byte)character.HeadTopId);
+			}
+			else
+			{
+				packet.PutShort((short)character.JobId);
+				packet.PutShort((short)character.HairId);
+				packet.PutShort((short)character.WeaponId);
+				packet.PutShort((short)character.BaseLevel);
+				packet.PutShort(0); // SkillPoints
+				packet.PutShort(0); // HeadBottomId
+				packet.PutShort(0); // ShieldId
+				packet.PutShort((byte)character.HeadTopId);
+				packet.PutShort(0); // HeadMidId
+				packet.PutShort(0); // HairColorId
+				packet.PutShort(0); // ClothesColorId
+				packet.PutString(character.Name, Sizes.CharacterNames);
+				packet.PutByte((byte)character.Str);
+				packet.PutByte((byte)character.Agi);
+				packet.PutByte((byte)character.Vit);
+				packet.PutByte((byte)character.Int);
+				packet.PutByte((byte)character.Dex);
+				packet.PutByte((byte)character.Luk);
+				packet.PutByte((byte)character.Slot);
+				packet.PutByte(0); // Gap
+			}
 		}
 	}
 }

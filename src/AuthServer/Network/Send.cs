@@ -46,6 +46,13 @@ namespace Sabine.Auth.Network
 				packet.PutInt(account.SessionId);
 				packet.PutInt(account.Id);
 				packet.PutInt(account.SessionId);
+
+				if (Game.Version >= Versions.Beta2)
+				{
+					packet.PutInt(0); // IP?
+					packet.PutString("", 26); // Last Server?
+				}
+
 				packet.PutByte((byte)account.Sex);
 			}
 
@@ -57,7 +64,14 @@ namespace Sabine.Auth.Network
 
 				packet.PutInt(IPAddress.Parse(charIp));
 				packet.PutShort((short)charPort);
-				packet.PutString(charName, 20);
+				packet.PutString(charName + " ", 20);
+
+				if (Game.Version >= Versions.Beta2)
+				{
+					packet.PutShort(0); // PlayerCount
+					packet.PutShort(0); // IsMaintenance
+					packet.PutShort(0); // IsNew
+				}
 			}
 
 			conn.Send(packet);

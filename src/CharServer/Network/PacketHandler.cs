@@ -70,6 +70,12 @@ namespace Sabine.Char.Network
 			conn.Account = account;
 			conn.Characters.AddRange(characters);
 
+			// Starting some time after beta 1, the client expects the raw
+			// account id to be sent upon connection, or it won't react to
+			// any packets...?
+			if (Game.Version >= Versions.EP5)
+				conn.Send(BitConverter.GetBytes(account.Id));
+
 			Send.HC_ACCEPT_ENTER(conn, characters);
 
 			Log.Info("User '{0}' logged in.", account.Username);

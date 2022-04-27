@@ -94,6 +94,12 @@ namespace Sabine.Zone.Network
 			conn.Character = character;
 			character.Connection = conn;
 
+			// Starting some time after beta 1, the client expects the raw
+			// account id to be sent upon connection, or it won't react to
+			// any packets...?
+			if (Game.Version >= Versions.EP5)
+				conn.Send(BitConverter.GetBytes(account.Id));
+
 			Send.ZC_ACCEPT_ENTER(conn, character);
 
 			map.AddCharacter(character);
@@ -198,6 +204,17 @@ namespace Sabine.Zone.Network
 			var index = text.IndexOf(':');
 			if (index != -1)
 				text = text.Substring(index + 1).Trim();
+
+			if (Game.Version >= Versions.EP5)
+			{
+				// What is this...? It's part of the message, and the client
+				// doesn't display it when it's sent back to it, but what
+				// does it do? Looks like there's no reference to it in
+				// eAthena either. Maybe it's a euRO thing? Something to
+				// do with languages?
+				if (text.StartsWith("|00"))
+					text = text.Substring("|00".Length);
+			}
 
 			var character = conn.GetCurrentCharacter();
 

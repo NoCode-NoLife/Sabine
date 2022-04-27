@@ -20,22 +20,52 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version >= Versions.Beta1)
+			if (Game.Version < Versions.EP5)
 			{
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0); // status effect?
-				packet.PutByte(0);  // status effect?
-			}
+				if (Game.Version >= Versions.Beta1)
+				{
+					packet.PutShort(0);
+					packet.PutShort(0);
+					packet.PutShort(0); // Status Effects?
+					packet.PutByte(0);  // Status Effects?
+				}
 
-			packet.PutByte((byte)character.ClassId);
-			packet.PutByte((byte)character.Sex);
-			packet.AddPackedPosition(character.Position, character.Direction);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutByte((byte)character.HairId);
-			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte((byte)character.HeadTopId);
+				packet.PutByte((byte)character.ClassId);
+				packet.PutByte((byte)character.Sex);
+				packet.AddPackedPosition(character.Position, character.Direction);
+				packet.PutByte(0);
+				packet.PutByte(0);
+				packet.PutByte((byte)character.HairId);
+				packet.PutByte((byte)character.WeaponId);
+				packet.PutByte((byte)character.HeadTopId);
+			}
+			else
+			{
+				packet.PutShort(0);     // Status Effects?
+				packet.PutShort(0);     // Status Effects?
+				packet.PutShort(0);     // Status Effects?
+				packet.PutShort((short)character.ClassId);
+				packet.PutShort((short)character.HairId);
+				packet.PutShort((short)character.WeaponId);
+				packet.PutShort(0);     // Head1
+				packet.PutShort(0);     // Shield
+				packet.PutShort(0);     // Head2
+				packet.PutShort(0);     // Head3
+				packet.PutShort(0);     // HairColor
+				packet.PutShort(0);     // ClothesColor
+				packet.PutShort(0);     // HeadDir
+				packet.PutInt(0);       // GuildId?
+				packet.PutShort(0);     // GuildEmblemId?
+				packet.PutShort(0);     // Manner?
+				packet.PutShort(0);     // Karma?
+				packet.PutByte(0);      // BattleStance?
+				packet.PutByte((byte)character.Sex);
+				packet.AddPackedPosition(character.Position, character.Direction);
+				packet.PutByte(0);      // ?
+				packet.PutByte(0);      // ?
+				packet.PutByte(0);      // State
+				packet.PutByte(0);      // ?
+			}
 		}
 	}
 }

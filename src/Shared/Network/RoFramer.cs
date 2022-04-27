@@ -119,7 +119,9 @@ namespace Sabine.Shared.Network
 							messageSize = BitConverter.ToUInt16(_headerBuffer, 2);
 						}
 
-						if (messageSize < 0 || messageSize > this.MaxMessageSize)
+						// The size can't be smaller than the header or
+						// larger than the defined max size.
+						if (messageSize < _headerLength || messageSize > this.MaxMessageSize)
 							throw new InvalidMessageSizeException("Invalid size (" + messageSize + ").");
 
 						// Create buffer for the packet and copy the contents

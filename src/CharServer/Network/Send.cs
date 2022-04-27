@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Sabine.Char.Database;
 using Sabine.Char.Network.Helpers;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Network;
 
@@ -34,6 +36,11 @@ namespace Sabine.Char.Network
 		public static void HC_ACCEPT_ENTER(CharConnection conn, IEnumerable<Character> characters)
 		{
 			var packet = new Packet(Op.HC_ACCEPT_ENTER);
+
+			// The client expects '(len - 4) % 106 + 2' bytes here, meaning
+			// a minimum of 2. It's unknown what exactly these bytes do.
+			if (Game.Version >= Versions.EP5)
+				packet.PutShort(0);
 
 			foreach (var character in characters)
 				packet.AddCharacter(character);

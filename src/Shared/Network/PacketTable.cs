@@ -19,6 +19,9 @@ namespace Sabine.Shared.Network
 			if (Game.Version >= Versions.Beta2)
 				LoadBeta2();
 
+			if (Game.Version >= Versions.EP5)
+				LoadEP5();
+
 			BuildLists();
 		}
 
@@ -150,7 +153,7 @@ namespace Sabine.Shared.Network
 		public static Op ToHost(int opNetwork)
 		{
 			if (!NetworkToHost.TryGetValue(opNetwork, out var op))
-				throw new ArgumentException($"Op 0x{opNetwork:X4} not found.");
+				throw new ArgumentException($"Op '0x{opNetwork:X4}' not found.");
 
 			return op;
 		}
@@ -165,7 +168,7 @@ namespace Sabine.Shared.Network
 		public static int GetSize(int op)
 		{
 			if (!Sizes.TryGetValue(op, out var size))
-				throw new ArgumentException($"No size found for op '{op:X4}'.");
+				throw new ArgumentException($"No size found for op '0x{op:X4}'.");
 
 			return size;
 		}

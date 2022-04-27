@@ -115,6 +115,7 @@
     <Compile Include="Network\Op.cs" />
     <Compile Include="Network\Packet.cs" />
     <Compile Include="Network\PacketHandler.cs" />
+    <Compile Include="Network\PacketTable.4_EP5.cs" />
     <Compile Include="Network\PacketTable.3_Beta2.cs" />
     <Compile Include="Network\PacketTable.2_Beta1.cs" />
     <Compile Include="Network\PacketTable.0_Alpha.cs" />
