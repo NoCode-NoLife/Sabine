@@ -156,12 +156,22 @@ namespace Sabine.Char.Network
 			character.Dex = packet.GetByte();
 			character.Luk = packet.GetByte();
 			character.Slot = packet.GetByte();
-			character.HairId = packet.GetByte();
+
+			if (Game.Version < Versions.Beta2)
+			{
+				character.HairId = packet.GetByte();
+			}
+			else
+			{
+				character.HairColorId = packet.GetShort();
+				character.HairId = packet.GetShort();
+			}
 
 			var account = conn.Account;
 			var db = CharServer.Instance.Database;
+			var availableSlots = Game.Version < Versions.EP5 ? 3 : 9;
 
-			var isSlotValid = character.Slot >= 0 && character.Slot <= 2;
+			var isSlotValid = character.Slot >= 0 && character.Slot < availableSlots;
 			if (!isSlotValid)
 			{
 				Log.Warning("CH_MAKE_CHAR: User '{0}' tried to create a character in an invalid slot.", account.Username);
@@ -191,16 +201,16 @@ namespace Sabine.Char.Network
 				return;
 			}
 
-			if (!SabineData.Maps.TryFind(CharServer.Instance.Conf.Char.StartMapStringId, out var mapData))
-			{
-				Log.Error("CH_MAKE_CHAR: Unknown start map '{0}'.", CharServer.Instance.Conf.Char.StartMapStringId);
-				Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.Denied);
-				return;
-			}
+			//if (!SabineData.Maps.TryFind(CharServer.Instance.Conf.Char.StartMapStringId, out var mapData))
+			//{
+			//	Log.Error("CH_MAKE_CHAR: Unknown start map '{0}'.", CharServer.Instance.Conf.Char.StartMapStringId);
+			//	Send.HC_REFUSE_MAKECHAR(conn, CharCreateError.Denied);
+			//	return;
+			//}
 
 			character.Hp = character.HpMax = (int)(40 * (1 + character.Vit / 100.0));
 			character.Sp = character.SpMax = (int)(10 * (1 + character.Int / 100.0));
-			character.Location = new Location(mapData.Id, CharServer.Instance.Conf.Char.StartPosition);
+			character.Location = new Location(100036, 99, 81);
 
 			db.CreateCharacter(account, ref character);
 			conn.Characters.Add(character);

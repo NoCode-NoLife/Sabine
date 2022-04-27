@@ -86,7 +86,7 @@ namespace Sabine.Char.Network.Helpers
 				packet.PutShort(0); // ShieldId
 				packet.PutShort((byte)character.HeadTopId);
 				packet.PutShort(0); // HeadMidId
-				packet.PutShort(0); // HairColorId
+				packet.PutShort((short)character.HairColorId);
 				packet.PutShort(0); // ClothesColorId
 				packet.PutString(character.Name, Sizes.CharacterNames);
 				packet.PutByte((byte)character.Str);

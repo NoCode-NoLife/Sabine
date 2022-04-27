@@ -11,8 +11,13 @@
 		NameExistsAlready = 0,
 
 		/// <summary>
+		/// User is underage (??).
+		/// </summary>
+		Underaged = 1,
+
+		/// <summary>
 		/// General error.
 		/// </summary>
-		Denied = 1,
+		Denied = 0xFF,
 	}
 }
