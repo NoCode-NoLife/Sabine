@@ -80,5 +80,23 @@ namespace Sabine.Auth.Network
 
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends a salt to hash passwords with to the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="salt"></param>
+		public static void AC_ACK_HASH(AuthConnection conn, string salt)
+		{
+			var packet = new Packet(Op.AC_ACK_HASH);
+
+			// Make sure to not null-terminate the string, as the client
+			// uses any potential null-terminators as part of the hash,
+			// which can lead to unexpected hashing results. Especially
+			// if you want to send an empty salt. "\0" != "".
+			packet.PutString(salt, false);
+
+			conn.Send(packet);
+		}
 	}
 }

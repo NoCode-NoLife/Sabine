@@ -133,12 +133,14 @@ namespace Sabine.Shared.Network
 		/// Writes string and a null terminator to packet.
 		/// </summary>
 		/// <param name="value"></param>
-		public void PutString(string value)
+		/// <param name="terminate">Whether to put a null-terminator at the end of the string.</param>
+		public void PutString(string value, bool terminate = true)
 		{
 			var bytes = EncodingKR.GetBytes(value ?? "");
 
 			_buffer.Write(bytes);
-			_buffer.WriteByte(0);
+			if (terminate)
+				_buffer.WriteByte(0);
 		}
 
 		/// <summary>
@@ -147,6 +149,14 @@ namespace Sabine.Shared.Network
 		/// <returns></returns>
 		public byte GetByte()
 			=> _buffer.ReadByte();
+
+		/// <summary>
+		/// Reads the given number of bytes from the packet and returns them.
+		/// </summary>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public byte[] GetBytes(int length)
+			=> _buffer.Read(length);
 
 		/// <summary>
 		/// Reads a short from packet and returns it.
