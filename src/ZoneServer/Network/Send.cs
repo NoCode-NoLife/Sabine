@@ -56,9 +56,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
-
-			packet.AddCharacterEntry(character);
-			packet.PutByte((byte)character.State);
+			packet.AddStandEntry(character);
 
 			player.Connection.Send(packet);
 		}
@@ -70,9 +68,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_NOTIFY_STANDENTRY(IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
-
-			packet.AddCharacterEntry(character);
-			packet.PutByte((byte)character.State);
+			packet.AddStandEntryNpc(character);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
@@ -91,12 +87,12 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		public static void ZC_NOTIFY_STANDENTRY_NPC(IEntryCharacter character)
 		{
-			// Class id 32 appears to be a large shadow, possibly a warp,
-			// and 63 seems to be an effect, that uses the speed field
-			// as the effect id?
+			// In the alpha, class id 32 is a warp, in the form of a round
+			// shadow sprite, and 63 seems to be an effect, that uses the
+			// speed field as the effect id.
 
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY_NPC);
-			packet.AddCharacterEntry(character);
+			packet.AddStandEntryNpc(character);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
@@ -108,7 +104,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_NOTIFY_STANDENTRY_NPC(PlayerCharacter player, IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY_NPC);
-			packet.AddCharacterEntry(character);
+			packet.AddStandEntryNpc(character);
 
 			player.Connection.Send(packet);
 		}
@@ -121,7 +117,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_NOTIFY_NEWENTRY(IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_NEWENTRY);
-			packet.AddCharacterEntry(character);
+			packet.AddNewEntry(character);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
@@ -139,28 +135,25 @@ namespace Sabine.Zone.Network
 			// character's packed position.
 
 			var packet = new Packet(Op.ZC_NOTIFY_MOVEENTRY);
-
-			packet.PutInt(character.Handle);
-			packet.PutShort((short)character.Speed);
-
-			if (Game.Version >= Versions.Beta1)
-			{
-				packet.PutShort(0);
-				packet.PutShort(0);
-				packet.PutShort(0); // status effect?
-				packet.PutByte(0);  // status effect?
-			}
-
-			packet.PutByte((byte)character.ClassId);
-			packet.PutByte((byte)character.Sex);
-			packet.AddPackedMove(from, to, 8, 8);
-			packet.PutShort(0);
-			packet.PutByte((byte)character.HairId);
-			packet.PutByte((byte)character.WeaponId);
-			packet.PutByte(0);
-			packet.PutInt(DateTime.Now);
+			packet.AddMoveEntry(character, from, to);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
+		}
+
+		/// <summary>
+		/// Makes character who is currently moving appear on player's
+		/// client, moving between the given positions.
+		/// </summary>
+		/// <param name="player"></param>
+		/// <param name="character"></param>
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		public static void ZC_NOTIFY_MOVEENTRY(PlayerCharacter player, IEntryCharacter character, Position from, Position to)
+		{
+			var packet = new Packet(Op.ZC_NOTIFY_MOVEENTRY);
+			packet.AddMoveEntry(character, from, to);
+
+			player.Connection.Send(packet);
 		}
 
 		/// <summary>
