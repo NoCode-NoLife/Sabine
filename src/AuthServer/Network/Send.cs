@@ -17,10 +17,14 @@ namespace Sabine.Auth.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="errorCode"></param>
-		public static void AC_REFUSE_LOGIN(AuthConnection conn, LoginConnectError errorCode)
+		/// <param name="errorMessage">Error message to display for certain errors (not support by all versions).</param>
+		public static void AC_REFUSE_LOGIN(AuthConnection conn, LoginConnectError errorCode, string errorMessage = null)
 		{
 			var packet = new Packet(Op.AC_REFUSE_LOGIN);
 			packet.PutByte((byte)errorCode);
+
+			if (Game.Version >= Versions.Beta2)
+				packet.PutString(errorMessage, 20);
 
 			conn.Send(packet);
 		}
