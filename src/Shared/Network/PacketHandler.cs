@@ -56,7 +56,8 @@ namespace Sabine.Shared.Network
 		{
 			if (!_handlers.TryGetValue(packet.Op, out var func))
 			{
-				Log.Debug("PacketHandler: No handler found for 0x{0:X4} ({1}).\r\n{2}", (int)packet.Op, packet.Op.ToString(), packet.ToString());
+				var opNetwork = PacketTable.ToNetwork(packet.Op);
+				Log.Debug("PacketHandler: No handler found for 0x{0:X4} ({1}).\r\n{2}", opNetwork, packet.Op.ToString(), packet.ToString());
 				return false;
 			}
 
