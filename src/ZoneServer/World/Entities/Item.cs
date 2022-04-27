@@ -54,6 +54,11 @@ namespace Sabine.Zone.World.Entities
 		public EquipSlots EquippedOn { get; set; }
 
 		/// <summary>
+		/// Gets or sets whether the item has been identified.
+		/// </summary>
+		public bool IsIdentified { get; set; } = true;
+
+		/// <summary>
 		/// Returns true if the item is currently equipped.
 		/// </summary>
 		public bool IsEquipped => this.EquippedOn != EquipSlots.None;

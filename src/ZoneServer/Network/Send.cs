@@ -787,6 +787,8 @@ namespace Sabine.Zone.Network
 				if (item.Type.IsEquip())
 					continue;
 
+				if (Game.Version < Versions.Beta2)
+				{
 				var size = 6 + Sizes.ItemNames;
 				if (Game.Version >= Versions.Beta1)
 					size += 4;
@@ -811,6 +813,16 @@ namespace Sabine.Zone.Network
 				}
 
 				packet.PutString(item.StringId, Sizes.ItemNames);
+			}
+				else
+				{
+					packet.PutShort((short)item.InventoryId);
+					packet.PutShort((short)item.ClassId);
+					packet.PutByte((byte)item.Type);
+					packet.PutByte(item.IsIdentified);
+					packet.PutShort((short)item.Amount);
+					packet.PutShort(0);
+				}
 			}
 
 			character.Connection.Send(packet);
