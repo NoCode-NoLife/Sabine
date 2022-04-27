@@ -215,10 +215,16 @@ namespace Sabine.Char.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(Op.CH_DELETE_CHAR)]
+		[PacketHandler(Op.CH_DELETE_CHAR, Op.CH_DELETE_CHAR2)]
 		public void CH_DELETE_CHAR(CharConnection conn, Packet packet)
 		{
+			var emailAddress = (string)null;
+
 			var characterId = packet.GetInt();
+			if (packet.Op == Op.CH_DELETE_CHAR2)
+				emailAddress = packet.GetString(50);
+
+			// TODO: Add email check.
 
 			var character = conn.Characters.FirstOrDefault(a => a.Id == characterId);
 			if (character == null)
