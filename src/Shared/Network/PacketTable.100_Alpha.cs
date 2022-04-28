@@ -2,7 +2,7 @@
 {
 	public static partial class PacketTable
 	{
-		private static void LoadAlpha()
+		private static void LoadVersion100()
 		{
 			Register(Op.CA_LOGIN, 0x0000, 34);
 			Register(Op.CH_ENTER, 0x0001, 13);

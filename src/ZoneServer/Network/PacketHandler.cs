@@ -97,7 +97,7 @@ namespace Sabine.Zone.Network
 			// Starting some time after beta 1, the client expects the raw
 			// account id to be sent upon connection, or it won't react to
 			// any packets...?
-			if (Game.Version >= Versions.EP5)
+			if (Game.Version >= Versions.EP4)
 				conn.Send(BitConverter.GetBytes(account.Id));
 
 			Send.ZC_ACCEPT_ENTER(conn, character);
@@ -205,7 +205,7 @@ namespace Sabine.Zone.Network
 			if (index != -1)
 				text = text.Substring(index + 1).Trim();
 
-			if (Game.Version >= Versions.EP5)
+			if (Game.Version >= Versions.EP4)
 			{
 				// What is this...? It's part of the message, and the client
 				// doesn't display it when it's sent back to it, but what

@@ -22,7 +22,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP5)
+			if (Game.Version < Versions.EP4)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{
@@ -81,7 +81,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP5)
+			if (Game.Version < Versions.EP4)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{
@@ -133,7 +133,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP5)
+			if (Game.Version < Versions.EP4)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{
@@ -191,7 +191,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP5)
+			if (Game.Version < Versions.EP4)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{

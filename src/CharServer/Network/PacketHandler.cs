@@ -73,7 +73,7 @@ namespace Sabine.Char.Network
 			// Starting some time after beta 1, the client expects the raw
 			// account id to be sent upon connection, or it won't react to
 			// any packets...?
-			if (Game.Version >= Versions.EP5)
+			if (Game.Version >= Versions.EP4)
 				conn.Send(BitConverter.GetBytes(account.Id));
 
 			Send.HC_ACCEPT_ENTER(conn, characters);
@@ -169,7 +169,7 @@ namespace Sabine.Char.Network
 
 			var account = conn.Account;
 			var db = CharServer.Instance.Database;
-			var availableSlots = Game.Version < Versions.EP5 ? 3 : 9;
+			var availableSlots = Game.Version < Versions.EP4 ? 3 : 9;
 
 			var isSlotValid = character.Slot >= 0 && character.Slot < availableSlots;
 			if (!isSlotValid)

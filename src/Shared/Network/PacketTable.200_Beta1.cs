@@ -2,7 +2,7 @@
 {
 	public static partial class PacketTable
 	{
-		private static void LoadBeta1()
+		private static void LoadVersion200()
 		{
 			ChangeSize(Op.CA_LOGIN, 54);
 			ChangeSize(Op.CH_ENTER, 17);

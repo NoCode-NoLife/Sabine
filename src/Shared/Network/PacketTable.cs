@@ -11,16 +11,16 @@ namespace Sabine.Shared.Network
 	{
 		public static void Load()
 		{
-			LoadAlpha();
+			LoadVersion100();
 
 			if (Game.Version >= Versions.Beta1)
-				LoadBeta1();
+				LoadVersion200();
 
 			if (Game.Version >= Versions.Beta2)
-				LoadBeta2();
+				LoadVersion300();
 
-			if (Game.Version >= Versions.EP5)
-				LoadEP5();
+			if (Game.Version >= Versions.EP4)
+				LoadVersion500();
 
 			BuildLists();
 		}

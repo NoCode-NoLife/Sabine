@@ -2,7 +2,7 @@
 {
 	public static partial class PacketTable
 	{
-		private static void LoadBeta2()
+		private static void LoadVersion300()
 		{
 			ShiftAll(0x64);
 

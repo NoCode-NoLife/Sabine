@@ -2,7 +2,7 @@
 {
 	public static partial class PacketTable
 	{
-		private static void LoadEP5()
+		private static void LoadVersion500()
 		{
 			ChangeSize(Op.ZC_NOTIFY_STANDENTRY, 54);
 			ChangeSize(Op.ZC_NOTIFY_NEWENTRY, 53);

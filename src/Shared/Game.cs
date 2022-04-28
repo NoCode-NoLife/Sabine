@@ -16,30 +16,25 @@
 	/// </summary>
 	public static class Versions
 	{
-		// TODO: Using dates might be easier. If left alone, the euRO
-		//   client from 2004 sends 1 for its version, and at that point
-		//   it gets difficult to tell the correct versions, or if there
-		//   have been others in between known versions.
-
 		/// <summary>
 		/// The packet version for the iRO Alpha client (2001-08-30).
 		/// </summary>
-		public const int Alpha = 0;
+		public const int Alpha = 100;
 
 		/// <summary>
 		/// The packet version for the iRO Beta 1 client (2002-02-20).
 		/// </summary>
-		public const int Beta1 = 2;
+		public const int Beta1 = 200;
 
 		/// <summary>
 		/// The packet version for the jRO Beta 2 client (2002-08-09).
 		/// </summary>
-		public const int Beta2 = 3;
+		public const int Beta2 = 300;
 
 		/// <summary>
-		/// The packet version for the euRO EP5 client (2004-05-12).
+		/// The packet version for the euRO EP4 client (2004-05-12).
 		/// </summary>
-		public const int EP5 = 4;
+		public const int EP4 = 500;
 	}
 
 	/// <summary>

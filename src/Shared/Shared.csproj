@@ -115,10 +115,10 @@
     <Compile Include="Network\Op.cs" />
     <Compile Include="Network\Packet.cs" />
     <Compile Include="Network\PacketHandler.cs" />
-    <Compile Include="Network\PacketTable.4_EP5.cs" />
-    <Compile Include="Network\PacketTable.3_Beta2.cs" />
-    <Compile Include="Network\PacketTable.2_Beta1.cs" />
-    <Compile Include="Network\PacketTable.0_Alpha.cs" />
+    <Compile Include="Network\PacketTable.500_EP4.cs" />
+    <Compile Include="Network\PacketTable.300_Beta2.cs" />
+    <Compile Include="Network\PacketTable.200_Beta1.cs" />
+    <Compile Include="Network\PacketTable.100_Alpha.cs" />
     <Compile Include="Network\PacketTable.cs" />
     <Compile Include="Network\RoFramer.cs" />
     <Compile Include="Network\Structs\PackedMove.cs" />

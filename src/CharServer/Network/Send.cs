@@ -39,7 +39,7 @@ namespace Sabine.Char.Network
 
 			// The client expects '(len - 4) % 106 + 2' bytes here, meaning
 			// a minimum of 2. It's unknown what exactly these bytes do.
-			if (Game.Version >= Versions.EP5)
+			if (Game.Version >= Versions.EP4)
 				packet.PutShort(0);
 
 			foreach (var character in characters)
