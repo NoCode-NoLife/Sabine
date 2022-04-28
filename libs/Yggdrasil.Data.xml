@@ -49,11 +49,11 @@
             </summary>
             <param name="filePath"></param>
         </member>
-        <member name="M:Yggdrasil.Data.Binary.DatabaseBinaryBase.Read(System.IO.BinaryReader)">
+        <member name="M:Yggdrasil.Data.Binary.DatabaseBinaryBase.Read(System.IO.FileStream)">
             <summary>
             Reads entries from binary reader.
             </summary>
-            <param name="br"></param>
+            <param name="fs"></param>
         </member>
         <member name="T:Yggdrasil.Data.Binary.DatabaseBinary`1">
             <summary>

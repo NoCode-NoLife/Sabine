@@ -101,50 +101,53 @@ namespace Sabine.Shared.Data.Databases
 		/// <summary>
 		/// Called to read the binary database from a file.
 		/// </summary>
-		/// <param name="brfs"></param>
-		protected override void Read(BinaryReader brfs)
+		/// <param name="fs"></param>
+		protected override void Read(FileStream fs)
 		{
-			var header = brfs.ReadBytes(4);
-			var version = brfs.ReadInt32();
-			var compressed = brfs.ReadBoolean();
-			var count = brfs.ReadInt32();
-
-			for (var i = 0; i < count; ++i)
+			using (var brfs = new BinaryReader(fs))
 			{
-				var data = new MapCacheData();
+				var header = brfs.ReadBytes(4);
+				var version = brfs.ReadInt32();
+				var compressed = brfs.ReadBoolean();
+				var count = brfs.ReadInt32();
 
-				var length = brfs.ReadInt32();
-				var bytes = brfs.ReadBytes(length);
-
-				if (compressed)
+				for (var i = 0; i < count; ++i)
 				{
-					using (var msCompressed = new MemoryStream(bytes))
-					using (var msUncompressed = new MemoryStream())
-					using (var ds = new DeflateStream(msCompressed, CompressionMode.Decompress, true))
-					{
-						ds.CopyTo(msUncompressed);
-						bytes = msUncompressed.ToArray();
-					}
-				}
+					var data = new MapCacheData();
 
-				using (var ms = new MemoryStream(bytes))
-				using (var brms = new BinaryReader(ms))
-				{
-					data.StringId = brms.ReadString();
-					data.Width = brms.ReadInt32();
-					data.Height = brms.ReadInt32();
+					var length = brfs.ReadInt32();
+					var bytes = brfs.ReadBytes(length);
 
-					data.Tiles = new MapCacheTile[data.Width, data.Height];
-					for (var y = 0; y < data.Height; ++y)
+					if (compressed)
 					{
-						for (var x = 0; x < data.Width; ++x)
+						using (var msCompressed = new MemoryStream(bytes))
+						using (var msUncompressed = new MemoryStream())
+						using (var ds = new DeflateStream(msCompressed, CompressionMode.Decompress, true))
 						{
-							var type = (TileType)brms.ReadByte();
-							data.Tiles[x, y] = new MapCacheTile(x, y, type);
+							ds.CopyTo(msUncompressed);
+							bytes = msUncompressed.ToArray();
 						}
 					}
 
-					this.AddOrReplace(data.StringId, data);
+					using (var ms = new MemoryStream(bytes))
+					using (var brms = new BinaryReader(ms))
+					{
+						data.StringId = brms.ReadString();
+						data.Width = brms.ReadInt32();
+						data.Height = brms.ReadInt32();
+
+						data.Tiles = new MapCacheTile[data.Width, data.Height];
+						for (var y = 0; y < data.Height; ++y)
+						{
+							for (var x = 0; x < data.Width; ++x)
+							{
+								var type = (TileType)brms.ReadByte();
+								data.Tiles[x, y] = new MapCacheTile(x, y, type);
+							}
+						}
+
+						this.AddOrReplace(data.StringId, data);
+					}
 				}
 			}
 		}

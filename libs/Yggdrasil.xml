@@ -603,6 +603,13 @@
             <param name="rnd"></param>
             <param name="values"></param>
         </member>
+        <member name="M:Yggdrasil.Extensions.RandomExtensions.Rnd``1(System.Random,System.Collections.Generic.IList{``0})">
+            <summary>
+            Returns a random value from the given ones.
+            </summary>
+            <param name="rnd"></param>
+            <param name="values"></param>
+        </member>
         <member name="M:Yggdrasil.Extensions.RandomExtensions.NextInt64(System.Random)">
             <summary>
             Returns random long.
@@ -1208,7 +1215,7 @@
             </summary>
             <param name="name"></param>
         </member>
-        <member name="M:Yggdrasil.Network.Communication.Client.ReveiveData(System.Byte[],System.Int32)">
+        <member name="M:Yggdrasil.Network.Communication.Client.ReceiveData(System.Byte[],System.Int32)">
             <summary>
             Called when the client received data.
             </summary>
@@ -1395,7 +1402,7 @@
             Creates new instance.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Network.Communication.Connection.ReveiveData(System.Byte[],System.Int32)">
+        <member name="M:Yggdrasil.Network.Communication.Connection.ReceiveData(System.Byte[],System.Int32)">
             <summary>
             Called when the client sent data.
             </summary>
@@ -1696,7 +1703,7 @@
             raises ReceiveException event.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Network.TCP.TcpClient.ReveiveData(System.Byte[],System.Int32)">
+        <member name="M:Yggdrasil.Network.TCP.TcpClient.ReceiveData(System.Byte[],System.Int32)">
             <summary>
             Called on incoming data.
             </summary>
@@ -1754,11 +1761,6 @@
             Raised when connection was closed.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Network.TCP.TcpConnection.#ctor">
-            <summary>
-            Creates new instance.
-            </summary>
-        </member>
         <member name="M:Yggdrasil.Network.TCP.TcpConnection.Init(System.Net.Sockets.Socket)">
             <summary>
             Sets socket of this connection.
@@ -1805,7 +1807,7 @@
             raises ReceiveException event.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Network.TCP.TcpConnection.ReveiveData(System.Byte[],System.Int32)">
+        <member name="M:Yggdrasil.Network.TCP.TcpConnection.ReceiveData(System.Byte[],System.Int32)">
             <summary>
             Called on incoming data.
             </summary>

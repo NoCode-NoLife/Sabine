@@ -27,7 +27,7 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		/// <param name="buffer"></param>
 		/// <param name="length"></param>
-		protected override void ReveiveData(byte[] buffer, int length)
+		protected override void ReceiveData(byte[] buffer, int length)
 		{
 			//Log.Debug("< {0}", Hex.ToString(buffer, 0, length));
 
