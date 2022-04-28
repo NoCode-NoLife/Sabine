@@ -19,6 +19,9 @@ namespace Sabine.Shared.Network
 			if (Game.Version >= Versions.Beta2)
 				LoadVersion300();
 
+			if (Game.Version >= Versions.EP3)
+				LoadVersion400();
+
 			if (Game.Version >= Versions.EP4)
 				LoadVersion500();
 

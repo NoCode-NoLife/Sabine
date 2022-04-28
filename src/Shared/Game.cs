@@ -32,6 +32,11 @@
 		public const int Beta2 = 300;
 
 		/// <summary>
+		/// The packet version for the jRO EP3 client (2003-05-27).
+		/// </summary>
+		public const int EP3 = 400;
+
+		/// <summary>
 		/// The packet version for the euRO EP4 client (2004-05-12).
 		/// </summary>
 		public const int EP4 = 500;
