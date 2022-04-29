@@ -68,7 +68,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_NOTIFY_STANDENTRY(IEntryCharacter character)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_STANDENTRY);
-			packet.AddStandEntryNpc(character);
+			packet.AddStandEntry(character);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
