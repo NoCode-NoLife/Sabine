@@ -22,7 +22,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP4)
+			if (Game.Version < Versions.EP3_2)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{
@@ -67,7 +67,9 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutByte(0);      // ?
 				packet.PutByte(0);      // ?
 				packet.PutByte((byte)character.State);
-				packet.PutShort(0);     // ?
+
+				if (Game.Version >= Versions.EP4)
+					packet.PutShort(0); // ?
 			}
 		}
 
@@ -133,7 +135,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP4)
+			if (Game.Version < Versions.EP3_2)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{
@@ -176,6 +178,9 @@ namespace Sabine.Zone.Network.Helpers
 				packet.AddPackedPosition(character.Position, character.Direction);
 				packet.PutByte(0);      // ?
 				packet.PutByte(0);      // ?
+
+				if (Game.Version >= Versions.EP4)
+					packet.PutShort(0); // ?
 			}
 		}
 
@@ -191,7 +196,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP4)
+			if (Game.Version < Versions.EP3_2)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{
@@ -235,7 +240,9 @@ namespace Sabine.Zone.Network.Helpers
 				packet.AddPackedMove(from, to, 8, 8);
 				packet.PutByte(0);      // ?
 				packet.PutByte(0);      // ?
-				packet.PutShort(0);     // ?
+
+				if (Game.Version >= Versions.EP4)
+					packet.PutShort(0); // ?
 			}
 		}
 	}

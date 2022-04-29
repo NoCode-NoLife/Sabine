@@ -22,7 +22,8 @@ namespace Sabine.Shared.Network
 			[Versions.Beta1] = LoadVersion200,
 			[Versions.Beta2] = LoadVersion300,
 			[Versions.EP3] = LoadVersion400,
-			[Versions.EP4] = LoadVersion500,
+			[Versions.EP3_2] = LoadVersion500,
+			[Versions.EP4] = LoadVersion600,
 		};
 
 		/// <summary>
@@ -179,13 +180,15 @@ namespace Sabine.Shared.Network
 		/// Returns the size of packets with the given opcode. If size is
 		/// -1 (PacketTable.Dynamic), the packet's size is dynamic.
 		/// </summary>
-		/// <param name="op"></param>
+		/// <param name="opNetwork"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static int GetSize(int op)
+		public static int GetSize(int opNetwork)
 		{
-			if (!Sizes.TryGetValue(op, out var size))
-				throw new ArgumentException($"No size found for op '0x{op:X4}'.");
+			if (!Sizes.TryGetValue(opNetwork, out var size))
+			{
+				throw new ArgumentException($"No size found for op '0x{opNetwork:X4}'.");
+			}
 
 			return size;
 		}
@@ -193,11 +196,11 @@ namespace Sabine.Shared.Network
 		/// <summary>
 		/// Returns the name of the given opcode.
 		/// </summary>
-		/// <param name="op"></param>
+		/// <param name="opNetwork"></param>
 		/// <returns></returns>
-		public static string GetName(int op)
+		public static string GetName(int opNetwork)
 		{
-			if (!Names.TryGetValue(op, out var name))
+			if (!Names.TryGetValue(opNetwork, out var name))
 				return "?";
 
 			return name;

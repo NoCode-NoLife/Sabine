@@ -16,6 +16,16 @@
 	/// </summary>
 	public static class Versions
 	{
+		// TODO: Just decided that custom version numbers would be a good
+		//   idea, and now I'm confronted with the problem of what to name
+		//   known versions, after I found that EP3 jRO and EP3 iRO don't
+		//   have he same packet table. Granted, the difference is minor,
+		//   but there is one, so... sub-episode versions? 3.1, 3.2, etc?
+		//   Meh. Not ideal. I'll leave it like this for now, but the
+		//   known versions should probably be the literal clients, like
+		//   "euRO_20040512". The purpose of this class is to be able to
+		//   easily reference clients you know after all.
+
 		/// <summary>
 		/// The packet version for the iRO Alpha client (2001-08-30).
 		/// </summary>
@@ -37,9 +47,14 @@
 		public const int EP3 = 400;
 
 		/// <summary>
+		/// The packet version for the iRO EP3-5 client (2003-10-31).
+		/// </summary>
+		public const int EP3_2 = 500;
+
+		/// <summary>
 		/// The packet version for the euRO EP4 client (2004-05-12).
 		/// </summary>
-		public const int EP4 = 500;
+		public const int EP4 = 600;
 	}
 
 	/// <summary>
