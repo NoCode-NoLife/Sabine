@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sabine.Shared.Extensions;
 
 namespace Sabine.Shared.Network
 {
@@ -9,21 +10,34 @@ namespace Sabine.Shared.Network
 	/// </summary>
 	public static partial class PacketTable
 	{
+		/// <summary>
+		/// List of tables and the versions at which to load them.
+		/// </summary>
+		private static readonly Dictionary<int, Action> Tables = new Dictionary<int, Action>()
+		{
+			// If Game.Version is >= Alpha, load 100. If it's >= Beta1,
+			// also load Beta1, and so on.
+
+			[Versions.Alpha] = LoadVersion100,
+			[Versions.Beta1] = LoadVersion200,
+			[Versions.Beta2] = LoadVersion300,
+			[Versions.EP3] = LoadVersion400,
+			[Versions.EP4] = LoadVersion500,
+		};
+
+		/// <summary>
+		/// Loads all tables defined up until the latest one for the
+		/// current version.
+		/// </summary>
 		public static void Load()
 		{
-			LoadVersion100();
+			foreach (var (version, loadTable) in Tables.OrderBy(a => a.Key))
+			{
+				if (Game.Version < version)
+					break;
 
-			if (Game.Version >= Versions.Beta1)
-				LoadVersion200();
-
-			if (Game.Version >= Versions.Beta2)
-				LoadVersion300();
-
-			if (Game.Version >= Versions.EP3)
-				LoadVersion400();
-
-			if (Game.Version >= Versions.EP4)
-				LoadVersion500();
+				loadTable();
+			}
 
 			BuildLists();
 		}
@@ -114,7 +128,7 @@ namespace Sabine.Shared.Network
 		}
 
 		/// <summary>
-		/// Builds quick access lists for the packed table.
+		/// Builds quick access lists for the packet table.
 		/// </summary>
 		private static void BuildLists()
 		{
