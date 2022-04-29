@@ -4,6 +4,16 @@
 	{
 		private static void LoadVersion200()
 		{
+			// Reference: iRO Beta1 Ragexe.exe, dated 2002-02-20
+
+			// Beta1 was still similar to Alpha in many ways and didn't
+			// change too much. Name strings were increased from 16 to
+			// 24, because someone finally realized that 16 characters
+			// are a joke, top headgears were now used, though the packets
+			// didn't need any changes for them, and there were a bunch
+			// of new ops, many of them skill related, which were first
+			// enabled in Beta1.
+
 			ChangeSize(Op.CA_LOGIN, 54);
 			ChangeSize(Op.CH_ENTER, 17);
 			ChangeSize(Op.CH_MAKE_CHAR, 34);

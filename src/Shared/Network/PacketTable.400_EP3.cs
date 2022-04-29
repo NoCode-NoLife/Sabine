@@ -4,6 +4,10 @@
 	{
 		private static void LoadVersion400()
 		{
+			// Reference: jRO EP3 Ragexe.exe, dated 2003-05-27
+
+			// Barely any changes, but quite a few new packets.
+
 			ChangeSize(Op.ZC_RESURRECTION, 8);
 			ChangeSize(Op.CZ_REQ_GIVE_MANNER_POINT, 9);
 			ChangeSize(Op.ZC_MSG_STATE_CHANGE, 9);

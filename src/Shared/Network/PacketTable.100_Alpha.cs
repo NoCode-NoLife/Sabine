@@ -4,6 +4,20 @@
 	{
 		private static void LoadVersion100()
 		{
+			// Reference: iRO Alpha Ragexe.exe, dated 2001-08-30
+
+			// Earliest client we have access to and the current base
+			// level for our packet tables. Many packets didn't change
+			// too much over the years, but the Alpha and Beta clients
+			// currently represent the most drastic differences to newer
+			// ones. In particular, they use "string ids" for items,
+			// instead of their normal class ids, which makes handling
+			// and multi-version support trickier. There are also packets
+			// that weren't used anymore in later versions, such as a
+			// request for an item's description, which was provided
+			// by the server before they were moved to text files in
+			// the client.
+
 			Register(Op.CA_LOGIN, 0x0000, 34);
 			Register(Op.CH_ENTER, 0x0001, 13);
 			Register(Op.CH_SELECT_CHAR, 0x0002, 3);

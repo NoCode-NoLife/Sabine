@@ -4,6 +4,14 @@
 	{
 		private static void LoadVersion300()
 		{
+			// Reference: jRO Beta2 Ragexe.exe, dated 2002-08-09
+
+			// This presumed Beta2 client (though it could also be an early
+			// release client) added clothing colors, hair colors, mid and
+			// bottom headgears, and most importantly, did away with the
+			// string ids for items (thank god!). All ops also shifted by
+			// 100, because reasons.
+
 			ShiftAll(0x64);
 
 			ChangeSize(Op.CA_LOGIN, 55);

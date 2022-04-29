@@ -4,6 +4,12 @@
 	{
 		private static void LoadVersion600()
 		{
+			// Reference: euRO EP4 Ragexe.exe, dated 2004-05-12
+
+			// No major changes in this packet table, though the entry
+			// packets changed slightly in size, most of them increasing
+			// in size by two.
+
 			ChangeSize(Op.ZC_NOTIFY_STANDENTRY, 54);
 			ChangeSize(Op.ZC_NOTIFY_NEWENTRY, 53);
 			ChangeSize(Op.ZC_NOTIFY_ACTENTRY, 58);

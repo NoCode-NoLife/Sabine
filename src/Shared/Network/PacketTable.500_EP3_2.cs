@@ -4,6 +4,16 @@
 	{
 		private static void LoadVersion500()
 		{
+			// Reference: iRO EP3 Ragexe.exe, dated 2003-10-31
+
+			// No changes from jRO EP3 to iRO EP3, which might be to be
+			// expected, but there were a few new packets, which change
+			// the client's behavior slightly, as it was using hashed
+			// passwords, utilizing different packets for the login. It
+			// also required an initial packet being sent by the char and
+			// zone servers, otherwise the client wouldn't send a login
+			// packet and disconnect after a few seconds.
+
 			// ZC_AUTOSPELLLIST, 0x01CD
 			// CZ_SELECTAUTOSPELL, 0x01CE
 			// ZC_DEVOTIONLIST, 0x01CF
