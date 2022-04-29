@@ -258,5 +258,16 @@ namespace Sabine.Char.Network
 
 			Log.Info("User '{0}' deleted character '{1}'.", conn.Account.Username, character.Name);
 		}
+
+		/// <summary>
+		/// Regular ping packet.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.PING)]
+		public void PING(CharConnection conn, Packet packet)
+		{
+			//var accountId = packet.GetInt();
+		}
 	}
 }
