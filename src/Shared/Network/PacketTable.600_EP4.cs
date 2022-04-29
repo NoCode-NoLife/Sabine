@@ -10,6 +10,23 @@
 			// packets changed slightly in size, most of them increasing
 			// in size by two.
 
+			// "Are we there yet???"
+			// No, we still haven't reached eAthena packet version 5.
+			// Which is interesting, because I've seen people say that
+			// *Athena supports clients all the way back to 2003, but
+			// this is a 2004 client. Either kRO clients were very
+			// different and the packet tables changed years in advance,
+			// or *Athena support doesn't actually go back that far.
+			// The latter would make sense, because even though they
+			// were working on the server in 2003, AppleMod did not
+			// have a packet_db in December of that year yet. Packet
+			// changes weren't being tracked, and I doubt that someone
+			// went back through the changelogs and documented them.
+			// Even eAthena's main branch didn't have a packet_db yet
+			// in mid-2004. It was apparently added in late October
+			// of that year, presumably based on the latest version
+			// at the time, which was ~EP8.
+
 			ChangeSize(Op.ZC_NOTIFY_STANDENTRY, 54);
 			ChangeSize(Op.ZC_NOTIFY_NEWENTRY, 53);
 			ChangeSize(Op.ZC_NOTIFY_ACTENTRY, 58);
