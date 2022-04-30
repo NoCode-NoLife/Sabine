@@ -55,6 +55,11 @@
 		/// The packet version for the euRO EP4 client (2004-05-12).
 		/// </summary>
 		public const int EP4 = 600;
+
+		/// <summary>
+		/// The packet version for the iRO EP8 client (2004-08-03).
+		/// </summary>
+		public const int EP8 = 700;
 	}
 
 	/// <summary>

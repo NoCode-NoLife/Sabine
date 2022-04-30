@@ -24,6 +24,7 @@ namespace Sabine.Shared.Network
 			[Versions.EP3] = LoadVersion400,
 			[Versions.EP3_2] = LoadVersion500,
 			[Versions.EP4] = LoadVersion600,
+			[Versions.EP8] = LoadVersion700,
 		};
 
 		/// <summary>
