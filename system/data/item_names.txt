@@ -1,0 +1,229 @@
+// Sabine
+// Database File
+// 
+// Item names are vitally important when using early clients, because
+// items are identified by them, instead of using their ids. This file
+// contains the names, or "string ids" of the items that were available
+// in select early clients, so the server can send the correct strings.
+// If you change the name of an item, be sure to also change it in the
+// client. The names being the ids also causes issues in general, because
+// the official item name table in the alpha client contains names that
+// are too long and don't work. For this reason, this server requires a
+// modified alpha client, because many items would otherwise crash the
+// client, when it can't find the correct sprites. Check the docs folder
+// for more information.
+// 
+// Values: id, name, alphaName, betaName, koreanName
+// 
+// alphaName:
+//   The alpha name should be shorter than 16 characters, because that's
+//   the maximum length the client can handle, and use spaces instead of
+//   underscores, because the client doesn't replace underscores by itself,
+//   as newer clients do.
+// 
+// betaName:
+//   Beta item names must match the names in the client's itemnametable
+//   and should use underscores instead of spaces, as the client does.
+//   They are replaced with spaces automatically.
+// 
+// koreanName:
+//   The korean name is important for item descriptions on the alpha
+//   and beta clients, as it's needed for the client to find the image
+//   displayed in the description window. It needs to match the strings
+//   found in the client's item lists, or rather, the names of the sprite
+//   and texture files, when read with a Korean encoding.
+//---------------------------------------------------------------------------
+
+[
+// Healing
+//---------------------------------------------------------------------------
+{ id: 501, name: "Red Potion", alphaName: "Red Potion", betaName: "Red_Potion", koreanName: "빨간물약" },
+{ id: 502, name: "Scarlet Potion", alphaName: "Scarlet Potion", betaName: "Scarlet_Potion", koreanName: "주홍물약" },
+{ id: 503, name: "Yellow Potion", alphaName: "Yellow Potion", betaName: "Yellow_Potion", koreanName: "노란물약" },
+{ id: 504, name: "White Potion", alphaName: "White Potion", betaName: "White_Potion", koreanName: "하얀물약" },
+{ id: 505, name: "Blue Potion", alphaName: "Blue Potion", betaName: "Blue_Potion", koreanName: "파란물약" },
+{ id: 506, name: "Green Potion", alphaName: "Green Potion", betaName: "Green_Potion", koreanName: "초록물약" },
+{ id: 507, name: "Red Herb", alphaName: "Red Herb", betaName: "Red_Herb", koreanName: "빨간약초" },
+{ id: 508, name: "Yellow Herb", alphaName: "Yellow Herb", betaName: "Yellow_Herb", koreanName: "노란약초" },
+{ id: 509, name: "White Herb", alphaName: "White Herb", betaName: "White_Herb", koreanName: "하얀약초" },
+{ id: 510, name: "Blue Herb", alphaName: "Blue Herb", betaName: "Blue_Herb", koreanName: "파란약초" },
+{ id: 511, name: "Green Herb", alphaName: "Green Herb", betaName: "Green_Herb", koreanName: "초록약초" },
+{ id: 512, name: "Apple", alphaName: "Apple", betaName: "Apple", koreanName: "사과" },
+{ id: 513, name: "Banana", alphaName: "Banana", betaName: "Banana", koreanName: "바나나" },
+{ id: 514, name: "Grape", alphaName: "Grape", betaName: "Grape", koreanName: "포도" },
+{ id: 517, name: "Meat", alphaName: "Meat", betaName: "Meat", koreanName: "고기" },
+
+// Weapons
+//---------------------------------------------------------------------------
+{ id: 1101, name: "Sword", alphaName: "Sword", betaName: "Sword", koreanName: "소드" },
+{ id: 1104, name: "Falchion", alphaName: "Falchion", betaName: "Falchion", koreanName: "팔시온" },
+{ id: 1107, name: "Blade", alphaName: "Blade", betaName: "Blade", koreanName: "블레이드" },
+{ id: 1110, name: "Lapier", alphaName: "Lapier", betaName: "Lapier", koreanName: "레이피어" },
+{ id: 1113, name: "Scimiter", alphaName: "Scimiter", betaName: "Scimiter", koreanName: "시미터" },
+{ id: 1116, name: "Katana", alphaName: "Katana", betaName: "Katana", koreanName: "카타나" },
+{ id: 1119, name: "Tsurugi", alphaName: "Tsurugi", betaName: "Tsurugi", koreanName: "쯔루기" },
+{ id: 1151, name: "Slayer", alphaName: "Slayer", betaName: "Slayer", koreanName: "슬레이어" },
+{ id: 1154, name: "Bastard Sword", alphaName: "Bastard Sword", betaName: "Bastard_Sword", koreanName: "바스타드소드" },
+{ id: 1157, name: "Two-hand Sword", alphaName: "Two-hand Sword", betaName: "Two-hand_Sword", koreanName: "투핸드소드" },
+
+{ id: 1201, name: "Knife", alphaName: "Knife", betaName: "Knife", koreanName: "나이프" },
+{ id: 1204, name: "Cutter", alphaName: "Cutter", betaName: "Cutter", koreanName: "커터" },
+{ id: 1207, name: "Main-gauche", alphaName: "Main-gauche", betaName: "Main-gauche", koreanName: "망고슈" },
+{ id: 1210, name: "Dirk", alphaName: "Dirk", betaName: "Dirk", koreanName: "더크" },
+{ id: 1213, name: "Dagger", alphaName: "Dagger", betaName: "Dagger", koreanName: "대거" },
+{ id: 1216, name: "Stiletto", alphaName: "Stiletto", betaName: "Stiletto", koreanName: "스틸레토" },
+{ id: 1219, name: "Gladius", alphaName: "Gladius", betaName: "Gladius", koreanName: "그라디우스" },
+{ id: 1222, name: "Damascus", alphaName: "Damascus", betaName: "Damascus", koreanName: "다마스커스" },
+{ id: 1224, name: "Sword Breaker", alphaName: "Sword Breaker", betaName: "Sword_Breaker", koreanName: "소드브레이커" },
+{ id: 1225, name: "Mail Breaker", alphaName: "Mail Breaker", betaName: "Mail_Breaker", koreanName: "메일브레이커" },
+
+{ id: 1301, name: "Axe", alphaName: "Axe", betaName: "Axe", koreanName: "액스" },
+{ id: 1351, name: "Battle Axe", alphaName: "Battle Axe", betaName: "Battle_Axe", koreanName: "배틀액스" },
+{ id: 1354, name: "War Hammer", alphaName: "War Hammer", betaName: "War_Hammer", koreanName: "워해머" },
+{ id: 1357, name: "Buster", alphaName: "Buster", betaName: "Buster", koreanName: "버스터" },
+{ id: 1360, name: "Two-hand Axe", alphaName: "Two-hand Axe", betaName: "Two-hand_Axe", koreanName: "투핸드액스" },
+
+{ id: 1401, name: "Javelin", alphaName: "Javelin", betaName: "Javelin", koreanName: "쟈브린" },
+{ id: 1404, name: "Spear", alphaName: "Spear", betaName: "Spear", koreanName: "스피어" },
+{ id: 1407, name: "Pike", alphaName: "Pike", betaName: "Pike", koreanName: "파이크" },
+{ id: 1410, name: "Lance", alphaName: "Lance", betaName: "Lance", koreanName: "란스" },
+{ id: 1451, name: "Guisarme", alphaName: "Guisarme", betaName: "Guisarme", koreanName: "귀사름" },
+{ id: 1454, name: "Glaive", alphaName: "Glaive", betaName: "Glaive", koreanName: "그레이브" },
+{ id: 1457, name: "Partizan", alphaName: "Partizan", betaName: "Partizan", koreanName: "파르티잔" },
+{ id: 1460, name: "Trident", alphaName: "Trident", betaName: "Trident", koreanName: "트라이던트" },
+{ id: 1463, name: "Halberd", alphaName: "Halberd", betaName: "Halberd", koreanName: "할버드" },
+
+{ id: 1501, name: "Club", alphaName: "Club", betaName: "Club", koreanName: "클럽" },
+{ id: 1504, name: "Mace", alphaName: "Mace", betaName: "Mace", koreanName: "메이스" },
+{ id: 1507, name: "Smasher", alphaName: "Smasher", betaName: "Smasher", koreanName: "스매셔" },
+{ id: 1510, name: "Flail", alphaName: "Flail", betaName: "Flail", koreanName: "플레일" },
+{ id: 1513, name: "Morning Star", alphaName: "Morning Star", betaName: "Morning_Star", koreanName: "모닝스타" },
+{ id: 1516, name: "Sword Mace", alphaName: "Sword Mace", betaName: "Sword_Mace", koreanName: "소드메이스" },
+
+{ id: 1601, name: "Rod", alphaName: "Rod", betaName: "Rod", koreanName: "롯드" },
+{ id: 1604, name: "Wand", alphaName: "Wand", betaName: "Wand", koreanName: "완드" },
+{ id: 1607, name: "Staff", alphaName: "Staff", betaName: "Staff", koreanName: "스태프" },
+{ id: 1610, name: "Arc Wand", alphaName: "Arc Wand", betaName: "Arc_Wand", koreanName: "아크완드" },
+
+{ id: 1701, name: "Bow", alphaName: "Bow", betaName: "Bow", koreanName: "보우" },
+{ id: 1704, name: "Composite Bow", alphaName: "Composite Bow", betaName: "Composite_Bow", koreanName: "컴포지트보우" },
+{ id: 1707, name: "Great Bow", alphaName: "Great Bow", betaName: "Great_Bow", koreanName: "그레이트보우" },
+{ id: 1710, name: "Crossbow", alphaName: "Crossbow", betaName: "Crossbow", koreanName: "크로스보우" },
+{ id: 1713, name: "Arbalest", alphaName: "Arbalest", betaName: "Arbalest", koreanName: "알바레스트" },
+
+// Armors
+//---------------------------------------------------------------------------
+{ id: 2101, name: "Guard", alphaName: "Guard", betaName: "Guard", koreanName: "가드" },
+{ id: 2103, name: "Buckler", alphaName: "Buckler", betaName: "Buckler", koreanName: "버클러" },
+{ id: 2105, name: "Shield", alphaName: "Shield", betaName: "Shield", koreanName: "실드" },
+
+{ id: 2208, name: "Ribbon", alphaName: "Ribbon", betaName: "Ribbon", koreanName: "리본" },
+{ id: 2210, name: "Hair Band", alphaName: "Hair Band", betaName: "Hair_Band", koreanName: "헤어밴드" },
+{ id: 2216, name: "Biretta", alphaName: "Biretta", betaName: "Biretta", koreanName: "비레타" },
+{ id: 2218, name: "Mask", alphaName: "Mask", betaName: "Mask", koreanName: "마스크" },
+{ id: 2220, name: "Hat", alphaName: "Hat", betaName: "Hat", koreanName: "햇" },
+{ id: 2226, name: "Cap", alphaName: "Cap", betaName: "Cap", koreanName: "캡" },
+{ id: 2228, name: "Helm", alphaName: "Helm", betaName: "Helm", koreanName: "헬름" },
+{ id: 2232, name: "Circlet", alphaName: "Circlet", betaName: "Circlet", koreanName: "서클릿" },
+{ id: 2234, name: "Tiara", alphaName: "Tiara", betaName: "Tiara", koreanName: "티아라" },
+{ id: 2235, name: "Crown", alphaName: "Crown", betaName: "Crown", koreanName: "크라운" },
+{ id: 2236, name: "Goggle", alphaName: "Goggle", betaName: "Goggle", koreanName: "고글" },
+
+{ id: 2301, name: "Cotton Shirt", alphaName: "Cotton Shirt", betaName: "Cotton_Shirt", koreanName: "코튼셔츠" },
+{ id: 2303, name: "Leather Jacket", alphaName: "Leather Jacket", betaName: "Leather_Jacket", koreanName: "가죽재킷" },
+{ id: 2305, name: "Adventure Suit", alphaName: "Adventure Suit", betaName: "Adventure_Suit", koreanName: "여행자의옷" },
+{ id: 2307, name: "Mantle", alphaName: "Mantle", betaName: "Mantle", koreanName: "하프코트" },
+{ id: 2309, name: "Coat", alphaName: "Coat", betaName: "Coat", koreanName: "롱코트" },
+{ id: 2311, name: "Mink Coat", alphaName: "Mink Coat", betaName: "Mink_Coat", koreanName: "밍크코트" },
+{ id: 2312, name: "Padded Armor", alphaName: "Padded Armor", betaName: "Padded_Armor", koreanName: "아머" },
+{ id: 2314, name: "Chain Mail", alphaName: "Chain Mail", betaName: "Chain_Mail", koreanName: "메일" },
+{ id: 2316, name: "Plate Armor", alphaName: "Plate Armor", betaName: "Plate_Armor", koreanName: "플레이트" },
+{ id: 2317, name: "Gallabiya", alphaName: "Gallabiya", betaName: "Gallabiya", koreanName: "작업복" },
+{ id: 2318, name: "Lord's Clothes", alphaName: "Lord's Clothes", betaName: "Lord's_Clothes", koreanName: "영주의옷" },
+{ id: 2319, name: "Glitter Cloth", alphaName: "Glitter Cloth", betaName: "Glitter_Cloth", koreanName: "빤짝이옷" },
+{ id: 2320, name: "Formal Dress", alphaName: "Formal Dress", betaName: "Formal_Dress", koreanName: "양복" },
+{ id: 2321, name: "Silk Robe", alphaName: "Silk Robe", betaName: "Silk_Robe", koreanName: "실크로브" },
+{ id: 2323, name: "Scapulare", alphaName: "Scapulare", betaName: "Scapulare", koreanName: "사제복" },
+{ id: 2325, name: "Saint Robe", alphaName: "Saint Robe", betaName: "Saint_Robe", koreanName: "법의" },
+{ id: 2327, name: "Holy Robe", alphaName: "Holy Robe", betaName: "Holy_Robe", koreanName: "성베" },
+{ id: 2328, name: "Wooden Mail", alphaName: "Wooden Mail", betaName: "Wooden_Mail", koreanName: "나무갑옷" },
+{ id: 2330, name: "Tights", alphaName: "Tights", betaName: "Tights", koreanName: "타이즈" },
+{ id: 2332, name: "Silver Robe", alphaName: "Silver Robe", betaName: "Silver_Robe", koreanName: "실버로브" },
+{ id: 2334, name: "Magic Coat", alphaName: "Magic Coat", betaName: "Magic_Coat", koreanName: "매직코트" },
+{ id: 2335, name: "Thieves' Cloth", alphaName: "Thieves' Cloth", betaName: "Thieves'_Cloth", koreanName: "도적의옷" },
+{ id: 2337, name: "Ninja Suit", alphaName: "Ninja Suit", betaName: "Ninja_Suit", koreanName: "닌자복" },
+
+{ id: 2401, name: "Sandals", alphaName: "Sandals", betaName: "Sandals", koreanName: "샌들" },
+{ id: 2403, name: "Shoes", alphaName: "Shoes", betaName: "Shoes", koreanName: "슈즈" },
+{ id: 2405, name: "Boots", alphaName: "Boots", betaName: "Boots", koreanName: "부츠" },
+
+{ id: 2501, name: "Hood", alphaName: "Hood", betaName: "Hood", koreanName: "후드" },
+{ id: 2503, name: "Muffler", alphaName: "Muffler", betaName: "Muffler", koreanName: "머플러" },
+{ id: 2505, name: "Manteau", alphaName: "Manteau", betaName: "Manteau", koreanName: "망토" },
+
+{ id: 2601, name: "Ring", alphaName: "Ring", betaName: "Ring", koreanName: "링" },
+{ id: 2602, name: "Earring", alphaName: "Earring", betaName: "Earring", koreanName: "이어링" },
+{ id: 2603, name: "Necklace", alphaName: "Necklace", betaName: "Necklace", koreanName: "네클리스" },
+{ id: 2604, name: "Glove", alphaName: "Glove", betaName: "Glove", koreanName: "글러브" },
+{ id: 2605, name: "Brooch", alphaName: "Brooch", betaName: "Brooch", koreanName: "브로치" },
+{ id: 2607, name: "Clip", alphaName: "Clip", betaName: "Clip", koreanName: "클립" },
+{ id: 2608, name: "Rosary", alphaName: "Rosary", betaName: "Rosary", koreanName: "묵주" },
+
+// Etc
+//---------------------------------------------------------------------------
+{ id: 902, name: "Tree Root", alphaName: "Tree Root", betaName: "Tree_Root", koreanName: "나무뿌리" },
+{ id: 903, name: "Reptile Tongue", alphaName: "Reptile Tongue", betaName: "Reptile_Tongue", koreanName: "파충류혓바닥" },
+{ id: 904, name: "Scorpion Tail", alphaName: "Scorpion Tail", betaName: "Scorpion_Tail", koreanName: "전갈의꼬리" },
+{ id: 905, name: "Stem", alphaName: "Stem", betaName: "Stem", koreanName: "식물의줄기" },
+{ id: 906, name: "Scale", alphaName: "Scale", betaName: "Scale", koreanName: "비늘줄기" },
+{ id: 907, name: "Resin", alphaName: "Resin", betaName: "Resin", koreanName: "고목나무진" },
+{ id: 908, name: "Spawn", alphaName: "Spawn", betaName: "Spawn", koreanName: "개구리알" },
+{ id: 909, name: "Jellopy", alphaName: "Jellopy", betaName: "Jellopy", koreanName: "젤로피" },
+{ id: 910, name: "Garlet", alphaName: "Garlet", betaName: "Garlet", koreanName: "가렛" },
+{ id: 911, name: "Sel", alphaName: "Sel", betaName: "Sel", koreanName: "셀" },
+{ id: 912, name: "Zargon", alphaName: "Zargon", betaName: "Zargon", koreanName: "자르곤" },
+{ id: 913, name: "Tooth of Bat", alphaName: "Tooth of Bat", betaName: "Tooth_of Bat", koreanName: "박쥐의이빨" },
+{ id: 914, name: "Fluff", alphaName: "Fluff", betaName: "Fluff", koreanName: "솜털" },
+{ id: 915, name: "Castoff Skin", alphaName: "Castoff Skin", betaName: "Castoff_Skin", koreanName: "번데기껍질" },
+{ id: 916, name: "Feather of Bird", alphaName: "Feather of Bird", betaName: "Feather_of Bird", koreanName: "새의깃털" },
+{ id: 917, name: "Claw of Birds", alphaName: "Claw of Birds", betaName: "Claw_of Birds", koreanName: "새의발톱" },
+{ id: 918, name: "Web", alphaName: "Web", betaName: "Web", koreanName: "끈적이는물갈퀴" },
+{ id: 919, name: "Leather", alphaName: "Leather", betaName: "Leather", koreanName: "동물가죽" },
+{ id: 920, name: "Claw of Wolves", alphaName: "Claw of Wolves", betaName: "Claw_of Wolves", koreanName: "늑대의발톱" },
+{ id: 921, name: "Mushroom Spore", alphaName: "Mushroom Spore", betaName: "Mushroom_Spore", koreanName: "버섯포자" },
+{ id: 922, name: "Orc's Cuspid", alphaName: "Orc's Cuspid", betaName: "Orc's_Cuspid", koreanName: "오크의송곳니" },
+{ id: 923, name: "Horn of Devil", alphaName: "Horn of Devil", betaName: "Horn_of Devil", koreanName: "악마의뿔" },
+{ id: 924, name: "Moth dust", alphaName: "Moth dust", betaName: "Moth_dust", koreanName: "나비날개분" },
+{ id: 925, name: "Bill of Birds", alphaName: "Bill of Birds", betaName: "Bill_of Birds", koreanName: "새의부리" },
+{ id: 926, name: "Scale of Snakes", alphaName: "Scale of Snakes", betaName: "Scale_of Snakes", koreanName: "뱀의비늘" },
+{ id: 928, name: "Horn of Cukres", alphaName: "Horn of Cukres", betaName: "Horn_of Cukres", koreanName: "쿠크레의더듬이" },
+{ id: 929, name: "Immortal Heart", alphaName: "Immortal Heart", betaName: "Immortal_Heart", koreanName: "멈추지않는심장" },
+{ id: 930, name: "Rotten Bandage", alphaName: "Rotten Bandage", betaName: "Rotten_Bandage", koreanName: "썩은붕대" },
+{ id: 931, name: "Orcish Voucher", alphaName: "Orcish Voucher", betaName: "Orcish_Voucher", koreanName: "오크족전사의증표" },
+{ id: 932, name: "Skel Bone", alphaName: "Skel Bone", betaName: "Skel_Bone", koreanName: "스켈본" },
+{ id: 934, name: "Dead's Memento", alphaName: "Dead's Memento", betaName: "Dead's_Memento", koreanName: "사자의유품" },
+{ id: 935, name: "Shell", alphaName: "Shell", betaName: "Shell", koreanName: "단단한껍질" },
+{ id: 936, name: "Scale Skin", alphaName: "Scale Skin", betaName: "Scale_Skin", koreanName: "비늘피부" },
+{ id: 937, name: "Posion Cuspid", alphaName: "Posion Cuspid", betaName: "Posion_Cuspid", koreanName: "독송곳니" },
+{ id: 938, name: "Sticky Mucus", alphaName: "Sticky Mucus", betaName: "Sticky_Mucus", koreanName: "끈적끈적한액체" },
+{ id: 939, name: "Amulet", alphaName: "Amulet", betaName: "Amulet", koreanName: "반혼부" },
+{ id: 715, name: "Yellow Gemstone", alphaName: "Yellow Gemstone", betaName: "Yellow_Gemstone", koreanName: "상아색룬" },
+{ id: 716, name: "Red Gemstone", alphaName: "Red Gemstone", betaName: "Red_Gemstone", koreanName: "진홍색룬" },
+{ id: 717, name: "Blue Gemstone", alphaName: "Blue Gemstone", betaName: "Blue_Gemstone", koreanName: "바다색룬" },
+{ id: 721, name: "Azure Jewel", alphaName: "Azure Jewel", betaName: "Azure_Jewel", koreanName: "초록색보석" },
+{ id: 722, name: "Scarlet Jewel", alphaName: "Scarlet Jewel", betaName: "Scarlet_Jewel", koreanName: "분홍색보석" },
+{ id: 723, name: "Wine Jewel", alphaName: "Wine Jewel", betaName: "Wine_Jewel", koreanName: "붉은색보석" },
+{ id: 726, name: "Blue Jewel", alphaName: "Blue Jewel", betaName: "Blue_Jewel", koreanName: "파란색보석" },
+{ id: 720, name: "Skyblue Jewel", alphaName: "Skyblue Jewel", betaName: "Skyblue_Jewel", koreanName: "하늘색보석" },
+{ id: 728, name: "Golden Jewel", alphaName: "Golden Jewel", betaName: "Golden_Jewel", koreanName: "노란색보석" },
+{ id: 730, name: "Clear Jewel", alphaName: "Clear Jewel", betaName: "Clear_Jewel", koreanName: "투명한보석" },
+{ id: 20001, name: "Beast's Mane", alphaName: "Beast's Mane", betaName: "", koreanName: "반인반수의갈기털" },
+{ id: 20002, name: "Resident Cert", alphaName: "Resident Cert", betaName: "", koreanName: "주민등록등본" },
+{ id: 20003, name: "Business Cert", alphaName: "Business Cert", betaName: "", koreanName: "사업자등록등본" },
+{ id: 20004, name: "Trading License", alphaName: "Trading License", betaName: "", koreanName: "상인신청서" },
+{ id: 20005, name: "Swordman's Card", alphaName: "Swordman's Card", betaName: "", koreanName: "검사자격수검표" },
+{ id: 20006, name: "Swordman Permit", alphaName: "Swordman Permit", betaName: "", koreanName: "검사자격증" },
+{ id: 20007, name: "Merchant Permit", alphaName: "Merchant Permit", betaName: "", koreanName: "상인자격증" },
+{ id: 20008, name: "Clothes Receipt", alphaName: "Clothes Receipt", betaName: "", koreanName: "셔츠영수증" },
+{ id: 20009, name: "Working Shirt", alphaName: "Working Shirt", betaName: "", koreanName: "작업용셔츠" },
+]

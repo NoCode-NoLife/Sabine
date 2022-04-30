@@ -103,6 +103,7 @@
     <Compile Include="Data\Databases\Items.cs" />
     <Compile Include="Data\Databases\Jobs.cs" />
     <Compile Include="Data\Databases\MapCache.cs" />
+    <Compile Include="Data\Databases\ItemNames.cs" />
     <Compile Include="Data\Databases\Maps.cs" />
     <Compile Include="Data\Databases\Monsters.cs" />
     <Compile Include="Data\SabineData.cs" />

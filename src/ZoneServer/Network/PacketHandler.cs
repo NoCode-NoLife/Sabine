@@ -358,16 +358,23 @@ namespace Sabine.Zone.Network
 			var itemStringId = packet.GetString(16);
 
 			var character = conn.GetCurrentCharacter();
-			var itemData = SabineData.Items.Find(itemStringId);
 
+			var itemNameData = SabineData.ItemNames.Find(a => a.AlphaName == itemStringId || a.BetaName == itemStringId);
+			if (itemNameData == null)
+			{
+				Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item name data for '{0}' not found.", itemStringId);
+				return;
+			}
+
+			var itemData = SabineData.Items.Find(itemNameData.Id);
 			if (itemData == null)
 			{
 				Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item data for '{0}' not found.", itemStringId);
 				return;
 			}
 
-			// The client usually identifies items by their string id
-			// and converts that to a Korean name to find the assets
+			// The alpha client usually identifies items by their string
+			// id and converts that to a Korean name to find the assets
 			// for the item in the client. This works for the sprites
 			// and the name display, but not the description. The
 			// client sends the English string id for this request,
@@ -376,14 +383,14 @@ namespace Sabine.Zone.Network
 			// we need to send back the Korean name in this instance.
 			// The title of the item description window will be mangled
 			// this way, but that's how it has to be.
-			var name = itemData.KoreanName;
+			var name = itemNameData.KoreanName;
 
 			// Generate a description. We could put proper descriptions
 			// in a database, but this should work for now and it's kind
 			// of fun that you can just generate them. It would be good
 			// if someone could tell us what descriptions looked liked
-			// in the alpha, because the client seems to not have
-			// supported line-breaks.
+			// in the alpha, because the client seems to have no support
+			// for line-breaks.
 			var sb = new StringBuilder();
 
 			switch (itemData.Type)

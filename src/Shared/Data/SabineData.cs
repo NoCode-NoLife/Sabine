@@ -23,6 +23,11 @@ namespace Sabine.Shared.Data
 		public static ItemDb Items { get; } = new ItemDb();
 
 		/// <summary>
+		/// db/item_names.txt
+		/// </summary>
+		public static ItemNameDb ItemNames { get; } = new ItemNameDb();
+
+		/// <summary>
 		/// db/jobs.txt
 		/// </summary>
 		public static JobDb Jobs { get; } = new JobDb();

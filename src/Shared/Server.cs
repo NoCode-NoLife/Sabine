@@ -174,6 +174,7 @@ namespace Sabine.Shared
 			this.LoadDataFile(SabineData.Features, "features.txt");
 			this.LoadDataFile(SabineData.ExpTables, "exp.txt");
 			this.LoadDataFile(SabineData.Items, "items.txt");
+			this.LoadDataFile(SabineData.ItemNames, "item_names.txt");
 			this.LoadDataFile(SabineData.Jobs, "jobs.txt");
 			this.LoadDataFile(SabineData.Monsters, "monsters.txt");
 			this.LoadDataFile(SabineData.Maps, "maps.txt");

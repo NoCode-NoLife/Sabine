@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
+using Sabine.Shared.Database.MySQL;
 using Sabine.Shared.World;
 using Sabine.Zone.World.Maps;
 using Yggdrasil.Util;
@@ -33,9 +35,10 @@ namespace Sabine.Zone.World.Entities
 		public int InventoryId { get; set; }
 
 		/// <summary>
-		/// Returns the item's unique string id.
+		/// Returns the item's string id, which it's identified by
+		/// on early clients, instead of using the class id.
 		/// </summary>
-		public string StringId => this.Data.StringId;
+		public string StringId { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the item's type, which affects where it appears
@@ -100,6 +103,11 @@ namespace Sabine.Zone.World.Entities
 		public ItemData Data { get; private set; }
 
 		/// <summary>
+		/// Returns a reference to the item's name data (if there is any).
+		/// </summary>
+		public ItemNameData NameData { get; private set; }
+
+		/// <summary>
 		/// Returns the time at which this item should be removed from
 		/// the map it was dropped on.
 		/// </summary>
@@ -115,16 +123,6 @@ namespace Sabine.Zone.World.Entities
 			this.Amount = Math.Max(1, amount);
 
 			this.LoadData(classId);
-		}
-
-		/// <summary>
-		/// Creates new item from string id.
-		/// </summary>
-		/// <param name="stringId"></param>
-		public Item(string stringId)
-		{
-			this.Handle = GetNewHandle();
-			this.LoadData(stringId);
 		}
 
 		/// <summary>
@@ -144,29 +142,36 @@ namespace Sabine.Zone.World.Entities
 			if (!SabineData.Items.TryFind(classId, out var data))
 				throw new ArgumentException($"Class id '{classId}' not found in database.");
 
-			this.LoadData(data);
-		}
+			SabineData.ItemNames.TryFind(classId, out var nameData);
 
-		/// <summary>
-		/// Loads data by string id.
-		/// </summary>
-		/// <param name="stringId"></param>
-		/// <exception cref="ArgumentException"></exception>
-		private void LoadData(string stringId)
-		{
-			if (!SabineData.Items.TryFind(stringId, out var data))
-				throw new ArgumentException($"String id '{stringId}' not found in database.");
-
-			this.LoadData(data);
+			this.LoadData(data, nameData);
 		}
 
 		/// <summary>
 		/// Loads the given data.
 		/// </summary>
 		/// <param name="data"></param>
-		private void LoadData(ItemData data)
+		/// <param name="nameData"></param>
+		private void LoadData(ItemData data, ItemNameData nameData)
 		{
 			this.Data = data;
+			this.NameData = nameData;
+
+			// This solution isn't ideal, since it's very inflexible.
+			// However, there's only two known clients available that
+			// require string ids (Alpha and Beta1), and this is a
+			// simple solution to getting the correct strings to those
+			// two clients.
+			if (this.NameData != null)
+			{
+				if (Game.Version < Versions.Beta1)
+					this.StringId = this.NameData.AlphaName;
+				else
+					this.StringId = this.NameData.BetaName;
+			}
+
+			if (this.StringId == null)
+				this.StringId = this.Data.Name;
 		}
 
 		/// <summary>

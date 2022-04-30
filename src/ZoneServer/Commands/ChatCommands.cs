@@ -597,7 +597,8 @@ namespace Sabine.Zone.Commands
 
 			if (!int.TryParse(itemIdent, out var classId))
 			{
-				if (!SabineData.Items.TryFind(itemIdent, out var itemData))
+				var itemData = SabineData.Items.Find(a => a.Name == itemIdent);
+				if (itemData == null)
 				{
 					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemIdent);
 					return CommandResult.Okay;
@@ -605,8 +606,7 @@ namespace Sabine.Zone.Commands
 
 				classId = itemData.ClassId;
 			}
-
-			if (!SabineData.Items.TryFind(classId, out _))
+			else if (!SabineData.Items.Contains(classId))
 			{
 				sender.ServerMessage(Localization.Get("Item with id '{0}' not found."), classId);
 				return CommandResult.Okay;
