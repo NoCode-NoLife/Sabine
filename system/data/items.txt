@@ -7,7 +7,7 @@
 //   The item name is vitally important when using early clients,
 //   because items are identified by it, instead of using the id.
 //   If you change the name of an item, be sure to also change it
-//   on the client. The name's being the ids also causes issues
+//   in the client. The names being the ids also causes issues
 //   in general, because the official item name table in the alpha
 //   client contains names that are too long and don't work. For
 //   this reason, Sabine requires a modified client, because many
