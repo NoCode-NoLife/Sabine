@@ -74,10 +74,23 @@ namespace Sabine.Shared.Network
 				var name = packet.Op.ToString();
 				var nameNetwork = PacketTable.GetName(opNetwork);
 
-				Log.Warning("Connection: Invalid packet size for '{0:X4}' ({1}) ({2} != {3}).", opNetwork, nameNetwork, buffer.Length, tableSize);
+				Log.Warning("Connection.Send: Invalid packet size for '{0:X4}' ({1}) ({2} != {3}).", opNetwork, nameNetwork, buffer.Length, tableSize);
 
 				if (name != nameNetwork)
 					Log.Warning("Connection: Potential packet table error. Packet's op is '{0}', while the table's network op is '{1}'.", name, nameNetwork);
+
+				// We can't send a packet that's not the correct size, as
+				// that will mess up the data stream, at which point we might
+				// as well close the connection. Instead, let's fix the size
+				// and hope for the best. The incorrect packet needs to be
+				// fixed of course, but at least you're not kicked every
+				// time you haven't updated some packet for a new version
+				// yet.
+				var newBuffer = new byte[tableSize];
+				var copySize = Math.Min(buffer.Length, tableSize);
+				Buffer.BlockCopy(buffer, 0, newBuffer, 0, copySize);
+
+				buffer = newBuffer;
 			}
 
 			this.Send(buffer);
