@@ -37,6 +37,16 @@ namespace Sabine.Zone.World.Entities
 		public abstract int ClassId { get; protected set; }
 
 		/// <summary>
+		/// Gets or sets the class id that the character will appear as.
+		/// </summary>
+		public int DisplayClassId
+		{
+			get => _displayClassId == -1 ? this.ClassId : _displayClassId;
+			set => _displayClassId = value;
+		}
+		private int _displayClassId = -1;
+
+		/// <summary>
 		/// Returns the character's sex.
 		/// </summary>
 		public virtual Sex Sex { get; }

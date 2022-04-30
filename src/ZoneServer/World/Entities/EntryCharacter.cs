@@ -17,6 +17,11 @@ namespace Sabine.Zone.World.Entities
 		int ClassId { get; }
 
 		/// <summary>
+		/// Returns the class id that the character appears as.
+		/// </summary>
+		int DisplayClassId { get; }
+
+		/// <summary>
 		/// Returns the character's speed.
 		/// </summary>
 		int Speed { get; }

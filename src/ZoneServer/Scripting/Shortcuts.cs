@@ -172,7 +172,7 @@ namespace Sabine.Zone.Scripting
 			if (!ZoneServer.Instance.World.Maps.TryGet(to.MapId, out var mapTo))
 				throw new ArgumentException($"Map '{from.MapId}' not found.");
 
-			var npc = new Npc(32);
+			var npc = new Npc(45);
 			npc.WarpDestination = to;
 			//npc.Trigger = WarpOnTouch
 

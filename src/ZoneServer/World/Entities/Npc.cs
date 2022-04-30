@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
+using Sabine.Shared;
 using Sabine.Shared.World;
+using Sabine.Zone.Compatibility;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities.Components.Characters;
 
@@ -40,6 +42,7 @@ namespace Sabine.Zone.World.Entities
 		{
 			this.Handle = GetNewHandle();
 			this.ClassId = classId;
+			this.DisplayClassId = CharacterClasses.GetDisplayClassId(Game.Version, classId);
 
 			this.Parameters = new NpcParameters(this);
 
