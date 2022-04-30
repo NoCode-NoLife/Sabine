@@ -11,7 +11,6 @@ namespace Sabine.Shared.Data.Databases
 	public class MonsterData
 	{
 		public int Id { get; set; }
-		public int SpriteId { get; set; }
 		public string Name { get; set; }
 		public int Level { get; set; }
 		public int Hp { get; set; }
@@ -88,13 +87,12 @@ namespace Sabine.Shared.Data.Databases
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("id", "name", "spriteId");
+			entry.AssertNotMissing("id", "name");
 
 			var data = new MonsterData();
 
 			data.Id = entry.ReadInt("id");
 			data.Name = entry.ReadString("name");
-			data.SpriteId = entry.ReadInt("spriteId");
 			data.Level = entry.ReadInt("level", 1);
 			data.Hp = entry.ReadInt("hp", 50);
 			data.Sp = entry.ReadInt("sp", 0);
