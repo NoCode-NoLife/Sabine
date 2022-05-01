@@ -1232,5 +1232,31 @@ namespace Sabine.Zone.Network
 
 			character.Connection.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends response to restart request to character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="b1"></param>
+		public static void ZC_RESTART_ACK(PlayerCharacter character, int b1)
+		{
+			var packet = new Packet(Op.ZC_RESTART_ACK);
+			packet.PutByte((byte)b1);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends response to disconnect request to character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="s1"></param>
+		public static void ZC_ACK_REQ_DISCONNECT(PlayerCharacter character, int s1)
+		{
+			var packet = new Packet(Op.ZC_ACK_REQ_DISCONNECT);
+			packet.PutShort((short)s1);
+
+			character.Connection.Send(packet);
+		}
 	}
 }

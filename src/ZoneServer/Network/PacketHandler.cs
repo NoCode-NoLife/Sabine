@@ -917,5 +917,33 @@ namespace Sabine.Zone.Network
 
 			character.Parameters.Modify(ParameterType.Zeny, gainZeny);
 		}
+
+		/// <summary>
+		/// Request to go back to the character server.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_RESTART)]
+		public void CZ_RESTART(ZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+
+			var character = conn.GetCurrentCharacter();
+			Send.ZC_RESTART_ACK(character, 1);
+		}
+
+		/// <summary>
+		/// Request to be allowed to close the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_DISCONNECT)]
+		public void CZ_REQ_DISCONNECT(ZoneConnection conn, Packet packet)
+		{
+			var s1 = packet.GetShort();
+
+			var character = conn.GetCurrentCharacter();
+			Send.ZC_ACK_REQ_DISCONNECT(character, 0); // 1 = wait 10 seconds
+		}
 	}
 }
