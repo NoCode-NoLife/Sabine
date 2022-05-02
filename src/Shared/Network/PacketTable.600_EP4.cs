@@ -32,7 +32,7 @@
 			ChangeSize(Op.ZC_NOTIFY_ACTENTRY, 58);
 			ChangeSize(Op.ZC_NOTIFY_MOVEENTRY, 60);
 
-			// ZC_NOTIFY_EFFECT2, 0x01E1
+			// ZC_SPIRITS2, 0x01E1
 			Register(Op.ZC_REQ_COUPLE, 0x01E2, 34);
 			Register(Op.CZ_JOIN_COUPLE, 0x01E3, 14);
 			Register(Op.ZC_START_COUPLE, 0x01E4, 2);

@@ -16,7 +16,8 @@
 			Register(Op.ZC_SPIRITS, 0x01D0, 8, false);
 			Register(Op.ZC_BLADESTOP, 0x01D1, 14, false);
 			Register(Op.ZC_COMBODELAY, 0x01D2, 10, false);
-			Register(Op.ZC_NOTIFY_EFFECT2, 0x01E1, 8, false);
+			Register(Op.ZC_SPIRITS2, 0x01E1, 8, false);
+
 			Register(Op.CA_CONNECT_INFO_CHANGED, 0x0200, 26);
 			// ZC_FRIENDS_LIST, 0x201
 			// CZ_ADD_FRIENDS, 0x202
