@@ -764,9 +764,27 @@ namespace Sabine.Zone.Network
 
 			packet.PutShort((short)item.InventoryId);
 			packet.PutShort((short)amount);
+
+			if (Game.Version < Versions.Beta2)
+			{
 			packet.PutString(item.StringId, Sizes.ItemNames);
 			packet.PutByte((byte)item.Type);
 			packet.PutByte((byte)wearSlots);
+			}
+			else
+			{
+				packet.PutShort((short)item.ClassId);
+				packet.PutByte(item.IsIdentified);
+				packet.PutByte(0);   // Attribute
+				packet.PutByte(0);   // Refine
+				packet.PutShort(0);  // Card1
+				packet.PutShort(0);  // Card2
+				packet.PutShort(0);  // Card3
+				packet.PutShort(0);  // Card4
+				packet.PutShort((short)wearSlots);
+				packet.PutByte((byte)item.Type);
+			}
+
 			packet.PutByte((byte)result);
 
 			character.Connection.Send(packet);
@@ -933,14 +951,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_ITEM_ENTRY(PlayerCharacter character, Item item)
 		{
 			var packet = new Packet(Op.ZC_ITEM_ENTRY);
-
-			packet.PutInt(item.Handle);
-			packet.PutShort((short)item.Position.X);
-			packet.PutShort((short)item.Position.Y);
-			packet.PutShort((short)item.Amount);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutString(item.StringId, Sizes.ItemNames);
+			packet.AddEntryItem(item);
 
 			character.Connection.Send(packet);
 		}
@@ -952,14 +963,7 @@ namespace Sabine.Zone.Network
 		public static void ZC_ITEM_FALL_ENTRY(Item item)
 		{
 			var packet = new Packet(Op.ZC_ITEM_FALL_ENTRY);
-
-			packet.PutInt(item.Handle);
-			packet.PutShort((short)item.Position.X);
-			packet.PutShort((short)item.Position.Y);
-			packet.PutByte(0);
-			packet.PutByte(0);
-			packet.PutShort((short)item.Amount);
-			packet.PutString(item.StringId, Sizes.ItemNames);
+			packet.AddEntryItem(item);
 
 			item.Map.Broadcast(packet, item, BroadcastTargets.All);
 		}

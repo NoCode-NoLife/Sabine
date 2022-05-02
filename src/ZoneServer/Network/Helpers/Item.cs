@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared;
@@ -123,6 +124,31 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);  // Card3
 				packet.PutShort(0);  // Card4
 			}
+		}
+
+		/// <summary>
+		/// Adds information for item entrying the scene.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="item"></param>
+		public static void AddEntryItem(this Packet packet, Item item)
+		{
+			packet.PutInt(item.Handle);
+
+			if (Game.Version >= Versions.Beta2)
+			{
+				packet.PutShort((short)item.ClassId);
+				packet.PutByte(item.IsIdentified);
+			}
+
+			packet.PutShort((short)item.Position.X);
+			packet.PutShort((short)item.Position.Y);
+			packet.PutByte(0);     // SubX?
+			packet.PutByte(0);     // SubY?
+			packet.PutShort((short)item.Amount);
+
+			if (Game.Version < Versions.Beta2)
+				packet.PutString(item.StringId, Sizes.ItemNames);
 		}
 	}
 }
