@@ -117,12 +117,12 @@ the dialog would go from start to finish without interruptions.
 
 Unfortunately, there's very few screen shots, videos, and information
 about stats during the alpha. A few things we've been able to figure
-out, however. For example, Novices didn't get any Zeny when they first
-started, characters had a much lower maximum weight, and the stats
-were different in general. Don't be surprised when your stats are
-different from what you're used to. That being said, the formulas
-we're using are largely guess-work, based on the limited resources
-we had, and if something seems wrong, do report it.
+out, however. For example, characters had a much lower maximum weight,
+and the stats were different in general. Don't be surprised when your
+stats are different from what you're used to. That being said, the
+formulas we're using are largely guess-work, based on the limited
+resources we had, and if something seems way wrong, or you have
+first-hand knowledge about the alpha, do report it.
 
 Monsters are even more difficult to nail down, because we don't have
 any information about their exact stats. The MvPs in particular were
