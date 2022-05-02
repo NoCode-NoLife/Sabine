@@ -535,6 +535,19 @@
             </summary>
             <param name="elapsed"></param>
         </member>
+        <member name="T:Yggdrasil.Extensions.DateTimeExtensions">
+            <summary>
+            Extensions for DateTime.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.DateTimeExtensions.GetUnixTimestamp(System.DateTime)">
+            <summary>
+            Returns the UNIX timestamp for the date, with the seconds
+            passed since 1970-01-01.
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Extensions.DictionaryExtensions">
             <summary>
             Extensions for the generic Dictionary type.
@@ -550,6 +563,16 @@
             <param name="dictionary"></param>
             <param name="key"></param>
             <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Extensions.DictionaryExtensions.Deconstruct``2(System.Collections.Generic.KeyValuePair{``0,``1},``0@,``1@)">
+            <summary>
+            Deconstructs a KeyValuePair into a tuple.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+            <param name="dictonary"></param>
+            <param name="key"></param>
+            <param name="value"></param>
         </member>
         <member name="T:Yggdrasil.Extensions.GenericListExtensions">
             <summary>
@@ -571,6 +594,27 @@
             <typeparam name="T"></typeparam>
             <param name="list">The list.</param>
             <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Extensions.QueueExtensions">
+            <summary>
+            Extensions for the Queue class.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Extensions.QueueExtensions.AddRange``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.IList{``0})">
+            <summary>
+            Adds all of the list's elements to the queue in order.
+            </summary>
+            <typeparam name="TElement"></typeparam>
+            <param name="queue"></param>
+            <param name="list"></param>
+        </member>
+        <member name="M:Yggdrasil.Extensions.QueueExtensions.AddRange``1(System.Collections.Generic.Queue{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds all of the list's elements to the queue in order.
+            </summary>
+            <typeparam name="TElement"></typeparam>
+            <param name="queue"></param>
+            <param name="list"></param>
         </member>
         <member name="T:Yggdrasil.Extensions.RandomExtensions">
             <summary>
@@ -2655,6 +2699,115 @@
             <param name="hashed">The previously hashed password.</param>
             <returns><c>true</c> if the passwords, <c>false</c>
             otherwise.</returns>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.ScheduledCallback">
+            <summary>
+            A callback that is scheduled to be exected and potentially repeated
+            after certain delays.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.Delay">
+            <summary>
+            Get sor sets the delay until the callback is executed.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.RepeatDelay">
+            <summary>
+            Returns the delay before the callback is executed again.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.ScheduledCallback.Callback">
+            <summary>
+            Returns the callback that is executed after the delays.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.ScheduledCallback.#ctor(System.TimeSpan,System.TimeSpan,System.Action)">
+            <summary>
+            Creates new callback.
+            </summary>
+            <param name="delay"></param>
+            <param name="repeatDelay"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.ScheduledCallback.CompareTo(Yggdrasil.Scheduling.ScheduledCallback)">
+            <summary>
+            Compares the two scheduled callbacks based on their delay.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.ScheduledCallback.CompareTo(System.Object)">
+            <summary>
+            Caompares this scheduler with the given object.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Scheduling.Scheduler">
+            <summary>
+            High resolution scheduler. 
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Scheduling.Scheduler.IsActive">
+            <summary>
+            Returns true if the scheduler is actively handling timers.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.#ctor">
+            <summary>
+            Creates new scheduler.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Start">
+            <summary>
+            Starts handling of timers.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Pause">
+            <summary>
+            Pauses handling of timers.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.Double,System.Action)">
+            <summary>
+            Schedules callback to be called after the given delay.
+            </summary>
+            <param name="delayMs"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.Double,System.Int32,System.Action)">
+            <summary>
+            Schedules callback to be called after the given delay.
+            </summary>
+            <param name="delayMs"></param>
+            <param name="repeatDelayMs"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.TimeSpan,System.Action)">
+            <summary>
+            Schedules callback to be called after the given delay.
+            </summary>
+            <param name="delay"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Schedule(System.TimeSpan,System.TimeSpan,System.Action)">
+            <summary>
+            Schedules callback to be called after the given delay.
+            </summary>
+            <param name="delay"></param>
+            <param name="repeatDelay"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Loop(System.Object)">
+            <summary>
+            Constant loop that manages and executes the scheduled callbacks.
+            </summary>
+            <param name="_"></param>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.Scheduler.Dispose">
+            <summary>
+            Disposes the scheduler, stopping any callback handling.
+            </summary>
         </member>
         <member name="T:Yggdrasil.Util.BufferReaderWriter">
             <summary>

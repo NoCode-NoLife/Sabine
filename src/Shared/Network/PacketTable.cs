@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sabine.Shared.Extensions;
+using Yggdrasil.Extensions;
 
 namespace Sabine.Shared.Network
 {

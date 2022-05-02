@@ -6,13 +6,13 @@ using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
-using Sabine.Shared.Extensions;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
+using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 

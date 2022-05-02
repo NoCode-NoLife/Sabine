@@ -107,8 +107,6 @@
     <Compile Include="Data\Databases\Maps.cs" />
     <Compile Include="Data\Databases\Monsters.cs" />
     <Compile Include="Data\SabineData.cs" />
-    <Compile Include="Extensions\DateTime.cs" />
-    <Compile Include="Extensions\Dictionary.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="L10N\Localizer.cs" />
     <Compile Include="L10N\MultiLocalizer.cs" />

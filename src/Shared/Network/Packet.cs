@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using Sabine.Shared.Extensions;
+using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
 namespace Sabine.Shared.Network
