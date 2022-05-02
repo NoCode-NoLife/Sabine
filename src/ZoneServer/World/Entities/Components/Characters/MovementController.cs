@@ -114,7 +114,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			var character = this.Character;
 			_nextDestination = _pathQueue.Dequeue();
 
-			var movingStright = character.Position.X == _nextDestination.X || character.Position.Y == _nextDestination.Y;
+			var movingStright = character.Position.InStraightLine(_nextDestination);
 			var speed = (float)character.Parameters.Speed;
 
 			// Athena uses 150 as the default speed delay and increases

@@ -104,6 +104,17 @@ namespace Sabine.Shared.World
 		}
 
 		/// <summary>
+		/// Returns true if the given position is in a straight line from
+		/// this one.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <returns></returns>
+		public bool InStraightLine(Position otherPos)
+		{
+			return (this.X == otherPos.X || this.Y == otherPos.Y);
+		}
+
+		/// <summary>
 		/// Returns distance between this and another position.
 		/// </summary>
 		/// <param name="otherPos"></param>
