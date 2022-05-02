@@ -829,7 +829,7 @@ namespace Sabine.Zone.Network
 				packet.PutInt(item.Price);
 
 				if (Game.Version >= Versions.Beta1)
-					packet.PutInt(item.Price * 2); // Skill-bonus adjusted price
+					packet.PutInt(item.Price); // Skill-bonus adjusted price
 
 				packet.PutByte(0);
 				packet.PutString(item.StringId, Sizes.ItemNames);
@@ -865,7 +865,7 @@ namespace Sabine.Zone.Network
 				packet.PutInt(sellPrice);
 
 				if (Game.Version >= Versions.Beta1)
-					packet.PutInt(sellPrice * 2); // Skill-bonus adjusted price
+					packet.PutInt(sellPrice); // Skill-bonus adjusted price
 			}
 
 			character.Connection.Send(packet);
