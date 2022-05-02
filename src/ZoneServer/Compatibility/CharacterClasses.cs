@@ -7,6 +7,8 @@ namespace Sabine.Zone.Compatibility
 	/// </summary>
 	public static class CharacterClasses
 	{
+		private const int MonsterRangeStart = 1001;
+
 		/// <summary>
 		/// Converts the given class id to one appropriate for the given
 		/// version.
@@ -32,8 +34,7 @@ namespace Sabine.Zone.Compatibility
 
 		private static int GetAlphaId(int classId)
 		{
-			// Monsters start at 65
-			if (classId < 65)
+			if (classId < MonsterRangeStart)
 			{
 				switch (classId)
 				{
@@ -74,19 +75,19 @@ namespace Sabine.Zone.Compatibility
 			}
 			else
 			{
-				// Use Poring as default
-				if (classId < 65 || classId > 110)
+				// The alpha client supports Poring~Doppelganger, use Poring
+				// as fallback
+				if (classId < 1001 || classId > 1046)
 					return 66;
 
-				// offset = 1001 - 65
-				return classId + 936;
+				// Poring Offset = 1002 - 66
+				return classId - 936;
 			}
 		}
 
 		private static int GetBeta1Id(int classId)
 		{
-			// Monsters start at 103
-			if (classId < 103)
+			if (classId < MonsterRangeStart)
 			{
 				switch (classId)
 				{
@@ -159,12 +160,13 @@ namespace Sabine.Zone.Compatibility
 			}
 			else
 			{
-				// Use Poring as default
-				if (classId < 103 || classId > 189)
-					return 66;
+				// The beta 1 client supports Poring~OrcHero, use Poring
+				// as fallback
+				if (classId < 1001 || classId > 1087)
+					return 104;
 
-				// offset = 1001 - 103
-				return classId + 898;
+				// Poring Offset = 1002 - 104
+				return classId - 898;
 			}
 		}
 	}
