@@ -832,7 +832,11 @@ namespace Sabine.Zone.Network
 					packet.PutInt(item.Price); // Skill-bonus adjusted price
 
 				packet.PutByte(0);
-				packet.PutString(item.StringId, Sizes.ItemNames);
+
+				if (Game.Version < Versions.Beta2)
+					packet.PutString(item.StringId, Sizes.ItemNames);
+				else
+					packet.PutShort((short)item.ClassId);
 			}
 
 			character.Connection.Send(packet);
