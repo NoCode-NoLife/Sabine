@@ -115,7 +115,7 @@ namespace Sabine.Zone
 		private void CreateDebugInfo()
 		{
 			var packetTable = PacketTable.GetTable();
-			var filePath = "user/debug/packet_table_" + Game.Version + ".txt";
+			var filePath = "user/debug/packet_table_" + Game.Version + ".md";
 			var folderPath = Path.GetDirectoryName(filePath);
 
 			if (!Directory.Exists(folderPath))
@@ -129,8 +129,12 @@ namespace Sabine.Zone
 				var col2 = 8;
 				var col3 = 5;
 
+				sw.WriteLine("Protocol Version {0}", Game.Version);
+				sw.WriteLine("".PadRight(78, '='));
+				sw.WriteLine();
+
 				sw.WriteLine("{0,-" + col1 + "} | {1,-" + col2 + "} | {2}", "Name", "Op", "Size");
-				sw.WriteLine("".PadRight(col1 + col2 + col3 + 3 * 2 + 2, '-'));
+				sw.WriteLine("{0,-" + col1 + "}|{1,-" + col2 + "}|{2}", "".PadRight(col1 + 1, '-'), "".PadRight(col2 + 2, '-'), "".PadRight(col3 + 2, '-'));
 
 				foreach (var entry in packetTable)
 					sw.WriteLine("{0,-" + col1 + "} | 0x{1,-" + (col2 - 2) + ":X4} | {2}", entry.Op, entry.OpNetwork, entry.Size);
