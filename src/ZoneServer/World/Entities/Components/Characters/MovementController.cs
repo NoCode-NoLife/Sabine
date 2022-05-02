@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
+using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 
 namespace Sabine.Zone.World.Entities.Components.Characters
@@ -16,7 +17,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		private readonly Queue<Position> _pathQueue = new Queue<Position>();
 		private Position _finalDestination;
 		private Position _nextDestination;
-		private TimeSpan _currentMoveTime;
+		private bool _destinationChanged;
 		private bool _moving;
 
 		/// <summary>
@@ -46,20 +47,32 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
+		/// Does nothing.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+		}
+
+		/// <summary>
 		/// Makes character move to the given position.
 		/// </summary>
 		/// <param name="toPos"></param>
 		public void MoveTo(Position toPos)
 		{
 			var character = this.Character;
-			var fromPos = character.Position;
 			var map = character.Map;
 
-			// If we're currently moving, the start position needs to be
-			// the next tile we move to, or the client will rubber-band
-			// back to the tile it was just on.
+			var fromPos = character.Position;
+			_finalDestination = toPos;
+
+			// If character is moving already, remember to calculate a new
+			// path once they reach the next tile.
 			if (_moving)
-				fromPos = _nextDestination;
+			{
+				_destinationChanged = true;
+				return;
+			}
 
 			// Clear the current movement queue and fill it with the
 			// new path.
@@ -71,25 +84,10 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			}
 
 			_pathQueue.Clear();
-			foreach (var pos in path)
-				_pathQueue.Enqueue(pos);
+			_pathQueue.AddRange(path);
 
-			//Log.Debug("Moving from {0} to {1}.", fromPos, toPos);
-			//for (var i = 0; i < path.Length; i++)
-			//{
-			//	var pos = path[i];
-			//	Log.Debug("  {0}: {1}", i + 1, pos);
-			//}
-
-			// Start the move to the next tile if we aren't moving already.
-			// If we are moving, we queued up the new path that starts at
-			// the current destination, where we were currently headed.
-			if (!_moving)
-				this.NextMovement(TimeSpan.Zero);
-
-			_finalDestination = toPos;
-
-			Send.ZC_NOTIFY_MOVE(character, fromPos, toPos);
+			// Start the move to the next tile
+			this.StartMove();
 
 			// Not exactly happy about needing to treat player characters
 			// differently in here, but since the client thinks it's a
@@ -98,8 +96,77 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			// controller classes for different character types, or every
 			// character would need a connection.
 
+			Send.ZC_NOTIFY_MOVE(character, fromPos, toPos);
+
 			if (_playerCharacter != null)
 				Send.ZC_NOTIFY_PLAYERMOVE(_playerCharacter, fromPos, toPos);
+		}
+
+		/// <summary>
+		/// Takes a destination from the path queue and starts moving there.
+		/// </summary>
+		/// <exception cref="InvalidOperationException"></exception>
+		private void StartMove()
+		{
+			if (_pathQueue.Count == 0)
+				throw new InvalidOperationException("Path queue is empty.");
+
+			var character = this.Character;
+			_nextDestination = _pathQueue.Dequeue();
+
+			var movingStright = character.Position.X == _nextDestination.X || character.Position.Y == _nextDestination.Y;
+			var speed = (float)character.Parameters.Speed;
+
+			// Athena uses 150 as the default speed delay and increases
+			// it to 'speed * 14 / 10' for diagonal movement, arriving
+			// at 210. During the initial testing I used 200 speed, be-
+			// cause it felt more correct with the alpha client, and I
+			// found that the client decreases the delay on straight
+			// movement to 'speed * 10 / 13', which are ~153. It's pos-
+			// sible that this changed in later clients, which would
+			// explain why Athena sends a different speed value to the
+			// client. Or, also very possible, I'm missing something.
+			if (movingStright)
+				speed = speed * 10f / 13f;
+
+			_moving = true;
+
+			// I tried running the controller on the heartbeat, but I wasn't
+			// entirely happy about the results. Let's switch to a timer for
+			// now and see how that goes.
+			ZoneServer.Instance.World.Scheduler.Schedule(speed, this.ExecuteMove);
+		}
+
+		/// <summary>
+		/// Updates the character's position to the current destination
+		/// tile and potentially starts the next move.
+		/// </summary>
+		private void ExecuteMove()
+		{
+			var character = this.Character;
+			character.Position = _nextDestination;
+
+			this.OnReachedTile(character.Position);
+
+			if (_destinationChanged)
+			{
+				_destinationChanged = false;
+				_moving = false;
+
+				this.MoveTo(_finalDestination);
+				return;
+			}
+
+			// Start next move if there's still something left in the queue
+			if (_pathQueue.Count != 0)
+			{
+				this.StartMove();
+				return;
+			}
+
+			// If this was the last destination in the queue, we're done
+			// moving.
+			_moving = false;
 		}
 
 		/// <summary>
@@ -116,8 +183,6 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			_pathQueue.Clear();
 			_moving = false;
 
-			//Log.Debug("Stopping at {0}", stopPos);
-
 			// The client doesn't react to ZC_STOPMOVE for its controlled
 			// character, so we need to send a move to make it stop.
 			// Unless that's not desired? Maybe there should a be
@@ -129,94 +194,6 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 				Send.ZC_NOTIFY_PLAYERMOVE(_playerCharacter, character.Position, stopPos);
 
 			return stopPos;
-		}
-
-		/// <summary>
-		/// Updates the character's position based on its current movement.
-		/// </summary>
-		/// <param name="elapsed"></param>
-		public void Update(TimeSpan elapsed)
-		{
-			// Do nothing if we're not currently moving to a new tile
-			if (!_moving)
-				return;
-
-			var character = this.Character;
-
-			// Wait until enough time has passed to reach the next tile
-			_currentMoveTime -= elapsed;
-			if (_currentMoveTime > TimeSpan.Zero)
-				return;
-
-			// Update current position
-			character.Position = _nextDestination;
-			//Log.Debug("  now at {0}", this.Position);
-
-			this.OnReachedTile(character.Position);
-
-			// Start next move if there's still something left in the queue
-			if (_pathQueue.Count != 0)
-			{
-				this.NextMovement(TimeSpan.Zero - _currentMoveTime);
-				return;
-			}
-
-			_moving = false;
-		}
-
-		/// <summary>
-		/// Starts server-side move to the next tile in the character's
-		/// movement queue.
-		/// </summary>
-		/// <exception cref="InvalidOperationException"></exception>
-		private void NextMovement(TimeSpan remainder)
-		{
-			if (_pathQueue.Count == 0)
-				throw new InvalidOperationException("Path queue is empty.");
-
-			var character = this.Character;
-			_nextDestination = _pathQueue.Dequeue();
-
-			var movingStright = character.Position.X == _nextDestination.X || character.Position.Y == _nextDestination.Y;
-			var speed = (float)character.Parameters.Speed;
-
-			// Speed appears to match diagonal movement, but it needs
-			// to be adjusted for straight moves, or the character will
-			// move slower on the server than on the client.
-			// Athena uses 'speed * 14 / 10' to slow down diagonal movement
-			// instead, so are characters possibly moving faster on the
-			// alpha client? That would explain why Athena's default walk
-			// speed value of 150 seems way too fast for the alpha client.
-			// Meanwhile, the client seems to use '10 * speed / 13'...? But
-			// our 'speed / 1.81f' seems to work well for the moment and gives
-			// us ~111 for 200 speed, while the client's formula gives us
-			// ~153, which is way off. This needs more research.
-			// 
-			// Update: Changed the divisor to 1.81, because 1.8 tended
-			// to lack behind the client, causing a light rubberbanding.
-			// This seems to be kind of impossible to get right. There
-			// will always be a small difference between client and
-			// server, causing the character to run fast or slower
-			// at times. Ideally we would want to not send a start
-			// position, so the client can figure that part out
-			// itself, making it at least look smooth...
-			// 
-			// Update: After realizing that I'm stupid, and that I can't
-			// start the next move with the full speed on every update,
-			// because the update time is not consistent, I'm now
-			// including the "remainder" in the next move time, to
-			// compensate for the time that has already passed since
-			// the move was actually finished (usually a few ms).
-			// With this change, the new divisor is 1.307, or rather,
-			// it matches the client's '10 * speed / 13', which seems
-			// to work for the most part now, though it's still not
-			// absolutely perfect. Diagonal movement meanwhile seems
-			// to still work very well somehow.
-			if (movingStright)
-				speed = speed * 10f / 13f;
-
-			_currentMoveTime = TimeSpan.FromMilliseconds(speed) - remainder;
-			_moving = true;
 		}
 
 		/// <summary>

@@ -12,7 +12,7 @@ namespace Sabine.Zone.World
 	/// </summary>
 	public class Heartbeat
 	{
-		private const int UpdateTargetPerSecond = 120;
+		private const int UpdateTargetPerSecond = 10;
 
 		private bool _running = false;
 		private bool _stopRequested = false;
@@ -111,7 +111,7 @@ namespace Sabine.Zone.World
 				}
 
 				while (updateTimer.ElapsedMilliseconds < updateDelay)
-					Thread.Sleep(0);
+					Thread.Sleep(1);
 			}
 		}
 

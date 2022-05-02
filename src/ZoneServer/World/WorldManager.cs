@@ -6,6 +6,7 @@ using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
 using Sabine.Zone.World.Spawning;
 using Yggdrasil.Collections;
+using Yggdrasil.Scheduling;
 
 namespace Sabine.Zone.World
 {
@@ -23,6 +24,12 @@ namespace Sabine.Zone.World
 		/// The world's heartbeast, which controls timed events.
 		/// </summary>
 		public Heartbeat Heartbeat { get; } = new Heartbeat();
+
+		/// <summary>
+		/// The world's scheduler. Use only if a high resolution timer is
+		/// absolutely necessary.
+		/// </summary>
+		public Scheduler Scheduler { get; } = new Scheduler();
 
 		/// <summary>
 		/// Returns a reference to a collection of NPC shops in the world.
