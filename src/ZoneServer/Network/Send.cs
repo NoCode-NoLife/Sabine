@@ -767,9 +767,9 @@ namespace Sabine.Zone.Network
 
 			if (Game.Version < Versions.Beta2)
 			{
-			packet.PutString(item.StringId, Sizes.ItemNames);
-			packet.PutByte((byte)item.Type);
-			packet.PutByte((byte)wearSlots);
+				packet.PutString(item.StringId, Sizes.ItemNames);
+				packet.PutByte((byte)item.Type);
+				packet.PutByte((byte)wearSlots);
 			}
 			else
 			{
@@ -1039,7 +1039,12 @@ namespace Sabine.Zone.Network
 			var packet = new Packet(Op.ZC_REQ_WEAR_EQUIP_ACK);
 
 			packet.PutShort((short)invId);
-			packet.PutByte((byte)equipSlot);
+
+			if (Game.Version < Versions.Beta2)
+				packet.PutByte((byte)equipSlot);
+			else
+				packet.PutShort((short)equipSlot);
+
 			packet.PutByte(true);
 
 			character.Connection.Send(packet);
@@ -1057,7 +1062,12 @@ namespace Sabine.Zone.Network
 			var packet = new Packet(Op.ZC_REQ_TAKEOFF_EQUIP_ACK);
 
 			packet.PutShort((short)invId);
-			packet.PutByte((byte)equipSlot);
+
+			if (Game.Version < Versions.Beta2)
+				packet.PutByte((byte)equipSlot);
+			else
+				packet.PutShort((short)equipSlot);
+
 			packet.PutByte(true);
 
 			character.Connection.Send(packet);
