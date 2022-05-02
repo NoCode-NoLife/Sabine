@@ -679,8 +679,8 @@ namespace Sabine.Zone.Network
 				// would either need to go through with it and then reverse
 				// it, or simply assume that the player is cheating and
 				// disconnect them. There's probably no legit reason for
-				// a player should be unable to equip or use item unless
-				// something is very wrong.
+				// why a player should be unable to equip or use an item
+				// unless something is very wrong.
 
 				Log.Debug("CZ_USE_ITEM: User '{0}' tried to equip an item they don't have.", conn.Account.Username);
 				conn.Close();
@@ -717,6 +717,13 @@ namespace Sabine.Zone.Network
 			if (!character.CanEquip(item))
 			{
 				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item they can't equip.", conn.Account.Username);
+				conn.Close();
+				return;
+			}
+
+			if (item.Data.WearSlots != equipSlots)
+			{
+				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item in an invalid slot (Item: {1}, Request: {2}).", conn.Account.Username, item.Data.WearSlots, equipSlots);
 				conn.Close();
 				return;
 			}

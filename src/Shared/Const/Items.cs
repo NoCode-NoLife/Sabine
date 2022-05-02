@@ -106,6 +106,8 @@ namespace Sabine.Shared.Const
 		Accessory2 = 0x80,
 		//HeadUpper = 0x100,
 		//HeadMiddle = 0x200,
+
+		Accessories = Accessory1 | Accessory2,
 	}
 
 	/// <summary>

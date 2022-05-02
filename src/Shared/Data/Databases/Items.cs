@@ -61,6 +61,12 @@ namespace Sabine.Shared.Data.Databases
 			data.WeaponLevel = entry.ReadInt("weaponLevel", 0);
 			data.LookId = entry.ReadInt("look", 0);
 
+			if (Game.Version >= Versions.Beta2)
+			{
+				if (data.WearSlots == EquipSlots.Accessory1 || data.WearSlots == EquipSlots.Accessory2)
+					data.WearSlots = EquipSlots.Accessories;
+			}
+
 			this.AddOrReplace(data.ClassId, data);
 		}
 	}

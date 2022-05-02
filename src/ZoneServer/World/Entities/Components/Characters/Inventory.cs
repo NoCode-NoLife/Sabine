@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Zone.Network;
+using Yggdrasil.Logging;
 
 namespace Sabine.Zone.World.Entities.Components.Characters
 {
@@ -41,6 +43,16 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		public Inventory(PlayerCharacter character)
 		{
 			this.Character = character;
+		}
+
+		/// <summary>
+		/// Returns true if an item is equipped on the given slot.
+		/// </summary>
+		/// <param name="slot"></param>
+		/// <returns></returns>
+		private bool IsSlotOccupied(EquipSlots slot)
+		{
+			return (_occupiedSlots & slot) != 0;
 		}
 
 		/// <summary>
@@ -236,13 +248,34 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 			lock (_syncLock)
 			{
-				//if (slots == (EquipSlots.Accessory1 | EquipSlots.Accessory2))
-				//{
-				//	var acc2InUse = _items.Any(a => a.EquippedOn == EquipSlots.Accessory2);
-				//	slots = acc2InUse ? EquipSlots.Accessory1 : EquipSlots.Accessory2;
-				//}
+				// If the client sent both accessory slots as the target,
+				// as at least some of them do, use Acc2 if it's free or
+				// Acc1 if it's not, rotating newly equipped accessories
+				// in that slot.
+				// If you're testing a new client and accessories only
+				// ever seem to go into Acc2, then this check, and the
+				// one in the item data, need to be adjusted, because
+				// the client sent an unequip packet before the equip
+				// packed, removing any accessories.
+				if (Game.Version >= Versions.Beta2)
+				{
+					if (slots == EquipSlots.Accessories)
+						slots = this.IsSlotOccupied(EquipSlots.Accessory2) ? EquipSlots.Accessory1 : EquipSlots.Accessory2;
 
-				if ((_occupiedSlots & slots) != 0)
+					// The alpha clients always sends an unequip packet
+					// before the equip packet, but in later versions the
+					// server got more control, so we have to do it here.
+					// This was presumably also the point at which acces-
+					// sories could be equipped in either slot.
+					if (this.IsSlotOccupied(slots))
+					{
+						var unequippedItem = this.GetItemByEquipSlot(slots);
+						if (unequippedItem != null)
+							this.UnequipItem(unequippedItem);
+					}
+				}
+
+				if (this.IsSlotOccupied(slots))
 					throw new ArgumentException($"Other items are already occupying the given slots (Slots: {slots}, Occupied: {_occupiedSlots}).");
 
 				_occupiedSlots |= slots;
