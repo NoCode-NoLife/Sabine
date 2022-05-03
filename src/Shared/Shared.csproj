@@ -117,6 +117,7 @@
     <Compile Include="Network\PacketHandler.cs" />
     <Compile Include="Network\PacketTable.400_EP3.cs" />
     <Compile Include="Network\PacketTable.500_EP3_2.cs" />
+    <Compile Include="Network\PacketTable.800_BEP5.cs" />
     <Compile Include="Network\PacketTable.700_EP8.cs" />
     <Compile Include="Network\PacketTable.600_EP4.cs" />
     <Compile Include="Network\PacketTable.300_Beta2.cs" />
