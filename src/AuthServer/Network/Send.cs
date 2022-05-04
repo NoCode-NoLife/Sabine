@@ -47,8 +47,8 @@ namespace Sabine.Auth.Network
 			}
 			else
 			{
-				packet.PutInt(account.SessionId);
 				packet.PutInt(account.Id);
+				packet.PutInt(account.SessionId);
 				packet.PutInt(account.SessionId);
 
 				if (Game.Version >= Versions.Beta2)

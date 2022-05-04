@@ -31,24 +31,14 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_ENTER)]
 		public void CZ_ENTER(ZoneConnection conn, Packet packet)
 		{
-			int sessionId, accountId, characterId;
-			byte sex;
+			var sessionId = packet.GetInt();
+			var characterId = packet.GetInt();
+			var accountId = packet.GetInt();
 
-			if (Game.Version < Versions.Beta1)
-			{
-				sessionId = packet.GetInt();
-				characterId = packet.GetInt();
-				accountId = packet.GetInt();
-				sex = packet.GetByte();
-			}
-			else
-			{
-				accountId = packet.GetInt();
-				characterId = packet.GetInt();
-				sessionId = packet.GetInt();
+			if (Game.Version >= Versions.Beta1)
 				_ = packet.GetInt();
-				sex = packet.GetByte();
-			}
+
+			var sex = packet.GetByte();
 
 			var account = ZoneServer.Instance.Database.GetAccountById(accountId);
 			if (account == null)
@@ -537,6 +527,7 @@ namespace Sabine.Zone.Network
 					character.StandUp();
 					break;
 				}
+				case (ActionType)7:
 				case ActionType.Attack:
 				{
 					var target = character.Map.GetCharacter(targetHandle);

@@ -33,9 +33,9 @@ namespace Sabine.Char.Network
 			}
 			else
 			{
+				sessionId = packet.GetInt();
 				accountId = packet.GetInt();
 				sessionId2 = packet.GetInt();
-				sessionId = packet.GetInt();
 			}
 
 			var b1 = packet.GetByte(); // 1? language?
