@@ -251,8 +251,6 @@ namespace Sabine.Zone.Network
 
 			packet.PutInt(target.Handle);
 
-			if (Game.Version < Versions.Beta2)
-			{
 				// The first string is displayed in parantheses after the
 				// character name. It seems like it's intended for the
 				// account name, because that's what the client displays
@@ -267,6 +265,7 @@ namespace Sabine.Zone.Network
 				// Also: 16-24 free bytes for monster HP!
 
 				var secName = "";
+			var targetName = target.Name;
 
 				if (target is Monster)
 				{
@@ -284,10 +283,17 @@ namespace Sabine.Zone.Network
 					}
 				}
 
-				packet.PutString(secName, Sizes.CharacterNames); // target.Username
-			}
+			// Append secName to targetName if the client doesn't support
+			// a secondary name anymore.
+			if (Game.Version > Versions.Alpha)
+				targetName = string.Format("{0} ({1})", targetName, secName);
 
-			packet.PutString(target.Name, Sizes.CharacterNames);
+			// This is still sent in Beta1, but the client doesn't display
+			// it anymore.
+			if (Game.Version < Versions.Beta2)
+				packet.PutString(secName, Sizes.CharacterNames); // target.Username
+
+			packet.PutString(targetName, Sizes.CharacterNames);
 
 			character.Connection.Send(packet);
 		}
