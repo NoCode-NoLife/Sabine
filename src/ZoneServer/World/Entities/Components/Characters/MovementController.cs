@@ -4,6 +4,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
+using Yggdrasil.Scheduling;
 
 namespace Sabine.Zone.World.Entities.Components.Characters
 {
@@ -141,7 +142,8 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// Updates the character's position to the current destination
 		/// tile and potentially starts the next move.
 		/// </summary>
-		private void ExecuteMove()
+		/// <param name="state"></param>
+		private void ExecuteMove(CallbackState state)
 		{
 			var character = this.Character;
 			character.Position = _nextDestination;
