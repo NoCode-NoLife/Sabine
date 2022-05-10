@@ -276,7 +276,7 @@ namespace Sabine.Zone.Network
 				switch (hpDisplayType)
 				{
 					case DisplayMonsterHpType.Percentage:
-						secName = string.Format("{0:0}%", 100f / target.Parameters.HpMax * target.Parameters.Hp);
+						secName = string.Format("{0}%", Math.Ceiling(100f / target.Parameters.HpMax * target.Parameters.Hp));
 						break;
 
 					case DisplayMonsterHpType.Actual:
