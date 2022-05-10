@@ -6,6 +6,7 @@ using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
 using Sabine.Zone.World.Spawning;
 using Yggdrasil.Collections;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Sabine.Zone.World
@@ -68,6 +69,28 @@ namespace Sabine.Zone.World
 				var map = new Map(data);
 				this.Maps.Add(map);
 			}
+		}
+
+		/// <summary>
+		/// Starts the world's regular events through its hearbeats and
+		/// schedulers.
+		/// </summary>
+		public void Start()
+		{
+			this.Scheduler.CallbackException += this.OnSchedulerException;
+
+			this.Heartbeat.Start();
+			this.Scheduler.Start();
+		}
+
+		/// <summary>
+		/// Called when an exception occurred while executing a scheduled
+		/// callback.
+		/// </summary>
+		/// <param name="ex"></param>
+		private void OnSchedulerException(CallbackException ex)
+		{
+			Log.Error("An exception occurred while executing a scheduled callback. Exception: {0}", ex);
 		}
 
 		/// <summary>

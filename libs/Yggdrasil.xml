@@ -2495,6 +2495,17 @@
             Returns the parameter's value.
             </summary>
         </member>
+        <member name="T:Yggdrasil.Scheduling.CallbackException">
+            <summary>
+            An exception that happened while executing a scheduled callback.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Scheduling.CallbackException.#ctor(System.Exception)">
+            <summary>
+            Creates new exception.
+            </summary>
+            <param name="innerException"></param>
+        </member>
         <member name="T:Yggdrasil.Scheduling.CallbackState">
             <summary>
             Passed to scheduled callbacks.
@@ -2606,6 +2617,12 @@
         <member name="P:Yggdrasil.Scheduling.Scheduler.IsActive">
             <summary>
             Returns true if the scheduler is actively handling timers.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Scheduling.Scheduler.CallbackException">
+            <summary>
+            Raised when an exception occurres while a scheduled callback
+            is executed.
             </summary>
         </member>
         <member name="M:Yggdrasil.Scheduling.Scheduler.#ctor">
