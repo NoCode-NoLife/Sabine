@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Xml.Schema;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
@@ -48,6 +49,9 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 			if (type == ParameterType.Agi)
 				this.RecalculateFlee();
+
+			if (type == ParameterType.Agi || type == ParameterType.Dex)
+				this.RecalculateSpeeds();
 
 			if (type == ParameterType.Vit)
 			{
@@ -260,6 +264,24 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
+		/// Recalculates attack speed values and motion delays.
+		/// </summary>
+		public void RecalculateSpeeds()
+		{
+			//var weaponType = this.Character.Inventory.RightHand?.Data.WeaponType;
+			var weaponDelay = this.Character.JobData.WeaponDelays.BareHand; // .GetDelay(weaponType);
+			var agi = this.Agi;
+			var dex = this.Dex;
+			var mods = 1f;
+
+			var delay = Math.Ceiling(mods * (weaponDelay - (Math.Ceiling(weaponDelay * agi / 25f) + Math.Ceiling(weaponDelay * dex / 100f)) / 10f));
+			var aspd = (int)Math.Min(200, 200 - delay);
+
+			this.AttackMotionDelay = (int)(delay * 20);
+			this.Aspd = aspd;
+		}
+
+		/// <summary>
 		/// Recalculates all sub-stats and updates the client.
 		/// </summary>
 		public override void RecalculateAll()
@@ -273,6 +295,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			this.RecalculateFlee();
 			this.RecalculateExp();
 			this.RecalculateWeight();
+			this.RecalculateSpeeds();
 		}
 
 		/// <summary>

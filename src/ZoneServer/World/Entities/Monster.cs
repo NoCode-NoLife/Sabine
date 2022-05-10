@@ -69,6 +69,9 @@ namespace Sabine.Zone.World.Entities
 			this.Parameters.Hit = this.Parameters.BaseLevel + this.Parameters.Dex;
 			this.Parameters.Flee = this.Parameters.BaseLevel + this.Parameters.Agi;
 
+			this.Parameters.AttackMotionDelay = this.Data.AttackMotion;
+			this.Parameters.DamageMotionDelay = this.Data.DamageMotion;
+
 			this.Parameters.RecalculateAll();
 		}
 

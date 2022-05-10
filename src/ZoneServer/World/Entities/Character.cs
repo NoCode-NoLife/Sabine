@@ -288,8 +288,10 @@ namespace Sabine.Zone.World.Entities
 				}
 			}
 
-			var attackMotionDelay = 800;
-			var damageMotionDelay = (target as Monster).Data.DamageMotion;
+			attacker.Parameters.RecalculateAll();
+
+			var attackMotionDelay = attacker.Parameters.AttackMotionDelay;
+			var damageMotionDelay = target.Parameters.DamageMotionDelay;
 
 			Send.ZC_NOTIFY_ACT_Attack(attacker, attacker.Handle, target.Handle, DateTime.Now, ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
 
@@ -298,8 +300,7 @@ namespace Sabine.Zone.World.Entities
 
 			if (autoAttack)
 			{
-				var attackDelay = 800;
-				_attackCallbackId = ZoneServer.Instance.World.Scheduler.Schedule(attackDelay, this.Attack, target);
+				_attackCallbackId = ZoneServer.Instance.World.Scheduler.Schedule(attackMotionDelay, this.Attack, target);
 			}
 			else
 			{

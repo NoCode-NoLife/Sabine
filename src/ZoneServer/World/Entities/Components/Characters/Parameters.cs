@@ -274,6 +274,22 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		public int Flee { get; set; } = 2;
 
 		/// <summary>
+		/// Returns the delay between attacks for the character.
+		/// </summary>
+		public int AttackMotionDelay { get; set; } = 800;
+
+		/// <summary>
+		/// Returns the time it takes to play the character's taking
+		/// damage motion.
+		/// </summary>
+		public int DamageMotionDelay { get; set; } = 1000;
+
+		/// <summary>
+		/// Gets or sets the character's attack speed value.
+		/// </summary>
+		public int Aspd { get; set; } = 150;
+
+		/// <summary>
 		/// Returns the value for the given parameter.
 		/// </summary>
 		/// <param name="type"></param>
