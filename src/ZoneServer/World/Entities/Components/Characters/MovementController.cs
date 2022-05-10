@@ -67,6 +67,8 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			var fromPos = character.Position;
 			_finalDestination = toPos;
 
+			character.StopAttacking();
+
 			// If character is moving already, remember to calculate a new
 			// path once they reach the next tile.
 			if (_moving)
