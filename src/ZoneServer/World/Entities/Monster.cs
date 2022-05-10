@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Sabine.Shared;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
 using Sabine.Zone.Network;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -91,12 +93,18 @@ namespace Sabine.Zone.World.Entities
 			// which will despawn the monster after X amount of time.
 			await Task.Delay(1000);
 
-			this.DropItems(killer);
-			this.DropMvpItems(killer);
+			try
+			{
+				this.DropItems(killer);
+				this.DropMvpItems(killer);
 
-			this.Killed?.Invoke(this);
-
-			this.Map.RemoveNpc(this);
+				this.Killed?.Invoke(this);
+				this.Map.RemoveNpc(this);
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex);
+			}
 		}
 
 		/// <summary>

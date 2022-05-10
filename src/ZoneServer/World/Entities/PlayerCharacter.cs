@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
@@ -10,6 +11,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Shared.Const;
+using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -251,7 +253,7 @@ namespace Sabine.Zone.World.Entities
 				return;
 
 			this.State = CharacterState.Sitting;
-			Send.ZC_NOTIFY_ACT(this, this.Handle, 0, 0, 0, ActionType.SitDown);
+			Send.ZC_NOTIFY_ACT(this, this.Handle, ActionType.SitDown);
 		}
 
 		/// <summary>
@@ -263,7 +265,7 @@ namespace Sabine.Zone.World.Entities
 				return;
 
 			this.State = CharacterState.Standing;
-			Send.ZC_NOTIFY_ACT(this, this.Handle, 0, 0, 0, ActionType.StandUp);
+			Send.ZC_NOTIFY_ACT(this, this.Handle, ActionType.StandUp);
 		}
 
 		/// <summary>

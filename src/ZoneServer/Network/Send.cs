@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.CompilerServices;
 using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
@@ -11,6 +12,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network.Helpers;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
+using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.Network
@@ -251,37 +253,37 @@ namespace Sabine.Zone.Network
 
 			packet.PutInt(target.Handle);
 
-				// The first string is displayed in parantheses after the
-				// character name. It seems like it's intended for the
-				// account name, because that's what the client displays
-				// for the player character itself. This might indicate
-				// that they had planned a "team name" kind of feature,
-				// similar to ToS, to have a common identifier between
-				// characters on one account. Not a terrible idea, but
-				// sending the account names of other players is not
-				// exactly ideal, so... maybe let's not do that.
-				// However, maybe we could add a display name for the
-				// accounts, which could be used here.
-				// Also: 16-24 free bytes for monster HP!
+			// The first string is displayed in parantheses after the
+			// character name. It seems like it's intended for the
+			// account name, because that's what the client displays
+			// for the player character itself. This might indicate
+			// that they had planned a "team name" kind of feature,
+			// similar to ToS, to have a common identifier between
+			// characters on one account. Not a terrible idea, but
+			// sending the account names of other players is not
+			// exactly ideal, so... maybe let's not do that.
+			// However, maybe we could add a display name for the
+			// accounts, which could be used here.
+			// Also: 16-24 free bytes for monster HP!
 
-				var secName = "";
+			var secName = "";
 			var targetName = target.Name;
 
-				if (target is Monster)
+			if (target is Monster)
+			{
+				var hpDisplayType = ZoneServer.Instance.Conf.World.DisplayMonsterHp;
+
+				switch (hpDisplayType)
 				{
-					var hpDisplayType = ZoneServer.Instance.Conf.World.DisplayMonsterHp;
+					case DisplayMonsterHpType.Percentage:
+						secName = string.Format("{0:0}%", 100f / target.Parameters.HpMax * target.Parameters.Hp);
+						break;
 
-					switch (hpDisplayType)
-					{
-						case DisplayMonsterHpType.Percentage:
-							secName = string.Format("{0:0}%", 100f / target.Parameters.HpMax * target.Parameters.Hp);
-							break;
-
-						case DisplayMonsterHpType.Actual:
-							secName = string.Format("{0}/{1}", target.Parameters.Hp, target.Parameters.HpMax);
-							break;
-					}
+					case DisplayMonsterHpType.Actual:
+						secName = string.Format("{0}/{1}", target.Parameters.Hp, target.Parameters.HpMax);
+						break;
 				}
+			}
 
 			// Append secName to targetName if the client doesn't support
 			// a secondary name anymore.
@@ -652,19 +654,58 @@ namespace Sabine.Zone.Network
 		/// <param name="tick"></param>
 		/// <param name="damage"></param>
 		/// <param name="type"></param>
-		public static void ZC_NOTIFY_ACT(PlayerCharacter character, int handleSource, int handleTarget, int tick, int damage, ActionType type)
+		/// <param name="delay1"></param>
+		/// <param name="delay2"></param>
+		public static void ZC_NOTIFY_ACT_Attack(Character character, int handleSource, int handleTarget, DateTime tick, ActionType type, int damage, int delay1, int delay2)
 		{
 			// Cap the damage, as the alpha client crashes if the damage
 			// is greater than 999. 0 is displayed as "Miss", while
 			// negative numbers become 0 damage.
 			damage = Math2.Clamp(-1, 999, damage);
 
+			ZC_NOTIFY_ACT(character, handleSource, handleTarget, tick.GetUnixTimestamp(), type, damage, delay1, delay2, 0);
+		}
+
+		/// <summary>
+		/// Makes character do an action.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="handleSource"></param>
+		/// <param name="type"></param>
+		public static void ZC_NOTIFY_ACT(Character character, int handleSource, ActionType type)
+			=> ZC_NOTIFY_ACT(character, handleSource, 0, 0, type, 0, 0, 0, 0);
+
+		/// <summary>
+		/// Makes character do an action.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="handleSource"></param>
+		/// <param name="handleTarget"></param>
+		/// <param name="tick"></param>
+		/// <param name="type"></param>
+		/// <param name="arg1"></param>
+		/// <param name="arg2"></param>
+		/// <param name="arg3"></param>
+		/// <param name="arg4"></param>
+		public static void ZC_NOTIFY_ACT(Character character, int handleSource, int handleTarget, int tick, ActionType type, int arg1, int arg2, int arg3, int arg4)
+		{
 			var packet = new Packet(Op.ZC_NOTIFY_ACT);
 
 			packet.PutInt(handleSource);
 			packet.PutInt(handleTarget);
 			packet.PutInt(tick);
-			packet.PutShort((short)damage);
+
+			if (Game.Version >= Versions.Beta1)
+			{
+				packet.PutInt(arg2);
+				packet.PutInt(arg3);
+			}
+
+			packet.PutShort((short)arg1);
+
+			if (Game.Version >= Versions.Beta1)
+				packet.PutShort((short)arg4);
+
 			packet.PutByte((byte)type);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);

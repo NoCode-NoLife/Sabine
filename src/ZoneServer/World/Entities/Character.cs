@@ -1,9 +1,12 @@
 ﻿using System;
+using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
+using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
+using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -184,6 +187,9 @@ namespace Sabine.Zone.World.Entities
 		/// <returns></returns>
 		public virtual int TakeDamage(int amount, Character attacker)
 		{
+			if (this.IsDead)
+				return 0;
+
 			var remainingHp = this.Parameters.Modify(ParameterType.Hp, -amount);
 
 			if (remainingHp == 0)
@@ -213,6 +219,100 @@ namespace Sabine.Zone.World.Entities
 		{
 			var pos = this.Position.GetRandomInSquareRange(1);
 			item.Drop(this.Map, pos);
+		}
+
+		private long _attackCallbackId;
+		private bool _cancelAttack;
+
+		/// <summary>
+		/// Makes character start attacking the given target, potentially
+		/// keeping the attack up until StopAttacking is called.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="autoAttack"></param>
+		public void StartAttacking(Character target, bool autoAttack)
+		{
+			_cancelAttack = false;
+
+			// Don't start a second attack if we're already attacking.
+			if (_attackCallbackId != 0)
+				return;
+
+			this.Attack(target, autoAttack);
+		}
+
+		/// <summary>
+		/// Callback for the AutoAttack timer, executes the next attack.
+		/// </summary>
+		/// <param name="state"></param>
+		private void Attack(CallbackState state)
+		{
+			var target = (Character)state.Arguments[0];
+			this.Attack(target, true);
+		}
+
+		/// <summary>
+		/// Makes character attack the given target.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="autoAttack"></param>
+		private void Attack(Character target, bool autoAttack)
+		{
+			var attacker = this;
+
+			if (_cancelAttack || target.IsDead || target.Map != attacker.Map)
+			{
+				_attackCallbackId = 0;
+				return;
+			}
+
+			var rnd = RandomProvider.Get();
+
+			var hitChance = Math.Max(0, 80 + attacker.Parameters.Hit - target.Parameters.Flee);
+			var damage = 0; // Miss
+
+			if (rnd.Next(100) < hitChance)
+			{
+				damage = rnd.Next(attacker.Parameters.AttackMin, attacker.Parameters.AttackMax + 1);
+
+				target.TakeDamage(damage, attacker);
+				target.StunEndTime = DateTime.Now.AddSeconds(1);
+				target.Controller.StopMove();
+
+				// Update the monster's name if the display HP option
+				// was enabled
+				if (attacker is PlayerCharacter player && target is Monster)
+				{
+					if (ZoneServer.Instance.Conf.World.DisplayMonsterHp != DisplayMonsterHpType.No)
+						Send.ZC_ACK_REQNAME(player, target);
+				}
+			}
+
+			var attackMotionDelay = 800;
+			var damageMotionDelay = (target as Monster).Data.DamageMotion;
+
+			Send.ZC_NOTIFY_ACT_Attack(attacker, attacker.Handle, target.Handle, DateTime.Now, ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
+
+			if (target.IsDead)
+				autoAttack = false;
+
+			if (autoAttack)
+			{
+				var attackDelay = 800;
+				_attackCallbackId = ZoneServer.Instance.World.Scheduler.Schedule(attackDelay, this.Attack, target);
+			}
+			else
+			{
+				_attackCallbackId = 0;
+			}
+		}
+
+		/// <summary>
+		/// Stops character auto attacking its current target.
+		/// </summary>
+		public void StopAttacking()
+		{
+			_cancelAttack = true;
 		}
 	}
 }

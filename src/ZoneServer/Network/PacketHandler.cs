@@ -14,6 +14,7 @@ using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
+using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.Network
@@ -527,9 +528,14 @@ namespace Sabine.Zone.Network
 					character.StandUp();
 					break;
 				}
-				case (ActionType)7:
 				case ActionType.Attack:
+				case ActionType.AutoAttack:
 				{
+					// So far, I've seen Attack only on Alpha, and newer
+					// clients used AutoAttack. To not actually keep at-
+					// tacking when not intended, the client sends the
+					// packet CZ_CANCEL_LOCKON right after the ACT packet.
+
 					var target = character.Map.GetCharacter(targetHandle);
 					if (target == null)
 					{
@@ -537,28 +543,11 @@ namespace Sabine.Zone.Network
 						return;
 					}
 
-					if (target.IsDead)
-						return;
+					var autoAttack = action == ActionType.AutoAttack;
+					if (Game.Version < Versions.Beta1)
+						autoAttack = false;
 
-					var rnd = RandomProvider.Get();
-					var hitChance = Math.Max(0, 80 + character.Parameters.Hit - target.Parameters.Flee);
-					var damage = 0;
-
-					if (rnd.Next(100) < hitChance)
-					{
-						damage = rnd.Next(character.Parameters.AttackMin, character.Parameters.AttackMax + 1);
-						target.TakeDamage(damage, character);
-
-						target.StunEndTime = DateTime.Now.AddSeconds(1);
-						target.Controller.StopMove();
-
-						// Update the monster's name if the display HP option
-						// was enabled
-						if (ZoneServer.Instance.Conf.World.DisplayMonsterHp != DisplayMonsterHpType.No)
-							Send.ZC_ACK_REQNAME(character, target);
-					}
-
-					Send.ZC_NOTIFY_ACT(character, character.Handle, target.Handle, DateTime.Now.GetUnixTimestamp(), damage, ActionType.Attack);
+					character.StartAttacking(target, autoAttack);
 					break;
 				}
 				default:
@@ -567,6 +556,19 @@ namespace Sabine.Zone.Network
 					break;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Cancels the lock state on a target, to make the player character
+		/// stop attacking it.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CANCEL_LOCKON)]
+		public void CZ_CANCEL_LOCKON(ZoneConnection conn, Packet packet)
+		{
+			var character = conn.GetCurrentCharacter();
+			character.StopAttacking();
 		}
 
 		/// <summary>
