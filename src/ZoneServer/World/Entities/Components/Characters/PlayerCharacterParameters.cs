@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Schema;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
@@ -268,6 +269,18 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// </summary>
 		public void RecalculateSpeeds()
 		{
+			// The alpha client doesn't use server-side delays and instead
+			// has them hardcoded. It sends the attack action every 800ms,
+			// regardless of AGI and DEX, so that's presumably the attack
+			// motion delay, and it would be equivilant to an ASPD of 160,
+			// which matches the bare hand ASPD with 1 AGI and 1 DEX.
+			if (Game.Version < Versions.Beta1)
+			{
+				this.AttackMotionDelay = 800;
+				this.Aspd = 160;
+				return;
+			}
+
 			//var weaponType = this.Character.Inventory.RightHand?.Data.WeaponType;
 			var weaponDelay = this.Character.JobData.WeaponDelays.BareHand; // .GetDelay(weaponType);
 			var agi = this.Agi;
