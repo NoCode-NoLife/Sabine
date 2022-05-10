@@ -645,70 +645,76 @@ namespace Sabine.Zone.Network
 			character.Connection.Send(packet);
 		}
 
-		/// <summary>
-		/// Makes character do an action.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="handleSource"></param>
-		/// <param name="handleTarget"></param>
-		/// <param name="tick"></param>
-		/// <param name="damage"></param>
-		/// <param name="type"></param>
-		/// <param name="delay1"></param>
-		/// <param name="delay2"></param>
-		public static void ZC_NOTIFY_ACT_Attack(Character character, int handleSource, int handleTarget, DateTime tick, ActionType type, int damage, int delay1, int delay2)
+		public static class ZC_NOTIFY_ACT
 		{
-			// Cap the damage, as the alpha client crashes if the damage
-			// is greater than 999. 0 is displayed as "Miss", while
-			// negative numbers become 0 damage.
-			damage = Math2.Clamp(-1, 999, damage);
-
-			ZC_NOTIFY_ACT(character, handleSource, handleTarget, tick.GetUnixTimestamp(), type, damage, delay1, delay2, 0);
-		}
-
-		/// <summary>
-		/// Makes character do an action.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="handleSource"></param>
-		/// <param name="type"></param>
-		public static void ZC_NOTIFY_ACT(Character character, int handleSource, ActionType type)
-			=> ZC_NOTIFY_ACT(character, handleSource, 0, 0, type, 0, 0, 0, 0);
-
-		/// <summary>
-		/// Makes character do an action.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="handleSource"></param>
-		/// <param name="handleTarget"></param>
-		/// <param name="tick"></param>
-		/// <param name="type"></param>
-		/// <param name="arg1"></param>
-		/// <param name="arg2"></param>
-		/// <param name="arg3"></param>
-		/// <param name="arg4"></param>
-		public static void ZC_NOTIFY_ACT(Character character, int handleSource, int handleTarget, int tick, ActionType type, int arg1, int arg2, int arg3, int arg4)
-		{
-			var packet = new Packet(Op.ZC_NOTIFY_ACT);
-
-			packet.PutInt(handleSource);
-			packet.PutInt(handleTarget);
-			packet.PutInt(tick);
-
-			if (Game.Version >= Versions.Beta1)
+			/// <summary>
+			/// Makes character do an action.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="handleSource"></param>
+			/// <param name="handleTarget"></param>
+			/// <param name="tick"></param>
+			/// <param name="damage"></param>
+			/// <param name="type"></param>
+			/// <param name="delay1"></param>
+			/// <param name="delay2"></param>
+			public static void Attack(Character character, int handleSource, int handleTarget, DateTime tick, ActionType type, int damage, int delay1, int delay2)
 			{
-				packet.PutInt(arg2);
-				packet.PutInt(arg3);
+				// Cap the damage, as the alpha client crashes if the damage
+				// is greater than 999. 0 is displayed as "Miss", while
+				// negative numbers become 0 damage.
+				damage = Math2.Clamp(-1, 999, damage);
+
+				Raw(character, handleSource, handleTarget, tick.GetUnixTimestamp(), type, damage, delay1, delay2, 0, 0);
 			}
 
-			packet.PutShort((short)arg1);
+			/// <summary>
+			/// Makes character do an action.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="handleSource"></param>
+			/// <param name="type"></param>
+			public static void Simple(Character character, int handleSource, ActionType type)
+				=> Raw(character, handleSource, 0, 0, type, 0, 0, 0, 0, 0);
 
-			if (Game.Version >= Versions.Beta1)
-				packet.PutShort((short)arg4);
+			/// <summary>
+			/// Makes character do an action.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="handleSource"></param>
+			/// <param name="handleTarget"></param>
+			/// <param name="tick"></param>
+			/// <param name="type"></param>
+			/// <param name="arg1"></param>
+			/// <param name="arg2"></param>
+			/// <param name="arg3"></param>
+			/// <param name="arg4"></param>
+			public static void Raw(Character character, int handleSource, int handleTarget, int tick, ActionType type, int arg1, int arg2, int arg3, int arg4, int arg5)
+			{
+				var packet = new Packet(Op.ZC_NOTIFY_ACT);
 
-			packet.PutByte((byte)type);
+				packet.PutInt(handleSource);
+				packet.PutInt(handleTarget);
+				packet.PutInt(tick);
 
-			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+				if (Game.Version >= Versions.Beta1)
+				{
+					packet.PutInt(arg2);
+					packet.PutInt(arg3);
+				}
+
+				packet.PutShort((short)arg1);
+
+				if (Game.Version >= Versions.Beta1)
+					packet.PutShort((short)arg4);
+
+				packet.PutByte((byte)type);
+
+				if (Game.Version >= Versions.EP4)
+					packet.PutShort((short)arg5);
+
+				character.Map.Broadcast(packet, character, BroadcastTargets.All);
+			}
 		}
 
 		/// <summary>

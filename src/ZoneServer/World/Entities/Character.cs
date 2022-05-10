@@ -6,6 +6,7 @@ using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -293,7 +294,7 @@ namespace Sabine.Zone.World.Entities
 			var attackMotionDelay = attacker.Parameters.AttackMotionDelay;
 			var damageMotionDelay = target.Parameters.DamageMotionDelay;
 
-			Send.ZC_NOTIFY_ACT_Attack(attacker, attacker.Handle, target.Handle, DateTime.Now, ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
+			Send.ZC_NOTIFY_ACT.Attack(attacker, attacker.Handle, target.Handle, DateTime.Now, ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
 
 			if (target.IsDead)
 				autoAttack = false;

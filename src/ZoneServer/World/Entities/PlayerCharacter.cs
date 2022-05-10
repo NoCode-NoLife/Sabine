@@ -253,7 +253,7 @@ namespace Sabine.Zone.World.Entities
 				return;
 
 			this.State = CharacterState.Sitting;
-			Send.ZC_NOTIFY_ACT(this, this.Handle, ActionType.SitDown);
+			Send.ZC_NOTIFY_ACT.Simple(this, this.Handle, ActionType.SitDown);
 		}
 
 		/// <summary>
@@ -265,11 +265,11 @@ namespace Sabine.Zone.World.Entities
 				return;
 
 			this.State = CharacterState.Standing;
-			Send.ZC_NOTIFY_ACT(this, this.Handle, ActionType.StandUp);
+			Send.ZC_NOTIFY_ACT.Simple(this, this.Handle, ActionType.StandUp);
 		}
 
 		/// <summary>
-		/// Updates character.
+		/// Updates character and its components.
 		/// </summary>
 		/// <param name="elapsed"></param>
 		public override void Update(TimeSpan elapsed)
