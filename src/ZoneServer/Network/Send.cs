@@ -663,7 +663,10 @@ namespace Sabine.Zone.Network
 				// Cap the damage, as the alpha client crashes if the damage
 				// is greater than 999. 0 is displayed as "Miss", while
 				// negative numbers become 0 damage.
-				damage = Math2.Clamp(-1, 999, damage);
+				// Beta1 doesn't crash, regardless of the damage value, but
+				// caps the displayed damage at 9999.
+				if (Game.Version < Versions.Beta1)
+					damage = Math2.Clamp(-1, 999, damage);
 
 				Raw(character, handleSource, handleTarget, tick.GetUnixTimestamp(), type, damage, delay1, delay2, 0, 0);
 			}
