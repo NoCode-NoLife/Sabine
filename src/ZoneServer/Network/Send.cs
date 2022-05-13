@@ -630,7 +630,7 @@ namespace Sabine.Zone.Network
 		/// <param name="pos"></param>
 		/// <param name="ip"></param>
 		/// <param name="port"></param>
-		public static void ZC_NPCACK_MAPMOVE(PlayerCharacter character, string mapStringId, Position pos, string ip, int port)
+		public static void ZC_NPCACK_SERVERMOVE(PlayerCharacter character, string mapStringId, Position pos, string ip, int port)
 		{
 			var mapFileName = mapStringId + ".gat";
 
