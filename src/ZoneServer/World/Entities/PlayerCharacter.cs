@@ -217,8 +217,6 @@ namespace Sabine.Zone.World.Entities
 			this.Controller.StopMove();
 			this.StopObserving();
 
-			//Log.Debug("Warping to {0}", location);
-
 			Send.ZC_NPCACK_MAPMOVE(this, map.StringId, location.Position);
 		}
 

@@ -143,7 +143,6 @@ namespace Sabine.Zone.World.Maps
 		/// <summary>
 		/// Removes overdue items.
 		/// </summary>
-		/// <exception cref="NotImplementedException"></exception>
 		private void RemoveDroppedItems()
 		{
 			IList<Item> items = null;

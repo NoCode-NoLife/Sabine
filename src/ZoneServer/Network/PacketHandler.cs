@@ -109,9 +109,12 @@ namespace Sabine.Zone.Network
 			var character = conn.GetCurrentCharacter();
 
 			if (character.IsWarping)
+			{
 				character.FinalizeWarp();
-			else
-				character.StartObserving();
+				return;
+			}
+
+			character.StartObserving();
 
 			// Send all stats/parameters to the client that it didn't
 			// get from the char server yet. Also send a few that
