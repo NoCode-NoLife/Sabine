@@ -191,5 +191,15 @@ namespace Sabine.Zone.World.Entities
 				item.Drop(map, dropPos);
 			}
 		}
+
+		/// <summary>
+		/// Sets up the AI and attaches it to the monster.
+		/// </summary>
+		/// <param name="ai"></param>
+		public void AttachAi(MonsterAi ai)
+		{
+			ai.Character = this;
+			this.Components.Add(ai);
+		}
 	}
 }

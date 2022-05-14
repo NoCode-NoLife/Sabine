@@ -56,6 +56,17 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
+		/// Returns true if a component with the given type exists.
+		/// </summary>
+		/// <typeparam name="TComponent"></typeparam>
+		/// <returns></returns>
+		public bool Contains<TComponent>()
+		{
+			lock (_syncLock)
+				return _components.ContainsKey(typeof(TComponent));
+		}
+
+		/// <summary>
 		/// Returns component from character if it exists. It it doesn't
 		/// the method returns null.
 		/// </summary>
