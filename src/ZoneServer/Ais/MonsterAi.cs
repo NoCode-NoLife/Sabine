@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
@@ -116,6 +117,17 @@ namespace Sabine.Zone.Ais
 		protected IEnumerable Say(string message)
 		{
 			Send.ZC_NOTIFY_CHAT(this.Character, message);
+			yield break;
+		}
+
+		/// <summary>
+		/// Let's character use an emote.
+		/// </summary>
+		/// <param name="emotionId"></param>
+		/// <returns></returns>
+		protected IEnumerable Emotion(EmotionId emotionId)
+		{
+			Send.ZC_EMOTION(this.Character, emotionId);
 			yield break;
 		}
 	}

@@ -559,13 +559,13 @@ namespace Sabine.Zone.Network
 		/// Makes character use the given emotion.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="emotion"></param>
-		public static void ZC_EMOTION(PlayerCharacter character, EmotionId emotion)
+		/// <param name="emotionId"></param>
+		public static void ZC_EMOTION(Character character, EmotionId emotionId)
 		{
 			var packet = new Packet(Op.ZC_EMOTION);
 
 			packet.PutInt(character.Handle);
-			packet.PutByte((byte)emotion);
+			packet.PutByte((byte)emotionId);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);
 		}
