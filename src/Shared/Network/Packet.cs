@@ -92,13 +92,6 @@ namespace Sabine.Shared.Network
 			=> _buffer.WriteInt32(value);
 
 		/// <summary>
-		/// Writes DateTime to packet as a UNIX timestamp.
-		/// </summary>
-		/// <param name="value"></param>
-		public void PutInt(DateTime value)
-			=> _buffer.WriteInt32(value.GetUnixTimestamp());
-
-		/// <summary>
 		/// Writes IP to packet as an int.
 		/// </summary>
 		/// <param name="value"></param>

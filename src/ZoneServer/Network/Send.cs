@@ -42,11 +42,11 @@ namespace Sabine.Zone.Network
 		/// Sends server time to client.
 		/// </summary>
 		/// <param name="conn"></param>
-		/// <param name="serverTime"></param>
-		public static void ZC_NOTIFY_TIME(ZoneConnection conn, DateTime serverTime)
+		/// <param name="tick"></param>
+		public static void ZC_NOTIFY_TIME(ZoneConnection conn, int tick)
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_TIME);
-			packet.PutInt(serverTime);
+			packet.PutInt(tick);
 
 			conn.Send(packet);
 		}
@@ -201,7 +201,7 @@ namespace Sabine.Zone.Network
 
 			packet.PutInt(character.Handle);
 			packet.AddPackedMove(from, to, 8, 8);
-			packet.PutInt(DateTime.Now);
+			packet.PutInt(Game.GetTick());
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
 		}
@@ -216,7 +216,7 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_PLAYERMOVE);
 
-			packet.PutInt(DateTime.Now);
+			packet.PutInt(Game.GetTick());
 			packet.AddPackedMove(from, to, 8, 8);
 
 			character.Connection.Send(packet);
@@ -658,7 +658,7 @@ namespace Sabine.Zone.Network
 			/// <param name="type"></param>
 			/// <param name="delay1"></param>
 			/// <param name="delay2"></param>
-			public static void Attack(Character character, int handleSource, int handleTarget, DateTime tick, ActionType type, int damage, int delay1, int delay2)
+			public static void Attack(Character character, int handleSource, int handleTarget, int tick, ActionType type, int damage, int delay1, int delay2)
 			{
 				// Cap the damage, as the alpha client crashes if the damage
 				// is greater than 999. 0 is displayed as "Miss", while
@@ -668,7 +668,7 @@ namespace Sabine.Zone.Network
 				if (Game.Version < Versions.Beta1)
 					damage = Math2.Clamp(-1, 999, damage);
 
-				Raw(character, handleSource, handleTarget, tick.GetUnixTimestamp(), type, damage, delay1, delay2, 0, 0);
+				Raw(character, handleSource, handleTarget, tick, type, damage, delay1, delay2, 0, 0);
 			}
 
 			/// <summary>

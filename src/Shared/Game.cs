@@ -1,4 +1,6 @@
-﻿namespace Sabine.Shared
+﻿using System;
+
+namespace Sabine.Shared
 {
 	/// <summary>
 	/// Global accessor for the application settings.
@@ -9,6 +11,14 @@
 		/// The packet version to use.
 		/// </summary>
 		public static int Version = 0;
+
+		/// <summary>
+		/// Returns the servers current tick time, indicating how many
+		/// milliseconds have passed since a certain time.
+		/// </summary>
+		/// <returns></returns>
+		public static int GetTick()
+			=> Environment.TickCount;
 	}
 
 	/// <summary>

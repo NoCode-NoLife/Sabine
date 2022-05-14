@@ -145,7 +145,7 @@ namespace Sabine.Zone.Network
 			if (Game.Version >= Versions.Beta1)
 				clientTime = packet.GetInt();
 
-			Send.ZC_NOTIFY_TIME(conn, DateTime.Now);
+			Send.ZC_NOTIFY_TIME(conn, Game.GetTick());
 		}
 
 		/// <summary>

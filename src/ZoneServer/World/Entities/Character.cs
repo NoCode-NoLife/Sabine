@@ -1,4 +1,5 @@
 ﻿using System;
+using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
@@ -294,7 +295,7 @@ namespace Sabine.Zone.World.Entities
 			var attackMotionDelay = attacker.Parameters.AttackMotionDelay;
 			var damageMotionDelay = target.Parameters.DamageMotionDelay;
 
-			Send.ZC_NOTIFY_ACT.Attack(attacker, attacker.Handle, target.Handle, DateTime.Now, ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
+			Send.ZC_NOTIFY_ACT.Attack(attacker, attacker.Handle, target.Handle, Game.GetTick(), ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
 
 			if (target.IsDead)
 				autoAttack = false;

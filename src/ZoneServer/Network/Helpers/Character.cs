@@ -213,7 +213,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutByte((byte)character.HairId);
 				packet.PutByte((byte)character.WeaponId);
 				packet.PutByte(0);
-				packet.PutInt(DateTime.Now);
+				packet.PutInt(Game.GetTick());
 			}
 			else
 			{
@@ -224,7 +224,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort((short)character.HairId);
 				packet.PutShort((short)character.WeaponId);
 				packet.PutShort(0);     // Head1
-				packet.PutInt(DateTime.Now);
+				packet.PutInt(Game.GetTick());
 				packet.PutShort(0);     // Shield
 				packet.PutShort(0);     // Head2
 				packet.PutShort(0);     // Head3
