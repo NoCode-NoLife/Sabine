@@ -18,4 +18,4 @@ short op;
 int characterId;
 char mapFileName[16];
 IP ip;
-short op;
+short port;

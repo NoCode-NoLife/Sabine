@@ -13,7 +13,7 @@ namespace Sabine.Zone.World.Entities
 	/// </summary>
 	public class Npc : Character
 	{
-		private static int HandlePool = 0x3000_0000;
+		private static int HandlePool = 400_000_000;
 
 		/// <summary>
 		/// Returns the NPC's unique handle.

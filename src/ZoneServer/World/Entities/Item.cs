@@ -4,7 +4,6 @@ using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
-using Sabine.Shared.Database.MySQL;
 using Sabine.Shared.World;
 using Sabine.Zone.World.Maps;
 using Yggdrasil.Util;
@@ -16,7 +15,7 @@ namespace Sabine.Zone.World.Entities
 	/// </summary>
 	public class Item : IEntity
 	{
-		private static int HandlePool = 0x6000_0000;
+		private static int HandlePool = 600_000_000;
 
 		/// <summary>
 		/// Returns the id the item is identified by in the data.
