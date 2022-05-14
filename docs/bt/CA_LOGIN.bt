@@ -3,7 +3,7 @@
 //
 //      File: CA_LOGIN.bt
 //   Authors: exec
-//   Version: i20010830 (iRO Alpha)
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,7 +11,12 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/version.bt"
+
 short op;
 
-char name[16];
-char password[16];
+if (VERSION >= 200)
+    int version;
+
+char name[NAME_SIZE];
+char password[NAME_SIZE];

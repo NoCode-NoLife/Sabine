@@ -3,7 +3,7 @@
 //
 //      File: CH_ENTER.bt
 //   Authors: exec
-//   Version: i20010830 (iRO Alpha)
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,10 +11,22 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/version.bt"
+
 short op;
 
-int sessionId;
-int accountId;
+if (VERSION < 200)
+{
+    int accountId;
+    int sessionId;
+}
+else
+{
+    int accountId;
+    int sessionId1;
+    int sessionId2;
+}
+
 byte b1; // language?
 byte b2;
 byte sex;

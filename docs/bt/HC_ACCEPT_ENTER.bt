@@ -11,10 +11,22 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/version.bt"
 #include "inc/CharCharacter.bt"
 
 short op;
 short len;
 
-local int charCount = (len - 4) / sizeof(CharCharacter);
+if (VERSION >= 600)
+    short s1;
+
+local int charDataSize = -1;
+if (VERSION < 200)
+    charDataSize = 74;
+else if (VERSION < 300)
+    charDataSize = 90;
+else // 300+
+    charDataSize = 106;
+
+local int charCount = (len - 4) / charDataSize;
 CharCharacter characters[charCount];

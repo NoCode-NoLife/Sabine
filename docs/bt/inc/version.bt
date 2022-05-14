@@ -1,0 +1,52 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: version.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#ifndef VERSION
+
+local int argc = GetNumArgs();
+
+local int __version;
+if (argc > 3)
+    SScanf(GetArg(3), "%d", __version);
+else
+    __version = 99999999;
+
+#define VERSION (__version)
+
+if (argc)
+{
+    Printf("Arguments (%d): ", argc);
+    local int i;
+    for (i = 0; i < argc; ++i)
+    {
+        Printf("'%s'", GetArg(i));
+        if (i < argc - 1)
+            Printf(", ");
+    }
+    Printf("\n");
+}
+else
+{
+    Printf("No arguments passed to template.\n");
+    //Printf("Type: unk\n");
+}
+
+local int __nameSize = 16;
+if (VERSION >= 200)
+    __nameSize = 24;
+
+#define NAME_SIZE (__nameSize)
+
+Printf("Version: %d\n", VERSION);
+
+#endif

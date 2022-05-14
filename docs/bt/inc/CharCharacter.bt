@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/version.bt"
+
 typedef struct
 {
     int id;
@@ -20,31 +22,69 @@ typedef struct
     int i1;
     int i2;
     int i3;
+
+	if (VERSION >= 200)
+	{
+        int i4;
+        int karma;
+        int manner;
+	}
+
     short statPoints;
     short hp;
     short hpMax;
     short sp;
     short spMax;
     short speed;
-    short karma;
-    short manner;
-    char name[16];
-    byte jobId;
-    byte baseLevel;
-    byte jobLevel;
-    byte str;
-    byte agi;
-    byte vit;
-    byte int_;
-    byte dex;
-    byte luk;
-    byte slot;
-    byte gap;
-    byte hairId;
-    byte weaponId;
-    byte b1;
+
+	if (VERSION < 200)
+	{
+        short karma;
+        short manner;
+	}
+
+	if (VERSION < 300)
+	{
+        char name[NAME_SIZE];
+        byte jobId;
+        byte baseLevel;
+        byte jobLevel;
+        byte str;
+        byte agi;
+        byte vit;
+        byte int_;
+        byte dex;
+        byte luk;
+        byte slot;
+        byte gap;
+        byte hairId;
+        byte weaponId;
+        byte headTopId;
+    }
+    else
+	{
+        short jobId;
+        short hairId;
+        short weaponId;
+        short baseLevel;
+        short skillPoints;
+        short headBottomId;
+        short shieldId;
+        short headTopId;
+        short headMidId;
+        short hairColorId;
+        char name[NAME_SIZE];
+        byte str;
+        byte agi;
+        byte vit;
+        byte int_;
+        byte dex;
+        byte luk;
+        byte slot;
+        byte gap;
+    }
 }
-CharCharacter <read=readCharCharacter>;
+CharCharacter <optimize=false, read=readCharCharacter>;
 
 string readCharCharacter(CharCharacter &val)
 {

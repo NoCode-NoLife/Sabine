@@ -3,7 +3,7 @@
 //
 //      File: AC_ACCEPT_LOGIN.bt
 //   Authors: exec
-//   Version: i20010830 (iRO Alpha)
+//   Version: 
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,6 +11,7 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/version.bt"
 #include "inc/IP.bt"
 
 typedef struct
@@ -18,15 +19,39 @@ typedef struct
     IP ip;
     unsigned short port;
     char name[20];
+
+	if (VERSION >= 300)
+	{
+        short playerCount;
+        short inMaintenance;
+        short isNew;
+	}
 }
 CharServer;
 
 short op;
 short len;
 
-int accountId;
-byte sex;
-int sessionId;
+if (VERSION < 200)
+{
+    int sessionId;
+    byte sex;
+    int accountId;
+}
+else
+{
+    int sessionId1;
+    int accountId;
+    int sessionId2;
+
+    if (VERSION >= 300)
+    {
+        IP lastIp; // ?
+        char lastServer[26]; // ?
+    }
+
+    byte sex;
+}
 
 local int count = (len - 4 - 9) / sizeof(CharServer);
 if (count > 0)
