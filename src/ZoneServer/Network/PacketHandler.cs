@@ -32,12 +32,23 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_ENTER)]
 		public void CZ_ENTER(ZoneConnection conn, Packet packet)
 		{
-			var sessionId = packet.GetInt();
-			var characterId = packet.GetInt();
-			var accountId = packet.GetInt();
+			int accountId, sessionId, characterId;
 
-			if (Game.Version >= Versions.Beta1)
+			if (Game.Version < Versions.Beta1)
+			{
+				accountId = packet.GetInt();
+				characterId = packet.GetInt();
+				sessionId = packet.GetInt();
+			}
+			else
+			{
+				accountId = packet.GetInt();
+				characterId = packet.GetInt();
+				sessionId = packet.GetInt();
+
+				// This isn't sessionId2. Looks like it might be a tick?
 				_ = packet.GetInt();
+			}
 
 			var sex = packet.GetByte();
 

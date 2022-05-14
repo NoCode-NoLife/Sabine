@@ -24,17 +24,17 @@ namespace Sabine.Char.Network
 		[PacketHandler(Op.CH_ENTER)]
 		public void CH_ENTER(CharConnection conn, Packet packet)
 		{
-			int accountId, sessionId, sessionId2 = 0;
+			int accountId, sessionId1, sessionId2 = 0;
 
 			if (Game.Version < Versions.Beta1)
 			{
-				sessionId = packet.GetInt();
 				accountId = packet.GetInt();
+				sessionId1 = packet.GetInt();
 			}
 			else
 			{
-				sessionId = packet.GetInt();
 				accountId = packet.GetInt();
+				sessionId1 = packet.GetInt();
 				sessionId2 = packet.GetInt();
 			}
 
@@ -57,7 +57,7 @@ namespace Sabine.Char.Network
 				return;
 			}
 
-			if (sessionId != account.SessionId)
+			if (sessionId1 != account.SessionId)
 			{
 				Log.Warning("CH_ENTER: User '{0}' tried to log in with an invalid session id.", account.Username);
 				Send.HC_REFUSE_ENTER(conn, CharConnectError.AccessDenied);

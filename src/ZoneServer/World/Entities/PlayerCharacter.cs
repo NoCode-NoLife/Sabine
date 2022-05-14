@@ -49,7 +49,7 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		public override int Handle
 		{
-			get => this.Connection.Account.SessionId;
+			get => this.Connection.Account.Id;
 			protected set => throw new NotSupportedException();
 		}
 

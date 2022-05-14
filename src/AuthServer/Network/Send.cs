@@ -41,15 +41,15 @@ namespace Sabine.Auth.Network
 
 			if (Game.Version < Versions.Beta1)
 			{
-				packet.PutInt(account.Id);
-				packet.PutByte((byte)account.Sex);
 				packet.PutInt(account.SessionId);
+				packet.PutByte((byte)account.Sex);
+				packet.PutInt(account.Id); // This becomes the player character's handle
 			}
 			else
 			{
-				packet.PutInt(account.Id);
 				packet.PutInt(account.SessionId);
-				packet.PutInt(account.SessionId);
+				packet.PutInt(account.Id); // This becomes the player character's handle
+				packet.PutInt(account.SessionId + 1);
 
 				if (Game.Version >= Versions.Beta2)
 				{
