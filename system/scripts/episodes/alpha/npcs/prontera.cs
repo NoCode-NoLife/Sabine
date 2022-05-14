@@ -26,7 +26,7 @@ public class PronteraNpcsScript : GeneralScript
 		// This NPC is mentioned in the guide, but its purpose is unknown.
 		AddNpc("Prize Exchanger", 55, "prt_intr02", 127, 102, 3, async dialog =>
 		{
-			await dialog.MsgAdv("Who... am I? And what am I doing here?");
+			await dialog.Talk("Who... am I? And what am I doing here?");
 		});
 
 		// Seen in screen shots, names and purposes unknown.
@@ -41,26 +41,26 @@ public class PronteraNpcsScript : GeneralScript
 		// a pastor in the cathedral.
 		AddNpc("Pastor", 51, "prt_intr02", 43, 172, 3, async dialog =>
 		{
-			await dialog.MsgAdv("Welcome, my child.");
+			await dialog.Talk("Welcome, my child.");
 		});
 
 		// Lets players enter the sewers
 		AddNpc("Soldier", 33, "prt_intr01", 18, 78, 4, async dialog =>
 		{
-			await dialog.MsgAdv("The sewer system is infested with monsters. Will you help us clean them out?");
+			await dialog.Talk("The sewer system is infested with monsters. Will you help us clean them out?");
 			var response = await dialog.Select(Option("Yes", "yes"), Option("No", "no"));
 
 			switch (response)
 			{
 				case "yes":
 				{
-					await dialog.MsgAdv("Great, let's go!");
+					await dialog.Talk("Great, let's go!");
 					dialog.Player.Warp("prt_dugn00", 41, 31);
 					break;
 				}
 				case "no":
 				{
-					await dialog.MsgAdv("Oh... alright.");
+					await dialog.Talk("Oh... alright.");
 					break;
 				}
 			}
@@ -136,7 +136,7 @@ public class PronteraNpcsScript : GeneralScript
 		// Seller for certificates
 		AddNpc("Resident Office", 42, "prt_intr01", 30, 76, 6, async dialog =>
 		{
-			await dialog.MsgAdv("What can I do for you?");
+			await dialog.Talk("What can I do for you?");
 			var response = await dialog.Select(Option("Buy Resident Certificate", "buy_resident"), Option("Buy Business Certificate", "buy_business"), Option("Nevermind.", "nvm"));
 
 			var itemClassId = 0;
@@ -147,19 +147,19 @@ public class PronteraNpcsScript : GeneralScript
 				default:
 				case "nvm":
 				{
-					await dialog.MsgAdv("Please don't distract me if you don't need anything.");
+					await dialog.Talk("Please don't distract me if you don't need anything.");
 					return;
 				}
 				case "buy_resident":
 				{
-					await dialog.MsgAdv("A Resident Certificate? Certainly. That's 500 Zeny.");
+					await dialog.Talk("A Resident Certificate? Certainly. That's 500 Zeny.");
 					itemClassId = 20002;
 					price = 500;
 					break;
 				}
 				case "buy_business":
 				{
-					await dialog.MsgAdv("A Business Certificate? Certainly. That's 1000 Zeny.");
+					await dialog.Talk("A Business Certificate? Certainly. That's 1000 Zeny.");
 					itemClassId = 20003;
 					price = 1000;
 					break;
@@ -169,20 +169,20 @@ public class PronteraNpcsScript : GeneralScript
 			response = await dialog.Select(Option("Here you go.", "yes"), Option("I changed my mind.", "no"));
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Hm, okay then.");
+				await dialog.Talk("Hm, okay then.");
 				return;
 			}
 
 			if (dialog.Player.Parameters.Zeny < price)
 			{
-				await dialog.MsgAdv("What's this, you don't have the money? Please don't distract me then.");
+				await dialog.Talk("What's this, you don't have the money? Please don't distract me then.");
 				return;
 			}
 
 			dialog.Player.Parameters.Modify(ParameterType.Zeny, -price);
 			dialog.Player.Inventory.Add(itemClassId, 1);
 
-			await dialog.MsgAdv("Thank you, have a good day.");
+			await dialog.Talk("Thank you, have a good day.");
 		});
 	}
 }

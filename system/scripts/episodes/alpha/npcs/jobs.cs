@@ -23,36 +23,36 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Swordman)
 			{
-				await dialog.MsgAdv("Hello, how is life as an Swordman?");
+				await dialog.Talk("Hello, how is life as an Swordman?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
 			{
-				await dialog.MsgAdv("You have made your choice.");
+				await dialog.Talk("You have made your choice.");
 				return;
 			}
 
-			await dialog.MsgAdv("Hello, would you like to become an Swordman?");
+			await dialog.Talk("Hello, would you like to become an Swordman?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Come back if you change your mind.");
+				await dialog.Talk("Come back if you change your mind.");
 				return;
 			}
 
-			await dialog.MsgAdv("To become a Swordman, you need to reach level 10 and aquire a Resident Certificate and 10 Claw of Wolves.<p/>You also need to pay a fee of 200 Zeny. Would you like to continue?");
+			await dialog.Talk("To become a Swordman, you need to reach level 10 and aquire a Resident Certificate and 10 Claw of Wolves.<p/>You also need to pay a fee of 200 Zeny. Would you like to continue?");
 			response = await dialog.Select(Option("Yes.", "yes"), Option("I changed my mind.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Alright, come back any time.");
+				await dialog.Talk("Alright, come back any time.");
 				return;
 			}
 
 			if (player.Parameters.BaseLevel < 10 || player.Parameters.Zeny < 200 || !player.Inventory.Contains(ItemId.ResidentCert) || !player.Inventory.Contains(ItemId.ClawofWolves, 10))
 			{
-				await dialog.MsgAdv("Unfortunately you don't meet the requirements.");
+				await dialog.Talk("Unfortunately you don't meet the requirements.");
 				return;
 			}
 
@@ -60,7 +60,7 @@ public class JobChangerNpcScripts : GeneralScript
 			player.Inventory.Remove(ItemId.ClawofWolves, 10);
 			player.ChangeJob(JobId.Swordman);
 
-			await dialog.MsgAdv("Very well. You are now a Swordman. Good luck.");
+			await dialog.Talk("Very well. You are now a Swordman. Good luck.");
 		});
 
 		// Merchant job changer in the town hall in South Prontera
@@ -70,43 +70,43 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Merchant)
 			{
-				await dialog.MsgAdv("Hello, how is life as an Merchant?");
+				await dialog.Talk("Hello, how is life as an Merchant?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
 			{
-				await dialog.MsgAdv("You have made your choice.");
+				await dialog.Talk("You have made your choice.");
 				return;
 			}
 
-			await dialog.MsgAdv("Hello, would you like to become an Merchant?");
+			await dialog.Talk("Hello, would you like to become an Merchant?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Come back if you change your mind.");
+				await dialog.Talk("Come back if you change your mind.");
 				return;
 			}
 
-			await dialog.MsgAdv("To become a Merchant, you need to reach level 5 and aquire a Resident Certificate and a Business Certificate.<p/>You also need to pay a fee of 500 Zeny. Would you like to continue?");
+			await dialog.Talk("To become a Merchant, you need to reach level 5 and aquire a Resident Certificate and a Business Certificate.<p/>You also need to pay a fee of 500 Zeny. Would you like to continue?");
 			response = await dialog.Select(Option("Yes.", "yes"), Option("I changed my mind.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Alright, come back any time.");
+				await dialog.Talk("Alright, come back any time.");
 				return;
 			}
 
 			if (player.Parameters.BaseLevel < 5 || player.Parameters.Zeny < 500 || !player.Inventory.Contains(ItemId.ResidentCert) || !player.Inventory.Contains(ItemId.BusinessCert))
 			{
-				await dialog.MsgAdv("Unfortunately you don't meet the requirements.");
+				await dialog.Talk("Unfortunately you don't meet the requirements.");
 				return;
 			}
 
 			player.Parameters.Modify(ParameterType.Zeny, -500);
 			player.ChangeJob(JobId.Merchant);
 
-			await dialog.MsgAdv("Very well. You are now a Merchant. Good luck.");
+			await dialog.Talk("Very well. You are now a Merchant. Good luck.");
 		});
 
 		// Thief job changer in the pyramid in Morocc Village
@@ -116,43 +116,43 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Thief)
 			{
-				await dialog.MsgAdv("Hello, how is life as an Thief?");
+				await dialog.Talk("Hello, how is life as an Thief?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
 			{
-				await dialog.MsgAdv("You have made your choice.");
+				await dialog.Talk("You have made your choice.");
 				return;
 			}
 
-			await dialog.MsgAdv("Hello, would you like to become an Thief?");
+			await dialog.Talk("Hello, would you like to become an Thief?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Come back if you change your mind.");
+				await dialog.Talk("Come back if you change your mind.");
 				return;
 			}
 
-			await dialog.MsgAdv("To become a Thief, you need to reach level 6.<p/>You also need to pay a fee of 400 Zeny. Would you like to continue?");
+			await dialog.Talk("To become a Thief, you need to reach level 6.<p/>You also need to pay a fee of 400 Zeny. Would you like to continue?");
 			response = await dialog.Select(Option("Yes.", "yes"), Option("I changed my mind.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Alright, come back any time.");
+				await dialog.Talk("Alright, come back any time.");
 				return;
 			}
 
 			if (player.Parameters.BaseLevel < 6 || player.Parameters.Zeny < 400)
 			{
-				await dialog.MsgAdv("Unfortunately you don't meet the requirements.");
+				await dialog.Talk("Unfortunately you don't meet the requirements.");
 				return;
 			}
 
 			player.Parameters.Modify(ParameterType.Zeny, -400);
 			player.ChangeJob(JobId.Thief);
 
-			await dialog.MsgAdv("Very well. You are now a Thief. Good luck.");
+			await dialog.Talk("Very well. You are now a Thief. Good luck.");
 		});
 
 		// Archer job changer in the large building in Archers' Village
@@ -162,43 +162,43 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Archer)
 			{
-				await dialog.MsgAdv("Hello, how is life as an Archer?");
+				await dialog.Talk("Hello, how is life as an Archer?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
 			{
-				await dialog.MsgAdv("You have made your choice.");
+				await dialog.Talk("You have made your choice.");
 				return;
 			}
 
-			await dialog.MsgAdv("Hello, would you like to become an Archer?");
+			await dialog.Talk("Hello, would you like to become an Archer?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Come back if you change your mind.");
+				await dialog.Talk("Come back if you change your mind.");
 				return;
 			}
 
-			await dialog.MsgAdv("To become a Archer, you need to reach level 8 and aquire 20 Feather of Birds. Would you like to continue?");
+			await dialog.Talk("To become a Archer, you need to reach level 8 and aquire 20 Feather of Birds. Would you like to continue?");
 			response = await dialog.Select(Option("Yes.", "yes"), Option("I changed my mind.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Alright, come back any time.");
+				await dialog.Talk("Alright, come back any time.");
 				return;
 			}
 
 			if (player.Parameters.BaseLevel < 8 || !player.Inventory.Contains(ItemId.FeatherofBird, 20))
 			{
-				await dialog.MsgAdv("Unfortunately you don't meet the requirements.");
+				await dialog.Talk("Unfortunately you don't meet the requirements.");
 				return;
 			}
 
 			player.Inventory.Remove(ItemId.FeatherofBird, 20);
 			player.ChangeJob(JobId.Archer);
 
-			await dialog.MsgAdv("Very well. You are now a Archer. Good luck.");
+			await dialog.Talk("Very well. You are now a Archer. Good luck.");
 		});
 
 		// Acolyte job changer in the cathedral in North Prontera
@@ -208,34 +208,34 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Acolyte)
 			{
-				await dialog.MsgAdv("Hello, how is life as an Acolyte?");
+				await dialog.Talk("Hello, how is life as an Acolyte?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
 			{
-				await dialog.MsgAdv("You have made your choice.");
+				await dialog.Talk("You have made your choice.");
 				return;
 			}
 
-			await dialog.MsgAdv("Hello, would you like to become an Acolyte?");
+			await dialog.Talk("Hello, would you like to become an Acolyte?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
 			{
-				await dialog.MsgAdv("Come back if you change your mind.");
+				await dialog.Talk("Come back if you change your mind.");
 				return;
 			}
 
 			if (player.Parameters.BaseLevel < 5)
 			{
-				await dialog.MsgAdv("Unfortunately you don't meet the requirements. You need to be at least level 5.<p/>Come back once you've become stronger.");
+				await dialog.Talk("Unfortunately you don't meet the requirements. You need to be at least level 5.<p/>Come back once you've become stronger.");
 				return;
 			}
 
-			await dialog.MsgAdv("Very well.");
+			await dialog.Talk("Very well.");
 			player.ChangeJob(JobId.Acolyte);
 
-			await dialog.MsgAdv("You are now an Acolyte. Good luck...");
+			await dialog.Talk("You are now an Acolyte. Good luck...");
 		});
 	}
 }

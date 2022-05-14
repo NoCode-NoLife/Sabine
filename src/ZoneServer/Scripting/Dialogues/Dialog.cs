@@ -182,7 +182,7 @@ namespace Sabine.Zone.Scripting.Dialogues
 		/// </summary>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		public async Task MsgAdv(string message)
+		public async Task Talk(string message)
 		{
 			var pages = message.Split(new string[] { "<p/>" }, StringSplitOptions.None);
 
