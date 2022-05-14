@@ -131,8 +131,8 @@ namespace Sabine.Zone.Network
 			// get from the char server yet. Also send a few that
 			// might've changed during character loading.
 			Send.ZC_STATUS(character);
-			Send.ZC_PAR_CHANGE(character, ParameterType.Weight);
 			Send.ZC_PAR_CHANGE(character, ParameterType.WeightMax);
+			Send.ZC_PAR_CHANGE(character, ParameterType.Weight);
 			Send.ZC_PAR_CHANGE(character, ParameterType.SkillPoints);
 			Send.ZC_PAR_CHANGE(character, ParameterType.HpMax);
 			Send.ZC_PAR_CHANGE(character, ParameterType.Hp);
