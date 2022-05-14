@@ -88,8 +88,11 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 				return;
 			}
 
-			_pathQueue.Clear();
-			_pathQueue.AddRange(path);
+			lock (_pathQueue)
+			{
+				_pathQueue.Clear();
+				_pathQueue.AddRange(path);
+			}
 
 			// Start the move to the next tile
 			this.StartMove();
@@ -113,11 +116,15 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// <exception cref="InvalidOperationException"></exception>
 		private void StartMove()
 		{
-			if (_pathQueue.Count == 0)
-				throw new InvalidOperationException("Path queue is empty.");
-
 			var character = this.Character;
-			_nextDestination = _pathQueue.Dequeue();
+
+			lock (_pathQueue)
+			{
+				if (_pathQueue.Count == 0)
+					throw new InvalidOperationException("Path queue is empty.");
+
+				_nextDestination = _pathQueue.Dequeue();
+			}
 
 			var movingStright = character.Position.InStraightLine(_nextDestination);
 			var speed = (float)character.Parameters.Speed;
@@ -162,10 +169,13 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			}
 
 			// Start next move if there's still something left in the queue
-			if (_pathQueue.Count != 0)
+			lock (_pathQueue)
 			{
-				this.StartMove();
-				return;
+				if (_pathQueue.Count != 0)
+				{
+					this.StartMove();
+					return;
+				}
 			}
 
 			// If this was the last destination in the queue, we're done
@@ -184,7 +194,9 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 				return character.Position;
 
 			var stopPos = _nextDestination;
-			_pathQueue.Clear();
+
+			lock (_pathQueue)
+				_pathQueue.Clear();
 			_moving = false;
 
 			// The client doesn't react to ZC_STOPMOVE for its controlled
