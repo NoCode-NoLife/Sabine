@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_NPCACK_MAPMOVE.bt
+//   Authors: exec
+//   Version: iRO Alpha
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+
+char mapStringId[16];
+short x;
+short y;
