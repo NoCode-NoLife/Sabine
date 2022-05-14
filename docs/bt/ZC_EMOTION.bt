@@ -1,0 +1,17 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_EMOTION.bt
+//   Authors: exec
+//   Version: iRO Alpha
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+
+int handle;
+byte emotion;
