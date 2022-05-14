@@ -39,6 +39,6 @@ string readPackedMove(PackedMove &val)
 	local int sy = (b6 & 0xF);
 
     string result;
-    SPrintf(result, "X: %d, Y: %d ==> X: %d, Y: %d", x1, y1, x2, x2);
+    SPrintf(result, "X: %d, Y: %d ==> X: %d, Y: %d", x1, y1, x2, y2);
     return result;
 }
