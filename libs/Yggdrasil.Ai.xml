@@ -517,7 +517,7 @@
         </member>
         <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Nothing">
             <summary>
-            Does nothing, and idle action.
+            Does nothing, an idle action.
             </summary>
             <returns></returns>
         </member>
