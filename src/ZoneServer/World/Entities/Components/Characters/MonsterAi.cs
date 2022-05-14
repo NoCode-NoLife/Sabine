@@ -97,15 +97,20 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// </summary>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		private bool TryFindWanderPosition(int range, out Position pos)
+		private bool TryFindWanderPosition(int range, out Position wanderPos)
 		{
-			pos = new Position(0, 0);
+			var curPos = this.Character.Position;
+			wanderPos = new Position(0, 0);
 
+			// TODO: Get a random passable from the tile data?
 			for (var i = 0; i < 100; ++i)
 			{
-				pos = this.Character.Position.GetRandomInRange(2, range);
+				wanderPos = curPos.GetRandomInRange(2, range);
 
-				if (this.Character.Map.IsPassable(pos))
+				if (!this.Character.Map.IsPassable(wanderPos))
+					continue;
+
+				if (this.Character.Map.PathFinder.PathExists(curPos, wanderPos))
 					return true;
 			}
 

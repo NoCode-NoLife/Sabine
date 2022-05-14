@@ -21,16 +21,6 @@ namespace Sabine.Zone.World.Maps.PathFinding
 	/// </remarks>
 	public class HercPathFinder : IPathFinder
 	{
-		private const int MoveCost = 10;
-		private const int MoveDiagonalCost = 14;
-		private const int MaxWalkPath = 32;
-		private const int SetOpen = 0;
-		private const int SetClosed = 1;
-		private const int DirNorth = 1;
-		private const int DirWest = 2;
-		private const int DirSouth = 4;
-		private const int DirEast = 8;
-
 		private readonly MapCacheData _mapCacheData;
 
 		/// <summary>
@@ -77,6 +67,33 @@ namespace Sabine.Zone.World.Maps.PathFinding
 
 			return result;
 		}
+
+		/// <summary>
+		/// Returns true if there's a valid path to get from one position
+		/// to the other.
+		/// </summary>
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		/// <returns></returns>
+		public bool PathExists(Position from, Position to)
+		{
+			var wpd = new WalkPathData();
+			PathSearch(_mapCacheData, wpd, 0, from.X, from.Y, to.X, to.Y);
+
+			return wpd.PathLen > 0;
+		}
+
+		#region Herc
+
+		private const int MoveCost = 10;
+		private const int MoveDiagonalCost = 14;
+		private const int MaxWalkPath = 32;
+		private const int SetOpen = 0;
+		private const int SetClosed = 1;
+		private const int DirNorth = 1;
+		private const int DirWest = 2;
+		private const int DirSouth = 4;
+		private const int DirEast = 8;
 
 		private class WalkPathData
 		{
@@ -369,5 +386,7 @@ namespace Sabine.Zone.World.Maps.PathFinding
 
 			return false; // easy path unsuccessful
 		}
+
+		#endregion
 	}
 }

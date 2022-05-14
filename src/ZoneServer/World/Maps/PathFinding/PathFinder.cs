@@ -14,5 +14,14 @@ namespace Sabine.Zone.World.Maps.PathFinding
 		/// <param name="to"></param>
 		/// <returns></returns>
 		Position[] FindPath(Position from, Position to);
+
+		/// <summary>
+		/// Returns true if there's a valid path to get from one position
+		/// to the other.
+		/// </summary>
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		/// <returns></returns>
+		bool PathExists(Position from, Position to);
 	}
 }
