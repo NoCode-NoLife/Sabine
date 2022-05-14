@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sabine.Auth.Database;
 using Sabine.Auth.Network;
 using Sabine.Shared;
@@ -19,8 +20,7 @@ namespace Sabine.Auth
 		/// </summary>
 		public static readonly AuthServer Instance = new AuthServer();
 
-		private TcpConnectionAcceptor<AuthConnection> _acceptor1;
-		private TcpConnectionAcceptor<AuthConnection> _acceptor2;
+		private readonly List<TcpConnectionAcceptor<AuthConnection>> _acceptors = new List<TcpConnectionAcceptor<AuthConnection>>();
 
 		/// <summary>
 		/// Returns a reference to the server's packet handlers.
@@ -46,18 +46,18 @@ namespace Sabine.Auth
 			this.LoadLocalization(this.Conf);
 			this.InitDatabase(this.Database, this.Conf);
 
-			_acceptor1 = new TcpConnectionAcceptor<AuthConnection>(this.Conf.Auth.BindIp, this.Conf.Auth.BindPort);
-			_acceptor1.ConnectionAccepted += this.OnConnectionAccepted;
-			_acceptor1.Listen();
+			foreach (var port in this.Conf.Auth.BindPorts)
+			{
+				var acceptor = new TcpConnectionAcceptor<AuthConnection>(this.Conf.Auth.BindIp, port);
+				acceptor.ConnectionAccepted += this.OnConnectionAccepted;
+				acceptor.Listen();
 
-			_acceptor2 = new TcpConnectionAcceptor<AuthConnection>(this.Conf.Auth.BindIp, 6900);
-			_acceptor2.ConnectionAccepted += this.OnConnectionAccepted;
-			_acceptor2.Listen();
+				_acceptors.Add(acceptor);
+
+				Log.Status("Server ready, listening on {0}.", acceptor.Address);
+			}
 
 			ConsoleUtil.RunningTitle();
-			Log.Status("Server ready, listening on {0}.", _acceptor1.Address);
-			Log.Status("Server ready, listening on {0}.", _acceptor2.Address);
-
 			new ConsoleCommands().Wait();
 		}
 

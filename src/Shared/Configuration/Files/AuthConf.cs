@@ -1,4 +1,6 @@
-﻿using Yggdrasil.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using Yggdrasil.Configuration;
 
 namespace Sabine.Shared.Configuration.Files
 {
@@ -8,7 +10,7 @@ namespace Sabine.Shared.Configuration.Files
 	public class AuthConf : ConfFile
 	{
 		public string BindIp { get; set; }
-		public int BindPort { get; set; }
+		public int[] BindPorts { get; set; }
 		public bool AllowAccountCreation { get; set; }
 
 		/// <summary>
@@ -20,8 +22,33 @@ namespace Sabine.Shared.Configuration.Files
 			this.Require(filePath);
 
 			this.BindIp = this.GetString("auth_bind_ip", "0.0.0.0");
-			this.BindPort = this.GetInt("auth_bind_port", 7000);
+			this.BindPorts = this.GetBindPorts("auth_bind_ports", new[] { 6900, 7000 });
 			this.AllowAccountCreation = this.GetBool("allow_account_creation", true);
+		}
+
+		private int[] GetBindPorts(string option, int[] defaultValue)
+		{
+			var bindPorts = this.GetString(option, null);
+			if (bindPorts == null)
+				return defaultValue;
+
+			var split = bindPorts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+			if (split.Length == 0)
+				return defaultValue;
+
+			var result = new int[split.Length];
+
+			for (var i = 0; i < split.Length; ++i)
+			{
+				var portStr = split[i];
+
+				if (!int.TryParse(portStr, out var port))
+					throw new FormatException($"Invalid port: {portStr}");
+
+				result[i] = port;
+			}
+
+			return result;
 		}
 	}
 }
