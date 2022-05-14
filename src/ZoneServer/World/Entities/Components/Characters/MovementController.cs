@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
+using System.Threading.Tasks;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Yggdrasil.Extensions;
@@ -120,22 +122,13 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			var movingStright = character.Position.InStraightLine(_nextDestination);
 			var speed = (float)character.Parameters.Speed;
 
-			// Athena uses 150 as the default speed delay and increases
-			// it to 'speed * 14 / 10' for diagonal movement, arriving
-			// at 210. During the initial testing I used 200 speed, be-
-			// cause it felt more correct with the alpha client, and I
-			// found that the client decreases the delay on straight
-			// movement to 'speed * 10 / 13', which are ~153. It's pos-
-			// sible that this changed in later clients, which would
-			// explain why Athena sends a different speed value to the
-			// client. Or, also very possible, I'm missing something.
-			if (movingStright)
-				speed = speed * 10f / 13f;
+			if (!movingStright)
+				speed = speed * 1.4f;
 
 			_moving = true;
 
 			// I tried running the controller on the heartbeat, but I wasn't
-			// entirely happy about the results. Let's switch to a timer for
+			// entirely happy with the results. Let's switch to a timer for
 			// now and see how that goes.
 			ZoneServer.Instance.World.Scheduler.Schedule(speed, this.ExecuteMove);
 		}
