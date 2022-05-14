@@ -122,6 +122,13 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			var movingStright = character.Position.InStraightLine(_nextDestination);
 			var speed = (float)character.Parameters.Speed;
 
+			// If you ever write your own server, and your movement is wonky,
+			// check the following:
+			// 1) Make sure the movement speed is right.
+			// 2) Let your movement update run consistently or factor in
+			//    any potential delays.
+			// 3) Use valid ticks in your packets.
+
 			if (!movingStright)
 				speed = speed * 1.4f;
 
