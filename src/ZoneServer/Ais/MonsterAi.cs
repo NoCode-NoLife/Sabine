@@ -2,14 +2,16 @@
 using System.Collections;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
+using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Entities.Components.Characters;
 using Yggdrasil.Ai.Enumerable;
 
-namespace Sabine.Zone.World.Entities.Components.Characters
+namespace Sabine.Zone.Ais
 {
 	/// <summary>
 	/// Controls a monster.
 	/// </summary>
-	public class MonsterAi : EnumerableAi, ICharacterComponent
+	public abstract class MonsterAi : EnumerableAi, ICharacterComponent
 	{
 		//private Position _initialPosition;
 		//private bool _initialPositionSet;
@@ -19,16 +21,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// <summary>
 		/// Returns the character this component belongs to.
 		/// </summary>
-		public Character Character { get; set; }
-
-		/// <summary>
-		/// Creates new instance.
-		/// </summary>
-		/// <param name="monster"></param>
-		public MonsterAi(Monster monster)
-		{
-			this.Character = monster;
-		}
+		public Character Character { get; internal set; }
 
 		/// <summary>
 		/// Updates the AI, letting the character make a decision.
@@ -37,6 +30,11 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		public void Update(TimeSpan elapsed)
 		{
 			if (this.Character.IsDead)
+				return;
+
+			// Monsters can chill if there's no player nearby.
+			// TODO: Limit to visible range?
+			if (this.Character.Map.PlayerCount == 0)
 				return;
 
 			//if (!_initialPositionSet)
@@ -60,21 +58,14 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// Runs the idle state routine.
 		/// </summary>
 		/// <returns></returns>
-		private IEnumerable Idle()
-		{
-			foreach (var result in this.Wait(3000, 10000))
-				yield return result;
-
-			foreach (var result in this.Wander(5))
-				yield return result;
-		}
+		protected abstract IEnumerable Idle();
 
 		/// <summary>
 		/// Makes character wander around in range around its position.
 		/// </summary>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		private IEnumerable Wander(int range)
+		protected IEnumerable Wander(int range)
 		{
 			if (this.Character.IsStunned)
 				yield break;
@@ -97,7 +88,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// </summary>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		private bool TryFindWanderPosition(int range, out Position wanderPos)
+		protected bool TryFindWanderPosition(int range, out Position wanderPos)
 		{
 			var curPos = this.Character.Position;
 			wanderPos = new Position(0, 0);
@@ -105,7 +96,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			// TODO: Get a random passable from the tile data?
 			for (var i = 0; i < 100; ++i)
 			{
-				wanderPos = curPos.GetRandomInRange(2, range);
+				wanderPos = curPos.GetRandomInRange(_wanderMinDistance, range);
 
 				if (!this.Character.Map.IsPassable(wanderPos))
 					continue;
@@ -122,9 +113,9 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// </summary>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		private IEnumerable Say(string message)
+		protected IEnumerable Say(string message)
 		{
-			Send.ZC_NOTIFY_CHAT(this.Character, "wander...");
+			Send.ZC_NOTIFY_CHAT(this.Character, message);
 			yield break;
 		}
 	}

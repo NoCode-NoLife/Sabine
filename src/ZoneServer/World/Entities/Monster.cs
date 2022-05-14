@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Sabine.Shared;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
+using Sabine.Zone.Ais;
 using Sabine.Zone.Network;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;

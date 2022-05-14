@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ais\DefaultAi.cs" />
     <Compile Include="Commands\ChatCommand.cs" />
     <Compile Include="Commands\ChatCommands.cs" />
     <Compile Include="Commands\ChatCommands.Management.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="World\Entities\Character.cs" />
     <Compile Include="World\Entities\Components\Characters\CharacterComponents.cs" />
-    <Compile Include="World\Entities\Components\Characters\MonsterAi.cs" />
+    <Compile Include="Ais\MonsterAi.cs" />
     <Compile Include="World\Entities\Components\Characters\MovementController.cs" />
     <Compile Include="World\Entities\Components\Characters\Inventory.cs" />
     <Compile Include="World\Entities\Components\Characters\NpcParameters.cs" />
