@@ -3751,6 +3751,16 @@
             <param name="val"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Util.Math2.Clamp(System.Double,System.Double,System.Double)">
+            <summary>
+            Returns min, if val is lower than min, max, if val is
+            greater than max, or simply val.
+            </summary>
+            <param name="min"></param>
+            <param name="max"></param>
+            <param name="val"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Util.Math2.Clamp(System.Int64,System.Int64,System.Int64)">
             <summary>
             Returns min, if val is lower than min, max, if val is
