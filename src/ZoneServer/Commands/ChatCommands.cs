@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
+using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Ais;
@@ -477,17 +478,28 @@ namespace Sabine.Zone.Commands
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
+			MonsterData monsterData = null;
+
 			if (!int.TryParse(args.Get(0), out var monsterId))
 			{
 				var monsterName = args.Get(0);
 
-				if (!SabineData.Monsters.TryFind(monsterName, out var monsterData1))
+				if (!SabineData.Monsters.TryFind(monsterName, out monsterData))
 				{
 					sender.ServerMessage(Localization.Get("Monster '{0}' not found."), monsterName);
 					return CommandResult.Okay;
 				}
 
-				monsterId = monsterData1.Id;
+				monsterId = monsterData.Id;
+			}
+
+			if (monsterData == null)
+			{
+				if (!SabineData.Monsters.TryFind(monsterId, out monsterData))
+				{
+					sender.ServerMessage(Localization.Get("Monster '{0}' not found."), monsterId);
+					return CommandResult.Okay;
+				}
 			}
 
 			var amount = 1;
@@ -508,9 +520,8 @@ namespace Sabine.Zone.Commands
 				hpMax = Math2.Clamp(1, 1_000_000, hpMax);
 			}
 
-			var useAi = true;
-			if (args.Get("ai") == "none")
-				useAi = false;
+			var aiName = args.Get("ai", monsterData.AiName);
+			var useAi = aiName != "none";
 
 			if (!SabineData.Monsters.Contains(monsterId))
 			{
@@ -523,7 +534,15 @@ namespace Sabine.Zone.Commands
 				var monster = new Monster(monsterId);
 
 				if (useAi)
-					monster.AttachAi("Test");
+				{
+					if (aiName != monsterData.AiName && !ZoneServer.Instance.AiManager.Exists(aiName))
+					{
+						sender.ServerMessage(Localization.Get("AI '{0}' not found."), aiName);
+						return CommandResult.Okay;
+					}
+
+					monster.AttachAi(aiName);
+				}
 
 				if (hpMax > 0)
 					monster.Parameters.Hp = monster.Parameters.HpMax = hpMax;
