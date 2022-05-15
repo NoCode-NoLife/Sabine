@@ -35,7 +35,7 @@ namespace Sabine.Shared.Data.Databases
 		public RaceType Race { get; set; }
 		public ElementType Element { get; set; }
 		public int ElementLevel { get; set; }
-		public int Mode { get; set; }
+		public string AiName { get; set; }
 		public int Speed { get; set; }
 		public int AttackDelay { get; set; }
 		public int AttackMotion { get; set; }
@@ -116,7 +116,7 @@ namespace Sabine.Shared.Data.Databases
 			data.Race = entry.ReadEnum("race", RaceType.Formless);
 			data.Element = entry.ReadEnum("element", ElementType.Neutral);
 			data.ElementLevel = entry.ReadInt("elementLevel", 1);
-			data.Mode = entry.ReadInt("mode");
+			data.AiName = entry.ReadString("ai", null);
 			data.Speed = entry.ReadInt("speed", 200);
 			data.AttackDelay = entry.ReadInt("attackDelay", 1500);
 			data.AttackMotion = entry.ReadInt("attackMotion", 0);
