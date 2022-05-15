@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Sabine.Shared;
 using Sabine.Shared.Network;
+using Sabine.Zone.Ais;
 using Sabine.Zone.Commands;
 using Sabine.Zone.Database;
 using Sabine.Zone.Network;
@@ -46,6 +47,11 @@ namespace Sabine.Zone
 		public ZoneDb Database { get; } = new ZoneDb();
 
 		/// <summary>
+		/// Returns a reference to the server's AI manager.
+		/// </summary>
+		public AiManager AiManager { get; } = new AiManager();
+
+		/// <summary>
 		/// Runs the server.
 		/// </summary>
 		/// <param name="args"></param>
@@ -61,6 +67,7 @@ namespace Sabine.Zone
 			this.InitDatabase(this.Database, this.Conf);
 			this.LoadCommands();
 			this.LoadWorld();
+			this.LoadAis();
 			this.LoadScripts("system/scripts/scripts_zone.txt", this.Conf);
 			this.InitialSpawn();
 			this.CreateDebugInfo();
@@ -75,6 +82,16 @@ namespace Sabine.Zone
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
 
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Loads AI types.
+		/// </summary>
+		private void LoadAis()
+		{
+			Log.Info("Loading AIs...");
+			this.AiManager.LoadAiTypes();
+			Log.Info("  loaded {0} AI{1}.", this.AiManager.Count, this.AiManager.Count != 1 ? "s" : "");
 		}
 
 		/// <summary>

@@ -61,7 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ais\DefaultAi.cs" />
+    <Compile Include="Ais\AiAttribute.cs" />
+    <Compile Include="Ais\AiManager.cs" />
+    <Compile Include="Ais\Impl\Type01.cs" />
+    <Compile Include="Ais\Impl\Test.cs" />
     <Compile Include="Commands\ChatCommand.cs" />
     <Compile Include="Commands\ChatCommands.cs" />
     <Compile Include="Commands\ChatCommands.Management.cs" />

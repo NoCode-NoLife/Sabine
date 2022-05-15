@@ -195,9 +195,23 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Sets up the AI and attaches it to the monster.
 		/// </summary>
-		/// <param name="ai"></param>
-		public void AttachAi(MonsterAi ai)
+		/// <param name="aiName"></param>
+		public void AttachAi(string aiName)
 		{
+			if (!ZoneServer.Instance.AiManager.TryCreateAi(aiName, out var ai))
+			{
+				// Let's fall back silently for now, since most AIs don't
+				// exist yet.
+				//Log.Warning("Monster.AttachAi: AI '{0}' not found, using fallback.", aiName);
+
+				var fallback = "Type01";
+				if (!ZoneServer.Instance.AiManager.TryCreateAi(fallback, out ai))
+				{
+					Log.Warning("Monster.AttachAi: AI '{0}' not found, using fallback.", aiName);
+					Log.Error("Monster.AttachAi: Fallback AI '{0}' not found.", fallback);
+				}
+			}
+
 			ai.Character = this;
 			this.Components.Add(ai);
 		}

@@ -3,12 +3,13 @@ using Sabine.Shared.Const;
 
 #pragma warning disable IDE0009
 
-namespace Sabine.Zone.Ais
+namespace Sabine.Zone.Ais.Impl
 {
 	/// <summary>
 	/// Default AI to use for monsters.
 	/// </summary>
-	public class DefaultAi : MonsterAi
+	[Ai("Test")]
+	public class Test : MonsterAi
 	{
 		/// <summary>
 		/// Called while the monster is in the idle state.

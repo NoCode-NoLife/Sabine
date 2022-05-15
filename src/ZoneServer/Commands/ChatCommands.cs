@@ -523,7 +523,7 @@ namespace Sabine.Zone.Commands
 				var monster = new Monster(monsterId);
 
 				if (useAi)
-					monster.AttachAi(new DefaultAi());
+					monster.AttachAi("Test");
 
 				if (hpMax > 0)
 					monster.Parameters.Hp = monster.Parameters.HpMax = hpMax;

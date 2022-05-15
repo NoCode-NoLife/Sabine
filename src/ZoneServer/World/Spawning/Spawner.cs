@@ -124,8 +124,10 @@ namespace Sabine.Zone.World.Spawning
 			var pos = this.Map.GetRandomWalkablePosition();
 
 			var monster = new Monster(this.MonsterId);
-			monster.AttachAi(new DefaultAi());
 			monster.Killed += this.OnMonsterKilled;
+
+			if (monster.Data.AiName != null)
+				monster.AttachAi(monster.Data.AiName);
 
 			monster.Warp(this.Map.Id, pos);
 		}
