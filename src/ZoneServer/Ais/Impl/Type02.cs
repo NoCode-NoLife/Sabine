@@ -38,7 +38,7 @@ namespace Sabine.Zone.Ais.Impl
 
 		private IEnumerable PickUpItem(int handle, Position pos)
 		{
-			if (Random(50) < 100)
+			if (Chance(15))
 				yield return Emotion(EmotionId.MusicNote);
 
 			yield return MoveTo(pos);

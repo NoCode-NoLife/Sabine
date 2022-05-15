@@ -492,6 +492,18 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Chance(System.Single)">
+            <summary>
+            Returns true if the given percentage chance was met randomly.
+            </summary>
+            <example>
+            Chance(100); // Returns true in 100% of cases.
+            Chance(50); // Returns true in 50% of cases.
+            Chance(25); // Returns true in 25% of cases.
+            </example>
+            <param name="percent"></param>
+            <returns></returns>
+        </member>
         <member name="M:Yggdrasil.Ai.Enumerable.EnumerableAi.Random(System.Int32)">
             <summary>
             Returns a random number between 0 and max-1.
