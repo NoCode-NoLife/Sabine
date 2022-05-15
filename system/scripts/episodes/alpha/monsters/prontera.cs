@@ -60,5 +60,6 @@ public class PronteraMonstersScript : GeneralScript
 		AddSpawner("prt_dugn03", "Willow", 1010, 30);
 		AddSpawner("prt_dugn03", "Elder Willow", 1033, 20);
 		AddSpawner("prt_dugn03", "Seahorse", 1043, 15);
+		AddSpawner("prt_dugn03", "Doppelganger", 1046, 1, initialDelay: TimeSpan.FromHours(3), respawnDelay: TimeSpan.FromHours(6));
 	}
 }
