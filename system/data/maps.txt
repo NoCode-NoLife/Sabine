@@ -27,7 +27,7 @@
 { id: 100020, versionMax: 100, stringId: "probemap", name: "" },
 { id: 100021, versionMax: 100, stringId: "probemap02", name: "" },
 { id: 100022, versionMax: 100, stringId: "prt_cstl01", name: "Inside Prontera Castle" },
-{ id: 100023, versionMax: 100, stringId: "prt_dugn00", name: "Underground waterway" },
+{ id: 100023, versionMax: 100, stringId: "prt_dugn00", name: "Underground Waterway" },
 { id: 100024, versionMax: 100, stringId: "prt_dugn01", name: "Prontera Dungeon 1B" },
 { id: 100025, versionMax: 100, stringId: "prt_dugn02", name: "Prontera Dungeon 2B" },
 { id: 100026, versionMax: 100, stringId: "prt_dugn03", name: "Prontera Dungeon 3B" },
