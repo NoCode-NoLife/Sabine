@@ -276,7 +276,10 @@ namespace Sabine.Zone.Network
 				switch (hpDisplayType)
 				{
 					case DisplayMonsterHpType.Percentage:
-						secName = string.Format("{0}%", Math.Ceiling(100f / target.Parameters.HpMax * target.Parameters.Hp));
+						// Round to ceiling in case percentage falls below
+						// 1% and clamp it to 0~100, in case the calculation
+						// result ends up above 100. (Flots ftw, am I right?)
+						secName = string.Format("{0}%", Math2.Clamp(0, 100, Math.Ceiling(100f / target.Parameters.HpMax * target.Parameters.Hp)));
 						break;
 
 					case DisplayMonsterHpType.Actual:

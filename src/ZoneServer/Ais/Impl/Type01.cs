@@ -5,11 +5,11 @@
 namespace Sabine.Zone.Ais.Impl
 {
 	/// <summary>
-	/// Type 01 AI: Passive.
+	/// AI Type 01: Passive
 	/// </summary>
 	/// <remarks>
-	/// Aegis: 02
-	/// eAthena: MD_CANMOVE|MD_CANATTACK
+	/// Aegis: 01
+	/// Athena: 0x0081 (MD_CANMOVE|MD_CANATTACK)
 	/// </remarks>
 	[Ai("Type01")]
 	public class Type01 : MonsterAi

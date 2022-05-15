@@ -9,6 +9,11 @@ namespace Sabine.Shared.World
 	public struct Position
 	{
 		/// <summary>
+		/// Returns a position with both coordinates being 0.
+		/// </summary>
+		public static Position Zero => new Position(0, 0);
+
+		/// <summary>
 		/// The X-coordinate of the position.
 		/// </summary>
 		public int X;

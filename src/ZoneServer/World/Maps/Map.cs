@@ -426,6 +426,17 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns a list of items that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Item[] GetItems(Func<Item, bool> predicate)
+		{
+			lock (_items)
+				return _items.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
 		/// Returns a random position on the map that characters can walk
 		/// on.
 		/// </summary>

@@ -37,6 +37,17 @@ namespace Sabine.Zone.Ais
 		}
 
 		/// <summary>
+		/// Returns true if an AI with the given name exists.
+		/// </summary>
+		/// <param name="aiName"></param>
+		/// <returns></returns>
+		public bool Exists(string aiName)
+		{
+			lock (_ais)
+				return _ais.ContainsKey(aiName);
+		}
+
+		/// <summary>
 		/// Adds the given AI to the available ones.
 		/// </summary>
 		/// <param name="name"></param>
