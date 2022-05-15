@@ -78,9 +78,16 @@ namespace Sabine.Zone.Ais
 				yield break;
 
 			this.Character.Controller.MoveTo(pos);
+			var moveTime = this.Character.Controller.MoveTo(pos);
+
+			foreach (var _ in this.Wait(moveTime))
+			{
+				if (!this.Character.Controller.IsMoving)
+					break;
 
 			while (this.Character.Controller.IsMoving)
 				yield return true;
+		}
 		}
 
 		/// <summary>

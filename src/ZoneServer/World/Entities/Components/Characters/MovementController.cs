@@ -58,10 +58,12 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
-		/// Makes character move to the given position.
+		/// Makes character move to the given position, returns the time
+		/// the move will take.
 		/// </summary>
 		/// <param name="toPos"></param>
-		public void MoveTo(Position toPos)
+		/// <returns></returns>
+		public TimeSpan MoveTo(Position toPos)
 		{
 			var character = this.Character;
 			var map = character.Map;
@@ -76,7 +78,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			if (_moving)
 			{
 				_destinationChanged = true;
-				return;
+				return TimeSpan.Zero;
 			}
 
 			// Clear the current movement queue and fill it with the
@@ -85,7 +87,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			if (path.Length == 0)
 			{
 				Log.Debug("Controller.MoveTo: No move path found between {0} and {1} on {2}.", fromPos, toPos, map.StringId);
-				return;
+				return TimeSpan.Zero;
 			}
 
 			lock (_pathQueue)
@@ -108,6 +110,21 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 			if (_playerCharacter != null)
 				Send.ZC_NOTIFY_PLAYERMOVE(_playerCharacter, fromPos, toPos);
+
+			var result = TimeSpan.Zero;
+			var prevPos = fromPos;
+
+			foreach (var pos in path)
+			{
+				var moveDelay = (float)this.Character.Parameters.Speed;
+				if (!pos.InStraightLine(prevPos))
+					moveDelay *= 1.4f;
+
+				result += TimeSpan.FromMilliseconds(moveDelay);
+				prevPos = pos;
+			}
+
+			return result;
 		}
 
 		/// <summary>
