@@ -16,6 +16,8 @@ namespace Sabine.Zone.World.Entities
 	/// </summary>
 	public class Monster : Npc
 	{
+		private readonly List<Item> _dropItems = new List<Item>();
+
 		/// <summary>
 		/// Return a reference to the monster's data.
 		/// </summary>
@@ -102,6 +104,7 @@ namespace Sabine.Zone.World.Entities
 			{
 				this.DropItems(killer);
 				this.DropMvpItems(killer);
+				this.DropFixedItems(killer);
 
 				this.Killed?.Invoke(this);
 				this.Map.RemoveNpc(this);
@@ -193,6 +196,28 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
+		/// Drops items that were added to the monster to be dropped.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void DropFixedItems(Character killer)
+		{
+			// TODO: Create a shared method for dropping a list of items?
+
+			var rnd = RandomProvider.Get();
+			var map = this.Map;
+			var pos = this.Position;
+
+			lock (_dropItems)
+			{
+				foreach (var item in _dropItems)
+				{
+					var dropPos = pos.GetRandomInSquareRange(1);
+					item.Drop(map, dropPos);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Sets up the AI and attaches it to the monster.
 		/// </summary>
 		/// <param name="aiName"></param>
@@ -214,6 +239,17 @@ namespace Sabine.Zone.World.Entities
 
 			ai.Character = this;
 			this.Components.Add(ai);
+		}
+
+		/// <summary>
+		/// Adds the given to the list of items that are dropped when
+		/// the monster is killed.
+		/// </summary>
+		/// <param name="item"></param>
+		public void AddDropItem(Item item)
+		{
+			lock (_dropItems)
+				_dropItems.Add(item);
 		}
 	}
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Yggdrasil.Ai.Enumerable;
+using Yggdrasil.Logging;
 
 namespace Sabine.Zone.Ais
 {
@@ -44,15 +46,73 @@ namespace Sabine.Zone.Ais
 			//	_initialPosition = this.Character.Position;
 			//}
 
+			this.Update();
 			this.Heartbeat();
 		}
 
 		/// <summary>
-		/// Called to select a stat routine if none are active.
+		/// Returns the name of the currently curring routine.
+		/// </summary>
+		protected string CurrentRoutine { get; private set; }
+
+		/// <summary>
+		/// Starts given routine.
+		/// </summary>
+		/// <param name="routine"></param>
+		protected override void StartRoutine(IEnumerable routine)
+		{
+			var type = routine.GetType();
+			var name = type.GetType().Name;
+
+			var index1 = name.IndexOf("<");
+			var index2 = name.IndexOf(">");
+			var routineName = name.Substring(index1 + 1, index2 - index1 - 1);
+
+			this.StartRoutine(routineName, routine);
+		}
+
+		/// <summary>
+		/// Starts given routine.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="routine"></param>
+		protected void StartRoutine(string name, IEnumerable routine)
+		{
+			this.CurrentRoutine = name;
+			base.StartRoutine(routine);
+		}
+
+		/// <summary>
+		/// Called to select a state routine if none are active.
 		/// </summary>
 		protected override void Root()
 		{
-			this.StartRoutine(this.Idle());
+			this.Start();
+		}
+
+		/// <summary>
+		/// Called when the AI starts running.
+		/// </summary>
+		protected virtual void Start()
+		{
+			this.StartRoutine(this.DummyRoutine());
+		}
+
+		/// <summary>
+		/// Called on every tick of the AI, before any actions take place.
+		/// </summary>
+		protected virtual void Update()
+		{
+		}
+
+		/// <summary>
+		/// Does nothing but wait.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerable DummyRoutine()
+		{
+			foreach (var _ in this.Wait(9999999))
+				yield return true;
 		}
 
 		/// <summary>
@@ -77,7 +137,6 @@ namespace Sabine.Zone.Ais
 			if (!this.TryFindWanderPosition(range, out var pos))
 				yield break;
 
-			this.Character.Controller.MoveTo(pos);
 			var moveTime = this.Character.Controller.MoveTo(pos);
 
 			foreach (var _ in this.Wait(moveTime))
@@ -85,9 +144,8 @@ namespace Sabine.Zone.Ais
 				if (!this.Character.Controller.IsMoving)
 					break;
 
-			while (this.Character.Controller.IsMoving)
 				yield return true;
-		}
+			}
 		}
 
 		/// <summary>
@@ -117,6 +175,32 @@ namespace Sabine.Zone.Ais
 		}
 
 		/// <summary>
+		/// Makes character move to the given position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		protected IEnumerable MoveTo(Position pos)
+		{
+			var character = this.Character;
+
+			if (!character.Map.IsPassable(pos))
+				yield break;
+
+			if (!character.Map.PathFinder.PathExists(character.Position, pos))
+				yield break;
+
+			var moveTime = character.Controller.MoveTo(pos);
+
+			foreach (var _ in this.Wait(moveTime))
+			{
+				if (!this.Character.Controller.IsMoving)
+					break;
+
+				yield return true;
+			}
+		}
+
+		/// <summary>
 		/// Let's character say something.
 		/// </summary>
 		/// <param name="message"></param>
@@ -136,6 +220,54 @@ namespace Sabine.Zone.Ais
 		{
 			Send.ZC_EMOTION(this.Character, emotionId);
 			yield break;
+		}
+
+		/// <summary>
+		/// Tries to find a nearby item that the character can pick up
+		/// and returns its handle via out. Returns false if no item was
+		/// found.
+		/// </summary>
+		/// <param name="itemHandle"></param>
+		/// <returns></returns>
+		protected bool TryFindNearbyItem(out int itemHandle, out Position pos)
+		{
+			var character = this.Character;
+			var characterPos = character.Position;
+			var range = character.Map.VisibleRange / 2;
+
+			var items = character.Map.GetItems(a => a.Position.InRange(characterPos, range));
+			if (items.Length == 0)
+			{
+				itemHandle = 0;
+				pos = Position.Zero;
+				return false;
+			}
+
+			var item = items.OrderBy(a => a.Position.GetDistance(characterPos)).First();
+
+			itemHandle = item.Handle;
+			pos = item.Position;
+
+			return true;
+		}
+
+		/// <summary>
+		/// Makes character pick up the item with the given handle.
+		/// </summary>
+		/// <param name="itemHandle"></param>
+		/// <returns></returns>
+		protected IEnumerable PickUp(int itemHandle)
+		{
+			var item = this.Character.Map.GetItem(itemHandle);
+			if (item == null)
+				yield break;
+
+			item.Map.RemoveItem(item);
+
+			if (this.Character is Monster monster)
+				monster.AddDropItem(item);
+			else if (this.Character is PlayerCharacter player)
+				player.Inventory.AddItem(item);
 		}
 	}
 }
