@@ -276,6 +276,11 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// <summary>
 		/// Returns the delay between attacks for the character.
 		/// </summary>
+		public int AttackDelay { get; set; } = 800;
+
+		/// <summary>
+		/// Returns the duration of the character's attack motion.
+		/// </summary>
 		public int AttackMotionDelay { get; set; } = 800;
 
 		/// <summary>

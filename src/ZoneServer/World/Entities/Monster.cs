@@ -73,6 +73,7 @@ namespace Sabine.Zone.World.Entities
 			this.Parameters.Flee = this.Parameters.BaseLevel + this.Parameters.Agi;
 
 			this.Parameters.Speed = this.Data.Speed;
+			this.Parameters.AttackDelay = this.Data.AttackDelay;
 			this.Parameters.AttackMotionDelay = this.Data.AttackMotion;
 			this.Parameters.DamageMotionDelay = this.Data.DamageMotion;
 

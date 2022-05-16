@@ -277,6 +277,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			if (Game.Version < Versions.Beta1)
 			{
 				this.AttackMotionDelay = 800;
+				this.AttackDelay = this.AttackMotionDelay;
 				this.Aspd = 160;
 				return;
 			}
@@ -291,6 +292,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			var aspd = (int)Math.Min(200, 200 - delay);
 
 			this.AttackMotionDelay = (int)(delay * 20);
+			this.AttackDelay = this.AttackMotionDelay;
 			this.Aspd = aspd;
 		}
 
