@@ -19,6 +19,8 @@ namespace Sabine.Zone.Ais
 		//private Position _initialPosition;
 		//private bool _initialPositionSet;
 
+		private bool _initiated;
+
 		private readonly int _wanderMinDistance = 3;
 
 		/// <summary>
@@ -46,7 +48,16 @@ namespace Sabine.Zone.Ais
 			//	_initialPosition = this.Character.Position;
 			//}
 
+			if (!_initiated)
+			{
+				this.Init();
+				_initiated = true;
+			}
+			else
+			{
 			this.Update();
+			}
+
 			this.Heartbeat();
 		}
 
@@ -64,11 +75,7 @@ namespace Sabine.Zone.Ais
 			var type = routine.GetType();
 			var name = type.GetType().Name;
 
-			var index1 = name.IndexOf("<");
-			var index2 = name.IndexOf(">");
-			var routineName = name.Substring(index1 + 1, index2 - index1 - 1);
-
-			this.StartRoutine(routineName, routine);
+			this.StartRoutine("Unknown", routine);
 		}
 
 		/// <summary>
@@ -86,17 +93,19 @@ namespace Sabine.Zone.Ais
 		/// Called to select a state routine if none are active.
 		/// </summary>
 		protected override void Root()
+			=> this.Start();
+
+		/// <summary>
+		/// Called before the AI is started for the first time.
+		/// </summary>
+		protected virtual void Init()
 		{
-			this.Start();
 		}
 
 		/// <summary>
-		/// Called when the AI starts running.
+		/// Called when there are no active routines.
 		/// </summary>
-		protected virtual void Start()
-		{
-			this.StartRoutine(this.DummyRoutine());
-		}
+		protected abstract void Start();
 
 		/// <summary>
 		/// Called on every tick of the AI, before any actions take place.
@@ -114,12 +123,6 @@ namespace Sabine.Zone.Ais
 			foreach (var _ in this.Wait(9999999))
 				yield return true;
 		}
-
-		/// <summary>
-		/// Runs the idle state routine.
-		/// </summary>
-		/// <returns></returns>
-		protected abstract IEnumerable Idle();
 
 		/// <summary>
 		/// Makes character wander around in range around its position.

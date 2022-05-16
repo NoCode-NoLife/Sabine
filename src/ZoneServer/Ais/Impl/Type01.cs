@@ -14,7 +14,12 @@ namespace Sabine.Zone.Ais.Impl
 	[Ai("Type01")]
 	public class Type01 : MonsterAi
 	{
-		protected override IEnumerable Idle()
+		protected override void Start()
+		{
+			this.StartRoutine("Idle", this.Idle());
+		}
+
+		protected IEnumerable Idle()
 		{
 			yield return Wait(3000, 10000);
 			yield return Wander(5);

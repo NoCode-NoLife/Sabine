@@ -11,11 +11,12 @@ namespace Sabine.Zone.Ais.Impl
 	[Ai("Test")]
 	public class Test : MonsterAi
 	{
-		/// <summary>
-		/// Called while the monster is in the idle state.
-		/// </summary>
-		/// <returns></returns>
-		protected override IEnumerable Idle()
+		protected override void Start()
+		{
+			StartRoutine("Idle", Idle());
+		}
+
+		protected IEnumerable Idle()
 		{
 			yield return Wait(3000, 10000);
 
