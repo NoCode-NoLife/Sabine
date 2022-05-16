@@ -170,6 +170,36 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the entity with the given handle.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		public IEntity GetEntity(int handle)
+		{
+			var result = new List<IEntity>();
+
+			lock (_items)
+			{
+				if (_items.TryGetValue(handle, out var entity))
+					return entity;
+			}
+
+			lock (_npcs)
+			{
+				if (_npcs.TryGetValue(handle, out var entity))
+					return entity;
+			}
+
+			lock (_characters)
+			{
+				if (_characters.TryGetValue(handle, out var entity))
+					return entity;
+			}
+
+			return null;
+		}
+
+		/// <summary>
 		/// Returns a list of entities that the given entity can see.
 		/// </summary>
 		/// <param name="entity"></param>

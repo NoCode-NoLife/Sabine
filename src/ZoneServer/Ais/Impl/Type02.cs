@@ -16,33 +16,54 @@ namespace Sabine.Zone.Ais.Impl
 	[Ai("Type02")]
 	public class Type02 : MonsterAi
 	{
+		private int _targetItemHandle;
+
+		protected override void Init()
+		{
+			During("Idle", CheckNearbyItems);
+			During("PickUpItem", CheckTargetItem);
+		}
+
 		protected override void Start()
 		{
 			StartRoutine("Idle", Idle());
 		}
 
-		protected override void Update()
+		private IEnumerable Idle()
 		{
-			if (CurrentRoutine == "Idle")
+			while (true)
 			{
-				if (TryFindNearbyItem(out var handle, out var pos))
-					StartRoutine("PickUpItem", PickUpItem(handle, pos));
+				yield return Wait(3000, 10000);
+				yield return Wander(5);
 			}
-		}
-
-		protected override IEnumerable Idle()
-		{
-			yield return Wait(3000, 10000);
-			yield return Wander(5);
 		}
 
 		private IEnumerable PickUpItem(int handle, Position pos)
 		{
+			_targetItemHandle = handle;
+
 			if (Chance(15))
 				yield return Emotion(EmotionId.MusicNote);
 
 			yield return MoveTo(pos);
 			yield return PickUp(handle);
+		}
+
+		private void CheckNearbyItems(CallbackState state)
+		{
+			if (TryFindNearbyItem(out var handle, out var pos))
+				StartRoutine("PickUpItem", PickUpItem(handle, pos));
+		}
+
+		private void CheckTargetItem(CallbackState state)
+		{
+			if (!EntityExists(_targetItemHandle))
+			{
+				_targetItemHandle = 0;
+
+				StopMove();
+				StartRoutine("Idle", Idle());
+			}
 		}
 	}
 }

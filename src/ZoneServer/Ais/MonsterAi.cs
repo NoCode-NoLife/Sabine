@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
@@ -22,6 +23,7 @@ namespace Sabine.Zone.Ais
 		private bool _initiated;
 
 		private readonly int _wanderMinDistance = 3;
+		private readonly Dictionary<string, List<CallbackFunc>> _durings = new Dictionary<string, List<CallbackFunc>>();
 
 		/// <summary>
 		/// Returns the character this component belongs to.
@@ -55,8 +57,10 @@ namespace Sabine.Zone.Ais
 			}
 			else
 			{
-			this.Update();
+				this.Update();
 			}
+
+			this.RunDuringCallbacks(this.CurrentRoutine);
 
 			this.Heartbeat();
 		}
@@ -87,6 +91,58 @@ namespace Sabine.Zone.Ais
 		{
 			this.CurrentRoutine = name;
 			base.StartRoutine(routine);
+		}
+
+		/// <summary>
+		/// Sets up a callback that is called on every tick while a routine
+		/// with the given name is active.
+		/// </summary>
+		/// <param name="routineName"></param>
+		/// <param name="callback"></param>
+		protected void During(string routineName, CallbackFunc callback)
+		{
+			if (!_durings.TryGetValue(routineName, out var list))
+				_durings[routineName] = list = new List<CallbackFunc>();
+
+			if (!list.Contains(callback))
+				list.Add(callback);
+		}
+
+		/// <summary>
+		/// Executes the given callbacks.
+		/// </summary>
+		/// <param name="callbacks"></param>
+		private void RunDuringCallbacks(string routineName)
+		{
+			if (routineName == null)
+				return;
+
+			if (_durings.TryGetValue(routineName, out var callbacks))
+				this.RunCallbacks(routineName, callbacks);
+		}
+
+		/// <summary>
+		/// Executes the given callbacks.
+		/// </summary>
+		/// <param name="callbacks"></param>
+		private void RunCallbacks(string routineName, List<CallbackFunc> callbacks)
+		{
+			if (callbacks == null || callbacks.Count == 0)
+				return;
+
+			var state = new CallbackState();
+
+			foreach (var callback in callbacks)
+			{
+				try
+				{
+					callback(state);
+				}
+				catch (Exception ex)
+				{
+					Log.Error("MonsterAi.RunCallbacks: Error while running callbacks for '{0}': {1}", routineName, ex);
+				}
+			}
 		}
 
 		/// <summary>
@@ -178,6 +234,28 @@ namespace Sabine.Zone.Ais
 		}
 
 		/// <summary>
+		/// Returns the entity with the given handle on the character's map.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		protected bool TryGetEntity(int handle, out IEntity entity)
+		{
+			entity = this.Character.Map.GetEntity(handle);
+			return entity != null;
+		}
+
+		/// <summary>
+		/// Returns true if an entity with the given handle exists on the
+		/// character's map.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		protected bool EntityExists(int handle)
+		{
+			return this.TryGetEntity(handle, out _);
+		}
+
+		/// <summary>
 		/// Makes character move to the given position.
 		/// </summary>
 		/// <param name="pos"></param>
@@ -201,6 +279,14 @@ namespace Sabine.Zone.Ais
 
 				yield return true;
 			}
+		}
+
+		/// <summary>
+		/// Stops character's movement.
+		/// </summary>
+		protected void StopMove()
+		{
+			this.Character.Controller.StopMove();
 		}
 
 		/// <summary>
