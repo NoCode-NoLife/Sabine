@@ -6,6 +6,7 @@ custom/test.cs
 
 const/*
 commands/*
+items/*
 
 require "episodes/alpha/scripts.txt"
 require "episodes/beta1/scripts.txt"

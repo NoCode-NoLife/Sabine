@@ -574,8 +574,36 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		public void Heal()
 		{
-			this.Parameters.Set(ParameterType.Hp, this.Parameters.HpMax);
-			this.Parameters.Set(ParameterType.Sp, this.Parameters.SpMax);
+			this.Heal(this.Parameters.HpMax, this.Parameters.SpMax);
+		}
+
+		/// <summary>
+		/// Heals the given amount of HP and SP.
+		/// </summary>
+		/// <param name="amountHp"></param>
+		/// <param name="amountSp"></param>
+		public void Heal(int amountHp, int amountSp)
+		{
+			this.HealHp(amountHp);
+			this.HealSp(amountSp);
+		}
+
+		/// <summary>
+		/// Heals the given amount of HP.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void HealHp(int amount)
+		{
+			this.Parameters.Modify(ParameterType.Hp, amount);
+		}
+
+		/// <summary>
+		/// Heals the given amount of SP.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void HealSp(int amount)
+		{
+			this.Parameters.Modify(ParameterType.Hp, amount);
 		}
 	}
 }

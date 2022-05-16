@@ -8,7 +8,9 @@ using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
+using Sabine.Shared.Util;
 using Sabine.Shared.World;
+using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
@@ -694,7 +696,17 @@ namespace Sabine.Zone.Network
 				return;
 			}
 
-			character.Inventory.DecrementItem(item, 1);
+			if (!ItemScript.TryGetScript(item.ClassId, out var script))
+			{
+				character.ServerMessage(Localization.Get("This item has not been implemented yet."));
+				Log.Debug("CZ_USE_ITEM: No script found for item '{0}'.", item.ClassId);
+			}
+			else
+			{
+				var result = script.OnUse(character, item);
+				if (result == ItemUseResult.Okay)
+					character.Inventory.DecrementItem(item, 1);
+			}
 
 			Send.ZC_USE_ITEM_ACK(character, itemInvId, item.Amount);
 		}

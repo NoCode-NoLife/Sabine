@@ -58,6 +58,7 @@
     <Compile Include="episodes\alpha\warps\morocc.cs" />
     <Compile Include="episodes\alpha\warps\prontera.cs" />
     <Compile Include="episodes\beta1\warps\prontera.cs" />
+    <Compile Include="items\healing.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shared\Shared.csproj">
