@@ -143,8 +143,8 @@ namespace Sabine.Zone.Network.Helpers
 
 			packet.PutShort((short)item.Position.X);
 			packet.PutShort((short)item.Position.Y);
-			packet.PutByte(0);     // SubX?
-			packet.PutByte(0);     // SubY?
+			packet.PutByte(8);     // Sub-Tile Position
+			packet.PutByte(8);     // Sub-Tile Position
 			packet.PutShort((short)item.Amount);
 
 			if (Game.Version < Versions.Beta2)
