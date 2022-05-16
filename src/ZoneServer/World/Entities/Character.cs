@@ -270,7 +270,7 @@ namespace Sabine.Zone.World.Entities
 
 			var rnd = RandomProvider.Get();
 
-			var hitChance = Math.Max(0, 80 + attacker.Parameters.Hit - target.Parameters.Flee);
+			var hitChance = Math.Max(5, 80 + attacker.Parameters.Hit - target.Parameters.Flee);
 			var damage = 0; // Miss
 
 			if (rnd.Next(100) < hitChance)
