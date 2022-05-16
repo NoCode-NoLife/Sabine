@@ -141,6 +141,11 @@ namespace Sabine.Zone.World.Entities
 		public bool IsStunned => DateTime.Now < this.StunEndTime;
 
 		/// <summary>
+		/// Temporary test property, returning handle of the last attacker.
+		/// </summary>
+		public int AttackerHandleTest { get; set; }
+
+		/// <summary>
 		/// Initializes character.
 		/// </summary>
 		public Character()
@@ -280,6 +285,7 @@ namespace Sabine.Zone.World.Entities
 				target.TakeDamage(damage, attacker);
 				target.StunEndTime = DateTime.Now.AddSeconds(1);
 				target.Controller.StopMove();
+				target.AttackerHandleTest = attacker.Handle;
 
 				// Update the monster's name if the display HP option
 				// was enabled

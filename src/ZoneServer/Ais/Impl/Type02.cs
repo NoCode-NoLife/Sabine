@@ -16,10 +16,14 @@ namespace Sabine.Zone.Ais.Impl
 	[Ai("Type02")]
 	public class Type02 : MonsterAi
 	{
+		private int _targetCharacterHandle;
 		private int _targetItemHandle;
 
 		protected override void Init()
 		{
+			During("Idle", CheckAttacks);
+			During("PickUpItem", CheckAttacks);
+
 			During("Idle", CheckNearbyItems);
 			During("PickUpItem", CheckTargetItem);
 		}
@@ -38,6 +42,16 @@ namespace Sabine.Zone.Ais.Impl
 			}
 		}
 
+		private IEnumerable Combat(int handle)
+		{
+			_targetCharacterHandle = handle;
+			yield return HuntDown(handle);
+			_targetCharacterHandle = 0;
+			Character.AttackerHandleTest = 0;
+
+			StartRoutine("Idle", Idle());
+		}
+
 		private IEnumerable PickUpItem(int handle, Position pos)
 		{
 			_targetItemHandle = handle;
@@ -49,6 +63,19 @@ namespace Sabine.Zone.Ais.Impl
 			yield return PickUp(handle);
 
 			StartRoutine("Idle", Idle());
+		}
+
+		private void CheckAttacks(CallbackState state)
+		{
+			if (_targetCharacterHandle != 0)
+				return;
+
+			// TODO: Check hit tracker
+			if (Character.AttackerHandleTest != 0)
+			{
+				_targetCharacterHandle = Character.AttackerHandleTest;
+				StartRoutine("Combat", Combat(_targetCharacterHandle));
+			}
 		}
 
 		private void CheckNearbyItems(CallbackState state)

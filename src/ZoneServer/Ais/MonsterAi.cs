@@ -358,5 +358,40 @@ namespace Sabine.Zone.Ais
 			else if (this.Character is PlayerCharacter player)
 				player.Inventory.AddItem(item);
 		}
+
+		/// <summary>
+		/// Follows and attacks the character with the given handle.
+		/// Returns once the target is gone. One way... or another!
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <returns></returns>
+		protected IEnumerable HuntDown(int handle)
+		{
+			var attacker = this.Character;
+			var attackDelay = attacker.Parameters.AttackDelay;
+			var attackRange = ((attacker as Monster)?.Data.AttackRange ?? 1);
+			var chaseRange = (attacker as Monster)?.Data.ChaseRange ?? 12;
+
+			while (true)
+			{
+				if (!attacker.Map.TryGetCharacter(handle, out var target) || target.IsDead)
+					yield break;
+
+				foreach (var _ in this.Wait(attackDelay))
+					yield return true;
+
+				while (!attacker.Position.InRange(target.Position, attackRange))
+				{
+					if (!attacker.Position.InRange(target.Position, chaseRange))
+						yield break;
+
+					attacker.Controller.MoveTo(target.Position);
+					yield return true;
+				}
+
+				attacker.Controller.StopMove();
+				attacker.StartAttacking(target, false);
+			}
+		}
 	}
 }
