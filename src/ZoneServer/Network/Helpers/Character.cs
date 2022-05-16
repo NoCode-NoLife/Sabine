@@ -22,7 +22,7 @@ namespace Sabine.Zone.Network.Helpers
 			packet.PutInt(character.Handle);
 			packet.PutShort((short)character.Speed);
 
-			if (Game.Version < Versions.EP3_2)
+			if (Game.Version < Versions.Beta2)
 			{
 				if (Game.Version >= Versions.Beta1)
 				{
