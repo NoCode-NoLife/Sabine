@@ -15,6 +15,6 @@
 	/// <summary>
 	/// An AI routine hook callback function.
 	/// </summary>
-	/// <param name="ev"></param>
-	public delegate void CallbackFunc(CallbackState ev);
+	/// <param name="state"></param>
+	public delegate void CallbackFunc(CallbackState state);
 }

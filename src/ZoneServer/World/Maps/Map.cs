@@ -313,6 +313,19 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the character with the given handle via out, returns
+		/// false if the character wasn't found.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool TryGetCharacter(int handle, out Character character)
+		{
+			character = this.GetCharacter(handle);
+			return character != null;
+		}
+
+		/// <summary>
 		/// Adds NPC to this map.
 		/// </summary>
 		/// <param name="npc"></param>
