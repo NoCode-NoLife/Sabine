@@ -47,6 +47,8 @@ namespace Sabine.Zone.Ais.Impl
 
 			yield return MoveTo(pos);
 			yield return PickUp(handle);
+
+			StartRoutine("Idle", Idle());
 		}
 
 		private void CheckNearbyItems(CallbackState state)
