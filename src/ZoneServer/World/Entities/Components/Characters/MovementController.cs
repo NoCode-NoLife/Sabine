@@ -69,6 +69,9 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			var map = character.Map;
 
 			var fromPos = character.Position;
+			if (fromPos == toPos)
+				return TimeSpan.Zero;
+
 			_finalDestination = toPos;
 
 			character.StopAttacking();
