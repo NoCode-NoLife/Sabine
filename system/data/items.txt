@@ -3,17 +3,25 @@
 // 
 // Fields: id, name, type, weight, [price], [sell], [attack], [attackMin], [attackMax], [defense], [range], [jobs], [sex], [equip], [weaponLevel], [equipLevel], [look]
 // 
-// name:
-//   The item name is vitally important when using early clients,
-//   because items are identified by it, instead of using the id.
-//   See the item_names data for more information.
+//   name:
+//     The item name is vitally important when using early clients,
+//     because items are identified by it, instead of using the id.
+//     See the item_names data for more information.
+//   
+//   attack(Min/Max):
+//     While modern RO only uses one attack stat, the alpha apparently
+//     used a min/max system, similar to monsters. For compatibility
+//     across different versions, all weapons that were available in
+//     the alpha include both versions. Note that some min/max values
+//     are estimates, as we don't have alpha data on all weapons.
 // 
-// attack(Min/Max):
-//   While modern RO only uses one attack stat, the alpha apparently
-//   used a min/max system, similar to monsters. For compatibility
-//   across different versions, all weapons that were available in
-//   the alpha include both versions. Note that some min/max values
-//   are estimates, as we don't have alpha data on all weapons.
+// References:
+//   *Athena
+//   https://web.archive.org/web/20011027191345/http://www.ro-world.com/d_item.php
+//   https://web.archive.org/web/20011229232226mp_/http://www.prontera.net/items/item_list.html
+//   https://web.archive.org/web/20011229232504mp_/http://www.prontera.net/items/misc_list.html
+//   https://web.archive.org/web/20011229231756mp_/http://www.prontera.net/items/armor_list.html
+//   https://web.archive.org/web/20011229232846mp_/http://www.prontera.net/items/weapon_list.html
 //---------------------------------------------------------------------------
 
 [
@@ -49,50 +57,50 @@
 { id: 1107, name: "Blade", type: "Weapon", weight: 300, price: 2700, attack: 53, attackMin: 9, attackMax: 13, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 2, look: 2 },
 { id: 1110, name: "Lapier", type: "Weapon", weight: 200, price: 5600, attack: 60, attackMin: 12, attackMax: 16, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 14, look: 2 },
 { id: 1113, name: "Scimiter", type: "Weapon", weight: 400, price: 11500, attack: 75, attackMin: 15, attackMax: 20, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 14, look: 2 },
-{ id: 1116, name: "Katana", type: "Weapon", weight: 300, price: 36000, attack: 90, attackMin: 24, attackMax: 29, range: 1, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 2 },
-{ id: 1119, name: "Tsurugi", type: "Weapon", weight: 500, price: 60000, attack: 130, attackMin: 34, attackMax: 38, range: 1, jobs: "Swordman|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 27, look: 2 },
-{ id: 1151, name: "Slayer", type: "Weapon", weight: 800, price: 19500, attack: 80, attackMin: 13, attackMax: 23, range: 1, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 2 },
-{ id: 1154, name: "Bastard Sword", type: "Weapon", weight: 900, price: 54000, attack: 115, attackMin: 28, attackMax: 32, range: 1, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 2 },
-{ id: 1157, name: "Two-hand Sword", type: "Weapon", weight: 1200, price: 68000, attack: 160, attackMin: 61, attackMax: 68, range: 1, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 2 },
+{ id: 1116, name: "Katana", type: "Weapon", weight: 300, price: 36000, attack: 90, attackMin: 23, attackMax: 29, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 2 },
+{ id: 1119, name: "Tsurugi", type: "Weapon", weight: 500, price: 60000, attack: 130, attackMin: 34, attackMax: 38, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 27, look: 2 },
+{ id: 1151, name: "Slayer", type: "Weapon", weight: 800, price: 19500, attack: 80, attackMin: 19, attackMax: 32, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 2 },
+{ id: 1154, name: "Bastard Sword", type: "Weapon", weight: 900, price: 54000, attack: 115, attackMin: 28, attackMax: 32, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 2 },
+{ id: 1157, name: "Two-hand Sword", type: "Weapon", weight: 1200, price: 68000, attack: 160, attackMin: 37, attackMax: 45, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 2 },
 
 { id: 1201, name: "Knife", type: "Weapon", weight: 150, price: 10, attack: 17, attackMin: 2, attackMax: 6, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 1, look: 1 },
 { id: 1204, name: "Cutter", type: "Weapon", weight: 100, price: 300, attack: 30, attackMin: 3, attackMax: 7, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 1, look: 1 },
-{ id: 1207, name: "Main-gauche", type: "Weapon", weight: 100, price: 1200, attack: 43, attackMin: 5, attackMax: 9, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 1, look: 1 },
-{ id: 1210, name: "Dirk", type: "Weapon", weight: 200, price: 3600, attack: 59, attackMin: 8, attackMax: 1, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 1 },
+{ id: 1207, name: "Main-Gauche", type: "Weapon", weight: 100, price: 1200, attack: 43, attackMin: 5, attackMax: 9, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 1, look: 1 },
+{ id: 1210, name: "Dirk", type: "Weapon", weight: 200, price: 3600, attack: 59, attackMin: 8, attackMax: 11, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 1 },
 { id: 1213, name: "Dagger", type: "Weapon", weight: 200, price: 8500, attack: 73, attackMin: 12, attackMax: 15, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 1 },
 { id: 1216, name: "Stiletto", type: "Weapon", weight: 100, price: 16000, attack: 87, attackMin: 15, attackMax: 18, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 1 },
-{ id: 1219, name: "Gladius", type: "Weapon", weight: 150, price: 28000, attack: 105, attackMin: 25, attackMax: 30, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 1 },
-{ id: 1222, name: "Damascus", type: "Weapon", weight: 150, price: 35000, attack: 118, attackMin: 26, attackMax: 32, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 1 },
+{ id: 1219, name: "Gladius", type: "Weapon", weight: 150, price: 28000, attack: 105, attackMin: 20, attackMax: 22, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 1 },
+{ id: 1222, name: "Damascus", type: "Weapon", weight: 150, price: 35000, attack: 118, attackMin: 22, attackMax: 25, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 1 },
 { id: 1224, name: "Sword Breaker", type: "Weapon", weight: 1000, price: 20, attack: 70, attackMin: 9, attackMax: 12, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 4, equipLevel: 36, look: 1 },
 { id: 1225, name: "Mail Breaker", type: "Weapon", weight: 1000, price: 20, attack: 70, attackMin: 9, attackMax: 12, range: 1, jobs: "Novice|Swordman|Mage|Archer|Merchant|Thief", equip: "RightHand", weaponLevel: 4, equipLevel: 36, look: 1 },
 
-{ id: 1301, name: "Axe", type: "Weapon", weight: 400, price: 150, attack: 35, attackMin: 6, attackMax: 17, range: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 3, look: 5 },
-{ id: 1351, name: "Battle Axe", type: "Weapon", weight: 650, price: 4200, attack: 75, attackMin: 10, attackMax: 19, range: 1, jobs: "Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 3, look: 5 },
-{ id: 1354, name: "War Hammer", type: "Weapon", weight: 900, price: 16000, attack: 110, attackMin: 16, attackMax: 27, range: 1, jobs: "Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 16, look: 5 },
-{ id: 1357, name: "Buster", type: "Weapon", weight: 1200, price: 24000, attack: 140, attackMin: 23, attackMax: 32, range: 1, jobs: "Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 30, look: 5 },
-{ id: 1360, name: "Two-hand Axe", type: "Weapon", weight: 1500, price: 45000, attack: 170, attackMin: 47, attackMax: 53, range: 1, jobs: "Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 30, look: 5 },
+{ id: 1301, name: "Axe", type: "Weapon", weight: 400, price: 150, attack: 35, attackMin: 6, attackMax: 14, range: 1, jobs: "Novice|Swordman|Merchant", equip: "RightHand", weaponLevel: 1, equipLevel: 3, look: 5 },
+{ id: 1351, name: "Battle Axe", type: "Weapon", weight: 650, price: 4200, attack: 75, attackMin: 10, attackMax: 19, range: 1, jobs: "Novice|Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 3, look: 5 },
+{ id: 1354, name: "War Hammer", type: "Weapon", weight: 900, price: 16000, attack: 110, attackMin: 16, attackMax: 27, range: 1, jobs: "Novice|Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 16, look: 5 },
+{ id: 1357, name: "Buster", type: "Weapon", weight: 1200, price: 24000, attack: 140, attackMin: 23, attackMax: 32, range: 1, jobs: "Novice|Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 30, look: 5 },
+{ id: 1360, name: "Two-hand Axe", type: "Weapon", weight: 1500, price: 45000, attack: 170, attackMin: 40, attackMax: 50, range: 1, jobs: "Novice|Swordman|Merchant", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 30, look: 5 },
 
 { id: 1401, name: "Javelin", type: "Weapon", weight: 250, price: 50, attack: 28, attackMin: 4, attackMax: 10, range: 3, jobs: "Swordman", equip: "RightHand", weaponLevel: 1, equipLevel: 4, look: 4 },
 { id: 1404, name: "Spear", type: "Weapon", weight: 450, price: 6400, attack: 84, attackMin: 10, attackMax: 17, range: 3, jobs: "Swordman", equip: "RightHand", weaponLevel: 1, equipLevel: 4, look: 4 },
-{ id: 1407, name: "Pike", type: "Weapon", weight: 600, price: 13500, attack: 104, attackMin: 14, attackMax: 20, range: 3, jobs: "Swordman", equip: "RightHand", weaponLevel: 1, equipLevel: 4, look: 4 },
+{ id: 1407, name: "Pike", type: "Weapon", weight: 600, price: 13500, attack: 104, attackMin: 14, attackMax: 21, range: 3, jobs: "Swordman", equip: "RightHand", weaponLevel: 1, equipLevel: 4, look: 4 },
 { id: 1410, name: "Lance", type: "Weapon", weight: 400, price: 4000, attack: 60, attackMin: 7, attackMax: 14, range: 3, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 4 },
 { id: 1451, name: "Guisarme", type: "Weapon", weight: 500, price: 2500, attack: 44, attackMin: 8, attackMax: 16, range: 3, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 4 },
 { id: 1454, name: "Glaive", type: "Weapon", weight: 800, price: 18000, attack: 124, attackMin: 17, attackMax: 26, range: 3, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 4 },
 { id: 1457, name: "Partizan", type: "Weapon", weight: 500, price: 28000, attack: 150, attackMin: 20, attackMax: 33, range: 3, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 4 },
 { id: 1460, name: "Trident", type: "Weapon", weight: 1000, price: 42000, attack: 165, attackMin: 29, attackMax: 43, range: 3, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 4 },
-{ id: 1463, name: "Halberd", type: "Weapon", weight: 1000, price: 54000, attack: 185, attackMin: 54, attackMax: 81, range: 3, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 4 },
+{ id: 1463, name: "Halberd", type: "Weapon", weight: 1000, price: 54000, attack: 185, attackMin: 32, attackMax: 48, range: 3, jobs: "Swordman", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 4 },
 
-{ id: 1501, name: "Club", type: "Weapon", weight: 300, price: 30, attack: 23, attackMin: 2, attackMax: 8, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 2, look: 6 },
-{ id: 1504, name: "Mace", type: "Weapon", weight: 400, price: 500, attack: 37, attackMin: 4, attackMax: 11, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant|Thief", equip: "RightHand", weaponLevel: 1, equipLevel: 2, look: 6 },
-{ id: 1507, name: "Smasher", type: "Weapon", weight: 450, price: 3200, attack: 54, attackMin: 6, attackMax: 18, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 14, look: 6 },
-{ id: 1510, name: "Flail", type: "Weapon", weight: 500, price: 8400, attack: 69, attackMin: 10, attackMax: 19, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant|Thief", equip: "RightHand", weaponLevel: 2, equipLevel: 14, look: 6 },
-{ id: 1513, name: "Morning Star", type: "Weapon", weight: 600, price: 41000, attack: 110, attackMin: 16, attackMax: 30, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 27, look: 6 },
-{ id: 1516, name: "Sword Mace", type: "Weapon", weight: 500, price: 50000, attack: 130, attackMin: 22, attackMax: 48, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant|Thief", equip: "RightHand", weaponLevel: 3, equipLevel: 27, look: 6 },
+{ id: 1501, name: "Club", type: "Weapon", weight: 300, price: 30, attack: 23, attackMin: 2, attackMax: 8, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant", equip: "RightHand", weaponLevel: 1, equipLevel: 2, look: 6 },
+{ id: 1504, name: "Mace", type: "Weapon", weight: 400, price: 500, attack: 37, attackMin: 4, attackMax: 11, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant", equip: "RightHand", weaponLevel: 1, equipLevel: 2, look: 6 },
+{ id: 1507, name: "Smasher", type: "Weapon", weight: 450, price: 3200, attack: 54, attackMin: 6, attackMax: 15, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant", equip: "RightHand", weaponLevel: 2, equipLevel: 14, look: 6 },
+{ id: 1510, name: "Flail", type: "Weapon", weight: 500, price: 8400, attack: 69, attackMin: 10, attackMax: 19, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant", equip: "RightHand", weaponLevel: 2, equipLevel: 14, look: 6 },
+{ id: 1513, name: "Morning Star", type: "Weapon", weight: 600, price: 41000, attack: 110, attackMin: 16, attackMax: 30, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant", equip: "RightHand", weaponLevel: 3, equipLevel: 27, look: 6 },
+{ id: 1516, name: "Sword Mace", type: "Weapon", weight: 500, price: 50000, attack: 130, attackMin: 20, attackMax: 35, range: 1, jobs: "Novice|Swordman|Acolyte|Merchant", equip: "RightHand", weaponLevel: 3, equipLevel: 27, look: 6 },
 
-{ id: 1601, name: "Rod", type: "Weapon", weight: 100, price: 100, attack: 15, attackMin: 3, attackMax: 6, range: 1, jobs: "Novice|Mage|Acolyte", equip: "RightHand", weaponLevel: 1, equipLevel: 1, look: 7 },
-{ id: 1604, name: "Wand", type: "Weapon", weight: 100, price: 1000, attack: 25, attackMin: 5, attackMax: 8, range: 1, jobs: "Novice|Mage|Acolyte", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 7 },
-{ id: 1607, name: "Staff", type: "Weapon", weight: 200, price: 8000, attack: 40, attackMin: 10, attackMax: 14, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 7 },
-{ id: 1610, name: "Arc Wand", type: "Weapon", weight: 300, price: 20000, attack: 60, attackMin: 16, attackMax: 23, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 7 },
+{ id: 1601, name: "Rod", type: "Weapon", weight: 100, price: 100, attack: 15, attackMin: 3, attackMax: 6, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 1, equipLevel: 1, look: 7, effects: { "Int": 2 } },
+{ id: 1604, name: "Wand", type: "Weapon", weight: 100, price: 1000, attack: 25, attackMin: 5, attackMax: 8, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 7, effects: { "Int": 2 } },
+{ id: 1607, name: "Staff", type: "Weapon", weight: 200, price: 8000, attack: 40, attackMin: 10, attackMax: 14, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 2, equipLevel: 12, look: 7, effects: { "Int": 2 } },
+{ id: 1610, name: "Arc Wand", type: "Weapon", weight: 300, price: 20000, attack: 60, attackMin: 16, attackMax: 23, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 7, effects: { "Int": 2 } },
 
 { id: 1701, name: "Bow", type: "RangedWeapon", weight: 200, price: 300, attack: 15, attackMin: 3, attackMax: 10, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
 { id: 1704, name: "Composite Bow", type: "RangedWeapon", weight: 300, price: 5600, attack: 29, attackMin: 6, attackMax: 14, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
@@ -103,44 +111,44 @@
 // Armors
 //---------------------------------------------------------------------------
 { id: 2101, name: "Guard", type: "Armor", weight: 100, price: 450, defense: 2, jobs: "All", equip: "LeftHand", equipLevel: 0, look: 1 },
-{ id: 2103, name: "Buckler", type: "Armor", weight: 200, price: 3800, defense: 3, jobs: "Swordman|Acolyte|Merchant|Thief", equip: "LeftHand", equipLevel: 0, look: 2 },
+{ id: 2103, name: "Buckler", type: "Armor", weight: 200, price: 3800, defense: 3, jobs: "Swordman|Acolyte|Merchant", equip: "LeftHand", equipLevel: 0, look: 2 },
 { id: 2105, name: "Shield", type: "Armor", weight: 300, price: 12500, defense: 4, jobs: "Swordman", equip: "LeftHand", equipLevel: 0, look: 3 },
 
 { id: 2208, name: "Ribbon", type: "Armor", weight: 100, price: 50, defense: 1, jobs: "All", equip: "Head", equipLevel: 0, look: 17 },
 { id: 2210, name: "Hair Band", type: "Armor", weight: 100, price: 100, defense: 1, jobs: "All", equip: "Head", equipLevel: 0, look: 9 },
-{ id: 2216, name: "Biretta", type: "Armor", weight: 100, price: 200, defense: 1, jobs: "Acolyte", equip: "Head", equipLevel: 0, look: 11 },
+{ id: 2216, name: "Biretta", type: "Armor", weight: 100, price: 200, defense: 1, jobs: "All", equip: "Head", equipLevel: 0, look: 11 },
 { id: 2218, name: "Mask", type: "Armor", weight: 100, price: 300, defense: 0, jobs: "All", equip: "Head", equipLevel: 0, look: 8 },
-{ id: 2220, name: "Hat", type: "Armor", weight: 150, price: 1700, defense: 2, jobs: "All", equip: "Head", equipLevel: 0, look: 16 },
-{ id: 2226, name: "Cap", type: "Armor", weight: 150, price: 5400, defense: 3, jobs: "Swordman|Archer|Merchant|Thief", equip: "Head", equipLevel: 0, look: 14 },
+{ id: 2220, name: "Hat", type: "Armor", weight: 150, price: 1700, defense: 2, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Head", equipLevel: 0, look: 16 },
+{ id: 2226, name: "Cap", type: "Armor", weight: 150, price: 5400, defense: 3, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Head", equipLevel: 0, look: 14 },
 { id: 2228, name: "Helm", type: "Armor", weight: 250, price: 13000, defense: 5, jobs: "Swordman", equip: "Head", equipLevel: 0, look: 40 },
-{ id: 2232, name: "Circlet", type: "Armor", weight: 300, price: 7500, defense: 3, jobs: "Mage|Acolyte", equip: "Head", equipLevel: 0, look: 18 },
+{ id: 2232, name: "Circlet", type: "Armor", weight: 300, price: 7500, defense: 3, jobs: "Merchant", equip: "Head", equipLevel: 0, look: 18 },
 { id: 2234, name: "Tiara", type: "Armor", weight: 400, price: 20, defense: 4, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", gender: 0, equip: "Head", equipLevel: 45, look: 19 },
-{ id: 2235, name: "Crown", type: "Armor", weight: 400, price: 20, defense: 4, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", gender: 1, equip: "Head", equipLevel: 45, look: 45 },
+{ id: 2235, name: "Crown", type: "Armor", weight: 400, price: 20, defense: 4, jobs: "Merchant", gender: 1, equip: "Head", equipLevel: 45, look: 45, effects: { "Int": 1 } },
 { id: 2236, name: "Goggle", type: "Armor", weight: 100, price: 150, defense: 1, jobs: "All", equip: "Head", equipLevel: 0, look: 16 },
 
 { id: 2301, name: "Cotton Shirt", type: "Armor", weight: 100, price: 10, defense: 1, jobs: "All", equip: "Body", equipLevel: 0, look: 0 },
 { id: 2303, name: "Leather Jacket", type: "Armor", weight: 150, price: 150, defense: 2, jobs: "All", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2305, name: "Adventure Suit", type: "Armor", weight: 200, price: 1500, defense: 2, jobs: "All", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2307, name: "Mantle", type: "Armor", weight: 250, price: 6700, defense: 4, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2309, name: "Coat", type: "Armor", weight: 500, price: 15600, defense: 5, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
+{ id: 2305, name: "Adventure Suit", type: "Armor", weight: 200, price: 1500, defense: 2, jobs: "Swordman|Archer|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
+{ id: 2307, name: "Mantle", type: "Armor", weight: 250, price: 6700, defense: 4, jobs: "Swordman|Archer|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
+{ id: 2309, name: "Coat", type: "Armor", weight: 500, price: 15600, defense: 5, jobs: "Swordman|Archer|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
 { id: 2311, name: "Mink Coat", type: "Armor", weight: 2300, price: 50000, defense: 6, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Body", equipLevel: 30, look: 0 },
-{ id: 2312, name: "Padded Armor", type: "Armor", weight: 500, price: 28500, defense: 6, jobs: "Swordman|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
+{ id: 2312, name: "Padded Armor", type: "Armor", weight: 500, price: 28500, defense: 6, jobs: "Swordman|Archer|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
 { id: 2314, name: "Chain Mail", type: "Armor", weight: 800, price: 47200, defense: 7, jobs: "Swordman|Archer|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2316, name: "Plate Armor", type: "Armor", weight: 4500, price: 80000, defense: 10, jobs: "Swordman", equip: "Body", equipLevel: 40, look: 0 },
+{ id: 2316, name: "Plate Armor", type: "Armor", weight: 4500, price: 80000, defense: 9, jobs: "Swordman", equip: "Body", equipLevel: 40, look: 0 },
 { id: 2317, name: "Gallabiya", type: "Armor", weight: 4500, price: 80000, defense: 10, jobs: "Swordman", equip: "Body", equipLevel: 40, look: 0 },
 { id: 2318, name: "Lord's Clothes", type: "Armor", weight: 2500, price: 20, defense: 8, jobs: "Merchant", equip: "Body", equipLevel: 70, look: 0 },
-{ id: 2319, name: "Glitter Cloth", type: "Armor", weight: 2500, price: 20, defense: 7, jobs: "Merchant", equip: "Body", equipLevel: 60, look: 0 },
+{ id: 2319, name: "Glitter Cloth", type: "Armor", weight: 2500, price: 20, defense: 7, jobs: "Merchant", equip: "Body", equipLevel: 60, look: 0, effects: { "Int": 1 } },
 { id: 2320, name: "Formal Dress", type: "Armor", weight: 300, price: 20, defense: 5, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2321, name: "Silk Robe", type: "Armor", weight: 150, price: 2700, defense: 3, jobs: "Swordman|Mage|Acolyte|Merchant", equip: "Body", equipLevel: 0, look: 0 },
+{ id: 2321, name: "Silk Robe", type: "Armor", weight: 150, price: 2700, defense: 3, jobs: "Acolyte|Merchant", equip: "Body", equipLevel: 0, look: 0 },
 { id: 2323, name: "Scapulare", type: "Armor", weight: 200, price: 7000, defense: 4, jobs: "Acolyte", equip: "Body", equipLevel: 0, look: 0 },
 { id: 2325, name: "Saint Robe", type: "Armor", weight: 600, price: 54000, defense: 6, jobs: "Acolyte|Merchant", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2327, name: "Holy Robe", type: "Armor", weight: 1700, price: 20, defense: 7, jobs: "Acolyte", equip: "Body", equipLevel: 60, look: 0 },
-{ id: 2328, name: "Wooden Mail", type: "Armor", weight: 200, price: 1000, defense: 3, jobs: "Swordman|Merchant", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2330, name: "Tights", type: "Armor", weight: 400, price: 25000, defense: 5, jobs: "Archer", equip: "Body", equipLevel: 45, look: 0 },
+{ id: 2327, name: "Holy Robe", type: "Armor", weight: 1700, price: 20, defense: 7, jobs: "Acolyte", equip: "Body", equipLevel: 60, look: 0, effects: { "Int": 1, "Luk": 1 } },
+{ id: 2328, name: "Wooden Mail", type: "Armor", weight: 200, price: 1000, defense: 3, jobs: "All", equip: "Body", equipLevel: 0, look: 0 },
+{ id: 2330, name: "Tights", type: "Armor", weight: 400, price: 25000, defense: 5, jobs: "Archer|Merchant|Thief", equip: "Body", equipLevel: 45, look: 0, effects: { "Dex": 1 } },
 { id: 2332, name: "Silver Robe", type: "Armor", weight: 300, price: 8000, defense: 4, jobs: "Mage", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2334, name: "Magic Coat", type: "Armor", weight: 600, price: 20, defense: 5, jobs: "Mage", equip: "Body", equipLevel: 50, look: 0 },
-{ id: 2335, name: "Thieves' Cloth", type: "Armor", weight: 100, price: 8500, defense: 4, jobs: "Thief", equip: "Body", equipLevel: 0, look: 0 },
-{ id: 2337, name: "Ninja Suit", type: "Armor", weight: 1500, price: 20, defense: 7, jobs: "Thief", equip: "Body", equipLevel: 50, look: 0 },
+{ id: 2334, name: "Magic Coat", type: "Armor", weight: 600, price: 20, defense: 5, jobs: "Mage", equip: "Body", equipLevel: 50, look: 0, effects: { "Int": 1 } },
+{ id: 2335, name: "Thieves' Cloth", type: "Armor", weight: 100, price: 8500, defense: 4, jobs: "Swordman|Merchant|Thief", equip: "Body", equipLevel: 0, look: 0 },
+{ id: 2337, name: "Ninja Suit", type: "Armor", weight: 1500, price: 20, defense: 7, jobs: "Thief", equip: "Body", equipLevel: 50, look: 0, effects: { "Agi": 2 } },
 
 { id: 2401, name: "Sandals", type: "Armor", weight: 100, price: 500, defense: 1, jobs: "All", equip: "Shoes", equipLevel: 0, look: 0 },
 { id: 2403, name: "Shoes", type: "Armor", weight: 100, price: 2500, defense: 2, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Shoes", equipLevel: 0, look: 0 },
@@ -150,11 +158,11 @@
 { id: 2503, name: "Muffler", type: "Armor", weight: 100, price: 3500, defense: 2, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Robe", equipLevel: 0, look: 0 },
 { id: 2505, name: "Manteau", type: "Armor", weight: 100, price: 8000, defense: 3, jobs: "Swordman|Merchant|Thief", equip: "Robe", equipLevel: 0, look: 0 },
 
-{ id: 2601, name: "Ring", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
-{ id: 2602, name: "Earring", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory2", equipLevel: 20, look: 0 },
-{ id: 2603, name: "Necklace", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory2", equipLevel: 20, look: 0 },
-{ id: 2604, name: "Glove", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
-{ id: 2605, name: "Brooch", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0 },
+{ id: 2601, name: "Ring", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "All", equip: "Accessory1", equipLevel: 20, look: 0, effects: { "Dex": 1 } },
+{ id: 2602, name: "Earring", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "All", gender: 0, equip: "Accessory2", equipLevel: 20, look: 0, effects: { "Int": 2 } },
+{ id: 2603, name: "Necklace", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Mage|Archer", equip: "Accessory2", equipLevel: 20, look: 0, effects: { "Int": 1 } },
+{ id: 2604, name: "Glove", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0, effects: { "Str": 1, "Dex": 1 } },
+{ id: 2605, name: "Brooch", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0, effects: { "Vit": 1 } },
 { id: 2607, name: "Clip", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "All", equip: "Accessory1", equipLevel: 0, look: 0 },
 { id: 2608, name: "Rosary", type: "Armor", weight: 100, price: 15000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory2", equipLevel: 20, look: 0 },
 
@@ -164,41 +172,41 @@
 { id: 905, name: "Stem", type: "Etc", weight: 10, price: 80 },
 { id: 910, name: "Garlet", type: "Etc", weight: 10, price: 240 },
 { id: 912, name: "Zargon", type: "Etc", weight: 10, price: 480 },
-{ id: 913, name: "Tooth of Bat", type: "Etc", weight: 10, price: 36 },
+{ id: 913, name: "Tooth of Bat", type: "Etc", weight: 10, price: 24 },
 { id: 914, name: "Fluff", type: "Etc", weight: 10, price: 16 },
 { id: 915, name: "Castoff Skin", type: "Etc", weight: 10, price: 8 },
 { id: 916, name: "Feather of Bird", type: "Etc", weight: 10, price: 36 },
 { id: 917, name: "Claw of Birds", type: "Etc", weight: 10, price: 62 },
 { id: 918, name: "Web", type: "Etc", weight: 10, price: 68 },
-{ id: 919, name: "Leather", type: "Etc", weight: 10, price: 36 },
+{ id: 919, name: "Leather", type: "Etc", weight: 10, price: 70 },
 { id: 920, name: "Claw of Wolves", type: "Etc", weight: 10, price: 40 },
 { id: 921, name: "Mushroom Spore", type: "Etc", weight: 10, price: 70 },
 { id: 922, name: "Orc's Cuspid", type: "Etc", weight: 10, price: 220 },
-{ id: 923, name: "Horn of Devil", type: "Etc", weight: 10, price: 1020 },
+{ id: 923, name: "Horn of Devil", type: "Etc", weight: 10, price: 2000 },
 { id: 924, name: "Moth Dust", type: "Etc", weight: 10, price: 186 },
-{ id: 925, name: "Bill of Birds", type: "Etc", weight: 10, price: 62 },
+{ id: 925, name: "Bill of Birds", type: "Etc", weight: 10, price: 60 },
 { id: 926, name: "Scale of Snakes", type: "Etc", weight: 10, price: 100 },
 { id: 928, name: "Horn of Cukres", type: "Etc", weight: 10, price: 114 },
 { id: 929, name: "Immortal Heart", type: "Etc", weight: 10, price: 300 },
 { id: 930, name: "Rotten Bandage", type: "Etc", weight: 10, price: 370 },
 { id: 931, name: "Orcish Voucher", type: "Etc", weight: 10, price: 168 },
 { id: 932, name: "Skel Bone", type: "Etc", weight: 10, price: 80 },
-{ id: 934, name: "Dead's Memento", type: "Etc", weight: 10, price: 600 },
+{ id: 934, name: "Dead's Memento", type: "Etc", weight: 10, price: 3000 },
 { id: 935, name: "Shell", type: "Etc", weight: 10, price: 70 },
 { id: 936, name: "Scale Skin", type: "Etc", weight: 10, price: 160 },
 { id: 937, name: "Poison Cuspid", type: "Etc", weight: 10, price: 200 },
 { id: 938, name: "Sticky Mucus", type: "Etc", weight: 10, price: 140 },
 { id: 939, name: "Amulet", type: "Etc", weight: 10, price: 116 },
-{ id: 715, name: "Yellow Gemstone", type: "Etc", weight: 10, price: 10 },
-{ id: 716, name: "Red Gemstone", type: "Etc", weight: 10, price: 10 },
-{ id: 717, name: "Blue Gemstone", type: "Etc", weight: 10, price: 10 },
-{ id: 721, name: "Azure Jewel", type: "Etc", weight: 10, price: 10 },
-{ id: 722, name: "Scarlet Jewel", type: "Etc", weight: 10, price: 10 },
-{ id: 723, name: "Wine Jewel", type: "Etc", weight: 10, price: 10 },
-{ id: 726, name: "Blue Jewel", type: "Etc", weight: 10, price: 10 },
-{ id: 720, name: "Skyblue Jewel", type: "Etc", weight: 10, price: 10 },
-{ id: 728, name: "Golden Jewel", type: "Etc", weight: 10, price: 10 },
-{ id: 730, name: "Clear Jewel", type: "Etc", weight: 10, price: 10 },
+{ id: 715, name: "Yellow Gemstone", type: "Etc", weight: 10, price: 10, sellPrice: 0 },
+{ id: 716, name: "Red Gemstone", type: "Etc", weight: 10, price: 10, sellPrice: 0 },
+{ id: 717, name: "Blue Gemstone", type: "Etc", weight: 10, price: 10, sellPrice: 0 },
+{ id: 721, name: "Azure Jewel", type: "Etc", weight: 10, price: 10000 },
+{ id: 722, name: "Scarlet Jewel", type: "Etc", weight: 10, price: 10000 },
+{ id: 723, name: "Wine Jewel", type: "Etc", weight: 10, price: 10000 },
+{ id: 726, name: "Blue Jewel", type: "Etc", weight: 10, price: 10000 },
+{ id: 720, name: "Skyblue Jewel", type: "Etc", weight: 10, price: 10000 },
+{ id: 728, name: "Golden Jewel", type: "Etc", weight: 10, price: 10000 },
+{ id: 730, name: "Clear Jewel", type: "Etc", weight: 10, price: 20000 },
 { id: 20001, name: "Beast's Mane", type: "Etc", weight: 10, price: 10 },
 { id: 20002, name: "Resident Cert", type: "Etc", weight: 1, price: 500 },
 { id: 20003, name: "Business Cert", type: "Etc", weight: 1, price: 1000 },
