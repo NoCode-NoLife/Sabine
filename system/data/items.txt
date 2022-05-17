@@ -34,6 +34,13 @@
 { id: 513, name: "Banana", type: "Healing", weight: 20, price: 15 },
 { id: 514, name: "Grape", type: "Healing", weight: 20, price: 200 },
 { id: 517, name: "Meat", type: "Healing", weight: 150, price: 50 },
+{ id: 902, name: "Tree Root", type: "Healing", weight: 10, price: 46 },
+{ id: 904, name: "Scorpion Tail", type: "Healing", weight: 10, price: 130 },
+{ id: 906, name: "Scale", type: "Healing", weight: 10, price: 44 },
+{ id: 907, name: "Resin", type: "Healing", weight: 10, price: 170 },
+{ id: 908, name: "Spawn", type: "Healing", weight: 10, price: 250 },
+{ id: 909, name: "Jellopy", type: "Healing", weight: 10, price: 10 },
+{ id: 911, name: "Sel", type: "Healing", weight: 10, price: 52 },
 
 // Weapons
 //---------------------------------------------------------------------------
@@ -153,16 +160,9 @@
 
 // Etc
 //---------------------------------------------------------------------------
-{ id: 902, name: "Tree Root", type: "Etc", weight: 10, price: 46 },
 { id: 903, name: "Reptile Tongue", type: "Etc", weight: 10, price: 50 },
-{ id: 904, name: "Scorpion Tail", type: "Etc", weight: 10, price: 130 },
 { id: 905, name: "Stem", type: "Etc", weight: 10, price: 80 },
-{ id: 906, name: "Scale", type: "Etc", weight: 10, price: 44 },
-{ id: 907, name: "Resin", type: "Etc", weight: 10, price: 170 },
-{ id: 908, name: "Spawn", type: "Etc", weight: 10, price: 250 },
-{ id: 909, name: "Jellopy", type: "Etc", weight: 10, price: 10 },
 { id: 910, name: "Garlet", type: "Etc", weight: 10, price: 240 },
-{ id: 911, name: "Sel", type: "Etc", weight: 10, price: 52 },
 { id: 912, name: "Zargon", type: "Etc", weight: 10, price: 480 },
 { id: 913, name: "Tooth of Bat", type: "Etc", weight: 10, price: 36 },
 { id: 914, name: "Fluff", type: "Etc", weight: 10, price: 16 },
