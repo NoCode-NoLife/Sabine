@@ -122,8 +122,8 @@
 { id: 2226, name: "Cap", type: "Armor", weight: 150, price: 5400, defense: 3, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Head", equipLevel: 0, look: 14 },
 { id: 2228, name: "Helm", type: "Armor", weight: 250, price: 13000, defense: 5, jobs: "Swordman", equip: "Head", equipLevel: 0, look: 40 },
 { id: 2232, name: "Circlet", type: "Armor", weight: 300, price: 7500, defense: 3, jobs: "Merchant", equip: "Head", equipLevel: 0, look: 18 },
-{ id: 2234, name: "Tiara", type: "Armor", weight: 400, price: 20, defense: 4, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", gender: 0, equip: "Head", equipLevel: 45, look: 19 },
-{ id: 2235, name: "Crown", type: "Armor", weight: 400, price: 20, defense: 4, jobs: "Merchant", gender: 1, equip: "Head", equipLevel: 45, look: 45, effects: { "Int": 1 } },
+{ id: 2234, name: "Tiara", type: "Armor", weight: 400, price: 20, defense: 4, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", sex: "Female", equip: "Head", equipLevel: 45, look: 19 },
+{ id: 2235, name: "Crown", type: "Armor", weight: 400, price: 20, defense: 4, jobs: "Merchant", sex: "Male", equip: "Head", equipLevel: 45, look: 45, effects: { "Int": 1 } },
 { id: 2236, name: "Goggle", type: "Armor", weight: 100, price: 150, defense: 1, jobs: "All", equip: "Head", equipLevel: 0, look: 16 },
 
 { id: 2301, name: "Cotton Shirt", type: "Armor", weight: 100, price: 10, defense: 1, jobs: "All", equip: "Body", equipLevel: 0, look: 0 },
@@ -159,7 +159,7 @@
 { id: 2505, name: "Manteau", type: "Armor", weight: 100, price: 8000, defense: 3, jobs: "Swordman|Merchant|Thief", equip: "Robe", equipLevel: 0, look: 0 },
 
 { id: 2601, name: "Ring", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "All", equip: "Accessory1", equipLevel: 20, look: 0, effects: { "Dex": 1 } },
-{ id: 2602, name: "Earring", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "All", gender: 0, equip: "Accessory2", equipLevel: 20, look: 0, effects: { "Int": 2 } },
+{ id: 2602, name: "Earring", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "All", sex: "Female", equip: "Accessory2", equipLevel: 20, look: 0, effects: { "Int": 2 } },
 { id: 2603, name: "Necklace", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Mage|Archer", equip: "Accessory2", equipLevel: 20, look: 0, effects: { "Int": 1 } },
 { id: 2604, name: "Glove", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0, effects: { "Str": 1, "Dex": 1 } },
 { id: 2605, name: "Brooch", type: "Armor", weight: 100, price: 30000, defense: 0, jobs: "Swordman|Mage|Archer|Acolyte|Merchant|Thief", equip: "Accessory1", equipLevel: 20, look: 0, effects: { "Vit": 1 } },
