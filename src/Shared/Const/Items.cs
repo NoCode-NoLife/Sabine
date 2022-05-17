@@ -76,7 +76,8 @@ namespace Sabine.Shared.Const
 		/// <remarks>
 		/// The alpha client uses this type to modify the attack range.
 		/// By default, it's "17" (not in tiles), and it's increased
-		/// to "80" if a bow-type weapon is equipped.
+		/// to "80" if a bow-type weapon is equipped. (Maybe it's in "sub-
+		/// tiles"?)
 		/// </remarks>
 		RangedWeapon = 8,
 
