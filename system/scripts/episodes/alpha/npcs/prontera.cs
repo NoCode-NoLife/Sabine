@@ -3,7 +3,7 @@
 //--- Description -----------------------------------------------------------
 // Sets up NPCs stationed in the general Prontera area.
 //--- Reference -------------------------------------------------------------
-//// https://gamefaqs.gamespot.com/pc/561051-ragnarok-online/faqs/14086
+// https://gamefaqs.gamespot.com/pc/561051-ragnarok-online/faqs/14086
 //---------------------------------------------------------------------------
 
 using Sabine.Shared.Const;
