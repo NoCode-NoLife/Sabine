@@ -823,7 +823,7 @@ namespace Sabine.Zone.Network
 			var option = (ShopActionType)packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
-			var shop = character.Vars.Temp.Get("Sabine.CurrentShop") as NpcShop;
+			var shop = character.Vars.Temp.Get<NpcShop>("Sabine.CurrentShop", null);
 
 			if (shop == null)
 			{
