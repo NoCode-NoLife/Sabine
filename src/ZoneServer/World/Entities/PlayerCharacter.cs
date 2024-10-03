@@ -603,7 +603,7 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="amount"></param>
 		public void HealSp(int amount)
 		{
-			this.Parameters.Modify(ParameterType.Hp, amount);
+			this.Parameters.Modify(ParameterType.Sp, amount);
 		}
 	}
 }
