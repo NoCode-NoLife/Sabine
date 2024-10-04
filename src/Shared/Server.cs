@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using Sabine.Shared.Configuration;
@@ -59,10 +60,14 @@ namespace Sabine.Shared
 		/// </summary>
 		protected void NavigateToRoot()
 		{
-			var folderNames = new[] { "bin", "libs" };
-			var tries = 3;
+			// First go to the assemblies directory and then back from
+			// there until we find the root folder.
+			var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			Directory.SetCurrentDirectory(appDirectory);
 
-			var cwd = Directory.GetCurrentDirectory();
+			var folderNames = new[] { "bin", "user", "system" };
+			var tries = 5;
+
 			for (var i = 0; i < tries; ++i)
 			{
 				if (folderNames.All(a => Directory.Exists(a)))
@@ -71,7 +76,7 @@ namespace Sabine.Shared
 				Directory.SetCurrentDirectory("../");
 			}
 
-			throw new DirectoryNotFoundException("Couldn't navigate to root. (Not found: " + string.Join(", ", folderNames) + ")");
+			throw new DirectoryNotFoundException($"Failed to navigate to root folder. (Missing: {string.Join(", ", folderNames)})");
 		}
 
 		/// <summary>
