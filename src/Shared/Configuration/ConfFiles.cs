@@ -10,42 +10,42 @@ namespace Sabine.Shared.Configuration
 		/// <summary>
 		/// auth.conf
 		/// </summary>
-		public AuthConf Auth { get; } = new AuthConf();
+		public AuthConf Auth { get; } = new();
 
 		/// <summary>
 		/// char.conf
 		/// </summary>
-		public CharConf Char { get; } = new CharConf();
+		public CharConf Char { get; } = new();
 
 		/// <summary>
 		/// zone.conf
 		/// </summary>
-		public ZoneConf Zone { get; } = new ZoneConf();
+		public ZoneConf Zone { get; } = new();
 
 		/// <summary>
 		/// commands.conf
 		/// </summary>
-		public CommandsConf Commands { get; } = new CommandsConf();
+		public CommandsConf Commands { get; } = new();
 
 		/// <summary>
 		/// database.conf
 		/// </summary>
-		public DatabaseConf Database { get; } = new DatabaseConf();
+		public DatabaseConf Database { get; } = new();
 
 		/// <summary>
 		/// localization.conf
 		/// </summary>
-		public LocalizationConf Localization { get; } = new LocalizationConf();
+		public LocalizationConf Localization { get; } = new();
 
 		/// <summary>
 		/// version.conf
 		/// </summary>
-		public VersionConf Version { get; } = new VersionConf();
+		public VersionConf Version { get; } = new();
 
 		/// <summary>
 		/// world.conf
 		/// </summary>
-		public WorldConf World { get; } = new WorldConf();
+		public WorldConf World { get; } = new();
 
 		/// <summary>
 		/// Loads all conf files.

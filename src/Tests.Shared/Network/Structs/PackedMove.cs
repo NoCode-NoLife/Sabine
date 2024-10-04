@@ -7,7 +7,7 @@ namespace Tests.Sabine.Shared.Network.Structs
 	public class PackedMoveTests
 	{
 		[Fact]
-		private void ToFrom()
+		internal void ToFrom()
 		{
 			var from = new Position(10, 20);
 			Assert.Equal(10, from.X);         // 0b_0000_1010

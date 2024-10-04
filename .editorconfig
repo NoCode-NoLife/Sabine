@@ -41,7 +41,7 @@ dotnet_style_predefined_type_for_member_access = true:suggestion
 # Suggest more modern language features when available
 dotnet_style_object_initializer = false:suggestion
 dotnet_style_collection_initializer = false:suggestion
-dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_coalesce_expression = false:suggestion
 dotnet_style_null_propagation = true:suggestion
 dotnet_style_explicit_tuple_names = true:suggestion
 
@@ -66,17 +66,8 @@ dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = priva
 dotnet_naming_style.camel_case_underscore_style.required_prefix = _
 dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case 
 
-# Don't warn about unused parameters.
+# Ignore unused parameters
 dotnet_diagnostic.IDE0060.severity = none
-
-# Don't warn about unused private methods.
-dotnet_diagnostic.IDE0051.severity = none
-
-# Don't warn about binary operations.
-dotnet_diagnostic.IDE0054.severity = none
-
-# Don't warn about unnecessary assignments.
-dotnet_diagnostic.IDE0059.severity = none
 
 # CSharp code style settings:
 [*.cs]
@@ -118,3 +109,78 @@ csharp_style_object_initializer = false
 
 # Don't indent switch case contents when they use a block
 csharp_indent_case_contents_when_block = false
+
+# Ignore unused variables
+csharp_style_unused_value_assignment_preference = unused_local_variable
+
+# IDE0220: Add explicit cast
+dotnet_diagnostic.IDE0220.severity = none
+
+# IDE0180: Use Tuple to swap variables
+dotnet_diagnostic.IDE0180.severity = none
+
+# SYSLIB1045: Convert to „GeneratedRegexAttribute“
+dotnet_diagnostic.SYSLIB1045.severity = none
+
+# IDE0028: Simplify collection initialization
+dotnet_diagnostic.IDE0028.severity = none
+
+# IDE0290: Use primary constructor
+dotnet_diagnostic.IDE0290.severity = none
+
+# CA1822: Mark member as static
+dotnet_diagnostic.CA1822.severity = none
+
+# IDE0063: Use simplified using instruction
+dotnet_diagnostic.IDE0063.severity = none
+
+# IDE0057: User range operator
+dotnet_diagnostic.IDE0057.severity = none
+
+# CA1861: Avoid constant matrixes as arguments
+dotnet_diagnostic.CA1861.severity = none
+
+# CA1510: Use ArgumentNullException-Throw-Helper
+dotnet_diagnostic.CA1510.severity = none
+
+# IDE0066: Convert switch instruction to expression
+dotnet_diagnostic.IDE0066.severity = none
+
+# CA1816: Dispose methods must call SuppressFinalize
+dotnet_diagnostic.CA1816.severity = none
+
+# IDE0305: Simplify collection initialization
+dotnet_diagnostic.IDE0305.severity = none
+
+# CA1860: Avoid usage of extension method „Enumerable.Any()“
+dotnet_diagnostic.CA1860.severity = none
+
+# CA1862: Prefer usage of "StringComparison"-method
+dotnet_diagnostic.CA1862.severity = none
+
+# IDE0074: Prefer ??=
+dotnet_diagnostic.IDE0074.severity = none
+
+# CS8618: Nullable field must have non-null value after ctor.
+dotnet_diagnostic.CS8618.severity = none
+
+# CS8600: Potential null ref to non-nullable conversion.
+dotnet_diagnostic.CS8600.severity = none
+
+# CS8601: Potential null ref assignment.
+dotnet_diagnostic.CS8601.severity = none
+
+# CS8602: Potential deref of null value.
+dotnet_diagnostic.CS8602.severity = none
+
+# CS8603: Potential null ref return value.
+dotnet_diagnostic.CS8603.severity = none
+
+# CS8604: Potential null ref parameter.
+dotnet_diagnostic.CS8604.severity = none
+
+# CS8625: Blah, blah, blah, something something null ref.
+dotnet_diagnostic.CS8625.severity = none
+
+# IDE0059: Unnecessary variable assignment.
+dotnet_diagnostic.IDE0059.severity = none

@@ -68,7 +68,7 @@ namespace Sabine.Zone
 			this.LoadCommands();
 			this.LoadWorld();
 			this.LoadAis();
-			this.LoadScripts("system/scripts/scripts_zone.txt", this.Conf);
+			this.LoadScripts("zone", this.Conf);
 			this.InitialSpawn();
 			this.CreateDebugInfo();
 

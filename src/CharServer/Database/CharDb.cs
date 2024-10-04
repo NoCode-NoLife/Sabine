@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database;
 using Sabine.Shared.Database.MySQL;

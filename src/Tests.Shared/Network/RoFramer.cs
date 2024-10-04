@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sabine.Shared;
 using Sabine.Shared.Network;
 using Xunit;
 
@@ -6,8 +7,14 @@ namespace Tests.Sabine.Shared.Network
 {
 	public class RoFramerTests
 	{
+		static RoFramerTests()
+		{
+			Game.Version = Versions.Alpha;
+			PacketTable.Load();
+		}
+
 		[Fact]
-		private void ReceiveSingle()
+		internal void ReceiveSingle()
 		{
 			var framer = new RoFramer(1024);
 			var testBuffer = default(byte[]);
@@ -29,7 +36,7 @@ namespace Tests.Sabine.Shared.Network
 		}
 
 		[Fact]
-		private void ReceiveSplit()
+		internal void ReceiveSplit()
 		{
 			var framer = new RoFramer(1024);
 			var testBuffer = default(byte[]);
@@ -44,15 +51,15 @@ namespace Tests.Sabine.Shared.Network
 			// HC_ACCEPT_DELETECHAR
 			var test2 = new byte[] { 0x0B, 0x00 };
 
-			framer.ReceiveData(new byte[] { 0x0B }, 1);
-			framer.ReceiveData(new byte[] { 0x00 }, 1);
+			framer.ReceiveData([0x0B], 1);
+			framer.ReceiveData([0x00], 1);
 
 			Assert.Equal(test2, testBuffer);
 			Assert.Equal(1, messagesReceived);
 		}
 
 		[Fact]
-		private void ReceiveMultiple()
+		internal void ReceiveMultiple()
 		{
 			var framer = new RoFramer(1024);
 			var testBuffers = new List<byte[]>();
@@ -76,7 +83,7 @@ namespace Tests.Sabine.Shared.Network
 		}
 
 		[Fact]
-		private void ReceiveSingleDynamic()
+		internal void ReceiveSingleDynamic()
 		{
 			var framer = new RoFramer(1024);
 			var testBuffer = default(byte[]);

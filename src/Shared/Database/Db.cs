@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database.MySQL;
 using Yggdrasil.Logging;

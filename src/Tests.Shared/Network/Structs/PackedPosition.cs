@@ -7,7 +7,7 @@ namespace Tests.Sabine.Shared.Network.Structs
 	public class PackedPositionTests
 	{
 		[Fact]
-		private void ImplicitPos()
+		internal void ImplicitPos()
 		{
 			var pos1 = new Position(10, 20);
 			Assert.Equal(10, pos1.X); // 0b_0000_1010
@@ -24,7 +24,7 @@ namespace Tests.Sabine.Shared.Network.Structs
 		}
 
 		[Fact]
-		private void PosDir()
+		internal void PosDir()
 		{
 			var pos1 = new Position(10, 20);
 			Assert.Equal(10, pos1.X); // 0b_0000_1010
@@ -33,7 +33,7 @@ namespace Tests.Sabine.Shared.Network.Structs
 			var coord1 = new PackedPosition(pos1, Direction.South);
 			Assert.Equal(2, coord1.B1);   // 0b_0000_0010
 			Assert.Equal(129, coord1.B2); // 0b_1000_0001
-			Assert.Equal(72, coord1.B3);  // 0b_0100_1000
+			Assert.Equal(68, coord1.B3);  // 0b_0100_0100
 
 			Assert.Equal(10, coord1.Position.X);
 			Assert.Equal(20, coord1.Position.Y);

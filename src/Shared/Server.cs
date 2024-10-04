@@ -1,19 +1,15 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Microsoft.CodeDom.Providers.DotNetCompilerPlatform;
 using Sabine.Shared.Configuration;
 using Sabine.Shared.Data;
 using Sabine.Shared.Database;
 using Sabine.Shared.L10N;
 using Sabine.Shared.Network;
-using Sabine.Shared.Util;
-using Shared.Scripting;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -238,7 +234,9 @@ namespace Sabine.Shared
 		/// <summary>
 		/// Loads all scripts from given list.
 		/// </summary>
-		public void LoadScripts(string listFilePath, ConfFiles conf)
+		/// <param name="scriptCategory"></param>
+		/// <param name="conf"></param>
+		public void LoadScripts(string scriptCategory, ConfFiles conf)
 		{
 			if (this.ScriptLoader != null)
 			{
@@ -247,6 +245,8 @@ namespace Sabine.Shared
 			}
 
 			Log.Info("Loading scripts...");
+
+			var listFilePath = Path.Combine("system", "scripts", "scripts_" + scriptCategory + ".txt");
 
 			if (!File.Exists(listFilePath))
 			{
@@ -258,23 +258,26 @@ namespace Sabine.Shared
 
 			try
 			{
-				var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
-				provider.SetCompilerServerTimeToLive(TimeSpan.FromMinutes(20));
-				provider.SetCompilerFullPath(Path.GetFullPath("libs/roslyn/csc.exe"));
-
 				var cachePath = (string)null;
-				//if (conf.Scripting.EnableCaching)
-				//{
-				//	var fileName = Path.GetFileNameWithoutExtension(listFilePath);
-				//	cachePath = string.Format("cache/scripts/{0}.compiled", fileName);
-				//}
+				//if (this.Conf.Scripts.CacheScripts)
+				//	cachePath = Path.Combine("user", "cache", "scripts", scriptCategory + ".dll");
 
-				this.ScriptLoader = new ScriptLoader(provider, cachePath);
-				//this.ScriptLoader.AddPrecompiler(new AiScriptPrecompiler());
-				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/");
+				var userPath = Path.Combine("user", "scripts");
+				var systemPath = Path.Combine("system", "scripts");
+
+				this.ScriptLoader = new ScriptLoader(cachePath);
+				this.ScriptLoader.LoadFromListFile(listFilePath, userPath, systemPath);
+
+				foreach (var ex in this.ScriptLoader.ReferenceExceptions)
+					Log.Warning(ex);
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
+				{
+					if (ex.InnerException is MissingMethodException)
+						Log.Error("It appears like a script tried to use a method that does (no longer) exist, which may be a caching issue. Try deleting the user/cache/ folder and run the server again.");
+
 					Log.Error(ex);
+				}
 			}
 			catch (CompilerErrorException ex)
 			{
@@ -319,7 +322,7 @@ namespace Sabine.Shared
 		/// <param name="ex"></param>
 		private void DisplayScriptErrors(CompilerErrorException ex)
 		{
-			foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+			foreach (var err in ex.Errors)
 			{
 				if (string.IsNullOrWhiteSpace(err.FileName))
 				{
@@ -329,7 +332,7 @@ namespace Sabine.Shared
 				{
 					var relativefileName = err.FileName;
 					var cwd = Directory.GetCurrentDirectory();
-					if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+					if (relativefileName.StartsWith(cwd, StringComparison.InvariantCultureIgnoreCase))
 						relativefileName = relativefileName.Substring(cwd.Length + 1);
 
 					var lines = File.ReadAllLines(err.FileName);
