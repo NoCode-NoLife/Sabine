@@ -1185,11 +1185,11 @@ namespace Sabine.Zone.Network
 		/// Sends response to restart request to character's client.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="b1"></param>
-		public static void ZC_RESTART_ACK(PlayerCharacter character, int b1)
+		/// <param name="type"></param>
+		public static void ZC_RESTART_ACK(PlayerCharacter character, RestartType type)
 		{
 			var packet = new Packet(Op.ZC_RESTART_ACK);
-			packet.PutByte((byte)b1);
+			packet.PutByte((byte)type);
 
 			character.Connection.Send(packet);
 		}

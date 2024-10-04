@@ -955,10 +955,10 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_RESTART)]
 		public void CZ_RESTART(ZoneConnection conn, Packet packet)
 		{
-			var b1 = packet.GetByte();
+			var type = (RestartType)packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
-			Send.ZC_RESTART_ACK(character, 1);
+			Send.ZC_RESTART_ACK(character, type);
 		}
 
 		/// <summary>

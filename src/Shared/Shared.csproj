@@ -89,6 +89,7 @@
     <Compile Include="Const\LoginConnectError.cs" />
     <Compile Include="Const\ParameterType.cs" />
     <Compile Include="Const\RaceType.cs" />
+    <Compile Include="Const\RestartType.cs" />
     <Compile Include="Const\Sex.cs" />
     <Compile Include="Const\ShopActionType.cs" />
     <Compile Include="Const\Size.cs" />
