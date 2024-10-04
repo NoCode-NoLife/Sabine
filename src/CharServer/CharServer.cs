@@ -17,7 +17,7 @@ namespace Sabine.Char
 		/// <summary>
 		/// Global singleton for the server.
 		/// </summary>
-		public static readonly CharServer Instance = new CharServer();
+		public static readonly CharServer Instance = new();
 
 		private TcpConnectionAcceptor<CharConnection> _acceptor;
 
