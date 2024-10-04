@@ -23,7 +23,7 @@ namespace Sabine.Zone.Ais
 		private bool _initiated;
 
 		private readonly int _wanderMinDistance = 3;
-		private readonly Dictionary<string, List<CallbackFunc>> _durings = new Dictionary<string, List<CallbackFunc>>();
+		private readonly Dictionary<string, List<CallbackFunc>> _durings = new();
 
 		/// <summary>
 		/// Returns the character this component belongs to.
@@ -168,16 +168,6 @@ namespace Sabine.Zone.Ais
 		/// </summary>
 		protected virtual void Update()
 		{
-		}
-
-		/// <summary>
-		/// Does nothing but wait.
-		/// </summary>
-		/// <returns></returns>
-		private IEnumerable DummyRoutine()
-		{
-			foreach (var _ in this.Wait(9999999))
-				yield return true;
 		}
 
 		/// <summary>

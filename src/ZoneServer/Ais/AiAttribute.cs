@@ -5,6 +5,7 @@ namespace Sabine.Zone.Ais
 	/// <summary>
 	/// Specifies the AI types that an AI handles.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class)]
 	public class AiAttribute : Attribute
 	{
 		/// <summary>

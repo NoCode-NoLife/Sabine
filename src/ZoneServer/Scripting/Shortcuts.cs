@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Sabine.Shared.Configuration.Files;
@@ -31,7 +30,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="key">Key to return if the option was selected.</param>
 		/// <returns></returns>
 		public static DialogOption Option(string text, string key)
-			=> new DialogOption(text, key);
+			=> new(text, key);
 
 		/// <summary>
 		/// Returns a localized version of the given string.

@@ -20,9 +20,9 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 	/// </summary>
 	public class CharacterComponents : IUpdateable
 	{
-		private readonly object _syncLock = new object();
+		private readonly object _syncLock = new();
 
-		private readonly Dictionary<Type, ICharacterComponent> _components = new Dictionary<Type, ICharacterComponent>();
+		private readonly Dictionary<Type, ICharacterComponent> _components = new();
 		private ICharacterComponent[] _componentsArr;
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 				// We will be be iterating over the components much more
 				// than we're going to add or remove them, so caching
-				// them in an array will save some performance.
+				// them in an array might save some performance.
 				_componentsArr = _components.Values.ToArray();
 			}
 		}

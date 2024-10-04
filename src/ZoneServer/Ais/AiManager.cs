@@ -10,7 +10,7 @@ namespace Sabine.Zone.Ais
 	/// </summary>
 	public class AiManager
 	{
-		private readonly Dictionary<string, Type> _ais = new Dictionary<string, Type>();
+		private readonly Dictionary<string, Type> _ais = new();
 
 		/// <summary>
 		/// Returns the number of AIs that are available.

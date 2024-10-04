@@ -10,7 +10,7 @@ namespace Sabine.Shared
 		/// <summary>
 		/// The packet version to use.
 		/// </summary>
-		public static int Version = 0;
+		public static int Version { get; set; } = Versions.Alpha;
 
 		/// <summary>
 		/// Returns the servers current tick time, indicating how many
@@ -80,16 +80,16 @@ namespace Sabine.Shared
 		/// <summary>
 		/// Size of fixed-sized character name strings.
 		/// </summary>
-		public static int CharacterNames = Game.Version < Versions.Beta1 ? 16 : 24;
+		public static int CharacterNames => Game.Version < Versions.Beta1 ? 16 : 24;
 
 		/// <summary>
 		/// Size of fixed-sized item name strings.
 		/// </summary>
-		public static int ItemNames = Game.Version < Versions.Beta1 ? 16 : 24;
+		public static int ItemNames => Game.Version < Versions.Beta1 ? 16 : 24;
 
 		/// <summary>
 		/// Size of fixed-sized username strings.
 		/// </summary>
-		public static int Usernames = Game.Version < Versions.Beta1 ? 16 : 24;
+		public static int Usernames => Game.Version < Versions.Beta1 ? 16 : 24;
 	}
 }

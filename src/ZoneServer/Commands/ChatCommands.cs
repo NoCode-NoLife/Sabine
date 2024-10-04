@@ -8,7 +8,6 @@ using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
-using Sabine.Zone.Ais;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
@@ -323,12 +322,12 @@ namespace Sabine.Zone.Commands
 				if (!int.TryParse(yStr, out var y))
 					return CommandResult.InvalidArgument;
 
-				// If one of the coordinates were prefixed with a plus or
+				// If one of the coordinates was prefixed with a plus or
 				// a minus, we apply both relative to the target's current
 				// position, because if you type "+4 0", you presumably
 				// mean to move 4 right, and not 4 right and down to
 				// the bottom of the map.
-				if (xStr.StartsWith("+") || xStr.StartsWith("-") || yStr.StartsWith("+") || yStr.StartsWith("-"))
+				if (xStr.StartsWith('+') || xStr.StartsWith('-') || yStr.StartsWith('+') || yStr.StartsWith('-'))
 				{
 					var pos = target.Position;
 					x += pos.X;

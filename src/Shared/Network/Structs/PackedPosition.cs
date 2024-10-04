@@ -6,7 +6,7 @@ namespace Sabine.Shared.Network.Structs
 	/// Represents a packed position and direction, cramming the data into
 	/// three bytes, as typically used inside packets.
 	/// </summary>
-	public struct PackedPosition
+	public readonly struct PackedPosition
 	{
 		public readonly byte B1;
 		public readonly byte B2;

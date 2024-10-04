@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sabine.Shared;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
-using Sabine.Zone.Ais;
 using Sabine.Zone.Network;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -16,7 +14,7 @@ namespace Sabine.Zone.World.Entities
 	/// </summary>
 	public class Monster : Npc
 	{
-		private readonly List<Item> _dropItems = new List<Item>();
+		private readonly List<Item> _dropItems = new();
 
 		/// <summary>
 		/// Return a reference to the monster's data.
@@ -122,7 +120,7 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="killer"></param>
 		private void GiveExp(Character killer)
 		{
-			if (!(killer is PlayerCharacter playerCharacter))
+			if (killer is not PlayerCharacter playerCharacter)
 				return;
 
 			var baseExp = this.Data.BaseExp;
@@ -138,7 +136,7 @@ namespace Sabine.Zone.World.Entities
 		/// <param name="killer"></param>
 		private void GiveMvpExp(Character killer)
 		{
-			if (!(killer is PlayerCharacter playerCharacter))
+			if (killer is not PlayerCharacter playerCharacter)
 				return;
 
 			var exp = this.Data.MvpExp;

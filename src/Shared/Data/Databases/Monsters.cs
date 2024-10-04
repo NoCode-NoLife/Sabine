@@ -41,8 +41,8 @@ namespace Sabine.Shared.Data.Databases
 		public int AttackMotion { get; set; }
 		public int DamageMotion { get; set; }
 
-		public List<DropData> Drops { get; set; } = new List<DropData>();
-		public List<DropData> MvpDrops { get; set; } = new List<DropData>();
+		public List<DropData> Drops { get; set; } = new();
+		public List<DropData> MvpDrops { get; set; } = new();
 	}
 
 	/// <summary>

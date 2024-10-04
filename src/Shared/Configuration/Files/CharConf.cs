@@ -1,5 +1,4 @@
-﻿using Sabine.Shared.Data;
-using Sabine.Shared.World;
+﻿using Sabine.Shared.World;
 using Yggdrasil.Configuration;
 using Yggdrasil.Logging;
 

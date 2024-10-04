@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Runtime.CompilerServices;
 using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
@@ -12,7 +11,6 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network.Helpers;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
-using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.Network

@@ -1,8 +1,13 @@
 ﻿namespace Sabine.Shared.Network
 {
 	/// <summary>
-	/// A list of the packet opcodes.
+	/// A list of known packet opcodes.
 	/// </summary>
+	/// <remarks>
+	/// These are used internally to identify packets and are converted to
+	/// whatever the configured client expects by way of the packet tables
+	/// as necessary while sending and receiving.
+	/// </remarks>
 	public enum Op
 	{
 		CA_LOGIN,

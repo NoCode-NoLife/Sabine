@@ -10,41 +10,41 @@ namespace Sabine.Shared.Data
 		/// <summary>
 		/// db/exp.txt
 		/// </summary>
-		public static ExpDb ExpTables { get; } = new ExpDb();
+		public static ExpDb ExpTables { get; } = new();
 
 		/// <summary>
 		/// db/features.txt
 		/// </summary>
-		public static FeatureDb Features { get; } = new FeatureDb();
+		public static FeatureDb Features { get; } = new();
 
 		/// <summary>
 		/// db/items.txt
 		/// </summary>
-		public static ItemDb Items { get; } = new ItemDb();
+		public static ItemDb Items { get; } = new();
 
 		/// <summary>
 		/// db/item_names.txt
 		/// </summary>
-		public static ItemNameDb ItemNames { get; } = new ItemNameDb();
+		public static ItemNameDb ItemNames { get; } = new();
 
 		/// <summary>
 		/// db/jobs.txt
 		/// </summary>
-		public static JobDb Jobs { get; } = new JobDb();
+		public static JobDb Jobs { get; } = new();
 
 		/// <summary>
 		/// db/map_cache.dat
 		/// </summary>
-		public static MapCacheDb MapCache { get; } = new MapCacheDb();
+		public static MapCacheDb MapCache { get; } = new();
 
 		/// <summary>
 		/// db/maps.txt
 		/// </summary>
-		public static MapsDb Maps { get; } = new MapsDb();
+		public static MapsDb Maps { get; } = new();
 
 		/// <summary>
 		/// db/monsters.txt
 		/// </summary>
-		public static MonsterDb Monsters { get; } = new MonsterDb();
+		public static MonsterDb Monsters { get; } = new();
 	}
 }

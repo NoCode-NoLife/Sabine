@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Pipes;
-using System.Threading.Tasks;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Yggdrasil.Extensions;
@@ -17,7 +15,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 	{
 		private readonly PlayerCharacter _playerCharacter;
 
-		private readonly Queue<Position> _pathQueue = new Queue<Position>();
+		private readonly Queue<Position> _pathQueue = new();
 		private Position _finalDestination;
 		private Position _nextDestination;
 		private bool _destinationChanged;
@@ -157,13 +155,13 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			// 3) Use valid ticks in your packets.
 
 			if (!movingStright)
-				speed = speed * 1.4f;
+				speed *= 1.4f;
 
 			_moving = true;
 
 			// I tried running the controller on the heartbeat, but I wasn't
-			// entirely happy with the results. Let's switch to a timer for
-			// now and see how that goes.
+			// entirely happy with the results. Let's switch to a high-resolution
+			// timer for now and see how that goes.
 			ZoneServer.Instance.World.Scheduler.Schedule(speed, this.ExecuteMove);
 		}
 

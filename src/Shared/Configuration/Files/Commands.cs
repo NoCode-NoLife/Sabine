@@ -12,7 +12,7 @@ namespace Sabine.Shared.Configuration.Files
 	public class CommandsConf : ConfFile
 	{
 		public string Prefix { get; protected set; }
-		public Dictionary<string, AuthLevels> Levels { get; } = new Dictionary<string, AuthLevels>();
+		public Dictionary<string, AuthLevels> Levels { get; } = new();
 
 		/// <summary>
 		/// Loads conf file and its options from the given file.

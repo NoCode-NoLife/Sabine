@@ -18,9 +18,9 @@ namespace Sabine.Auth
 		/// <summary>
 		/// Global singleton for the auth server.
 		/// </summary>
-		public static readonly AuthServer Instance = new AuthServer();
+		public static readonly AuthServer Instance = new();
 
-		private readonly List<TcpConnectionAcceptor<AuthConnection>> _acceptors = new List<TcpConnectionAcceptor<AuthConnection>>();
+		private readonly List<TcpConnectionAcceptor<AuthConnection>> _acceptors = new();
 
 		/// <summary>
 		/// Returns a reference to the server's packet handlers.

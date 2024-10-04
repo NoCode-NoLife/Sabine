@@ -1,5 +1,4 @@
-﻿using System;
-using Sabine.Shared.World;
+﻿using Sabine.Shared.World;
 
 namespace Sabine.Shared.Network.Structs
 {
@@ -7,7 +6,7 @@ namespace Sabine.Shared.Network.Structs
 	/// Represents a packed movement between two positions, crammed into
 	/// six bytes, as typically used inside packets.
 	/// </summary>
-	public struct PackedMove
+	public readonly struct PackedMove
 	{
 		public readonly byte B1;
 		public readonly byte B2;

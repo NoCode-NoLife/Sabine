@@ -1,8 +1,8 @@
 ﻿using System;
+using Sabine.Shared.Util;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
-using Sabine.Shared.Util;
 
 namespace Sabine.Zone.Commands
 {

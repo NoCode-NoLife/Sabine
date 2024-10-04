@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Yggdrasil.Configuration;
 
 namespace Sabine.Shared.Configuration.Files
@@ -22,7 +21,7 @@ namespace Sabine.Shared.Configuration.Files
 			this.Require(filePath);
 
 			this.BindIp = this.GetString("auth_bind_ip", "0.0.0.0");
-			this.BindPorts = this.GetBindPorts("auth_bind_ports", new[] { 6900, 7000 });
+			this.BindPorts = this.GetBindPorts("auth_bind_ports", [6900, 7000]);
 			this.AllowAccountCreation = this.GetBool("allow_account_creation", true);
 		}
 

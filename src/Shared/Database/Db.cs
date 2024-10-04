@@ -54,8 +54,7 @@ namespace Sabine.Shared.Database
 			}
 			finally
 			{
-				if (conn != null)
-					conn.Close();
+				conn?.Close();
 			}
 		}
 

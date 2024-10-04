@@ -77,6 +77,7 @@ namespace Sabine.Shared.Network
 	/// Methods with this attribute may be loaded as handlers automatically
 	/// via "LoadMethods".
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Method)]
 	public class PacketHandlerAttribute : Attribute
 	{
 		/// <summary>

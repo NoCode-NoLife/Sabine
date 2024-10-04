@@ -12,8 +12,8 @@ namespace Sabine.Shared.Data.Databases
 		public JobId Id { get; set; }
 		public string Name { get; set; }
 
-		public JobModifiersData Modifiers { get; set; } = new JobModifiersData();
-		public JobWeaponDelaysData WeaponDelays { get; set; } = new JobWeaponDelaysData();
+		public JobModifiersData Modifiers { get; set; } = new();
+		public JobWeaponDelaysData WeaponDelays { get; set; } = new();
 	}
 
 	/// <summary>

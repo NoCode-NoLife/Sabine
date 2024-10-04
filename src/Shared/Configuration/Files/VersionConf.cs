@@ -17,7 +17,7 @@ namespace Sabine.Shared.Configuration.Files
 		{
 			this.Require(filePath);
 
-			this.PacketVersion = this.GetInt("packet_version", 0);
+			this.PacketVersion = this.GetInt("packet_version", 100);
 		}
 	}
 }

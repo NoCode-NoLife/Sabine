@@ -1,6 +1,5 @@
 ﻿using Sabine.Char.Database;
 using Sabine.Shared;
-using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Network;
 

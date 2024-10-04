@@ -12,8 +12,8 @@ namespace Sabine.Zone.Scripting
 	/// </summary>
 	public class ItemScript : IScript
 	{
-		private static readonly Dictionary<int, ItemScript> Scripts = new Dictionary<int, ItemScript>();
-		private static readonly Random Rnd = new Random(RandomProvider.GetSeed());
+		private static readonly Dictionary<int, ItemScript> Scripts = new();
+		private static readonly Random Rnd = new(RandomProvider.GetSeed());
 
 		/// <summary>
 		/// Returns the script for the given item class id via out,
@@ -84,6 +84,7 @@ namespace Sabine.Zone.Scripting
 	/// <summary>
 	/// Used to specify information about an item script.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class)]
 	public class ItemScriptAttribute : Attribute
 	{
 		/// <summary>

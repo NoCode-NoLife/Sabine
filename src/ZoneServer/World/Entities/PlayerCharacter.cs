@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
@@ -11,7 +10,6 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Shared.Const;
-using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -21,8 +19,8 @@ namespace Sabine.Zone.World.Entities
 	/// </summary>
 	public class PlayerCharacter : Character
 	{
-		private readonly object _visibilityUpdateSyncLock = new object();
-		private readonly HashSet<int> _visibleEntities = new HashSet<int>();
+		private readonly object _visibilityUpdateSyncLock = new();
+		private readonly HashSet<int> _visibleEntities = new();
 
 		/// <summary>
 		/// Gets or sets the connection that controls this player.

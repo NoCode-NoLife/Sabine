@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Zone.Network;
-using Yggdrasil.Logging;
 
 namespace Sabine.Zone.World.Entities.Components.Characters
 {
@@ -14,9 +12,9 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 	/// </summary>
 	public class Inventory
 	{
-		private readonly object _syncLock = new object();
+		private readonly object _syncLock = new();
 
-		private readonly List<Item> _items = new List<Item>();
+		private readonly List<Item> _items = new();
 		private EquipSlots _occupiedSlots;
 
 		/// <summary>

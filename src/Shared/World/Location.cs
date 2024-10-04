@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Represents a location in the world.
 	/// </summary>
-	public struct Location
+	public readonly struct Location
 	{
 		/// <summary>
 		/// The location's region id.
@@ -23,7 +23,7 @@
 		/// <summary>
 		/// Returns this location's position based on X and Y.
 		/// </summary>
-		public Position Position => new Position(this.X, this.Y);
+		public Position Position => new(this.X, this.Y);
 
 		/// <summary>
 		/// Returns true if all of the location's properties are 0,

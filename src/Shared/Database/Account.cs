@@ -41,6 +41,6 @@ namespace Sabine.Shared.Database
 		/// <summary>
 		/// Returns the account's variable container.
 		/// </summary>
-		public VariableContainer Vars { get; } = new VariableContainer();
+		public VariableContainer Vars { get; } = new();
 	}
 }

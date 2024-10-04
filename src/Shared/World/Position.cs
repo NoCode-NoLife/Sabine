@@ -11,7 +11,7 @@ namespace Sabine.Shared.World
 		/// <summary>
 		/// Returns a position with both coordinates being 0.
 		/// </summary>
-		public static Position Zero => new Position(0, 0);
+		public static Position Zero => new(0, 0);
 
 		/// <summary>
 		/// The X-coordinate of the position.
@@ -61,7 +61,7 @@ namespace Sabine.Shared.World
 		/// with the same coordinates.
 		/// </summary>
 		/// <returns></returns>
-		public override int GetHashCode()
+		public override readonly int GetHashCode()
 		{
 			return this.X.GetHashCode() ^ this.Y.GetHashCode();
 		}
@@ -71,7 +71,7 @@ namespace Sabine.Shared.World
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns></returns>
-		public override bool Equals(object obj)
+		public override readonly bool Equals(object obj)
 		{
 			return obj is Position position && this == position;
 		}
@@ -80,7 +80,7 @@ namespace Sabine.Shared.World
 		/// Returns a string representation of this position.
 		/// </summary>
 		/// <returns></returns>
-		public override string ToString()
+		public override readonly string ToString()
 		{
 			return string.Format("(Position - X: {0}, Y: {1})", this.X, this.Y);
 		}
@@ -91,7 +91,7 @@ namespace Sabine.Shared.World
 		/// <param name="otherPos"></param>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public bool InRange(Position otherPos, float range)
+		public readonly bool InRange(Position otherPos, float range)
 		{
 			return (Math.Pow(this.X - otherPos.X, 2) + Math.Pow(this.Y - otherPos.Y, 2) <= Math.Pow(range, 2));
 		}
@@ -103,7 +103,7 @@ namespace Sabine.Shared.World
 		/// <param name="otherPos"></param>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public bool InSquareRange(Position otherPos, float length)
+		public readonly bool InSquareRange(Position otherPos, float length)
 		{
 			return (Math.Abs(this.X - otherPos.X) <= length && Math.Abs(this.Y - otherPos.Y) <= length);
 		}
@@ -114,7 +114,7 @@ namespace Sabine.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InStraightLine(Position otherPos)
+		public readonly bool InStraightLine(Position otherPos)
 		{
 			return (this.X == otherPos.X || this.Y == otherPos.Y);
 		}
@@ -124,7 +124,7 @@ namespace Sabine.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public int GetDistance(Position otherPos)
+		public readonly int GetDistance(Position otherPos)
 		{
 			return (int)Math.Sqrt(Math.Pow(this.X - otherPos.X, 2) + Math.Pow(this.Y - otherPos.Y, 2));
 		}
@@ -134,7 +134,7 @@ namespace Sabine.Shared.World
 		/// </summary>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public Position GetRandomInRange(int range)
+		public readonly Position GetRandomInRange(int range)
 			=> this.GetRandomInRange(0, range);
 
 		/// <summary>
@@ -144,7 +144,7 @@ namespace Sabine.Shared.World
 		/// <param name="minRange"></param>
 		/// <param name="maxRange"></param>
 		/// <returns></returns>
-		public Position GetRandomInRange(int minRange, int maxRange)
+		public readonly Position GetRandomInRange(int minRange, int maxRange)
 		{
 			var rnd = RandomProvider.Get();
 
@@ -162,14 +162,14 @@ namespace Sabine.Shared.World
 		/// </summary>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public Position GetRandomInSquareRange(int range)
+		public readonly Position GetRandomInSquareRange(int range)
 		{
 			var rnd = RandomProvider.Get();
 
 			var x = this.X + rnd.Next(-range, range + 1);
 			var y = this.Y + rnd.Next(-range, range + 1);
 
-			return new Position((int)x, (int)y);
+			return new Position(x, y);
 		}
 	}
 }

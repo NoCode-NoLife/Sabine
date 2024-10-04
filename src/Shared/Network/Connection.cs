@@ -3,7 +3,6 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
-using Yggdrasil.Util;
 
 namespace Sabine.Shared.Network
 {

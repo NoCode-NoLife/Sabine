@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,8 +16,8 @@ namespace Sabine.Zone.Scripting.Dialogues
 	public class Dialog
 	{
 		private string _response;
-		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
-		private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
+		private readonly SemaphoreSlim _resumeSignal = new(0);
+		private readonly CancellationTokenSource _cancellation = new();
 
 		private DialogActionType _lastAction;
 

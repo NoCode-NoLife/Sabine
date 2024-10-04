@@ -7,7 +7,6 @@ using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -183,7 +182,7 @@ namespace Sabine.Zone.World.Entities
 		/// </summary>
 		/// <returns></returns>
 		public Location GetLocation()
-			=> new Location(this.MapId, this.Position);
+			=> new(this.MapId, this.Position);
 
 		/// <summary>
 		/// Reduces the character's HP by the given amount, returns the

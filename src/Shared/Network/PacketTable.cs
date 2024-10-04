@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Yggdrasil.Extensions;
 
 namespace Sabine.Shared.Network
 {
@@ -13,7 +12,7 @@ namespace Sabine.Shared.Network
 		/// <summary>
 		/// List of tables and the versions at which to load them.
 		/// </summary>
-		private static readonly Dictionary<int, Action> Tables = new Dictionary<int, Action>()
+		private static readonly Dictionary<int, Action> Tables = new()
 		{
 			// If Game.Version is >= Alpha, load 100. If it's >= Beta1,
 			// also load Beta1, and so on.
@@ -49,11 +48,11 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		public const int Dynamic = -1;
 
-		private static readonly List<PacketTableEntry> Entries = new List<PacketTableEntry>();
-		private static readonly Dictionary<int, int> Sizes = new Dictionary<int, int>();
-		private static readonly Dictionary<int, string> Names = new Dictionary<int, string>();
-		private static readonly Dictionary<int, Op> NetworkToHost = new Dictionary<int, Op>();
-		private static readonly Dictionary<Op, int> HostToNetwork = new Dictionary<Op, int>();
+		private static readonly List<PacketTableEntry> Entries = new();
+		private static readonly Dictionary<int, int> Sizes = new();
+		private static readonly Dictionary<int, string> Names = new();
+		private static readonly Dictionary<int, Op> NetworkToHost = new();
+		private static readonly Dictionary<Op, int> HostToNetwork = new();
 
 		/// <summary>
 		/// Adds a new packet to the table.
@@ -77,7 +76,7 @@ namespace Sabine.Shared.Network
 			if (existing != null)
 				throw new ArgumentException($"Op {op} was already added.");
 
-			if (opNetwork > Entries[Entries.Count - 1].OpNetwork)
+			if (opNetwork > Entries[^1].OpNetwork)
 			{
 				Entries.Add(newEntry);
 				return;

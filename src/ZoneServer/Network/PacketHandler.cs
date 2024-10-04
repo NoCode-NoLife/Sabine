@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared;
-using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Network;
@@ -14,10 +13,7 @@ using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
-using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
-using Yggdrasil.Scheduling;
-using Yggdrasil.Util;
 
 namespace Sabine.Zone.Network
 {
@@ -455,7 +451,7 @@ namespace Sabine.Zone.Network
 				return;
 			}
 
-			if (!(target is Npc npc))
+			if (target is not Npc npc)
 			{
 				Log.Debug("CZ_CONTACTNPC: User '{0}' tried to contact a non-NPC.", conn.Account.Username);
 				return;
