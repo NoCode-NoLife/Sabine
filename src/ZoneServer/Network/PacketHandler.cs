@@ -489,6 +489,13 @@ namespace Sabine.Zone.Network
 			var character = conn.GetCurrentCharacter();
 			var npc = character.Map.GetCharacter(npcHandle);
 
+			if (character.IsDead)
+			{
+				// This packet is sent if the player clicks outside of the
+				// respawn dialog after death.
+				return;
+			}
+
 			// 0xFF is sent when there's no menu to choose anything from,
 			// so it's presumably a cancel action.
 
