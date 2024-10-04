@@ -605,5 +605,16 @@ namespace Sabine.Zone.World.Entities
 		{
 			this.Parameters.Modify(ParameterType.Sp, amount);
 		}
+
+		/// <summary>
+		/// Kills the character.
+		/// </summary>
+		/// <param name="killer"></param>
+		public override void Kill(Character killer)
+		{
+			base.Kill(killer);
+
+			Send.ZC_NOTIFY_VANISH(this, DisappearType.StrikedDead);
+		}
 	}
 }

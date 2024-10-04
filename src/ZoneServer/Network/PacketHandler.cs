@@ -146,6 +146,9 @@ namespace Sabine.Zone.Network
 			var items = character.Inventory.GetItems();
 			Send.ZC_NORMAL_ITEMLIST(character, items);
 			Send.ZC_EQUIPMENT_ITEMLIST(character, items);
+
+			if (character.IsDead)
+				Send.ZC_NOTIFY_VANISH(character, DisappearType.StrikedDead);
 		}
 
 		/// <summary>
