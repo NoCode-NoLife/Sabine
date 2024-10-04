@@ -94,6 +94,9 @@ namespace Sabine.Zone.Network
 				character.SetLocation(fallbackLocation);
 			}
 
+			if (character.SaveLocation.IsZero)
+				character.SaveLocation = new Location(100036, 99, 81);
+
 			conn.Account = account;
 			conn.Character = character;
 			character.Connection = conn;
@@ -959,6 +962,12 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 			Send.ZC_RESTART_ACK(character, type);
+
+			if (type == RestartType.SavePoint)
+			{
+				character.Heal();
+				character.Warp(character.SaveLocation);
+			}
 		}
 
 		/// <summary>

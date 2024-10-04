@@ -26,6 +26,12 @@
 		public Position Position => new Position(this.X, this.Y);
 
 		/// <summary>
+		/// Returns true if all of the location's properties are 0,
+		/// indicating that it hasn't been initialized.
+		/// </summary>
+		public bool IsZero => this.MapId == 0 && this.X == 0 && this.Y == 0;
+
+		/// <summary>
 		/// Creates new location.
 		/// </summary>
 		/// <param name="mapId"></param>

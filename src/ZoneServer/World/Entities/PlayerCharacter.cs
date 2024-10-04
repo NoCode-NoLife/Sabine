@@ -100,6 +100,12 @@ namespace Sabine.Zone.World.Entities
 		public Location WarpLocation { get; private set; }
 
 		/// <summary>
+		/// Gets or sets the character's save location, where they respawn
+		/// upon death.
+		/// </summary>
+		public Location SaveLocation { get; set; }
+
+		/// <summary>
 		/// Gets or sets whether the character is currently observing
 		/// its surroundings, actively updating the visible entities.
 		/// </summary>
