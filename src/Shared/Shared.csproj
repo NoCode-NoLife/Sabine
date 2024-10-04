@@ -17,5 +17,6 @@
     <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MySqlConnector" Version="2.3.7" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 </Project>

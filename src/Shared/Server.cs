@@ -39,6 +39,16 @@ namespace Sabine.Shared
 		public MultiLocalizer Localization { get; } = new MultiLocalizer();
 
 		/// <summary>
+		/// Initializes server instance.
+		/// </summary>
+		public Server()
+		{
+			// Register additional encodings, didn't have a better place to put this.
+			// Necessary because we need EUC-KR in Packet.
+			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+		}
+
+		/// <summary>
 		/// Starts the server.
 		/// </summary>
 		/// <param name="args"></param>
