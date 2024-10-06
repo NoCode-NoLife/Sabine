@@ -112,12 +112,12 @@ namespace Sabine.Auth.Network
 			// both have a major flaw. To check the password on the server
 			// side, we'd have to store the passwords in plain text, which
 			// we'll most definitely not do. Supporting this login type
-			// would be nice, however, since it wouldn't matter how you
+			// would be nice though, since it wouldn't matter how you
 			// configured your client then, removing a potential point
 			// of failure.
 			// 
 			// The solution is pretty simple:
-			// Send an empty salt for the client to us, so it hashes the
+			// Send an empty salt for the client to use, so it hashes the
 			// password alone, without salt. Technically, this makes it
 			// a little less safe, but it makes what we get from the client
 			// predictable. No matter whether you put the empty salt before
