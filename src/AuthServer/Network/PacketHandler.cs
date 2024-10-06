@@ -75,9 +75,8 @@ namespace Sabine.Auth.Network
 					return;
 				}
 
-				var newHashedPassword = MD5.Encode(password);
-				newHashedPassword = BCrypt.HashPassword(newHashedPassword, BCrypt.GenerateSalt());
-				account = db.CreateAccount(username, newHashedPassword, sex, 0);
+				var bcryptedPassword = BCrypt.HashPassword(hashedPassword, BCrypt.GenerateSalt());
+				account = db.CreateAccount(username, bcryptedPassword, sex, 0);
 
 				Log.Info("New account {0} was created.", username);
 			}
