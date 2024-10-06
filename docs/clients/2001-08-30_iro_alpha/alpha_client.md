@@ -2,10 +2,11 @@ Alpha Client
 =============================================================================
 
 To the best of our knowledge, there is only one alpha client publically
-available, the iRO client from 2001-08-30. It can be downloaded at the
-following address.
+available, the iRO client from 2001-08-30. It can from the following
+addresses.
 
-https://www.castledragmire.com/ragnarok/downloads.php
+- https://www.castledragmire.com/ragnarok/downloads.php
+- https://archive.org/details/ro-alpha-client-english
 
 Compatibility
 -----------------------------------------------------------------------------
