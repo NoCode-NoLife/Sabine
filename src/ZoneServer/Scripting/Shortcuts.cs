@@ -132,16 +132,15 @@ namespace Sabine.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Spawns an NPC at the given location.
+		/// Spawns an NPC at the given location that opens a shop.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="classId"></param>
-		/// <param name="mapStringId"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="dialogFunc"></param>
+		/// <param name="name">Name of the NPC.</param>
+		/// <param name="classId">NPC sprite id.</param>
+		/// <param name="mapStringId">Map to spawn the NPC on.</param>
+		/// <param name="x">X-coordinate to spawn the NPC on.</param>
+		/// <param name="y">Y-coordinate to spawn the NPC on.</param>
+		/// <param name="creationFunc">Optional function that can be used to fill the shop.</param>
 		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
 		public static (Npc, NpcShop) AddShopNpc(string name, int classId, string mapStringId, int x, int y, int direction, ShopCreationFunc creationFunc = null)
 		{
 			var shopName = "__AnonymousShop__" + Interlocked.Increment(ref AnonymousShopCounter);
@@ -184,8 +183,8 @@ namespace Sabine.Zone.Scripting
 		/// Creates shop and returns it. It can be filled via the callback
 		/// function or with the returned object.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="creationFunc"></param>
+		/// <param name="name">Name of the shop, which can be used to reference it from other scripts.</param>
+		/// <param name="creationFunc">Optional function that can be used to fill the shop.</param>
 		/// <returns></returns>
 		public static NpcShop AddShop(string name, ShopCreationFunc creationFunc = null)
 		{
@@ -297,7 +296,7 @@ namespace Sabine.Zone.Scripting
 		/// <summary>
 		/// Returns false if any of the given maps don't exist in the world.
 		/// </summary>
-		/// <param name="mapStringId"></param>
+		/// <param name="mapStringIds"></param>
 		/// <returns></returns>
 		public static bool MapsExist(params string[] mapStringIds)
 		{

@@ -35,8 +35,6 @@ namespace Sabine.Zone.Scripting
 		/// <returns></returns>
 		public bool Init()
 		{
-			// get class ids from attribute ItemScriptAttribute and add this
-			// script to the Dictionary Scripts for all class ids
 			var attributes = this.GetType().GetCustomAttributes(typeof(ItemScriptAttribute), false);
 			if (attributes.Length == 0)
 			{
