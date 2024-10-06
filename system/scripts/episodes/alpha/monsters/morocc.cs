@@ -52,7 +52,7 @@ public class MoroccMonstersScript : GeneralScript
 		AddSpawner("dungeon001", "Elder Willow", 1033, 30);
 		AddSpawner("dungeon001", "Poporing", 1031, 20);
 		AddSpawner("dungeon001", "Anacondaq", 1030, 20);
-		AddSpawner("dungeon001", "Baphomet", 1039, 1, initialDelay: TimeSpan.FromHours(3), respawnDelay: TimeSpan.FromHours(6));
+		AddSpawner("dungeon001", "Baphomet", 1039, 1, initialDelay: Hours(3), respawnDelay: Hours(6));
 
 		// Pyramid 1F
 		AddSpawner("moc_dugn01", "Farmiliar", 1005, 20);
@@ -64,6 +64,6 @@ public class MoroccMonstersScript : GeneralScript
 		// Pyramid 2F
 		AddSpawner("moc_dugn02", "Mummy", 1041, 20);
 		AddSpawner("moc_dugn02", "Vorit", 1032, 20);
-		AddSpawner("moc_dugn02", "Osiris", 1046, 1, initialDelay: TimeSpan.FromHours(3), respawnDelay: TimeSpan.FromHours(6));
+		AddSpawner("moc_dugn02", "Osiris", 1046, 1, initialDelay: Hours(3), respawnDelay: Hours(6));
 	}
 }
