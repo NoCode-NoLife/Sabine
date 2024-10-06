@@ -23,7 +23,7 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Swordman)
 			{
-				await dialog.Talk("Hello, how is life as an Swordman?");
+				await dialog.Talk("Hello, how is life as a Swordman?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
@@ -32,7 +32,7 @@ public class JobChangerNpcScripts : GeneralScript
 				return;
 			}
 
-			await dialog.Talk("Hello, would you like to become an Swordman?");
+			await dialog.Talk("Hello, would you like to become a Swordman?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
@@ -70,7 +70,7 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Merchant)
 			{
-				await dialog.Talk("Hello, how is life as an Merchant?");
+				await dialog.Talk("Hello, how is life as a Merchant?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
@@ -79,7 +79,7 @@ public class JobChangerNpcScripts : GeneralScript
 				return;
 			}
 
-			await dialog.Talk("Hello, would you like to become an Merchant?");
+			await dialog.Talk("Hello, would you like to become a Merchant?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
@@ -116,7 +116,7 @@ public class JobChangerNpcScripts : GeneralScript
 
 			if (player.JobId == JobId.Thief)
 			{
-				await dialog.Talk("Hello, how is life as an Thief?");
+				await dialog.Talk("Hello, how is life as a Thief?");
 				return;
 			}
 			else if (player.JobId != JobId.Novice)
@@ -125,7 +125,7 @@ public class JobChangerNpcScripts : GeneralScript
 				return;
 			}
 
-			await dialog.Talk("Hello, would you like to become an Thief?");
+			await dialog.Talk("Hello, would you like to become a Thief?");
 			var response = await dialog.Select(Option("Yes, please.", "yes"), Option("No, thanks.", "no"));
 
 			if (response == "no")
@@ -180,7 +180,7 @@ public class JobChangerNpcScripts : GeneralScript
 				return;
 			}
 
-			await dialog.Talk("To become a Archer, you need to reach level 8 and aquire 20 Feather of Birds. Would you like to continue?");
+			await dialog.Talk("To become an Archer, you need to reach level 8 and aquire 20 Feather of Birds. Would you like to continue?");
 			response = await dialog.Select(Option("Yes.", "yes"), Option("I changed my mind.", "no"));
 
 			if (response == "no")
@@ -198,7 +198,7 @@ public class JobChangerNpcScripts : GeneralScript
 			player.Inventory.Remove(ItemId.FeatherofBird, 20);
 			player.ChangeJob(JobId.Archer);
 
-			await dialog.Talk("Very well. You are now a Archer. Good luck.");
+			await dialog.Talk("Very well. You are now an Archer. Good luck.");
 		});
 
 		// Acolyte job changer in the cathedral in North Prontera
