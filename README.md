@@ -2,10 +2,9 @@ Sabine
 =============================================================================
 
 Sabine is an open-source MMORPG server, developed as a collaborative effort
-of programmers from all around the world. We're aiming to create a server
-software that gives users the chance to experience the early versions of
-RO for preservatory purposes, while giving developers the oppurtunity to
-learn and hone their skills in a familar environment.
+to create a server software that gives users the chance to experience the
+early versions of RO for fun and preservation, while giving developers the
+oppurtunity to learn and hone their skills in a familar environment.
 
 This project is very explicilty not about playing a game or competing
 with any services provided by game developers or publishers, and we don't
@@ -13,11 +12,28 @@ endorse such actions. We're here to learn and create, not to steal or
 destroy.
 
 Compatibility
-
 -----------------------------------------------------------------------------
-Sabine is currently only compatible to the alpha client from 2001-08-30.
+
+Sabine is currently only compatible with the alpha client from 2001-08-30.
 The server might offer limited support for other clients, such as iRO
 Beta1 from 2002-02-20, but we aren't actively working on supporting them.
+destroy.
+
+State of Development
+-----------------------------------------------------------------------------
+
+Sabine is in its early stages and is being worked on primarily as a side-
+project. That means, while basic functionality is there, bugs and missing
+features are to be expected.
+
+The features that are explicitly working are as follows.
+- Account creation and login
+- Character management
+- Inventory management
+- Stat management
+- NPC dialogs and shops
+- Monster spawns
+- Very basic combat (prototype)
 
 Requirements
 -----------------------------------------------------------------------------
