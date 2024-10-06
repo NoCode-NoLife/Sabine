@@ -1,4 +1,4 @@
-iRO Alpha Client Mods
+iRO Alpha Client Patches
 =============================================================================
 
 While the Alpha client runs relatively well on a modern machine, there
@@ -8,9 +8,9 @@ used.
 Clean Text
 -----------------------------------------------------------------------------
 
-Many older clients have a problem with rendering text under modern Windows,
-giving some strings a pink border. To fix this, all three calls to CreateFontA
-need to be patched.
+Many older clients have a problem with rendering text under modern
+Windows, giving some strings a pink border. To fix this, all three
+calls to CreateFontA need to be patched.
 
 Simply replace all occurrences of this:
 ```text

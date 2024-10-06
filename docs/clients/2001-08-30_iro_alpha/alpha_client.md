@@ -12,7 +12,7 @@ Compatibility
 
 Sabine was primarily developed for use with this client, and it generally
 works relatively well under modern operating systems, such as Windows 10.
-However, there are a few recommended modifications that should be applied,
+However, there are a few recommended modifications that should be applied
 to make it run even better.
 
 ### dgVoodoo
@@ -60,11 +60,13 @@ very helpful for English-speaking players. Not to mention that the
 client can't display Korean.
 
 For this reason, we decided to use fixed item names for Sabine's item
-data, which the client must use as well, to be able to find the items'
-sprites. Simply open the files folder and copy the data folder to your
-alpha client folder. It prioritizes the data folder by default and
-will load the item names from there.
+data, which the client *must* use as well, to be able to find the items'
+sprites. Simply copy the provided data folder at this location in the
+docs, `clients/2001-08-30_iro_alpha/mods/files/` and copy the data
+folder to your alpha client folder as is. The alpha client prioritizes
+the data folder by default and will load the item names from there.
 
+**Folder structure example**
 ```
 |- bgm\
 |- data\
@@ -133,7 +135,7 @@ information, we can't say what their stats were for sure.
 ### Item Descriptions
 
 Unlike newer clients, the alpha client doesn't have any item descriptions
-in its data. Instead, it sends a request to the server to receive them.
+in its data. Instead, it sends a request to the server to retrieve them.
 This server currently auto-generates the descriptions based on the items'
 stats, which is why they're a little sparse.
 
