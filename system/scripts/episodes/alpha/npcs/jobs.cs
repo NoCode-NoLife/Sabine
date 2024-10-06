@@ -17,7 +17,7 @@ public class JobChangerNpcScripts : GeneralScript
 
 		// Swordman job changer in a combat instruction building in
 		// South Prontera
-		AddNpc("Job Tester", 53, "prt_intr01", 129, 102, 3, async dialog =>
+		AddNpc("Job Tester", 56, "prt_intr01", 129, 102, 3, async dialog =>
 		{
 			var player = dialog.Player;
 
@@ -64,7 +64,7 @@ public class JobChangerNpcScripts : GeneralScript
 		});
 
 		// Merchant job changer in the town hall in South Prontera
-		AddNpc("Job Tester", 53, "prt_intr01", 30, 58, 5, async dialog =>
+		AddNpc("Job Tester", 73, "prt_intr01", 30, 58, 5, async dialog =>
 		{
 			var player = dialog.Player;
 
@@ -110,7 +110,7 @@ public class JobChangerNpcScripts : GeneralScript
 		});
 
 		// Thief job changer in the pyramid in Morocc Village
-		AddNpc("Job Tester", 53, "moc_intr04", 173, 42, 5, async dialog =>
+		AddNpc("Job Tester", 54, "moc_intr04", 173, 42, 4, async dialog =>
 		{
 			var player = dialog.Player;
 
@@ -156,7 +156,7 @@ public class JobChangerNpcScripts : GeneralScript
 		});
 
 		// Archer job changer in the large building in Archers' Village
-		AddNpc("Job Tester", 53, "moc_intr02", 26, 176, 5, async dialog =>
+		AddNpc("Job Tester", 101, "moc_intr02", 26, 176, 4, async dialog =>
 		{
 			var player = dialog.Player;
 
@@ -202,7 +202,8 @@ public class JobChangerNpcScripts : GeneralScript
 		});
 
 		// Acolyte job changer in the cathedral in North Prontera
-		AddNpc("Job Tester", 53, "prt_intr02", 35, 177, 3, async dialog =>
+		AddNpc("Job Tester", 79, "prt_intr02", 35, 177, 4, async dialog =>
+		//AddNpc("Job Tester", 79, "prt_intr02", 35, 177, 3, async dialog =>
 		{
 			var player = dialog.Player;
 
