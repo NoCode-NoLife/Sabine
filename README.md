@@ -22,9 +22,10 @@ just yet.
 State of Development
 -----------------------------------------------------------------------------
 
-Sabine is in its early stages and is being worked on primarily as a side-
-project. That means, while basic functionality is there, bugs and missing
-features are to be expected.
+Sabine is in its early stages of development and is more prototype than
+fully featured server. It's being worked on primarily as a side-project,
+and while basic functionality is there, bugs and missing features are
+to be expected.
 
 The features that are explicitly working are as follows.
 - Account creation and login
