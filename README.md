@@ -16,8 +16,8 @@ Compatibility
 
 Sabine is currently only compatible with the alpha client from 2001-08-30.
 The server might offer limited support for other clients, such as iRO
-Beta1 from 2002-02-20, but we aren't actively working on supporting them.
-destroy.
+Beta1 from 2002-02-20, but we aren't actively working on supporting them
+just yet.
 
 State of Development
 -----------------------------------------------------------------------------
@@ -48,9 +48,8 @@ On an up-to-date Windows system, the SDK will already be included,
 so you only need to install a MySQL-compatible server. On Linux and
 macOS, you will need to install the SDK as well.
 
-For more detailed instructions, please wait patiently while we're
-working on our documentation and guides, or hack away and experiment
-until the server is working =)
+For more detailed instructions, please refer to our beginner guide
+found in the docs folder, at `docs/beginner_guide.md`.
 
 Installation
 -----------------------------------------------------------------------------
