@@ -2,13 +2,11 @@
 // Script List File
 //---------------------------------------------------------------------------
 
-custom/test.cs
+divert "/user/scripts/scripts_zone.txt"
 
 const/*
 commands/*
 items/*
 
-require "episodes/alpha/scripts.txt"
-require "episodes/beta1/scripts.txt"
-
-include "/user/scripts/scripts_zone.txt"
+require "scripts_content.txt"
+require "scripts_custom.txt"

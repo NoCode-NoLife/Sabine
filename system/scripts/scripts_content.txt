@@ -1,0 +1,8 @@
+// Sabine
+// Script List File
+//---------------------------------------------------------------------------
+
+divert "/user/scripts/scripts_content.txt"
+
+require "episodes/alpha/scripts.txt"
+require "episodes/beta1/scripts.txt"
