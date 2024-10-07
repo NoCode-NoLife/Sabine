@@ -174,9 +174,21 @@ Full target example: `RagExe.exe -ragpassword`
 Alternatively, you can use a .bat file for the same purpose or launch the
 client directly via command line.
 
-The final puzzle piece is to tell the client where to connect to.
-For this you need to modify the RagExe.exe with a hex editor, such
-as "HxD", which you can download here: https://mh-nexus.de/en/hxd/
+The final puzzle piece is to tell the client where to connect to, because
+it will try to connect to a long defunct official server otherwise. The
+easy way to do so, and the recommended one, due to additional benefits,
+is the use of "HookCat", which can be downloaded here:
+https://github.com/exectails/HookCatRO
+
+This is a tool that makes some changes to the client's behavior and
+improves the user experience, including the ability to set the address
+to connect to. If you don't want to use it, read on, otherwise skip
+to the next step.
+
+To manually change the connection address, you need to modify the
+RagExe.exe with a hex editor, such as "HxD", which you can download
+here:
+https://mh-nexus.de/en/hxd/
 
 This step might look complicated, but it's rather simple. Just instruct
 the editor to find and replace all instances of these bytes:
@@ -191,6 +203,8 @@ similar to how you would replace text inside a text editor. This will
 make the client connect to your localhost IP, `127.0.0.1`, instead of
 the original, `211.239.123.168`.
 
+### Step 5 - Play
+
 With this, everything should be in place, and you should be able to
 finally launch the client by double-clicking the shortcut you created.
 Once you arrive at the login window, create an account by choosing any
@@ -198,8 +212,6 @@ name and password. Just make sure to append either `_M` (Male) or `_F`
 (Female) to the username, which will instruct the server to create
 an account with the chosen gender, determining the sex of the characters
 on that account.
-
-### Step 5 - Play
 
 If you successfully followed this guide and got into the game, you can
 now experience our best approximation of what the RO alpha was like.

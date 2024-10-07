@@ -1,9 +1,15 @@
 iRO Alpha Client Patches
 =============================================================================
 
-While the Alpha client runs relatively well on a modern machine, there
+While the alpha client runs relatively well on a modern machine, there
 are a few minor issues that should be addressed before it's actively
-used.
+used. This file documents the recommended modifications.
+
+These changes can be made either by manually modifying the RagExe by
+use of a hex editor, or you can use the memory patcher available at
+the following address, which implements these modifications.
+
+https://github.com/exectails/HookCatRO
 
 Clean Text
 -----------------------------------------------------------------------------
