@@ -10,6 +10,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Shared.Const;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Sabine.Zone.World.Entities
@@ -210,7 +211,15 @@ namespace Sabine.Zone.World.Entities
 		public override void Warp(Location location)
 		{
 			if (this.IsWarping)
-				throw new InvalidOperationException("A warp is already in progress.");
+			{
+				if (location != this.WarpLocation)
+					throw new InvalidOperationException("A warp is already in progress.");
+
+				// If we get two warp calls for the same location, we're going
+				// to assume it was accidental and ignore the second one.
+				Log.Debug("Encountered a double warp. Stacktrace: {0}", Environment.StackTrace);
+				return;
+			}
 
 			if (!ZoneServer.Instance.World.Maps.TryGet(location.MapId, out var map))
 				throw new ArgumentException($"Map '{location.MapId}' not found.");
