@@ -84,5 +84,5 @@ Check the file CONTRIBUTING.md for instructions on how you may contribute.
 Links
 -----------------------------------------------------------------------------
 
-* GitHub: https://github.com/exectails/Sabine
+* GitHub: https://github.com/NoCode-NoLife/Sabine
 * Chat: https://discord.gg/5sszEgw
