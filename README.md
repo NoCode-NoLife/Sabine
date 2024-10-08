@@ -49,9 +49,6 @@ On an up-to-date Windows system, the SDK will already be included,
 so you only need to install a MySQL-compatible server. On Linux and
 macOS, you will need to install the SDK as well.
 
-For more detailed instructions, please refer to our beginner guide
-found in the docs folder, at `docs/beginner_guide.md`.
-
 Installation
 -----------------------------------------------------------------------------
 
@@ -61,8 +58,9 @@ Installation
   adjust the necessary values and remove the rest.
 
 Afterwards, you should be able to start Sabine via the provided scripts or
-directly from the bin directories. If you need more assistance, head over
-to our chat.
+directly from the bin directories. For more detailed instructions, please
+refer to our guide found in the docs folder, at `docs/beginner_guide.md`,
+or join our Discord chat.
 
 How to create an account
 -----------------------------------------------------------------------------
