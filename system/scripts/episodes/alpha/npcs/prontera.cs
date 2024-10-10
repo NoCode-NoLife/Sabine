@@ -36,6 +36,7 @@ public class PronteraNpcsScript : GeneralScript
 		// Seen in screen shots
 		AddNpc("Guard", 105, "prt_cstl01", 39, 66, 6);
 		AddNpc("Guard", 105, "prt_cstl01", 48, 66, 3);
+		AddNpc("Guard", 105, "prt_vilg01", 99, 89, 4);
 
 		// There's a cathedral, there's a pastor sprite, there was probably
 		// a pastor in the cathedral.
