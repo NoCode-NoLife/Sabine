@@ -38,6 +38,10 @@ public class PronteraNpcsScript : GeneralScript
 		AddNpc("Guard", 105, "prt_cstl01", 48, 66, 3);
 		AddNpc("Guard", 105, "prt_vilg01", 99, 89, 4);
 
+		// Inn, described in guide.
+		AddNpc("Maid", 94, "prt_intr01", 33, 21, 4);
+		AddNpc("Receptionist", 102, "prt_intr01", 38, 24, 4);
+
 		// There's a cathedral, there's a pastor sprite, there was probably
 		// a pastor in the cathedral.
 		AddNpc("Pastor", 60, "prt_intr02", 43, 172, 3, async dialog =>
