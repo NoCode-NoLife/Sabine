@@ -170,13 +170,18 @@ namespace Sabine.Zone.Commands
 		private CommandResult Where(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
 		{
 			var mapStringId = target.Map.StringId;
+			var mapName = target.Map.Data.Name;
 			var x = target.Position.X;
 			var y = target.Position.Y;
+			var dir = target.Direction;
 
-			if (sender == target)
-				sender.ServerMessage(Localization.Get("You're here: {1}, {2:n0}, {3:n0}"), target.Name, mapStringId, x, y);
-			else
-				sender.ServerMessage(Localization.Get("{0} is here: {1}, {2:n0}, {3:n0}"), target.Name, mapStringId, x, y);
+			var firstLine = sender == target
+				? Localization.Get("You're here: {1}")
+				: Localization.Get("{0} is here: {1}");
+
+			sender.ServerMessage(firstLine, target.Name, mapName);
+			sender.ServerMessage(Localization.Get("Coordinates: {0}, {1}, {2}"), mapStringId, x, y);
+			sender.ServerMessage(Localization.Get("Direction: {0} ({1})"), dir, (int)dir);
 
 			return CommandResult.Okay;
 		}
