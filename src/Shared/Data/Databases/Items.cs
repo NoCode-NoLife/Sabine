@@ -57,7 +57,7 @@ namespace Sabine.Shared.Data.Databases
 			data.JobsAllowed = entry.ReadEnum("jobs", JobFilter.All);
 			data.SexAllowed = entry.ReadEnum("sex", Sex.Any);
 			data.WearSlots = entry.ReadEnum("equip", EquipSlots.None);
-			data.RequiredLevel = entry.ReadInt("equipLevel", 0);
+			data.RequiredLevel = entry.ReadInt("equipLevel", 1);
 			data.WeaponLevel = entry.ReadInt("weaponLevel", 0);
 			data.LookId = entry.ReadInt("look", 0);
 
