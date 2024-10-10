@@ -6,6 +6,7 @@ using Sabine.Shared.Network;
 using Sabine.Zone.Ais;
 using Sabine.Zone.Commands;
 using Sabine.Zone.Database;
+using Sabine.Zone.Events;
 using Sabine.Zone.Network;
 using Sabine.Zone.World;
 using Yggdrasil.Logging;
@@ -22,7 +23,7 @@ namespace Sabine.Zone
 		/// <summary>
 		/// Global singleton for the server.
 		/// </summary>
-		public static readonly ZoneServer Instance = new ZoneServer();
+		public static readonly ZoneServer Instance = new();
 
 		private TcpConnectionAcceptor<ZoneConnection> _acceptor;
 
@@ -50,6 +51,11 @@ namespace Sabine.Zone
 		/// Returns a reference to the server's AI manager.
 		/// </summary>
 		public AiManager AiManager { get; } = new AiManager();
+
+		/// <summary>
+		/// Returns a reference to the server's event manager.
+		/// </summary>
+		public ServerEvents ServerEvents { get; } = new();
 
 		/// <summary>
 		/// Runs the server.

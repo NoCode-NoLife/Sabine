@@ -97,6 +97,8 @@ namespace Sabine.Zone.Network
 			conn.Character = character;
 			character.Connection = conn;
 
+			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
+
 			// Starting some time after beta 1, the client expects the raw
 			// account id to be sent upon connection, or it won't react to
 			// any packets...?
@@ -148,6 +150,8 @@ namespace Sabine.Zone.Network
 
 			if (character.IsDead)
 				Send.ZC_NOTIFY_VANISH(character, DisappearType.StrikedDead);
+
+			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
 		}
 
 		/// <summary>
