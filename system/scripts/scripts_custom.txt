@@ -2,6 +2,6 @@
 // Script List File
 //---------------------------------------------------------------------------
 
-custom/test.cs
+//custom/test.cs
 
 include "/user/scripts/scripts_custom.txt"
