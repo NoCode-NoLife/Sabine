@@ -8,7 +8,7 @@
 		North = 0,
 		NorthWest = 1,
 		West = 2,
-		SoutWest = 3,
+		SouthWest = 3,
 		South = 4,
 		SouthEast = 5,
 		East = 6,
