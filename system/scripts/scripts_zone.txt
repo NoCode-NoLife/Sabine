@@ -7,6 +7,7 @@ divert "/user/scripts/scripts_zone.txt"
 const/*
 commands/*
 items/*
+other/*
 
 require "scripts_content.txt"
 require "scripts_custom.txt"
