@@ -23,6 +23,60 @@ public class PronteraNpcsScript : GeneralScript
 
 	private static void LoadNpcs()
 	{
+		// Guide NPC mentioned in the GameFAQs guide. Said to give only vague hints.
+		// The dialog is modeled a little after the later guide NPCs.
+		AddNpc("Guide", 54, "prt_vilg02", 99, 89, 5, async dialog =>
+		{
+			if (dialog.Player.JobId != JobId.Novice)
+			{
+				await dialog.Talk("You don't look like you need my help anymore. Good luck on your adventures!");
+				return;
+			}
+
+			await dialog.Talk("Hello, you look to be new to the Ragnarok world. Is there anything I can help you with?");
+			var response = await dialog.Select(Option("Yes", "yes"), Option("No", "no"));
+
+			if (response != "yes")
+			{
+				await dialog.Talk("You're an experienced Novice then? Haha, very well.");
+				return;
+			}
+
+			while (true)
+			{
+				await dialog.Talk("What would you like to know about?");
+				response = await dialog.Select(
+					Option("Where am I?", "where_am"),
+					Option("Where should I go?", "where_to"),
+					Option("That's all", "leave")
+				);
+
+				switch (response)
+				{
+					case "where_am":
+					{
+						await dialog.Talk("We're in Prontera, the capital of the Midgard Kingdom.");
+						continue;
+					}
+					case "where_to":
+					{
+						await dialog.Talk("There are many places to go around here. You can explore fields, dungeons, and even other towns.");
+						await dialog.Talk("But it's a dangerous world, and you should prepare and train well before you tackle its most dangerous parts.");
+						await dialog.Talk("The fields north of town are a good place to start and gain some initial experience points.");
+						await dialog.Talk("Later you'll be able to join one of the guilds and become even stronger.");
+						await dialog.Talk("Like the Swordman or Merchant guilds here in Prontera, or the Thief or Archer guilds hidden around Moroc far in the south.");
+						await dialog.Talk("Oh, but do you know how to move? Just left click on a spot, and you'll walk over to that spot. Easy as can be!");
+						continue;
+					}
+					case "leave":
+					{
+						await dialog.Talk("Good luck on your adventures!");
+						return;
+					}
+				}
+			}
+		});
+
 		// This NPC is mentioned in the guide, but its purpose is unknown.
 		AddNpc("Prize Exchanger", 83, "prt_intr02", 127, 102, 3, async dialog =>
 		{
