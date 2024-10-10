@@ -92,6 +92,14 @@ namespace Sabine.Zone.Database
 			character.Vars.Perm.Load(this.GetVars("vars_character", character.Id));
 			character.Parameters.RecalculateAll();
 
+			// Set HP and SP to max on first load, after the characters'
+			// parameters were calculated for the first time.
+			if (character.Vars.Perm.ActivateOnce("Sabine.EverLoaded"))
+			{
+				character.Parameters.Hp = character.Parameters.HpMax;
+				character.Parameters.Sp = character.Parameters.SpMax;
+			}
+
 			return character;
 		}
 
