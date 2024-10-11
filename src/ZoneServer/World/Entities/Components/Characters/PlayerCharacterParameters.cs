@@ -10,8 +10,7 @@ using Sabine.Zone.Network;
 namespace Sabine.Zone.World.Entities.Components.Characters
 {
 	/// <summary>
-	/// Represents a character's parameters (stats, sub-stats, and
-	/// anything related).
+	/// Represents a character's parameters (stats, sub-stats, and anything related).
 	/// </summary>
 	public class PlayerCharacterParameters : Parameters<PlayerCharacter>
 	{
@@ -26,7 +25,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 		/// <summary>
 		/// Recalculates sub-stats based on modified parameters and
-		/// updates the client..
+		/// updates the client.
 		/// </summary>
 		/// <param name="type"></param>
 		/// <param name="before"></param>
@@ -67,8 +66,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
-		/// Recalculates character's HP, updates the property, and returns
-		/// the new max value.
+		/// Recalculates character's HP and updates the property.
 		/// </summary>
 		/// <returns></returns>
 		public void RecalculateHp()
@@ -99,8 +97,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
-		/// Recalculates character's SP, updates the property, and returns
-		/// the new max value.
+		/// Recalculates character's SP and updates the property.
 		/// </summary>
 		/// <returns></returns>
 		public void RecalculateSp()
