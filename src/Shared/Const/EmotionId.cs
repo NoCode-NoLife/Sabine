@@ -63,7 +63,7 @@
 		/// <summary>
 		/// /bawi
 		/// </summary>
-		Rock = 12,
+		Rock = 11,
 
 		/// <summary>
 		/// /bo
