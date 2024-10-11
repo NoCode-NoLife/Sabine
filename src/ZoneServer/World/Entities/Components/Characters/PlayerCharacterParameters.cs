@@ -87,7 +87,10 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			// I'll admit, I'm getting lazy by this point. Figuring out
 			// formulas isn't my strong suit. Half HP and double SP don't
 			// match the screen shots, but it's close and simple.
-			this.HpMax /= 2;
+			// Update: Maybe halfed HP do match some screen shots, but it
+			// makes it so a Lv 1 Novice only has 20 HP, which just isn't
+			// enough and does not match the screen shots.
+			//this.HpMax /= 2;
 
 			if (this.Hp > this.HpMax)
 				this.Hp = this.HpMax;
