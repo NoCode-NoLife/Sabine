@@ -439,7 +439,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// Removes the given amount of the item from the inventory.
 		/// Returns the actual amount that was removed.
 		/// </summary>
-		/// <param name="clawofWolves"></param>
+		/// <param name="classId"></param>
 		/// <param name="amount"></param>
 		public int Remove(int classId, int amount)
 		{
