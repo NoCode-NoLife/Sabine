@@ -54,6 +54,16 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
+		/// Returns the total weight of all items in the inventory.
+		/// </summary>
+		/// <returns></returns>
+		public int GetWeight()
+		{
+			lock (_syncLock)
+				return _items.Sum(static a => a.Data.Weight * a.Amount);
+		}
+
+		/// <summary>
 		/// Adds item to inventory during loading of a character.
 		/// </summary>
 		/// <param name="item"></param>

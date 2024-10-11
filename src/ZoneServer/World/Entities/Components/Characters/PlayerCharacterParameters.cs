@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
@@ -251,7 +250,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// </summary>
 		public void RecalculateWeight()
 		{
-			this.Weight = this.Character.Inventory.GetItems().Sum(a => a.Data.Weight);
+			this.Weight = this.Character.Inventory.GetWeight();
 			this.WeightMax = 2000 + this.Character.JobData.Modifiers.Weight + this.Str * 30;
 
 			// The exact alpha weight formula is currently unknown,
