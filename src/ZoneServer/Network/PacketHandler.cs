@@ -9,6 +9,7 @@ using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
+using Sabine.Zone.Events.Args;
 using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Entities;
@@ -97,7 +98,7 @@ namespace Sabine.Zone.Network
 			conn.Character = character;
 			character.Connection = conn;
 
-			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
+			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
 			// Starting some time after beta 1, the client expects the raw
 			// account id to be sent upon connection, or it won't react to
@@ -151,7 +152,7 @@ namespace Sabine.Zone.Network
 			if (character.IsDead)
 				Send.ZC_NOTIFY_VANISH(character, DisappearType.StrikedDead);
 
-			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
+			ZoneServer.Instance.ServerEvents.PlayerReady.Raise(new PlayerEventArgs(character));
 		}
 
 		/// <summary>

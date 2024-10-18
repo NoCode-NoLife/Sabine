@@ -1,6 +1,5 @@
-﻿using System;
-using Sabine.Zone.Events.Args;
-using Sabine.Zone.World.Entities;
+﻿using Sabine.Zone.Events.Args;
+using Yggdrasil.Events;
 
 namespace Sabine.Zone.Events
 {
@@ -20,8 +19,7 @@ namespace Sabine.Zone.Events
 		/// modifications to the character, but packets sent to the
 		/// client might not get handled as intended yet.
 		/// </remarks>
-		public event EventHandler<PlayerEventArgs> PlayerLoggedIn;
-		public void OnPlayerLoggedIn(PlayerCharacter character) => PlayerLoggedIn?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
+		public readonly Event<PlayerEventArgs> PlayerLoggedIn = new();
 
 		/// <summary>
 		/// Raised after the player's client loaded the map and is ready
@@ -30,8 +28,7 @@ namespace Sabine.Zone.Events
 		/// <remarks>
 		/// This event is raised once the player is fully logged in and intialized.
 		/// </remarks>
-		public event EventHandler<PlayerEventArgs> PlayerReady;
-		public void OnPlayerReady(PlayerCharacter character) => PlayerReady?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
+		public readonly Event<PlayerEventArgs> PlayerReady = new();
 
 	}
 }
