@@ -4,9 +4,9 @@
 // Grants default items to newly created characters.
 //---------------------------------------------------------------------------
 
-using Sabine.Shared.Scripting;
 using Sabine.Zone.Events.Args;
 using Sabine.Zone.Scripting;
+using Yggdrasil.Events;
 
 public class CharacterInitializationScript : GeneralScript
 {

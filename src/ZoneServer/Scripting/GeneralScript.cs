@@ -1,5 +1,5 @@
 ﻿using System;
-using Sabine.Shared.Scripting;
+using Yggdrasil.Events;
 using Yggdrasil.Scripting;
 
 namespace Sabine.Zone.Scripting
