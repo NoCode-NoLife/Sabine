@@ -4,9 +4,9 @@ Sabine
 Sabine is an open-source MMORPG server, developed as a collaborative effort
 to create a server software that gives users the chance to experience the
 early versions of RO for fun and preservation, while giving developers the
-oppurtunity to learn and hone their skills in a familar environment.
+opportunity to learn and hone their skills in a familiar environment.
 
-This project is very explicilty not about playing a game or competing
+This project is very explicitly not about playing a game or competing
 with any services provided by game developers or publishers, and we don't
 endorse such actions. We're here to learn and create, not to steal or
 destroy.
@@ -69,7 +69,7 @@ For the moment, the easiest way to do so is to append a suffix to your
 username on the login window, with either `_M` or `_F`, denoting which
 sex your characters are going to be, and enter the password of your
 choice in the password field. The server will then create a new account
-with that name and password. On future logins you must ommit the suffix.
+with that name and password. On future logins you must omit the suffix.
 
 If you want to turn your accounts into GM accounts, change their `authority`
 to 99 in the account database.
