@@ -40,7 +40,7 @@
 		// This is where the parameters supported by the alpha client end,
 		// but it's fine to send newer ones, as they are simply ignored.
 
-		JobLevel = 55,
+		JobLevel = 56,
 	}
 
 	/// <summary>
