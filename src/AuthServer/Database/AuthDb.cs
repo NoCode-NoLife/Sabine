@@ -34,6 +34,7 @@ namespace Sabine.Auth.Database
 				cmd.Set("password", account.Password);
 				cmd.Set("sex", account.Sex);
 				cmd.Set("authority", account.Authority);
+				cmd.Set("sessionId", 0);
 
 				cmd.Execute();
 				account.Id = (int)cmd.LastId;
