@@ -216,3 +216,30 @@ on that account.
 If you successfully followed this guide and got into the game, you can
 now experience our best approximation of what the RO alpha was like.
 Have fun!
+
+### Optional - Beta1 and Beyond
+
+The general setup process for the server is mostly the same for the
+Beta1 and later clients, with a few exceptions.
+
+1) You have to modify the client version in `system|user/conf/version.conf`
+   to match the client you'd like to use.
+2) You have to change the connection address in the client, as described
+   above, to connect to the server. For other clients HookCat is not
+   available yet and you will have to use a hex editor.
+3) Use different client startup parameters.
+
+#### Beta 1
+
+Replace
+```text
+32 31 31 2E 32 33 39 2E 31 36 31 2E 37 34
+```
+with
+```text
+31 32 37 2E 30 2E 30 2E 31 00 00 00 00 00
+```
+and instead of `-ragpassword`, start the client with
+```text
+1rag1
+```
