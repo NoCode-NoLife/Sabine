@@ -8,12 +8,14 @@ there.
 The client is similar to the Alpha and Beta1 clients, but differs in the
 general setup.
 
-Running the client
+Startup
 -----------------------------------------------------------------------------
 
 To launch the client, run the `Ragexe.exe` file in client folder with the
-`1rag1` argument. Make sure to set the compatibility mode to 16-bit color,
-as you will get an error otherwise.
+`1rag1` argument. Also make sure to set the compatibility mode to 16-bit
+color, as you will get an error otherwise. To do this, right-click the
+`Ragexe.exe`, choose `Properties`, go to the `Compatibility` tab, and
+check the `16-bit color` option.
 
 You can also create a batch file to launch the client with these settings.
 
@@ -22,10 +24,11 @@ set __COMPAT_LAYER=16BITCOLOR
 start Ragexe.exe 1rag1
 ```
 
-Connecting to the server
+Connecting
 -----------------------------------------------------------------------------
 
-The Beta2 client reads the server IP and port from the `msgstringtable.txt`
+Unlike Alpha and Beta1, which have the server IP and port hardcoded in the
+executable, the Beta2 client reads them from the `msgstringtable.txt`
 file, found inside the `data.grf`. To make the client connect to your
 server, you need to extract the file, edit it, and put it back in the
 `data.grf`. The parameters should be found around line 456.

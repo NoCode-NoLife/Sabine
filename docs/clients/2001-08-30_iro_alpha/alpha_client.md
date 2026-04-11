@@ -2,8 +2,8 @@ Alpha Client
 =============================================================================
 
 To the best of our knowledge, there is only one alpha client publically
-available, the iRO client from 2001-08-30. It can from the following
-addresses.
+available, the iRO client from 2001-08-30. It can be downloaded from one
+of the following addresses.
 
 - https://www.castledragmire.com/ragnarok/downloads.php
 - https://archive.org/details/ro-alpha-client-english
@@ -19,9 +19,12 @@ to make it run even better.
 ### dgVoodoo
 
 Using dgVoodoo with the client makes it run much smoother and fixes the
-mouse lag that is usually present when running the client with Windows 10.
+mouse lag that is usually present when running the client with Windows 10+.
 The program is very simple to use, and after just copying a few DLLs to
 the alpha client folder, it runs much better.
+
+There are other DirectX wrappers that do the same thing, such as
+DDrawCompat, which is even easier to use.
 
 ### Font
 
@@ -40,8 +43,8 @@ game was made, or you could run the game under Linux/Wine, which is
 also able to run the client without graphical glitches or performance
 issues.
 
-The easiest way, however, is to simply get a memory patcher or a
-patched exe, together with dgVoodoo.
+The easiest way is to simply get a memory patcher or a patched exe though,
+together with a DirectX wrapper.
 
 Other Issues
 -----------------------------------------------------------------------------
@@ -63,7 +66,7 @@ client can't display Korean.
 For this reason, we decided to use fixed item names for Sabine's item
 data, which the client *must* use as well, to be able to find the items'
 sprites. Simply copy the provided data folder at this location in the
-docs, `clients/2001-08-30_iro_alpha/mods/files/` and copy the data
+docs, `clients/2001-08-30_iro_alpha/mods/files/`, and copy the data
 folder to your alpha client folder as is. The alpha client prioritizes
 the data folder by default and will load the item names from there.
 
@@ -118,27 +121,27 @@ the dialog would go from start to finish without interruptions.
 
 ### Stats
 
-Unfortunately, there's very few screen shots, videos, and information
-about stats during the alpha. A few things we've been able to figure
-out, however. For example, characters had a much lower maximum weight,
-and the stats were different in general. Don't be surprised when your
-stats are different from what you're used to. That being said, the
-formulas we're using are largely guess-work, based on the limited
-resources we had, and if something seems way wrong, or you have
-first-hand knowledge about the alpha, do report it.
+Unfortunately, there are very few screen shots, videos, and information
+about stats during the alpha. A few things we've been able to figure out,
+however. For example, characters had a much lower maximum weight, and the
+stats were different in general. Don't be surprised when your stats are
+different from what you're used to. That being said, the formulas we're
+using are largely guess-work, based on the limited resources we had, and
+if something seems way wrong, or you have first-hand knowledge about the
+alpha, do report these issues.
 
 Monsters are even more difficult to nail down, because we don't have
 any information about their exact stats. The MvPs in particular were
 presumably much weaker than in later versions, because first class
 characters had to be able to kill them, but without any official
-information, we can't say what their stats were for sure.
+information, we can't say for certain what their stats were.
 
 ### Item Descriptions
 
 Unlike newer clients, the alpha client doesn't have any item descriptions
-in its data. Instead, it sends a request to the server to retrieve them.
-This server currently auto-generates the descriptions based on the items'
-stats, which is why they're a little sparse.
+stored in its data. Instead, it sends a request to the server to retrieve
+them. This server currently auto-generates the descriptions based on the
+items' stats, which is why they're a little sparse.
 
 What's interesting about the descriptions, is that they seem to not
 support line-breaks. That means you can't create clean key:value lines,

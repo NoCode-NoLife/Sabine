@@ -11,7 +11,7 @@ If you already have experience with other RO servers, such as eAthena
 and its forks, the entire process will feel familiar and shouldn't take
 longer than a couple of minutes.
 
-Windows
+Setup (Windows)
 -----------------------------------------------------------------------------
 
 ### Step 1 - Download Server
@@ -66,7 +66,7 @@ https://www.apachefriends.org/
 Another is to install just the database server, such as MariaDB:
 https://mariadb.org/download/
 
-This is a command line application that will usually always run
+MariaDB is a command line application that will usually always run
 in the background somewhere, and you can connect to it via a MySQL
 client, such as HeidiSQL, to manage the data.
 https://www.heidisql.com/download.php
@@ -84,16 +84,16 @@ In the database you must then choose to "run" or "import" a MySQL
 file. Choose the `main.sql` from inside Sabine's `sql` folder and
 execute it to import the basic database structure. This process
 should be instantaneous, and you should be able to find the new
-"sabine" database among the list of existing database. A refresh
+"sabine" database among the list of existing databases. A refresh
 might be necessary for it to appear though.
 
 After you made it through this, there should be very few reasons
 to ever directly work on the database again, as Sabine will apply
 any potential updates to the database automatically.
 
-The only thing left for the database is to configure the credentials
-necessary to connect to it, if you haven't used the defaults, which
-are usually username "root" with no password.
+The only thing left for the database, if you haven't used the defaults
+during setup, is to configure the credentials necessary to connect to it.
+The defaults are usually username "root" with no password.
 
 Go into the folder `user/conf/` and create a new file called
 `database.conf`, or copy the existing `database-example.conf`
@@ -109,7 +109,7 @@ update your server in the future, as you can download a new version
 and simply copy over your user folder to preserve your changes,
 with the user folder extending and overriding files in `system`.
 
-To check if everything went well up to this point you can launch
+To check if everything went well up to this point, you can launch
 the server by double-clicking the `start-all.bat` in Sabine's root
 directory, which will start the auth, char, and zone servers. Three
 command line windows should open, and after a couple seconds they
@@ -145,25 +145,18 @@ folder inside into your client folder as-is.
 |- Setup.exe
 ```
 
-We also recommend you install "dgVoodoo", which is an application that
-updates certain aspects of old games so they run better on modern systems.
-Without this, the alpha client can feel a bit laggy and sluggish. You can
-find it here: https://dege.freeweb.hu/dgVoodoo2/dgVoodoo2/
+We also recommend that you install a DirectX compatibility wrapper, which
+may improve performance and stability and fix some graphical issues, when
+playing the game on modern systems. A popular choice for this is "dgVoodoo",
+available here:
+https://dege.freeweb.hu/dgVoodoo2/dgVoodoo2/
 
-Simply download the latest version and extract the files from the
-`MS/x86/` folder into your client folder.
+Another, even simpler option is "DDrawCompat", available here:
+https://github.com/narzoul/DDrawCompat
 
-**Folder structure example**
-```
-|- D3D8.dll
-|- D3D9.dll
-|- D3DImm.dll
-|- DDraw.dll
-|...
-|- RagExe.exe
-|- Ragnarok.exe
-|- Setup.exe
-```
+For either of these, you should just have to place their files in your
+client folder. Without them, the alpha client will still run, but it might
+feel a bit laggy and sluggish.
 
 To launch the client, you will need to execute it with a special parameter.
 For this, create a shortcut to the `RagExe.exe`, right-click it, choose
@@ -217,29 +210,24 @@ If you successfully followed this guide and got into the game, you can
 now experience our best approximation of what the RO alpha was like.
 Have fun!
 
-### Optional - Beta1 and Beyond
+Beta1 and Beyond
+-----------------------------------------------------------------------------
 
-The general setup process for the server is mostly the same for the
-Beta1 and later clients, with a few exceptions.
+While the server's main focus at the moment is the alpha client, we are
+also working on making it compatible with other clients, such Beta1 and
+Beta2.
 
-1) You have to modify the client version in `system|user/conf/version.conf`
-   to match the client you'd like to use.
-2) You have to change the connection address in the client, as described
-   above, to connect to the server. For other clients HookCat is not
-   available yet and you will have to use a hex editor.
-3) Use different client startup parameters.
-
-#### Beta 1
-
-Replace
+The process for setting up the server is mostly the same for all clients,
+but you have to choose the client you want to use before you start the
+server. To do so, you need to modify the client version in `(system or
+user)/conf/version.conf`. To use the Beta1 client for example, you would
+change the `packet_version` to 200 like so:
 ```text
-32 31 31 2E 32 33 39 2E 31 36 31 2E 37 34
+packet_version: 200
 ```
-with
-```text
-31 32 37 2E 30 2E 30 2E 31 00 00 00 00 00
-```
-and instead of `-ragpassword`, start the client with
-```text
-1rag1
-```
+
+On the client side, there are some differences in the setup process
+between the different clients, and HookCat might not yet be compatible
+with all of them. For more details on the different clients and how to use
+them, please refer to the respective client guides in the `docs/clients/`
+folder.

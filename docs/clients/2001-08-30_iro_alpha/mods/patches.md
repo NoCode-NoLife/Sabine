@@ -179,13 +179,14 @@ Where XX is the number of times you can repeat a message.
 Bonus Tip
 -----------------------------------------------------------------------------
 
-The last tip for the Alpha is to get [dgVoodoo][1]. The client's
-performance is a little wonky by default, and especially the mouse
-cursor is laggy to a point where it's bothersome. By using dgVoodoo,
-the client's DirectX calls will be upgraded to newer versions and it
-will run better by a considerable amount. It's as easy as downloading
-it and placing a few DLL files in the client's folder, so there's very
-little reason not to do it.
+The last tip for the Alpha is to get a DirectX wrapper, such as
+[dgVoodoo][1] or [DDrawCompat][2]. The client's performance is a little
+wonky by default, and especially the mouse cursor is laggy to a point
+where it's bothersome. By using a DirectX wrapper, the client's DirectX
+calls will be upgraded to newer versions and it will run better by a
+considerable amount. It's as easy as downloading it and placing a few DLL
+files in the client's folder, so there's very little reason not to do it.
 
 
 [1]: http://dege.freeweb.hu/dgVoodoo2/
+[2]: https://github.com/narzoul/DDrawCompat
