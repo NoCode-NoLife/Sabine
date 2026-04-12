@@ -32,7 +32,7 @@ public class MoroccNpcsScript : GeneralScript
 
 	private static void LoadShops()
 	{
-		AddShopNpc("Weapon Dealer", 58, "moc_intr01", 156, 146, 2, shop =>
+		AddShopNpc("Weapon Dealer", 58, "moc_intr01", 156, 146, 2, static shop =>
 		{
 			shop.AddItems(ItemId.Axe);
 			shop.AddItems(ItemId.BattleAxe);
@@ -55,7 +55,7 @@ public class MoroccNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Arbalest);
 		});
 
-		AddShopNpc("Armor Dealer", 58, "moc_intr01", 156, 141, 2, shop =>
+		AddShopNpc("Armor Dealer", 58, "moc_intr01", 156, 141, 2, static shop =>
 		{
 			shop.AddItems(ItemId.Buckler);
 			shop.AddItems(ItemId.Shield);
@@ -83,7 +83,7 @@ public class MoroccNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Manteau);
 		});
 
-		AddShopNpc("Item Dealer", 102, "moc_vilg01", 105, 46, 2, shop =>
+		AddShopNpc("Item Dealer", 102, "moc_vilg01", 105, 46, 2, static shop =>
 		{
 			shop.AddItem(ItemId.RedPotion);
 			shop.AddItem(ItemId.ScarletPotion);

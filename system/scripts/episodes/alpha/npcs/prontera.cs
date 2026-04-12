@@ -23,8 +23,9 @@ public class PronteraNpcsScript : GeneralScript
 
 	private static void LoadNpcs()
 	{
-		// Guide NPC mentioned in the GameFAQs guide. Said to give only vague hints.
-		// The dialog is modeled a little after the later guide NPCs.
+		// Guide NPC mentioned in the GameFAQs guide. Said to give only
+		// vague hints. The dialog is modeled a little after the later
+		// guide NPCs.
 		AddNpc("Guide", 54, "prt_vilg02", 99, 89, 5, async dialog =>
 		{
 			if (dialog.Player.JobId != JobId.Novice)
@@ -128,7 +129,7 @@ public class PronteraNpcsScript : GeneralScript
 
 	private static void LoadShops()
 	{
-		AddShopNpc("Weapon Dealer", 50, "prt_intr02", 182, 100, 7, shop =>
+		AddShopNpc("Weapon Dealer", 50, "prt_intr02", 182, 100, 7, static shop =>
 		{
 			shop.AddItems(ItemId.Sword);
 			shop.AddItems(ItemId.Falchion);
@@ -150,7 +151,7 @@ public class PronteraNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Wand);
 		});
 
-		AddShopNpc("Armor Dealer", 69, "prt_intr02", 182, 96, 7, shop =>
+		AddShopNpc("Armor Dealer", 69, "prt_intr02", 182, 96, 7, static shop =>
 		{
 			shop.AddItems(ItemId.Guard);
 
@@ -174,7 +175,7 @@ public class PronteraNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Hood);
 		});
 
-		AddShopNpc("Item Dealer", 83, "prt_intr02", 125, 102, 3, shop =>
+		AddShopNpc("Item Dealer", 83, "prt_intr02", 125, 102, 3, static shop =>
 		{
 			shop.AddItem(ItemId.RedPotion);
 			shop.AddItem(ItemId.ScarletPotion);
@@ -184,7 +185,7 @@ public class PronteraNpcsScript : GeneralScript
 			shop.AddItem(ItemId.GreenPotion);
 		});
 
-		AddShopNpc("Food Merchant", 83, "prt_vilg01", 82, 128, 5, shop =>
+		AddShopNpc("Food Merchant", 83, "prt_vilg01", 82, 128, 5, static shop =>
 		{
 			shop.AddItem(ItemId.Apple);
 			shop.AddItem(ItemId.Banana);
@@ -193,7 +194,7 @@ public class PronteraNpcsScript : GeneralScript
 		});
 
 		// Seller for certificates
-		AddNpc("Resident Office", 69, "prt_intr01", 30, 76, 6, async dialog =>
+		AddNpc("Resident Office", 69, "prt_intr01", 30, 76, 6, static async dialog =>
 		{
 			await dialog.Talk("What can I do for you?");
 			var response = await dialog.Select(Option("Buy Resident Certificate", "buy_resident"), Option("Buy Business Certificate", "buy_business"), Option("Nevermind.", "nvm"));
