@@ -143,6 +143,13 @@ namespace Sabine.Shared.Network
 			=> _buffer.ReadByte();
 
 		/// <summary>
+		/// Reads a signed byte from packet and returns it.
+		/// </summary>
+		/// <returns></returns>
+		public sbyte GetSByte()
+			=> _buffer.ReadSByte();
+
+		/// <summary>
 		/// Reads the given number of bytes from the packet and returns them.
 		/// </summary>
 		/// <param name="length"></param>

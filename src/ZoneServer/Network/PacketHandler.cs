@@ -485,7 +485,7 @@ namespace Sabine.Zone.Network
 		public void CZ_CHOOSE_MENU(ZoneConnection conn, Packet packet)
 		{
 			var npcHandle = packet.GetInt();
-			var choice = packet.GetByte();
+			var choice = (int)packet.GetSByte();
 
 			var character = conn.GetCurrentCharacter();
 			var npc = character.Map.GetCharacter(npcHandle);

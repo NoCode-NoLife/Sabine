@@ -242,7 +242,11 @@ namespace Sabine.Zone.Scripting.Dialogues
 			var intResponse = await this.SelectSimple(optionsString);
 			string response;
 
-			if (intResponse > options.Length)
+			if (intResponse == -1)
+			{
+				response = "__cancelled__";
+			}
+			else if (intResponse > options.Length)
 			{
 				Log.Warning("Dialog.Select: Unexpected out-of-range response '{0}/{1}'.", intResponse, options.Length);
 				response = "__error_invalid_range__";
