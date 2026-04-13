@@ -162,6 +162,21 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
+		/// Warps the character to the given location.
+		/// </summary>
+		/// <param name="mapStringId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Warp(string mapStringId, int x, int y)
+		{
+			if (!ZoneServer.Instance.World.Maps.TryGetByStringId(mapStringId, out var map))
+				throw new ArgumentException($"Map '{mapStringId}' not found.");
+
+			this.Warp(new Location(map.Id, new Position(x, y)));
+		}
+
+		/// <summary>
 		/// Warps character to the given location.
 		/// </summary>
 		/// <param name="location"></param>
