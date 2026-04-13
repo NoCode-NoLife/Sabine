@@ -133,6 +133,12 @@ public class PayonBeta1WarpScripts : GeneralScript
 		AddWarp(From("pay_dun02", 16, 63), To("pay_dun01", 283, 28));
 
 		// Payon Fields
+		AddWarp(From("pay_fild01", 278, 14), To("pay_fild02", 83, 382));
+		AddWarp(From("pay_fild02", 83, 386), To("pay_fild01", 278, 18));
+
+		AddWarp(From("pay_fild02", 167, 390), To("pay_fild01", 354, 18));
+		AddWarp(From("pay_fild01", 353, 14), To("pay_fild02", 160, 381));
+
 		AddWarp(From("pay_fild02", 284, 108), To("pay_fild03", 20, 110));
 		AddWarp(From("pay_fild03", 15, 110), To("pay_fild02", 280, 108));
 
