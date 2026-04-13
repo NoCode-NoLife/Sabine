@@ -255,7 +255,7 @@ namespace Sabine.Zone.Commands
 			if (args.Count < 1)
 				return CommandResult.InvalidArgument;
 
-			var mapIdent = args.Get(0).Trim(',');
+			var mapIdent = args.Get(0).Trim(',', '"');
 
 			if (!int.TryParse(mapIdent, out var mapId))
 			{
