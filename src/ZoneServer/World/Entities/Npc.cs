@@ -157,7 +157,13 @@ namespace Sabine.Zone.World.Entities
 
 			return true;
 		}
-
-		public delegate void TriggerFunc(Character character, Character other);
 	}
+
+	/// <summary>
+	/// Represents a method that handles a trigger event involving two
+	/// characters.
+	/// </summary>
+	/// <param name="character">The character that triggered the event.</param>
+	/// <param name="other">The owner of the trigger area.</param>
+	public delegate void TriggerFunc(Character character, Character other);
 }

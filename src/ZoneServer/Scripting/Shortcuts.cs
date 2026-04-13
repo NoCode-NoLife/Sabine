@@ -185,6 +185,49 @@ namespace Sabine.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Spawns an NPC that looks like a warp and is triggered when
+		/// stepping into its range.
+		/// </summary>
+		/// <param name="mapStringId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="triggerFunc"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static Npc AddWarpTrigger(string mapStringId, int x, int y, TriggerFunc triggerFunc)
+			=> AddWarpTrigger(mapStringId, x, y, 0, 0, triggerFunc);
+
+		/// <summary>
+		/// Spawns an NPC that looks like a warp and is triggered when
+		/// stepping into its range.
+		/// </summary>
+		/// <param name="mapStringId"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="rangeX"></param>
+		/// <param name="rangeY"></param>
+		/// <param name="triggerFunc"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static Npc AddWarpTrigger(string mapStringId, int x, int y, int rangeX, int rangeY, TriggerFunc triggerFunc)
+		{
+			if (!ZoneServer.Instance.World.Maps.TryGetByStringId(mapStringId, out var map))
+				throw new ArgumentException($"Map '{mapStringId}' not found.");
+
+			var pos = new Position(x, y);
+			var location = new Location(map.Id, pos);
+
+			var npc = new Npc(45);
+
+			npc.TriggerArea = new TriggerArea(npc, rangeX, rangeY);
+			npc.TriggerArea.Enter = triggerFunc;
+
+			npc.Warp(location);
+
+			return npc;
+		}
+
+		/// <summary>
 		/// Creates shop and returns it. It can be filled via the callback
 		/// function or with the returned object.
 		/// </summary>
