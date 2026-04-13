@@ -71,6 +71,15 @@ namespace Sabine.Zone.Scripting.Dialogues
 
 			this.State = DialogState.Active;
 
+			// Beta1 sometimes stops characters when dialogues are
+			// initiated by the server, and sometimes it doesn't... We
+			// should probably figure out why that is, because when it
+			// does, we get desynced. And we can't just always send a
+			// stop, because the client appears to ignore that packet in
+			// this situation.
+
+			//this.Player.Controller.StopMove();
+
 			try
 			{
 				await dialogFunc(this);
@@ -270,9 +279,9 @@ namespace Sabine.Zone.Scripting.Dialogues
 			=> await this.SelectSimple(string.Join(":", options));
 
 		/// <summary>
-		/// Shows a menu with options to select from and returns the
-		/// of the selected option, starting at 1. Returns 0 in case
-		/// of errors.
+		/// Shows a menu with options to select from and returns the index
+		/// of the selected option, starting at 1. Returns 0 in case of
+		/// errors.
 		/// </summary>
 		/// <param name="optionsString"></param>
 		/// <returns></returns>

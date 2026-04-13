@@ -462,13 +462,6 @@ namespace Sabine.Zone.Network
 				return;
 			}
 
-			//Log.Debug("CZ_CONTACTNPC: " + npcHandle);
-
-			//Send.ZC_SAY_DIALOG(character, npcHandle, "Hello, World!");
-			//Task.Delay(5000).ContinueWith(_ => Send.ZC_SAY_DIALOG(character, npcHandle, "Goodbye, World!"));
-			//Task.Delay(6000).ContinueWith(_ => Send.ZC_WAIT_DIALOG(character, npcHandle));
-			//Task.Delay(8000).ContinueWith(_ => Send.ZC_MENU_LIST(character, npcHandle, "Option 1", "Option 2", "End"));
-
 			if (npc.DialogFunc == null)
 				return;
 
