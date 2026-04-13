@@ -81,6 +81,7 @@
 { id: 200300, versionMin: 200, stringId: "morocc", name: "Morroc" },
 { id: 200310, versionMin: 200, stringId: "morocc_in", name: "Morroc Inside" },
 { id: 200320, versionMin: 200, stringId: "pay_arche", name: "Archer Village" },
+{ id: 200329, versionMin: 200, stringId: "pay_dun00", name: "Payon Dungeon" },
 { id: 200330, versionMin: 200, stringId: "pay_dun01", name: "Payon Dungeon" },
 { id: 200340, versionMin: 200, stringId: "pay_dun02", name: "Payon Dungeon" },
 { id: 200350, versionMin: 200, stringId: "pay_fild01", name: "Payon Field" },
