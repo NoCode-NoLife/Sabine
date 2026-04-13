@@ -4,17 +4,14 @@
 // Sets up monster spawners in and around Prontera.
 //---------------------------------------------------------------------------
 
-using System;
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
+[RequiresMaps("prt_fild00", "prt_dugn01")]
 public class PronteraMonstersScript : GeneralScript
 {
 	public override void Load()
 	{
-		if (!MapsExist("prt_fild00", "prt_fild01", "prt_fild04", "prt_fild05", "prt_dugn00", "prt_dugn01", "prt_dugn02", "prt_dugn03"))
-			return;
-
 		// Prontera North Field
 		AddSpawner("prt_fild01", "Poring", 1002, 30);
 		AddSpawner("prt_fild01", "Fabre", 1007, 20);

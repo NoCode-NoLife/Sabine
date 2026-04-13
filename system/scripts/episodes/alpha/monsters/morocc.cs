@@ -4,17 +4,14 @@
 // Sets up monster spawners in and around Morocc.
 //---------------------------------------------------------------------------
 
-using System;
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
+[RequiresMaps("moc_fild01", "moc_dugn01", "dungeon000")]
 public class MoroccMonstersScript : GeneralScript
 {
 	public override void Load()
 	{
-		if (!MapsExist("moc_fild01", "moc_fild02", "moc_fild04", "moc_fild04", "dungeon000", "dungeon001", "moc_dugn01", "moc_dugn02"))
-			return;
-
 		// Morocc North-East Field
 		AddSpawner("moc_fild04", "Condor", 1009, 30);
 		AddSpawner("moc_fild04", "Steel Chocho", 1042, 20);

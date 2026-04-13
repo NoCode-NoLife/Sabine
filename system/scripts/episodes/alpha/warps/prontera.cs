@@ -7,13 +7,11 @@
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
+[RequiresMaps("prt_vilg00", "prt_fild01", "prt_dugn00")]
 public class PronteraWarpsScript : GeneralScript
 {
 	public override void Load()
 	{
-		if (!MapsExist("prt_fild01", "prt_vilg00", "prt_vilg01", "prt_vilg02", "prt_dugn00"))
-			return;
-
 		// Prontera North Field
 		AddWarp(From("prt_fild01", 112, 22), To("prt_vilg02", 100, 173));
 		AddWarp(From("prt_vilg02", 100, 176), To("prt_fild01", 112, 26));

@@ -8,13 +8,11 @@ using Sabine.Shared.Const;
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
+[RequiresMaps("prt_intr01", "moc_intr02")]
 public class JobChangerNpcScripts : GeneralScript
 {
 	public override void Load()
 	{
-		if (!MapsExist("prt_intr01", "prt_intr02", "moc_intr02", "moc_intr04"))
-			return;
-
 		// Swordman job changer in a combat instruction building in
 		// South Prontera
 		AddNpc("Job Tester", 56, "prt_intr01", 129, 102, 3, async dialog =>

@@ -9,13 +9,11 @@
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
+[RequiresMaps("prontera", "prontera_in", "prt_castle")]
 public class PronteraBeta1WarpScripts : GeneralScript
 {
 	public override void Load()
 	{
-		if (!MapsExist("prontera", "prontera_in"))
-			return;
-
 		// Capital City, Prontera
 		AddWarp(From("prontera", 238, 318), To("prontera_in", 128, 105));
 		AddWarp(From("prontera_in", 128, 102), To("prontera", 235, 315));

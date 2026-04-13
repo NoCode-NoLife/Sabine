@@ -9,13 +9,11 @@
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
+[RequiresMaps("moc_vilg01", "moc_intr01")]
 public class MoroccNpcsScript : GeneralScript
 {
 	public override void Load()
 	{
-		if (!MapsExist("moc_vilg01", "moc_intr01"))
-			return;
-
 		LoadNpcs();
 		LoadShops();
 	}

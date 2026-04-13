@@ -10,13 +10,11 @@ using Sabine.Shared.Const;
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
 
+[RequiresMaps("prt_vilg01", "prt_intr01")]
 public class PronteraNpcsScript : GeneralScript
 {
 	public override void Load()
 	{
-		if (!MapsExist("prt_vilg01", "prt_intr01", "prt_intr02"))
-			return;
-
 		LoadNpcs();
 		LoadShops();
 	}
@@ -65,7 +63,7 @@ public class PronteraNpcsScript : GeneralScript
 						await dialog.Talk("But it's a dangerous world, and you should prepare and train well before you tackle its most dangerous parts.");
 						await dialog.Talk("The fields north of town are a good place to start and gain some initial experience points.");
 						await dialog.Talk("Later you'll be able to join one of the guilds and become even stronger.");
-						await dialog.Talk("Like the Swordman or Merchant guilds here in Prontera, or the Thief or Archer guilds hidden around Moroc far in the south.");
+						await dialog.Talk("Like the Swordman or Merchant guilds here in Prontera, or the Thief or Archer guilds hidden around Morocc far in the south.");
 						await dialog.Talk("Oh, but do you know how to move? Just left click on a spot, and you'll walk over to that spot. Easy as can be!");
 						continue;
 					}
