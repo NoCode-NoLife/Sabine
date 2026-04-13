@@ -150,8 +150,8 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			var movingStright = character.Position.InStraightLine(_nextDestination);
 			var speed = (float)character.Parameters.Speed;
 
-			// If you ever write your own server, and your movement is wonky,
-			// check the following:
+			// If you ever write your own server, and your movement is
+			// wonky, check the following:
 			// 1) Make sure the movement speed is right.
 			// 2) Let your movement update run consistently or factor in
 			//    any potential delays.
@@ -162,9 +162,9 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 
 			_moving = true;
 
-			// I tried running the controller on the heartbeat, but I wasn't
-			// entirely happy with the results. Let's switch to a high-resolution
-			// timer for now and see how that goes.
+			// I tried running the controller on the heartbeat, but I
+			// wasn't entirely happy with the results. Let's switch to a
+			// high-resolution timer for now and see how that goes.
 			ZoneServer.Instance.World.Scheduler.Schedule(speed, this.ExecuteMove);
 		}
 

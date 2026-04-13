@@ -20,17 +20,17 @@ namespace Sabine.Zone.World.Maps
 	/// </summary>
 	public class Map : IUpdateable
 	{
-		private readonly Dictionary<int, PlayerCharacter> _characters = new Dictionary<int, PlayerCharacter>();
+		private readonly Dictionary<int, PlayerCharacter> _characters = new();
 
-		private readonly Dictionary<int, Npc> _npcs = new Dictionary<int, Npc>();
-		private readonly Dictionary<int, Item> _items = new Dictionary<int, Item>();
-		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
+		private readonly Dictionary<int, Npc> _npcs = new();
+		private readonly Dictionary<int, Item> _items = new();
+		private readonly List<IUpdateable> _updateEntities = new();
 
 		/// <summary>
 		/// Returns a reference to the Limbo map. See Limbo class for
 		/// more information.
 		/// </summary>
-		public static readonly Limbo Limbo = new Limbo();
+		public static readonly Limbo Limbo = new();
 
 		/// <summary>
 		/// Returns the map's id.
@@ -145,7 +145,7 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		private void RemoveDroppedItems()
 		{
-			IList<Item> items = null;
+			List<Item> items = null;
 			var now = DateTime.Now;
 
 			lock (_items)

@@ -764,7 +764,7 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Closes the dialog window.
+		/// Displays a list of options to choose from during a dialog.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="npcHandle"></param>
@@ -780,12 +780,11 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Makes client close the connection and displays a message
+		/// Makes client close the connection and display a message
 		/// for why this disconnect was requested.
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="npcHandle"></param>
-		/// <param name="optionsString"></param>
+		/// <param name="conn"></param>
+		/// <param name="reason"></param>
 		public static void SC_NOTIFY_BAN(ZoneConnection conn, DisconnectReason reason)
 		{
 			var packet = new Packet(Op.SC_NOTIFY_BAN);
