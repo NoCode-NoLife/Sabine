@@ -213,14 +213,14 @@ public class PronteraNpcsScript : GeneralScript
 				case "buy_resident":
 				{
 					await dialog.Talk("A Resident Certificate? Certainly. That's 500 Zeny.");
-					itemClassId = 20002;
+					itemClassId = ItemId.ResidentCert;
 					price = 500;
 					break;
 				}
 				case "buy_business":
 				{
 					await dialog.Talk("A Business Certificate? Certainly. That's 1000 Zeny.");
-					itemClassId = 20003;
+					itemClassId = ItemId.BusinessCert;
 					price = 1000;
 					break;
 				}
