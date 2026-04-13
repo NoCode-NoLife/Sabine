@@ -240,6 +240,19 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// <param name="position"></param>
 		private void OnReachedTile(Position position)
 		{
+			// TODO: There's a minor issue with warp NPCs (id 45) in at
+			// least Beta1. When a character is about to step onto the
+			// central tile of a warp, the character stops moving and
+			// freezes for a moment, possibly in expactation of a warp. If
+			// a warp happens, this isn't an issue, since it will unlock
+			// the character and they'll able to continue as they were. If
+			// no warp happens though, we get desynced and the client
+			// becomes unresponsive for a moment. There are currently no
+			// simple solutions for this problem, but it's also a pretty
+			// niche issue, that should only happen very rarely, like with
+			// warp trigger NPCs that don't warp. Still, we might want to
+			// try to work around that somehow.
+
 			this.CheckTriggers();
 		}
 
