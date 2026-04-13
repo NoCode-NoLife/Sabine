@@ -15,6 +15,9 @@ namespace Sabine.Zone.Scripting
 		/// <returns></returns>
 		public bool Init()
 		{
+			if (!ScriptRequirementAttribute.ValidateAll(this))
+				return true;
+
 			this.Load();
 
 			OnAttribute.Load(this, ZoneServer.Instance.ServerEvents);
