@@ -103,9 +103,9 @@ namespace Sabine.Shared.World
 		/// <param name="otherPos"></param>
 		/// <param name="range"></param>
 		/// <returns></returns>
-		public readonly bool InSquareRange(Position otherPos, float length)
+		public readonly bool InSquareRange(Position otherPos, float range)
 		{
-			return (Math.Abs(this.X - otherPos.X) <= length && Math.Abs(this.Y - otherPos.Y) <= length);
+			return (Math.Abs(this.X - otherPos.X) <= range && Math.Abs(this.Y - otherPos.Y) <= range);
 		}
 
 		/// <summary>
