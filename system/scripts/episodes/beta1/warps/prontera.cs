@@ -191,5 +191,114 @@ public class PronteraBeta1WarpScripts : GeneralScript
 
 		AddWarp(From("prt_fild07", 385, 186), To("prt_fild08", 20, 186));
 		AddWarp(From("prt_fild08", 16, 187), To("prt_fild07", 380, 186));
+
+		// Maze
+		AddWarp(From("prt_fild01", 136, 373), To("prt_maze01", 176, 7));
+		AddWarp(From("prt_maze01", 176, 4), To("prt_fild01", 136, 368));
+
+		AddWarp(From("prt_maze01", 100, 35), To("prt_maze01", 139, 47));
+		AddWarp(From("prt_maze01", 139, 44), To("prt_maze01", 100, 32));
+
+		AddWarp(From("prt_maze01", 102, 165), To("prt_maze01", 98, 151));
+		AddWarp(From("prt_maze01", 98, 155), To("prt_maze01", 102, 169));
+
+		AddWarp(From("prt_maze01", 105, 115), To("prt_maze01", 175, 168));
+		AddWarp(From("prt_maze01", 175, 164), To("prt_maze01", 105, 111));
+
+		AddWarp(From("prt_maze01", 105, 75), To("prt_maze01", 54, 8));
+		AddWarp(From("prt_maze01", 54, 4), To("prt_maze01", 105, 71));
+
+		AddWarp(From("prt_maze01", 115, 145), To("prt_maze01", 8, 186));
+		AddWarp(From("prt_maze01", 4, 186), To("prt_maze01", 111, 145));
+
+		AddWarp(From("prt_maze01", 115, 21), To("prt_maze01", 167, 22));
+		AddWarp(From("prt_maze01", 164, 22), To("prt_maze01", 112, 21));
+
+		AddWarp(From("prt_maze01", 115, 56), To("prt_maze01", 7, 57));
+		AddWarp(From("prt_maze01", 4, 57), To("prt_maze01", 112, 56));
+
+		AddWarp(From("prt_maze01", 115, 96), To("prt_maze01", 128, 105));
+		AddWarp(From("prt_maze01", 124, 105), To("prt_maze01", 111, 96));
+
+		AddWarp(From("prt_maze01", 124, 169), To("prt_maze01", 191, 139));
+		AddWarp(From("prt_maze01", 195, 139), To("prt_maze01", 129, 174));
+
+		AddWarp(From("prt_maze01", 138, 124), To("prt_maze01", 142, 111));
+		AddWarp(From("prt_maze01", 142, 115), To("prt_maze01", 138, 128));
+
+		AddWarp(From("prt_maze01", 14, 75), To("prt_maze01", 63, 128));
+		AddWarp(From("prt_maze01", 63, 124), To("prt_maze01", 14, 71));
+
+		AddWarp(From("prt_maze01", 140, 75), To("prt_maze01", 96, 47));
+		AddWarp(From("prt_maze01", 96, 44), To("prt_maze01", 140, 72));
+
+		AddWarp(From("prt_maze01", 155, 133), To("prt_maze01", 8, 140));
+		AddWarp(From("prt_maze01", 4, 140), To("prt_maze01", 151, 133));
+
+		AddWarp(From("prt_maze01", 155, 181), To("prt_maze01", 88, 145));
+		AddWarp(From("prt_maze01", 84, 145), To("prt_maze01", 151, 181));
+
+		AddWarp(From("prt_maze01", 155, 21), To("prt_maze01", 87, 13));
+		AddWarp(From("prt_maze01", 84, 10), To("prt_maze01", 152, 25));
+
+		AddWarp(From("prt_maze01", 164, 140), To("prt_maze01", 70, 68));
+		AddWarp(From("prt_maze01", 75, 66), To("prt_maze01", 169, 140));
+
+		AddWarp(From("prt_maze01", 164, 93), To("prt_maze01", 72, 11));
+		AddWarp(From("prt_maze01", 75, 11), To("prt_maze01", 167, 93));
+
+		AddWarp(From("prt_maze01", 17, 115), To("prt_maze01", 50, 48));
+		AddWarp(From("prt_maze01", 50, 44), To("prt_maze01", 17, 111));
+
+		AddWarp(From("prt_maze01", 17, 34), To("prt_maze01", 23, 128));
+		AddWarp(From("prt_maze01", 23, 124), To("prt_maze01", 17, 30));
+
+		AddWarp(From("prt_maze01", 176, 35), To("prt_maze01", 182, 88));
+		AddWarp(From("prt_maze01", 182, 84), To("prt_maze01", 177, 31));
+
+		AddWarp(From("prt_maze01", 176, 44), To("prt_maze01", 18, 152));
+		AddWarp(From("prt_maze01", 18, 155), To("prt_maze01", 176, 47));
+
+		AddWarp(From("prt_maze01", 195, 15), To("prt_maze01", 47, 105));
+		AddWarp(From("prt_maze01", 44, 105), To("prt_maze01", 192, 15));
+
+		AddWarp(From("prt_maze01", 195, 174), To("prt_maze01", 47, 23));
+		AddWarp(From("prt_maze01", 44, 23), To("prt_maze01", 192, 174));
+
+		AddWarp(From("prt_maze01", 195, 55), To("prt_maze01", 87, 97));
+		AddWarp(From("prt_maze01", 84, 97), To("prt_maze01", 192, 55));
+
+		AddWarp(From("prt_maze01", 195, 93), To("prt_maze01", 88, 55));
+		AddWarp(From("prt_maze01", 84, 55), To("prt_maze01", 191, 93));
+
+		AddWarp(From("prt_maze01", 22, 84), To("prt_maze01", 55, 151));
+		AddWarp(From("prt_maze01", 55, 155), To("prt_maze01", 22, 88));
+
+		AddWarp(From("prt_maze01", 25, 5), To("prt_maze01", 65, 113));
+		AddWarp(From("prt_maze01", 65, 116), To("prt_maze01", 23, 9));
+
+		AddWarp(From("prt_maze01", 51, 195), To("prt_maze01", 63, 88));
+		AddWarp(From("prt_maze01", 63, 84), To("prt_maze01", 58, 192));
+
+		AddWarp(From("prt_maze01", 63, 195), To("prt_maze01", 63, 88));
+		AddWarp(From("prt_maze01", 63, 84), To("prt_maze01", 58, 192));
+
+		AddWarp(From("prt_maze01", 75, 95), To("prt_maze01", 88, 173));
+		AddWarp(From("prt_maze01", 84, 173), To("prt_maze01", 71, 95));
+
+		AddWarp(From("prt_maze01", 70, 75), To("prt_maze01", 169, 140));
+		AddWarp(From("prt_maze01", 164, 140), To("prt_maze01", 70, 68));
+
+		AddWarp(From("prt_maze01", 19, 195), To("prt_maze02", 94, 19));
+		AddWarp(From("prt_maze02", 103, 15), To("prt_maze01", 22, 191));
+
+		AddWarp(From("prt_maze02", 84, 15), To("prt_maze01", 22, 191));
+		AddWarp(From("prt_maze01", 19, 195), To("prt_maze02", 94, 19));
+
+		AddWarp(From("prt_maze02", 108, 182), To("prt_maze03", 23, 8));
+		AddWarp(From("prt_maze03", 25, 4), To("prt_maze02", 95, 177));
+
+		AddWarp(From("prt_maze02", 80, 182), To("prt_maze03", 23, 8));
+		AddWarp(From("prt_maze03", 25, 4), To("prt_maze02", 95, 177));
 	}
 }
