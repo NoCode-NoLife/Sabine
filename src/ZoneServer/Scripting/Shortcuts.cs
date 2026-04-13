@@ -171,8 +171,13 @@ namespace Sabine.Zone.Scripting
 				throw new ArgumentException($"Map '{from.MapId}' not found.");
 
 			var npc = new Npc(45);
-			npc.WarpDestination = to;
-			//npc.Trigger = WarpOnTouch
+
+			npc.TriggerArea = new TriggerArea(npc, 2, 2);
+			npc.TriggerArea.Enter = (character, npc) =>
+			{
+				if (character is PlayerCharacter player)
+					player.Warp(to);
+			};
 
 			npc.Warp(from);
 

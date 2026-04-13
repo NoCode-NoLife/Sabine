@@ -413,6 +413,27 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Adds all trigger areas containing the given position to the
+		/// result list.
+		/// </summary>
+		/// <param name="position"></param>
+		/// <param name="result"></param>
+		public void GetTriggerAreas(Position position, IList<TriggerArea> result)
+		{
+			lock (_npcs)
+			{
+				foreach (var npc in _npcs.Values)
+				{
+					if (npc.TriggerArea == null)
+						continue;
+
+					if (npc.TriggerArea.Contains(position))
+						result.Add(npc.TriggerArea);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Adds NPC to this map.
 		/// </summary>
 		/// <param name="item"></param>

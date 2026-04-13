@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
+using Yggdrasil.Collections;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -20,6 +21,8 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		private Position _nextDestination;
 		private bool _destinationChanged;
 		private bool _moving;
+
+		private readonly InOutTracker<TriggerArea> _triggers = new();
 
 		/// <summary>
 		/// Returns the character this controller belongs to.
@@ -237,21 +240,30 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// <param name="position"></param>
 		private void OnReachedTile(Position position)
 		{
-			// TODO: Add auto trigger system that we can check for things
-			//   to do when stepping onto tiles.
+			this.CheckTriggers();
+		}
 
-			var character = this.Character;
+		/// <summary>
+		/// Raises the appropriate events for any trigger areas the
+		/// character has entered or left.
+		/// </summary>
+		private void CheckTriggers()
+		{
+			_triggers.Begin();
 
-			// TODO: Add option for warping monsters
-			if (character is Monster)
-				return;
+			this.Character.Map.GetTriggerAreas(this.Character.Position, _triggers.UpdateList);
+			_triggers.Update();
 
-			var warps = character.Map.GetAllNpcs(a => a.ClassId == 45 && a.Position.InSquareRange(position, 2) && a.WarpDestination.MapId != 0);
-			if (warps.Length > 0)
+			if (!_triggers.Empty)
 			{
-				var warp = warps[0];
-				character.Warp(warp.WarpDestination);
+				foreach (var triggerArea in _triggers.Added)
+					triggerArea.Enter?.Invoke(this.Character, triggerArea.Owner);
+
+				foreach (var triggerArea in _triggers.Removed)
+					triggerArea.Exit?.Invoke(this.Character, triggerArea.Owner);
 			}
+
+			_triggers.End();
 		}
 	}
 }
