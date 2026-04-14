@@ -1,0 +1,65 @@
+// Sabine
+// Database File
+//---------------------------------------------------------------------------
+
+[
+{ id: 1, stringId: "NV_BASIC", name: "Basic Skill", target: "Passive", maxLevel: 9 },
+
+{ id: 2, stringId: "SM_SWORD", name: "Sword Mastery", target: "Passive", maxLevel: 10 },
+{ id: 3, stringId: "SM_TWOHAND", name: "Two-Handed Sword Mastery", target: "Passive", maxLevel: 10 },
+{ id: 4, stringId: "SM_RECOVERY", name: "Increase HP Recovery", target: "Passive", maxLevel: 10 },
+{ id: 5, stringId: "SM_BASH", name: "Bash", target: "Enemy", maxLevel: 10, range: 1, spCost: [8, 8, 8, 8, 8, 15, 15, 15, 15, 15] },
+{ id: 6, stringId: "SM_PROVOKE", name: "Provoke", target: "Enemy", maxLevel: 10, range: 8, spCost: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13] },
+{ id: 7, stringId: "SM_MAGNUM", name: "Magnum Break", target: "Enemy", maxLevel: 10, range: 1, spCost: 30, hpCost: [20, 20, 19, 19, 18, 18, 17, 17, 16, 16] },
+{ id: 8, stringId: "SM_ENDURE", name: "Endure", target: "Self", maxLevel: 10, range: 0, spCost: 10 },
+
+{ id: 9, stringId: "MG_SRECOVERY", name: "Increase SP Recovery", target: "Passive", maxLevel: 10 },
+{ id: 10, stringId: "MG_SIGHT", name: "Sight", target: "Self", maxLevel: 1, range: 8, spCost: 10 },
+{ id: 11, stringId: "MG_NAPALMBEAT", name: "Napalm Beat", target: "Enemy", maxLevel: 10, range: 8, spCost: [9, 9, 9, 12, 12, 12, 15, 15, 15, 18] },
+{ id: 12, stringId: "MG_SAFETYWALL", name: "Safety Wall", target: "Place", maxLevel: 10, range: 8, spCost: [30, 30, 30, 35, 35, 35, 40, 40, 40, 40] },
+{ id: 13, stringId: "MG_SOULSTRIKE", name: "Soul Strike", target: "Enemy", maxLevel: 10, range: 8, spCost: [18, 14, 24, 20, 30, 26, 36, 32, 42, 38] },
+{ id: 14, stringId: "MG_COLDBOLT", name: "Cold Bolt", target: "Enemy", maxLevel: 10, range: 8, spCost: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30] },
+{ id: 15, stringId: "MG_FROSTDIVER", name: "Frost Diver", target: "Enemy", maxLevel: 10, range: 8, spCost: [25, 24, 23, 22, 21, 20, 19, 18, 17, 16] },
+{ id: 16, stringId: "MG_STONECURSE", name: "Stone Curse", target: "Enemy", maxLevel: 10, range: 2, spCost: [25, 24, 23, 22, 21, 20, 19, 18, 17, 16] },
+{ id: 17, stringId: "MG_FIREBALL", name: "Fire Ball", target: "Enemy", maxLevel: 10, range: 8, spCost: 25 },
+{ id: 18, stringId: "MG_FIREWALL", name: "Fire Wall", target: "Place", maxLevel: 10, range: 8, spCost: 40 },
+{ id: 19, stringId: "MG_FIREBOLT", name: "Fire Bolt", target: "Enemy", maxLevel: 10, range: 8, spCost: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30] },
+{ id: 20, stringId: "MG_LIGHTNINGBOLT", name: "Lightning Bolt", target: "Enemy", maxLevel: 10, range: 8, spCost: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30] },
+{ id: 21, stringId: "MG_THUNDERSTORM", name: "Thunderstorm", target: "Place", maxLevel: 10, range: 5, spCost: [29, 34, 39, 44, 49, 54, 59, 64, 69, 74] },
+
+{ id: 22, stringId: "AL_DP", name: "Divine Protection", target: "Passive", maxLevel: 10 },
+{ id: 23, stringId: "AL_DEMONBANE", name: "Demon Bane", target: "Passive", maxLevel: 10 },
+{ id: 24, stringId: "AL_RUWACH", name: "Ruwach", target: "Self", maxLevel: 1, range: 8, spCost: 10 },
+{ id: 25, stringId: "AL_PNEUMA", name: "Pneuma", target: "Place", maxLevel: 1, range: 8, spCost: 10 },
+{ id: 26, stringId: "AL_TELEPORT", name: "Teleport", target: "Self", maxLevel: 2, range: 0, spCost: [10, 9] },
+{ id: 27, stringId: "AL_WARP", name: "Warp Portal", target: "Place", maxLevel: 4, range: 5, spCost: [35, 32, 29, 26] },
+{ id: 28, stringId: "AL_HEAL", name: "Heal", target: "Friend", maxLevel: 10, range: 8, spCost: [13, 16, 19, 22, 25, 28, 31, 34, 37, 40] },
+{ id: 29, stringId: "AL_INCAGI", name: "Increase AGI", target: "Friend", maxLevel: 10, range: 8, spCost: [18, 21, 24, 27, 30, 33, 36, 39, 42, 45], hpCost: 15 },
+{ id: 30, stringId: "AL_DECAGI", name: "Decrease AGI", target: "Enemy", maxLevel: 10, range: 8, spCost: [15, 17, 19, 21, 23, 25, 27, 29, 31, 33] },
+{ id: 31, stringId: "AL_HOLYWATER", name: "Aqua Benedicta", target: "Self", maxLevel: 1, range: 1, spCost: 10 },
+{ id: 32, stringId: "AL_CRUCIS", name: "Signum Crucis", target: "Self", maxLevel: 10, range: 8, spCost: 35 },
+{ id: 33, stringId: "AL_ANGELUS", name: "Angelus", target: "Self", maxLevel: 10, range: 8, spCost: [23, 26, 29, 32, 35, 38, 41, 44, 47, 50] },
+{ id: 34, stringId: "AL_BLESSING", name: "Blessing", target: "Friend", maxLevel: 10, range: 8, spCost: [28, 32, 36, 40, 44, 48, 52, 56, 60, 64] },
+{ id: 35, stringId: "AL_CURE", name: "Cure", target: "Friend", maxLevel: 1, range: 8, spCost: 15 },
+
+{ id: 36, stringId: "MC_INCCARRY", name: "Enlarge Weight Limit", target: "Passive", maxLevel: 10 },
+{ id: 37, stringId: "MC_DISCOUNT", name: "Discount", target: "Passive", maxLevel: 10 },
+{ id: 38, stringId: "MC_OVERCHARGE", name: "Overcharge", target: "Passive", maxLevel: 10 },
+{ id: 39, stringId: "MC_PUSHCART", name: "Pushcart", target: "Passive", maxLevel: 10 },
+{ id: 40, stringId: "MC_IDENTIFY", name: "Item Appraisal", target: "Self", maxLevel: 1, range: 0, spCost: 10 },
+{ id: 41, stringId: "MC_VENDING", name: "Vending", target: "Self", maxLevel: 10, range: 0, spCost: 30 },
+{ id: 42, stringId: "MC_MAMMONITE", name: "Mammonite", target: "Enemy", maxLevel: 10, range: 3, spCost: 5 },
+
+{ id: 43, stringId: "AC_OWL", name: "Owl's Eye", target: "Passive", maxLevel: 10 },
+{ id: 44, stringId: "AC_VULTURE", name: "Vulture's Eye", target: "Passive", maxLevel: 10 },
+{ id: 45, stringId: "AC_CONCENTRATION", name: "Improve Concentration", target: "Self", maxLevel: 10, range: 0, spCost: [25, 30, 35, 40, 45, 50, 55, 60, 65, 70] },
+{ id: 46, stringId: "AC_DOUBLE", name: "Double Strafe", target: "Enemy", maxLevel: 10, range: 13, spCost: 12 },
+{ id: 47, stringId: "AC_SHOWER", name: "Arrow Shower", target: "Place", maxLevel: 10, range: 13, spCost: 15 },
+
+{ id: 48, stringId: "TF_DOUBLE", name: "Double Attack", target: "Passive", maxLevel: 10 },
+{ id: 49, stringId: "TF_MISS", name: "Improve Dodge", target: "Passive", maxLevel: 10 },
+{ id: 50, stringId: "TF_STEAL", name: "Steal", target: "Enemy", maxLevel: 10, range: 1, spCost: 10 },
+{ id: 51, stringId: "TF_HIDING", name: "Hiding", target: "Self", maxLevel: 10, range: 0, spCost: 10 },
+{ id: 52, stringId: "TF_POISON", name: "Envenom", target: "Enemy", maxLevel: 10, range: 3, spCost: 12 },
+{ id: 53, stringId: "TF_DETOXIFY", name: "Detoxify", target: "Friend", maxLevel: 1, range: 1, spCost: 10 },
+]
