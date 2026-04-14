@@ -68,15 +68,6 @@ namespace Sabine.Zone.World.Entities
 		/// <summary>
 		/// Warps NPC to the given position.
 		/// </summary>
-		/// <param name="mapId"></param>
-		/// <param name="pos"></param>
-		/// <exception cref="ArgumentException"></exception>
-		public void Warp(int mapId, Position pos)
-			=> this.Warp(new Location(mapId, pos));
-
-		/// <summary>
-		/// Warps NPC to the given position.
-		/// </summary>
 		/// <param name="location"></param>
 		/// <exception cref="ArgumentException"></exception>
 		public override void Warp(Location location)
