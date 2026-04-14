@@ -32,7 +32,7 @@ namespace Sabine.Char.Network.Helpers
 			packet.PutInt(character.BaseExp);
 			packet.PutInt(character.Zeny);
 			packet.PutInt(jobExp);
-			packet.PutInt(0); // ?
+			packet.PutInt(jobLevel); // Job Level in Beta1
 			packet.PutInt(0); // ?
 			packet.PutInt(0); // ?
 
@@ -61,7 +61,7 @@ namespace Sabine.Char.Network.Helpers
 				packet.PutString(character.Name, Sizes.CharacterNames);
 				packet.PutByte((byte)character.JobId);
 				packet.PutByte((byte)character.BaseLevel);
-				packet.PutByte((byte)jobLevel);
+				packet.PutByte((byte)jobLevel); // Job Level in Alpha
 				packet.PutByte((byte)character.Str);
 				packet.PutByte((byte)character.Agi);
 				packet.PutByte((byte)character.Vit);
