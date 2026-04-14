@@ -149,6 +149,7 @@ namespace Sabine.Zone.World.Entities
 			this.Inventory = new Inventory(this);
 
 			this.Parameters = new PlayerCharacterParameters(this);
+			this.Components.Add(new RegenComponent(this));
 
 			this.LoadJobData(jobId);
 		}
