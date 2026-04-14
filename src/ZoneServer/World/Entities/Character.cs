@@ -177,6 +177,14 @@ namespace Sabine.Zone.World.Entities
 		}
 
 		/// <summary>
+		/// Warps character to given location.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <param name="pos"></param>
+		public void Warp(int mapId, Position pos)
+			=> this.Warp(new Location(mapId, pos));
+
+		/// <summary>
 		/// Warps character to the given location.
 		/// </summary>
 		/// <param name="location"></param>
