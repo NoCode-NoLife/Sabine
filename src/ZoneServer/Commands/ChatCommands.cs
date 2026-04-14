@@ -43,6 +43,7 @@ namespace Sabine.Zone.Commands
 			this.Add("job", "<job>", Localization.Get("Changes character's job."), this.Job);
 			this.Add("heal", "", Localization.Get("Restores character's health."), this.Heal);
 			this.Add("level", "<level>", Localization.Get("Sets the character's base level."), this.Level);
+			this.Add("speed", "<speed>", Localization.Get("Sets the character's speed."), this.Speed);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -762,6 +763,35 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Base level was set to {0}."), newLevel);
 			if (target != sender)
 				target.ServerMessage(Localization.Get("Your base level was set to {0} by {1}."), newLevel, sender.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Changes target's speed.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Speed(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			var speed = 200;
+
+			if (args.Count > 0)
+			{
+				if (!int.TryParse(args.Get(0), out speed))
+					return CommandResult.InvalidArgument;
+			}
+
+			target.Parameters.Speed = speed;
+			Send.ZC_PAR_CHANGE(target, ParameterType.Speed);
+
+			sender.ServerMessage(Localization.Get("Speed was set to {0}."), speed);
+			if (target != sender)
+				target.ServerMessage(Localization.Get("Your speed was set to {0} by {1}."), speed, sender.Name);
 
 			return CommandResult.Okay;
 		}
