@@ -463,7 +463,7 @@ namespace Sabine.Zone.World.Entities
 		/// state and equipped items.
 		/// </summary>
 		/// <returns></returns>
-		public int GetAttackRange()
+		public override int GetAttackRange()
 		{
 			// Range is 3 for normal attacks and 16 for ranged
 			// in the alpha client. This is hardcoded, based on

@@ -208,6 +208,16 @@ namespace Sabine.Zone.World.Entities
 			=> new(this.MapId, this.Position);
 
 		/// <summary>
+		/// Returns the character's current attack range, based on its
+		/// state and equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public virtual int GetAttackRange()
+		{
+			return 3;
+		}
+
+		/// <summary>
 		/// Reduces the character's HP by the given amount, returns the
 		/// character's remaining HP.
 		/// </summary>
