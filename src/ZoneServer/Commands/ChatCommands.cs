@@ -9,6 +9,7 @@ using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
+using Sabine.Zone.Skills;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -44,6 +45,7 @@ namespace Sabine.Zone.Commands
 			this.Add("heal", "", Localization.Get("Restores character's health."), this.Heal);
 			this.Add("level", "<level>", Localization.Get("Sets the character's base level."), this.Level);
 			this.Add("speed", "<speed>", Localization.Get("Sets the character's speed."), this.Speed);
+			this.Add("skill", "<id> [level]", Localization.Get("Adds the skill to the character."), this.Skill);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -792,6 +794,62 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Speed was set to {0}."), speed);
 			if (target != sender)
 				target.ServerMessage(Localization.Get("Your speed was set to {0} by {1}."), speed, sender.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Adds skill to target.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Skill(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+				return CommandResult.InvalidArgument;
+
+			SkillId skillId;
+			var level = 0;
+
+			var arg0 = args.Get(0);
+
+			if (Enum.TryParse<SkillId>(arg0, out var skillIdEnum))
+			{
+				skillId = skillIdEnum;
+			}
+			else if (int.TryParse(arg0, out var skillIdInt))
+			{
+				skillId = (SkillId)skillIdInt;
+			}
+			else
+			{
+				sender.ServerMessage(Localization.Get("Invalid skill id '{0}'."), arg0);
+				return CommandResult.Okay;
+			}
+
+			if (!ZoneServer.Instance.Data.Skills.TryFind(skillId, out var skillData))
+			{
+				sender.ServerMessage(Localization.Get("Skill with id '{0}' not found."), skillId);
+				return CommandResult.Okay;
+			}
+
+			if (args.Count > 1)
+			{
+				if (!int.TryParse(args.Get(1), out level))
+					return CommandResult.InvalidArgument;
+
+				level = Math2.Clamp(0, skillData.MaxLevel, level);
+			}
+
+			target.Skills.Add(new Skill(target, skillId, level));
+
+			sender.ServerMessage(Localization.Get("Added skill '{0}' at level {1}."), skillData.StringId, level);
+			if (sender != target)
+				target.ServerMessage(Localization.Get("Skill '{0}' was added at level {1} by {2}."), skillData.StringId, level, sender.Name);
 
 			return CommandResult.Okay;
 		}
