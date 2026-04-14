@@ -93,5 +93,16 @@ namespace Sabine.Zone.Skills
 			this.Level = level;
 			this.Data = data;
 		}
+
+		/// <summary>
+		/// Increases the skill's level by 1, up to the max level.
+		/// </summary>
+		public void LevelUp()
+		{
+			this.Level = Math.Min(this.Level + 1, this.Data.MaxLevel);
+
+			if (this.Character is PlayerCharacter pc)
+				Send.ZC_SKILLINFO_UPDATE(pc, this);
+		}
 	}
 }

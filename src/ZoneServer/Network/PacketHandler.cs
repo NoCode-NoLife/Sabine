@@ -979,5 +979,39 @@ namespace Sabine.Zone.Network
 			var character = conn.GetCurrentCharacter();
 			Send.ZC_ACK_REQ_DISCONNECT(character, 0); // 1 = wait 10 seconds
 		}
+
+		/// <summary>
+		/// Request to increase a skill's level.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_UPGRADE_SKILLLEVEL)]
+		public void CZ_UPGRADE_SKILLLEVEL(ZoneConnection conn, Packet packet)
+		{
+			var skillId = (SkillId)packet.GetShort();
+
+			var character = conn.GetCurrentCharacter();
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_UPGRADE_SKILLLEVEL: User '{0}' tried to upgrade a skill they don't have.", conn.Account.Username);
+				return;
+			}
+
+			if (!skill.CanBeLeveled)
+			{
+				Log.Warning("CZ_UPGRADE_SKILLLEVEL: User '{0}' tried to upgrade a skill that can't be leveled any more.", conn.Account.Username);
+				return;
+			}
+
+			if (character.Parameters.SkillPoints < 1)
+			{
+				Log.Warning("CZ_UPGRADE_SKILLLEVEL: User '{0}' tried to upgrade a skill without having enough skill points.", conn.Account.Username);
+				return;
+			}
+
+			skill.LevelUp();
+			character.Parameters.Modify(ParameterType.SkillPoints, -1);
+		}
 	}
 }
