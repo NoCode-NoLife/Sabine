@@ -31,6 +31,11 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// <param name="after"></param>
 		protected override void OnModified(ParameterType type, int before, int after)
 		{
+			// No need to send packets or recalculate anything if nothing
+			// actually changed
+			if (before == after)
+				return;
+
 			this.UpdateClient(type);
 
 			// Send a status update if one of the base stats changed,
