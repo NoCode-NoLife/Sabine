@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_USE_SKILL_TOGROUND.bt
+//   Authors: exec
+//   Version: i20020220 (iRO Beta1)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+
+short level;
+short skillId;
+short x;
+short y;
