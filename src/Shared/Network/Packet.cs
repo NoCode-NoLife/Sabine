@@ -161,7 +161,7 @@ namespace Sabine.Shared.Network
 		/// Reads a short from packet and returns it.
 		/// </summary>
 		/// <returns></returns>
-		public short GetShort()
+		public int GetShort()
 			=> _buffer.ReadInt16();
 
 		/// <summary>
