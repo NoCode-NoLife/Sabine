@@ -16,6 +16,8 @@ using Sabine.Zone.Skills;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Sabine.Zone.Network
 {
@@ -1012,6 +1014,134 @@ namespace Sabine.Zone.Network
 
 			skill.LevelUp();
 			character.Parameters.Modify(ParameterType.SkillPoints, -1);
+		}
+
+		/// <summary>
+		/// Request to use a skill on a target.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_USE_SKILL)]
+		public void CZ_USE_SKILL(ZoneConnection conn, Packet packet)
+		{
+			var level = packet.GetShort();
+			var skillId = (SkillId)packet.GetShort();
+			var targetHandle = packet.GetInt();
+
+			var character = conn.GetCurrentCharacter();
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_USE_SKILL: User '{0}' tried to use skill '{1}', which they don't have.", conn.Account.Username, skillId);
+				return;
+			}
+
+			if (skill.Level == 0)
+			{
+				Log.Warning("CZ_USE_SKILL: User '{0}' tried to use skill '{1}' at level 0.", conn.Account.Username, skillId);
+				return;
+			}
+
+			if (!character.Map.TryGetCharacter(targetHandle, out var target))
+			{
+				character.ServerMessage(Localization.Get("Target not found."));
+				return;
+			}
+
+			// Clamp level, but don't warn about invalid values, since the
+			// requested level may be too high if the skill changed after
+			// it was hotkeyed.
+			level = Math2.Clamp(1, skill.Level, level);
+
+			Send.ZC_NOTIFY_PLAYERCHAT(character, skill.Data.StringId + "!!!");
+
+			switch (skillId)
+			{
+				case SkillId.SM_BASH:
+				{
+					if (!character.TrySpendSp(skill.SpCost))
+					{
+						character.ServerMessage(Localization.Get("Not enough SP."));
+						return;
+					}
+
+					character.Controller.StopMove();
+
+					var attacker = character;
+					var damage = level * 5;
+
+					var attackMotionDelay = attacker.Parameters.AttackMotionDelay;
+					var damageMotionDelay = target.Parameters.DamageMotionDelay;
+
+					target.TakeDamage(damage, character);
+
+					Send.ZC_NOTIFY_ACT.Attack(attacker, attacker.Handle, target.Handle, Game.GetTick(), ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Request to use a skill targeting the ground.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_USE_SKILL_TOGROUND)]
+		public void CZ_USE_SKILL_TOGROUND(ZoneConnection conn, Packet packet)
+		{
+			var level = packet.GetShort();
+			var skillId = (SkillId)packet.GetShort();
+			var x = packet.GetShort();
+			var y = packet.GetShort();
+
+			var character = conn.GetCurrentCharacter();
+
+			if (!character.Skills.TryGet(skillId, out var skill))
+			{
+				Log.Warning("CZ_USE_SKILL: User '{0}' tried to use skill '{1}', which they don't have.", conn.Account.Username, skillId);
+				return;
+			}
+
+			if (skill.Level == 0)
+			{
+				Log.Warning("CZ_USE_SKILL: User '{0}' tried to use skill '{1}' at level 0.", conn.Account.Username, skillId);
+				return;
+			}
+
+			var targetPos = new Position(x, y);
+
+			// Clamp level, but don't warn about invalid values, since the
+			// requested level may be too high if the skill changed after
+			// it was hotkeyed.
+			level = Math2.Clamp(1, skill.Level, level);
+
+			Send.ZC_NOTIFY_PLAYERCHAT(character, skill.Data.StringId + "!!!");
+
+			switch (skillId)
+			{
+				case SkillId.MG_FIREWALL:
+				{
+					if (!character.InUseRange(skill, targetPos))
+					{
+						character.ServerMessage(Localization.Get("Too far away."));
+						return;
+					}
+
+					if (!character.TrySpendSp(skill.SpCost))
+					{
+						character.ServerMessage(Localization.Get("Not enough SP."));
+						return;
+					}
+
+					character.Controller.StopMove();
+
+					var npc = new Npc(66);
+					npc.Warp(character.Map.Id, targetPos);
+
+					Task.Delay(3000).ContinueWith(__ => character.Map.RemoveNpc(npc));
+					break;
+				}
+			}
 		}
 	}
 }

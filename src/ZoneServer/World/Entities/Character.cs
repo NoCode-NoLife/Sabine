@@ -4,6 +4,7 @@ using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
+using Sabine.Zone.Skills;
 using Sabine.Zone.World.Entities.Components.Characters;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
@@ -360,6 +361,37 @@ namespace Sabine.Zone.World.Entities
 		public void StopAttacking()
 		{
 			_cancelAttack = true;
+		}
+
+		/// <summary>
+		/// Tries to reduce the SP by the given amount. If the character
+		/// doesn't have enough SP, the method returns false without
+		/// modifying the SP.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public bool TrySpendSp(int amount)
+		{
+			if (this.Parameters.Sp < amount)
+				return false;
+
+			this.Parameters.Modify(ParameterType.Sp, -amount);
+			return true;
+		}
+
+		/// <summary>
+		/// Returns true if the character is in range to use the skill on
+		/// the given position.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="targetPos"></param>
+		/// <returns></returns>
+		public bool InUseRange(Skill skill, Position targetPos)
+		{
+			var pos = this.Position;
+			var range = skill.Range;
+
+			return pos.InRange(targetPos, range);
 		}
 	}
 }
