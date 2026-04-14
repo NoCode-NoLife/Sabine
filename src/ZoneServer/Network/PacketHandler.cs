@@ -12,6 +12,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Events.Args;
 using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
+using Sabine.Zone.Skills;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Logging;
@@ -139,6 +140,9 @@ namespace Sabine.Zone.Network
 			var items = character.Inventory.GetItems();
 			Send.ZC_NORMAL_ITEMLIST(character, items);
 			Send.ZC_EQUIPMENT_ITEMLIST(character, items);
+
+			var skills = character.Skills.GetAll();
+			Send.ZC_SKILLINFO_LIST(character, skills);
 
 			if (character.IsDead)
 				Send.ZC_NOTIFY_VANISH(character, DisappearType.StrikedDead);

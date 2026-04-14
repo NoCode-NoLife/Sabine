@@ -110,21 +110,6 @@ namespace Sabine.Zone.World.Entities
 		public int Speed => this.Parameters.Speed;
 
 		/// <summary>
-		/// Returns the character's movement controller.
-		/// </summary>
-		public MovementController Controller { get; protected set; }
-
-		/// <summary>
-		/// Returns the character's parameters.
-		/// </summary>
-		public Parameters Parameters { get; protected set; }
-
-		/// <summary>
-		/// Returns the character's components.
-		/// </summary>
-		public CharacterComponents Components { get; } = new CharacterComponents();
-
-		/// <summary>
 		/// Returns true if the character's HP have reached 0.
 		/// </summary>
 		public bool IsDead => this.Parameters.Hp == 0;
@@ -145,11 +130,32 @@ namespace Sabine.Zone.World.Entities
 		public int AttackerHandleTest { get; set; }
 
 		/// <summary>
+		/// Returns the character's parameters.
+		/// </summary>
+		public Parameters Parameters { get; protected set; }
+
+		/// <summary>
+		/// Returns the character's movement controller.
+		/// </summary>
+		public MovementController Controller { get; protected set; }
+
+		/// <summary>
+		/// Returns the character's skill manager component.
+		/// </summary>
+		public SkillComponent Skills { get; protected set; }
+
+		/// <summary>
+		/// Returns the character's components.
+		/// </summary>
+		public CharacterComponents Components { get; } = new CharacterComponents();
+
+		/// <summary>
 		/// Initializes character.
 		/// </summary>
 		public Character()
 		{
 			this.Components.Add(this.Controller = new MovementController(this));
+			this.Components.Add(this.Skills = new SkillComponent(this));
 		}
 
 		/// <summary>

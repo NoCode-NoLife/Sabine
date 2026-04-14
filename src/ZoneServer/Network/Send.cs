@@ -9,6 +9,7 @@ using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
 using Sabine.Zone.Network.Helpers;
+using Sabine.Zone.Skills;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Util;
@@ -1200,6 +1201,52 @@ namespace Sabine.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ACK_REQ_DISCONNECT);
 			packet.PutShort((short)s1);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends a list of skills the character has to the client,
+		/// refreshing the skill list.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skills"></param>
+		public static void ZC_SKILLINFO_LIST(PlayerCharacter character, IEnumerable<Skill> skills)
+		{
+			var packet = new Packet(Op.ZC_SKILLINFO_LIST);
+
+			foreach (var skill in skills)
+				packet.AddSkill(skill);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Adds the given skill to the character's skill list.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skill"></param>
+		public static void ZC_ADD_SKILL(PlayerCharacter character, Skill skill)
+		{
+			var packet = new Packet(Op.ZC_ADD_SKILL);
+			packet.AddSkill(skill);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the skill on the character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skill"></param>
+		public static void ZC_SKILLINFO_UPDATE(PlayerCharacter character, Skill skill)
+		{
+			var packet = new Packet(Op.ZC_SKILLINFO_UPDATE);
+
+			packet.PutShort((short)skill.Id);
+			packet.PutShort((short)skill.Level);
+			packet.PutShort((short)skill.Data.TargetType);
+			packet.PutByte(skill.CanBeLeveled);
 
 			character.Connection.Send(packet);
 		}
