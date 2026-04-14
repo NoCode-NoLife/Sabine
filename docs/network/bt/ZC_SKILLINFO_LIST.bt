@@ -1,0 +1,39 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SKILLINFO_LIST.bt
+//   Authors: exec
+//   Version: i20020220 (iRO Beta1)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    short id;
+    short targetType;
+    short s1;
+    short level;
+    short spCost;
+    short range;
+    char stringId[24];
+    byte levelable;
+}
+Skill <read=readSkill>;
+
+string readSkill(Skill &val)
+{
+    string result;
+    SPrintf(result, "%s (%d)", val.stringId, val.id);
+    return result;
+}
+
+short op;
+short len;
+
+local int count = (len - 2 * sizeof(short)) / 37;
+
+Skill skill[count];
