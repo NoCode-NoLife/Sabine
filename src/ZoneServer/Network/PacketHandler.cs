@@ -364,14 +364,14 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 
-			var itemNameData = SabineData.ItemNames.Find(a => a.AlphaName == itemStringId || a.BetaName == itemStringId);
+			var itemNameData = ZoneServer.Instance.Data.ItemNames.Find(a => a.AlphaName == itemStringId || a.BetaName == itemStringId);
 			if (itemNameData == null)
 			{
 				Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item name data for '{0}' not found.", itemStringId);
 				return;
 			}
 
-			var itemData = SabineData.Items.Find(itemNameData.Id);
+			var itemData = ZoneServer.Instance.Data.Items.Find(itemNameData.Id);
 			if (itemData == null)
 			{
 				Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item data for '{0}' not found.", itemStringId);

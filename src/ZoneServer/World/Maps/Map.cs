@@ -93,7 +93,7 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		protected virtual void LoadData()
 		{
-			this.CacheData = SabineData.MapCache.Find(this.StringId);
+			this.CacheData = ZoneServer.Instance.Data.MapCache.Find(this.StringId);
 			if (this.CacheData == null)
 			{
 				Log.Warning("Map: No cache data found for '{0}'.", this.StringId);

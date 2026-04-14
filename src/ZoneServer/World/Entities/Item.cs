@@ -138,10 +138,10 @@ namespace Sabine.Zone.World.Entities
 		/// <exception cref="ArgumentException"></exception>
 		private void LoadData(int classId)
 		{
-			if (!SabineData.Items.TryFind(classId, out var data))
+			if (!ZoneServer.Instance.Data.Items.TryFind(classId, out var data))
 				throw new ArgumentException($"Class id '{classId}' not found in database.");
 
-			SabineData.ItemNames.TryFind(classId, out var nameData);
+			ZoneServer.Instance.Data.ItemNames.TryFind(classId, out var nameData);
 
 			this.LoadData(data, nameData);
 		}

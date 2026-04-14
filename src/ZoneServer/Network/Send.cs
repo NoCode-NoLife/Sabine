@@ -325,7 +325,7 @@ namespace Sabine.Zone.Network
 			// isn't enabled
 			if (type == ParameterType.JobExp || type == ParameterType.JobExpNeeded)
 			{
-				if (!SabineData.Features.IsEnabled("JobLevels"))
+				if (!ZoneServer.Instance.Data.Features.IsEnabled("JobLevels"))
 					value = 0;
 			}
 

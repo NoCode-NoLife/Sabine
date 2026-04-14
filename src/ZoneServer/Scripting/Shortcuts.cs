@@ -334,7 +334,7 @@ namespace Sabine.Zone.Scripting
 			if (mapStringId.EndsWith(".gat"))
 				mapStringId = mapStringId.Substring(0, mapStringId.Length - 4);
 
-			if (!SabineData.Maps.TryFind(mapStringId, out var map))
+			if (!ZoneServer.Instance.Data.Maps.TryFind(mapStringId, out var map))
 				throw new ArgumentException($"Map '{mapStringId}' not found.");
 
 			var spawner = new Spawner(monsterId, amount, initialDelay, respawnDelayMin, respawnDelayMax, map.Id);

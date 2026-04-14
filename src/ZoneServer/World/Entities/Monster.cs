@@ -34,7 +34,7 @@ namespace Sabine.Zone.World.Entities
 		public Monster(int monsterId)
 			: base(monsterId)
 		{
-			if (!SabineData.Monsters.TryFind(monsterId, out var data))
+			if (!ZoneServer.Instance.Data.Monsters.TryFind(monsterId, out var data))
 				throw new ArgumentException($"Data for monster '{monsterId}' not found.");
 
 			this.Name = data.Name;

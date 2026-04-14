@@ -22,7 +22,7 @@ namespace Sabine.Char.Network.Helpers
 
 			// Always display job level and EXP as 0 if the feature
 			// isn't enabled
-			if (!SabineData.Features.IsEnabled("JobLevels"))
+			if (!CharServer.Instance.Data.Features.IsEnabled("JobLevels"))
 			{
 				jobLevel = 0;
 				jobExp = 0;

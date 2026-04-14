@@ -64,7 +64,7 @@ namespace Sabine.Zone.World
 		/// </summary>
 		private void LoadMaps()
 		{
-			foreach (var data in SabineData.Maps.Entries.Values)
+			foreach (var data in ZoneServer.Instance.Data.Maps.Entries.Values)
 			{
 				var map = new Map(data);
 				this.Maps.Add(map);

@@ -263,7 +263,7 @@ namespace Sabine.Zone.Commands
 				if (mapIdent.EndsWith(".gat"))
 					mapIdent = mapIdent.Substring(0, mapIdent.Length - 4);
 
-				if (!SabineData.Maps.TryFind(mapIdent, out var mapData))
+				if (!ZoneServer.Instance.Data.Maps.TryFind(mapIdent, out var mapData))
 				{
 					sender.ServerMessage(Localization.Get("Map '{0}' not found."), mapIdent);
 					return CommandResult.Okay;
@@ -489,7 +489,7 @@ namespace Sabine.Zone.Commands
 			{
 				var monsterName = args.Get(0);
 
-				if (!SabineData.Monsters.TryFind(monsterName, out monsterData))
+				if (!ZoneServer.Instance.Data.Monsters.TryFind(monsterName, out monsterData))
 				{
 					sender.ServerMessage(Localization.Get("Monster '{0}' not found."), monsterName);
 					return CommandResult.Okay;
@@ -500,7 +500,7 @@ namespace Sabine.Zone.Commands
 
 			if (monsterData == null)
 			{
-				if (!SabineData.Monsters.TryFind(monsterId, out monsterData))
+				if (!ZoneServer.Instance.Data.Monsters.TryFind(monsterId, out monsterData))
 				{
 					sender.ServerMessage(Localization.Get("Monster '{0}' not found."), monsterId);
 					return CommandResult.Okay;
@@ -528,7 +528,7 @@ namespace Sabine.Zone.Commands
 			var aiName = args.Get("ai", monsterData.AiName);
 			var useAi = aiName != "none";
 
-			if (!SabineData.Monsters.Contains(monsterId))
+			if (!ZoneServer.Instance.Data.Monsters.Contains(monsterId))
 			{
 				sender.ServerMessage(Localization.Get("Monster with id '{0}' not found."), monsterId);
 				return CommandResult.Okay;
@@ -621,7 +621,7 @@ namespace Sabine.Zone.Commands
 
 			if (!int.TryParse(itemIdent, out var classId))
 			{
-				var itemData = SabineData.Items.Find(a => a.Name == itemIdent);
+				var itemData = ZoneServer.Instance.Data.Items.Find(a => a.Name == itemIdent);
 				if (itemData == null)
 				{
 					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemIdent);
@@ -630,7 +630,7 @@ namespace Sabine.Zone.Commands
 
 				classId = itemData.ClassId;
 			}
-			else if (!SabineData.Items.Contains(classId))
+			else if (!ZoneServer.Instance.Data.Items.Contains(classId))
 			{
 				sender.ServerMessage(Localization.Get("Item with id '{0}' not found."), classId);
 				return CommandResult.Okay;

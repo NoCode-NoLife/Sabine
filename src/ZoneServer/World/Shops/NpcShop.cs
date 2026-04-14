@@ -42,7 +42,7 @@ namespace Sabine.Zone.World.Shops
 		/// <exception cref="ArgumentException"></exception>
 		public void AddItem(int classId, int price)
 		{
-			if (!SabineData.Items.TryFind(classId, out var itemData))
+			if (!ZoneServer.Instance.Data.Items.TryFind(classId, out var itemData))
 				throw new ArgumentException($"Item '{classId}' not found.");
 
 			var item = new ShopItem(itemData.ClassId);

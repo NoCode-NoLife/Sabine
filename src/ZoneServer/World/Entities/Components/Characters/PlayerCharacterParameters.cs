@@ -226,8 +226,8 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		/// </summary>
 		public void RecalculateExp()
 		{
-			this.BaseExpNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Base, this.Character.JobId, this.BaseLevel);
-			this.JobExpNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Job, this.Character.JobId, this.JobLevel);
+			this.BaseExpNeeded = ZoneServer.Instance.Data.ExpTables.GetExpNeeded(ExpTableType.Base, this.Character.JobId, this.BaseLevel);
+			this.JobExpNeeded = ZoneServer.Instance.Data.ExpTables.GetExpNeeded(ExpTableType.Job, this.Character.JobId, this.JobLevel);
 
 			this.UpdateClient(ParameterType.BaseExpNeeded, ParameterType.JobExpNeeded);
 		}
@@ -261,7 +261,7 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 			// The exact alpha weight formula is currently unknown,
 			// but it seems like characters had ~16~25% of the weight
 			// they would have in later versions.
-			if (!SabineData.Features.IsEnabled("HigherMaxWeight"))
+			if (!ZoneServer.Instance.Data.Features.IsEnabled("HigherMaxWeight"))
 				this.WeightMax /= 5;
 
 			this.UpdateClient(ParameterType.Weight, ParameterType.WeightMax);

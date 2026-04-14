@@ -91,7 +91,7 @@ namespace Sabine.Zone.Scripting
 		{
 			foreach (var feature in this.Features)
 			{
-				if (!SabineData.Features.IsEnabled(feature))
+				if (!ZoneServer.Instance.Data.Features.IsEnabled(feature))
 					return false;
 			}
 

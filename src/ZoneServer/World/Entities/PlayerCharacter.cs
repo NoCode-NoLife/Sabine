@@ -161,7 +161,7 @@ namespace Sabine.Zone.World.Entities
 		/// <exception cref="ArgumentException"></exception>
 		private void LoadJobData(JobId jobId)
 		{
-			if (!SabineData.Jobs.TryFind(jobId, out var jobData))
+			if (!ZoneServer.Instance.Data.Jobs.TryFind(jobId, out var jobData))
 				throw new ArgumentException($"No data found for job {jobId}.");
 
 			this.JobData = jobData;
@@ -485,7 +485,7 @@ namespace Sabine.Zone.World.Entities
 			var exp = this.Parameters.BaseExp;
 			var level = this.Parameters.BaseLevel;
 			var expNeeded = this.Parameters.BaseExpNeeded;
-			var maxLevel = SabineData.ExpTables.GetMaxLevel(ExpTableType.Base, this.JobId);
+			var maxLevel = ZoneServer.Instance.Data.ExpTables.GetMaxLevel(ExpTableType.Base, this.JobId);
 			var levelsGained = 0;
 			var statPointsGained = 0;
 
@@ -499,7 +499,7 @@ namespace Sabine.Zone.World.Entities
 				levelsGained++;
 				statPointsGained += (level / 5) + 2;
 
-				expNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Base, this.JobId, level);
+				expNeeded = ZoneServer.Instance.Data.ExpTables.GetExpNeeded(ExpTableType.Base, this.JobId, level);
 			}
 
 			if (levelsGained != 0)
@@ -521,13 +521,13 @@ namespace Sabine.Zone.World.Entities
 		public void GainJobExp(int amount)
 		{
 			// Don't give any job EXP if the feature is disabled
-			if (!SabineData.Features.IsEnabled("JobLevels"))
+			if (!ZoneServer.Instance.Data.Features.IsEnabled("JobLevels"))
 				return;
 
 			var exp = this.Parameters.JobExp;
 			var level = this.Parameters.JobLevel;
 			var expNeeded = this.Parameters.JobExpNeeded;
-			var maxLevel = SabineData.ExpTables.GetMaxLevel(ExpTableType.Job, this.JobId);
+			var maxLevel = ZoneServer.Instance.Data.ExpTables.GetMaxLevel(ExpTableType.Job, this.JobId);
 			var levelsGained = 0;
 
 			exp = Math2.AddChecked(exp, amount);
@@ -541,7 +541,7 @@ namespace Sabine.Zone.World.Entities
 				level++;
 				levelsGained++;
 
-				expNeeded = SabineData.ExpTables.GetExpNeeded(ExpTableType.Job, this.JobId, level);
+				expNeeded = ZoneServer.Instance.Data.ExpTables.GetExpNeeded(ExpTableType.Job, this.JobId, level);
 			}
 
 			if (levelsGained != 0)

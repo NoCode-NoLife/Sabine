@@ -12,6 +12,7 @@ using Sabine.Shared;
 using Sabine.Shared.Data;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
+using Sabine.Zone;
 using Sabine.Zone.Scripting;
 using Sabine.Zone.World.Entities;
 using Yggdrasil.Logging;
@@ -100,7 +101,7 @@ public class GoCommandScript : GeneralScript
 	/// <param name="y"></param>
 	private void RegisterDestination(string name, string mapStringId, int x, int y)
 	{
-		if (!SabineData.Maps.TryFind(mapStringId, out var mapData))
+		if (!ZoneServer.Instance.Data.Maps.TryFind(mapStringId, out var mapData))
 		{
 			Log.Error("GoCommandScript: Destination '{0}' not found.", mapStringId);
 			return;
@@ -146,6 +147,6 @@ public class GoCommandScript : GeneralScript
 		}
 	}
 
-	private readonly Dictionary<string, GoDestination> _destinations = new Dictionary<string, GoDestination>();
+	private readonly Dictionary<string, GoDestination> _destinations = new();
 	private string _destinationsStr;
 }
