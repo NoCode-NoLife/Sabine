@@ -22,7 +22,7 @@
 { id: 15, stringId: "MG_FROSTDIVER", name: "Frost Diver", target: "Enemy", maxLevel: 10, range: 8, spCost: [25, 24, 23, 22, 21, 20, 19, 18, 17, 16] },
 { id: 16, stringId: "MG_STONECURSE", name: "Stone Curse", target: "Enemy", maxLevel: 10, range: 2, spCost: [25, 24, 23, 22, 21, 20, 19, 18, 17, 16] },
 { id: 17, stringId: "MG_FIREBALL", name: "Fire Ball", target: "Enemy", maxLevel: 10, range: 8, spCost: 25 },
-{ id: 18, stringId: "MG_FIREWALL", name: "Fire Wall", target: "Place", maxLevel: 10, range: 8, spCost: 2 },
+{ id: 18, stringId: "MG_FIREWALL", name: "Fire Wall", target: "Place", maxLevel: 10, range: 8, spCost: 40 },
 { id: 19, stringId: "MG_FIREBOLT", name: "Fire Bolt", target: "Enemy", maxLevel: 10, range: 8, spCost: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30] },
 { id: 20, stringId: "MG_LIGHTNINGBOLT", name: "Lightning Bolt", target: "Enemy", maxLevel: 10, range: 8, spCost: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30] },
 { id: 21, stringId: "MG_THUNDERSTORM", name: "Thunderstorm", target: "Place", maxLevel: 10, range: 5, spCost: [29, 34, 39, 44, 49, 54, 59, 64, 69, 74] },

@@ -1245,7 +1245,7 @@ namespace Sabine.Zone.Network
 
 			packet.PutShort((short)skill.Id);
 			packet.PutShort((short)skill.Level);
-			packet.PutShort((short)skill.Data.TargetType);
+			packet.PutShort((short)skill.SpCost);
 			packet.PutByte(skill.CanBeLeveled);
 
 			character.Connection.Send(packet);
