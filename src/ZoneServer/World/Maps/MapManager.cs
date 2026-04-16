@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sabine.Zone.World.Entities;
 
 namespace Sabine.Zone.World.Maps
 {
@@ -145,6 +146,29 @@ namespace Sabine.Zone.World.Maps
 				foreach (var map in _mapsList)
 					map.Update(elapsed);
 			}
+		}
+
+		/// <summary>
+		/// Returns the player character with the given name via out.
+		/// Returns false if the character wasn't found or isn't a
+		/// player character.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="player"></param>
+		/// <returns></returns>
+		public bool TryGetPlayerByName(string name, out PlayerCharacter player)
+		{
+			lock (_syncLock)
+			{
+				foreach (var map in _mapsList)
+				{
+					if (map.TryGetPlayerByName(name, out player))
+						return true;
+				}
+			}
+
+			player = null;
+			return false;
 		}
 	}
 }

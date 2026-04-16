@@ -103,7 +103,7 @@ namespace Sabine.Zone.Commands
 				}
 
 				var targetName = args.Get(1);
-				if (!ZoneServer.Instance.World.TryGetPlayerCharacter(a => a.Name == targetName, out target))
+				if (!ZoneServer.Instance.World.Maps.TryGetPlayerByName(targetName, out target))
 				{
 					character.ServerMessage(Localization.Get("Target character not found."));
 					return true;

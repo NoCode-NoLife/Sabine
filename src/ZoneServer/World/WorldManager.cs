@@ -101,31 +101,6 @@ namespace Sabine.Zone.World
 		}
 
 		/// <summary>
-		/// Returns the first character in the world that matches the
-		/// given predicate.
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		public PlayerCharacter GetPlayerCharacter(Func<PlayerCharacter, bool> predicate)
-		{
-			return null;
-		}
-
-		/// <summary>
-		/// Returns the first character in the world that matches the given
-		/// predicate via out. Returns false if no matching character was
-		/// found.
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <param name="character"></param>
-		/// <returns></returns>
-		public bool TryGetPlayerCharacter(Func<PlayerCharacter, bool> predicate, out PlayerCharacter character)
-		{
-			character = this.GetPlayerCharacter(predicate);
-			return character != null;
-		}
-
-		/// <summary>
 		/// Returns the number of players across all maps.
 		/// </summary>
 		/// <returns></returns>

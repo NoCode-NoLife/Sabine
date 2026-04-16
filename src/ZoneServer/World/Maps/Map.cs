@@ -370,6 +370,32 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the player character with the given name via out.
+		/// Returns false if the character wasn't found or isn't a
+		/// player character.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="player"></param>
+		/// <returns></returns>
+		public bool TryGetPlayerByName(string name, out PlayerCharacter player)
+		{
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (character.Name == name && character is PlayerCharacter pc)
+					{
+						player = pc;
+						return true;
+					}
+				}
+			}
+
+			player = null;
+			return false;
+		}
+
+		/// <summary>
 		/// Adds NPC to this map.
 		/// </summary>
 		/// <param name="npc"></param>
