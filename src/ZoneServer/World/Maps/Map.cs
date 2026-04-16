@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Sabine.Shared.Const;
-using Sabine.Shared.Data;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
 using Sabine.Shared.World;
@@ -281,6 +280,11 @@ namespace Sabine.Zone.World.Maps
 				_characters.Remove(character.Id);
 			}
 
+			// Cancel any trades on removal, so they get cancelled on
+			// disconnect, warp, etc.
+			if (ZoneServer.Instance.World.Trades.TryGetTrade(character, out var trade))
+				trade.Cancel();
+
 			Send.ZC_NOTIFY_VANISH(character, DisappearType.Vanish);
 			this.RemoveVisibleEntity(character);
 
@@ -323,6 +327,46 @@ namespace Sabine.Zone.World.Maps
 		{
 			character = this.GetCharacter(handle);
 			return character != null;
+		}
+
+		/// <summary>
+		/// Returns the character with the given handle via out, returns
+		/// false if the character wasn't found or they don't match the
+		/// requested type.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool TryGetCharacter<TCharacter>(int handle, out TCharacter character) where TCharacter : Character
+		{
+			character = this.GetCharacter(handle) as TCharacter;
+			return character != null;
+		}
+
+		/// <summary>
+		/// Returns the player character with the given id via out.
+		/// Returns false if the character wasn't found or isn't a
+		/// player character.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="player"></param>
+		/// <returns></returns>
+		public bool TryGetPlayerById(int id, out PlayerCharacter player)
+		{
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (character.Id == id && character is PlayerCharacter pc)
+					{
+						player = pc;
+						return true;
+					}
+				}
+			}
+
+			player = null;
+			return false;
 		}
 
 		/// <summary>

@@ -1250,5 +1250,123 @@ namespace Sabine.Zone.Network
 
 			character.Connection.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends notification about a trade request to character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="traderName"></param>
+		public static void ZC_REQ_EXCHANGE_ITEM(PlayerCharacter character, string traderName)
+		{
+			var packet = new Packet(Op.ZC_REQ_EXCHANGE_ITEM);
+			packet.PutString(traderName, Sizes.CharacterNames);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends response about a trade request to character, opening
+		/// trade window on accept.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="response"></param>
+		public static void ZC_ACK_EXCHANGE_ITEM(PlayerCharacter character, TradingResponse response)
+		{
+			var packet = new Packet(Op.ZC_ACK_EXCHANGE_ITEM);
+			packet.PutByte((byte)response);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Cancels active trade on character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CANCEL_EXCHANGE_ITEM(PlayerCharacter character)
+		{
+			var packet = new Packet(Op.ZC_CANCEL_EXCHANGE_ITEM);
+
+			character.Connection.Send(packet);
+		}
+
+		public static class ZC_ADD_EXCHANGE_ITEM
+		{
+			/// <summary>
+			/// Adds item to trade window, on the side of the trading partner.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="item"></param>
+			/// <param name="amount"></param>
+			public static void Item(PlayerCharacter character, Item item, int amount)
+			{
+				var packet = new Packet(Op.ZC_ADD_EXCHANGE_ITEM);
+
+				packet.PutInt(amount);
+				packet.PutString(item.StringId, Sizes.ItemNames);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Adds zeny to trade window, on the side of the trading
+			/// partner.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="amount"></param>
+			public static void Zeny(PlayerCharacter character, int amount)
+			{
+				var packet = new Packet(Op.ZC_ADD_EXCHANGE_ITEM);
+
+				packet.PutInt(amount);
+				packet.PutString("money", Sizes.ItemNames);
+
+				character.Connection.Send(packet);
+			}
+		}
+
+		/// <summary>
+		/// Sends response to request to add item to trade, adding the
+		/// item to the own side on success.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="invId"></param>
+		/// <param name="result"></param>
+		public static void ZC_ACK_ADD_EXCHANGE_ITEM(PlayerCharacter character, int invId, TradingSuccess result)
+		{
+			var packet = new Packet(Op.ZC_ACK_ADD_EXCHANGE_ITEM);
+
+			packet.PutShort((short)invId);
+			packet.PutByte((byte)result);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the character about the given side requesting to
+		/// lock in the trade.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="side"></param>
+		public static void ZC_CONCLUDE_EXCHANGE_ITEM(PlayerCharacter character, TradingSide side)
+		{
+			var packet = new Packet(Op.ZC_CONCLUDE_EXCHANGE_ITEM);
+			packet.PutByte((byte)side);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the character about the result of the trade finish
+		/// request.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="result"></param>
+		public static void ZC_EXEC_EXCHANGE_ITEM(PlayerCharacter character, TradingSuccess result)
+		{
+			var packet = new Packet(Op.ZC_EXEC_EXCHANGE_ITEM);
+			packet.PutByte((byte)result);
+
+			character.Connection.Send(packet);
+		}
 	}
 }

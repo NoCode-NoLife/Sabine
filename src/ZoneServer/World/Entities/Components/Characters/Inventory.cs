@@ -189,6 +189,19 @@ namespace Sabine.Zone.World.Entities.Components.Characters
 		}
 
 		/// <summary>
+		/// Returns the item with the given inventory id via out. Returns
+		/// false if the item wasn't found.
+		/// </summary>
+		/// <param name="invId"></param>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool TryGetItem(int invId, out Item item)
+		{
+			item = this.GetItem(invId);
+			return item != null;
+		}
+
+		/// <summary>
 		/// Returns the item with the given handle, or null if it wasn't
 		/// found.
 		/// </summary>

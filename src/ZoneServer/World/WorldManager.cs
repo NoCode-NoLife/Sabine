@@ -5,6 +5,7 @@ using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
 using Sabine.Zone.World.Spawning;
+using Sabine.Zone.World.Trading;
 using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -36,6 +37,12 @@ namespace Sabine.Zone.World
 		/// Returns a reference to a collection of NPC shops in the world.
 		/// </summary>
 		public Collection<string, NpcShop> NpcShops { get; } = new Collection<string, NpcShop>();
+
+		/// <summary>
+		/// Returns the trade manager, handling trades between players in
+		/// the world.
+		/// </summary>
+		public Trades Trades { get; } = new();
 
 		/// <summary>
 		/// Returns the world's monster spawner collection.

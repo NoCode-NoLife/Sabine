@@ -1143,5 +1143,139 @@ namespace Sabine.Zone.Network
 				}
 			}
 		}
+
+		/// <summary>
+		/// Request to start a trade with another player.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_EXCHANGE_ITEM)]
+		public void CZ_REQ_EXCHANGE_ITEM(ZoneConnection conn, Packet packet)
+		{
+			var targetHandle = packet.GetInt();
+
+			var character = conn.GetCurrentCharacter();
+
+			if (!character.Map.TryGetCharacter<PlayerCharacter>(targetHandle, out var partner))
+			{
+				character.ServerMessage(Localization.Get("Character not found."));
+				return;
+			}
+
+			if (ZoneServer.Instance.World.Trades.TryGetTrade(character, out var existingTrade))
+			{
+				character.ServerMessage(Localization.Get("You're already trading."));
+				return;
+			}
+
+			ZoneServer.Instance.World.Trades.InitiateTrade(character, partner);
+		}
+
+		/// <summary>
+		/// Response to a trade request from the receiving character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ACK_EXCHANGE_ITEM)]
+		public void CZ_ACK_EXCHANGE_ITEM(ZoneConnection conn, Packet packet)
+		{
+			var response = (TradingResponse)packet.GetByte();
+
+			var character = conn.GetCurrentCharacter();
+
+			if (!ZoneServer.Instance.World.Trades.TryGetTrade(character, out var trade))
+			{
+				character.ServerMessage(Localization.Get("You're not in a trade."));
+				return;
+			}
+
+			trade.Acknowledge(character, response);
+		}
+
+		/// <summary>
+		/// Request to add an item to the list of trade items.
+		/// </summary>
+		/// <remarks>
+		/// Sent automatically for Zeny with inventory id 0 upon conluding
+		/// the trade. For items it's sent when they're added to the list.
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_ADD_EXCHANGE_ITEM)]
+		public void CZ_ADD_EXCHANGE_ITEM(ZoneConnection conn, Packet packet)
+		{
+			var invId = packet.GetShort();
+			var amount = packet.GetInt();
+
+			var character = conn.GetCurrentCharacter();
+
+			if (!ZoneServer.Instance.World.Trades.TryGetTrade(character, out var trade))
+			{
+				character.ServerMessage(Localization.Get("You're not in a trade."));
+				return;
+			}
+
+			if (invId == 0)
+				trade.SetZeny(character, amount);
+			else
+				trade.AddItem(character, invId, amount);
+		}
+
+		/// <summary>
+		/// Request to cancel active trade.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CANCEL_EXCHANGE_ITEM)]
+		public void CZ_CANCEL_EXCHANGE_ITEM(ZoneConnection conn, Packet packet)
+		{
+			var character = conn.GetCurrentCharacter();
+
+			if (!ZoneServer.Instance.World.Trades.TryGetTrade(character, out var trade))
+			{
+				character.ServerMessage(Localization.Get("You're not in a trade."));
+				return;
+			}
+
+			trade.RequestCancellation(character);
+		}
+
+		/// <summary>
+		/// Request to lock in active trade.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CONCLUDE_EXCHANGE_ITEM)]
+		public void CZ_CONCLUDE_EXCHANGE_ITEM(ZoneConnection conn, Packet packet)
+		{
+			var character = conn.GetCurrentCharacter();
+
+			if (!ZoneServer.Instance.World.Trades.TryGetTrade(character, out var trade))
+			{
+				character.ServerMessage(Localization.Get("You're not in a trade."));
+				return;
+			}
+
+			trade.Conclude(character);
+		}
+
+		/// <summary>
+		/// Request to finish active trade.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXEC_EXCHANGE_ITEM)]
+		public void CZ_EXEC_EXCHANGE_ITEM(ZoneConnection conn, Packet packet)
+		{
+			var character = conn.GetCurrentCharacter();
+
+			if (!ZoneServer.Instance.World.Trades.TryGetTrade(character, out var trade))
+			{
+				character.ServerMessage(Localization.Get("You're not in a trade."));
+				return;
+			}
+
+			trade.Complete(character);
+		}
 	}
 }
