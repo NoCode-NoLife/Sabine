@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_CONCLUDE_EXCHANGE_ITEM.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+
+byte side; // 0 = self, 1 = other
