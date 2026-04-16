@@ -46,6 +46,7 @@ namespace Sabine.Zone.Commands
 			this.Add("level", "<level>", Localization.Get("Sets the character's base level."), this.Level);
 			this.Add("speed", "<speed>", Localization.Get("Sets the character's speed."), this.Speed);
 			this.Add("skill", "<id> [level]", Localization.Get("Adds the skill to the character."), this.Skill);
+			this.Add("zeny", "<modifier>", Localization.Get("Changes the character's zeny."), this.Zeny);
 
 			// Dev commands
 			this.Add("test", "", Localization.Get("Behaviour undefined."), this.Test);
@@ -850,6 +851,32 @@ namespace Sabine.Zone.Commands
 			sender.ServerMessage(Localization.Get("Added skill '{0}' at level {1}."), skillData.StringId, level);
 			if (sender != target)
 				target.ServerMessage(Localization.Get("Skill '{0}' was added at level {1} by {2}."), skillData.StringId, level, sender.Name);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Changes the target's zeny amount.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult Zeny(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+				return CommandResult.InvalidArgument;
+
+			if (!int.TryParse(args.Get(0), out var modifier))
+				return CommandResult.InvalidArgument;
+
+			target.Parameters.Modify(ParameterType.Zeny, modifier);
+
+			sender.ServerMessage(Localization.Get("Zeny has been modified by {0}."), modifier);
+			if (sender != target)
+				target.ServerMessage(Localization.Get("Your zeny were modified by {0}."), sender.Name);
 
 			return CommandResult.Okay;
 		}
