@@ -251,9 +251,8 @@ namespace Sabine.Zone.Network
 			var message = packet.GetString(len - 4 - 16);
 
 			var character = conn.GetCurrentCharacter();
-			var target = ZoneServer.Instance.World.GetPlayerCharacter(a => a.Name == targetName);
 
-			if (target == null)
+			if (!ZoneServer.Instance.World.Maps.TryGetPlayerByName(targetName, out var target))
 			{
 				Send.ZC_ACK_WHISPER(character, WhisperResult.CharacterDoesntExist);
 				return;
@@ -1156,7 +1155,7 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 
-			if (!character.Map.TryGetCharacter<PlayerCharacter>(targetHandle, out var partner))
+			if (!character.Map.TryGetPlayer(targetHandle, out var partner))
 			{
 				character.ServerMessage(Localization.Get("Character not found."));
 				return;

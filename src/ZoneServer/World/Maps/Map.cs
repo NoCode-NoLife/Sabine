@@ -344,6 +344,17 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the player character with the given handle via out.
+		/// Returns false if the character wasn't found or isn't a
+		/// player character.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="player"></param>
+		/// <returns></returns>
+		public bool TryGetPlayer(int handle, out PlayerCharacter player)
+			=> this.TryGetCharacter(handle, out player);
+
+		/// <summary>
 		/// Returns the player character with the given id via out.
 		/// Returns false if the character wasn't found or isn't a
 		/// player character.

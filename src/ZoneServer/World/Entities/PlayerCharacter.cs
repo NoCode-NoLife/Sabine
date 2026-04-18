@@ -322,8 +322,17 @@ namespace Sabine.Zone.World.Entities
 
 					switch (entity)
 					{
-						case Character character: Send.ZC_NOTIFY_STANDENTRY(this, character); break;
-						case Item item: Send.ZC_ITEM_ENTRY(this, item); break;
+						case Character character:
+						{
+							Send.ZC_NOTIFY_STANDENTRY(this, character);
+							break;
+						}
+
+						case Item item:
+						{
+							Send.ZC_ITEM_ENTRY(this, item);
+							break;
+						}
 					}
 				}
 

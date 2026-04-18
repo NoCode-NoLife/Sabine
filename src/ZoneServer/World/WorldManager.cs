@@ -20,23 +20,23 @@ namespace Sabine.Zone.World
 		/// <summary>
 		/// Returns a reference to a collection of maps in the world.
 		/// </summary>
-		public MapManager Maps { get; } = new MapManager();
+		public MapManager Maps { get; } = new();
 
 		/// <summary>
 		/// The world's heartbeast, which controls timed events.
 		/// </summary>
-		public Heartbeat Heartbeat { get; } = new Heartbeat();
+		public Heartbeat Heartbeat { get; } = new();
 
 		/// <summary>
 		/// The world's scheduler. Use only if a high resolution timer is
 		/// absolutely necessary.
 		/// </summary>
-		public Scheduler Scheduler { get; } = new Scheduler();
+		public Scheduler Scheduler { get; } = new();
 
 		/// <summary>
 		/// Returns a reference to a collection of NPC shops in the world.
 		/// </summary>
-		public Collection<string, NpcShop> NpcShops { get; } = new Collection<string, NpcShop>();
+		public Collection<string, NpcShop> NpcShops { get; } = new();
 
 		/// <summary>
 		/// Returns the trade manager, handling trades between players in
