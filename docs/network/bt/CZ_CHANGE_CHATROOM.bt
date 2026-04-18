@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_CHANGE_CHATROOM.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+short len;
+
+short limit;
+byte isPublic;
+char password[8];
+
+local int titleLen = len - 4 - 2 - 1 - 8;
+char title[titleLen];

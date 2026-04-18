@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_REFUSE_ENTER_ROOM.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+
+byte result; // 0 = full, 1 = password, 2 = banned

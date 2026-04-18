@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_ROOM_NEWENTRY.bt
+//   Authors: exec
+//   Version: i20010830 (iRO Alpha)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+short op;
+short len;
+
+int ownerHandle;
+int roomId;
+short memberLimit;
+short memberCount;
+byte privacy; // 0 = private, 1 = public
+
+local int titleLen = len - 17;
+char title[titleLen];
