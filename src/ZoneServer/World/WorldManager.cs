@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
-using Sabine.Shared.Data;
-using Sabine.Zone.World.Entities;
+﻿using System.Linq;
+using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
 using Sabine.Zone.World.Spawning;
@@ -43,6 +41,12 @@ namespace Sabine.Zone.World
 		/// the world.
 		/// </summary>
 		public Trades Trades { get; } = new();
+
+		/// <summary>
+		/// Returns the chat room manager, handling chat rooms created by
+		/// players.
+		/// </summary>
+		public ChatRooms ChatRooms { get; } = new();
 
 		/// <summary>
 		/// Returns the world's monster spawner collection.

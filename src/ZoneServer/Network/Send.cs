@@ -4,12 +4,12 @@ using System.Net;
 using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
-using Sabine.Shared.Data;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
 using Sabine.Zone.Network.Helpers;
 using Sabine.Zone.Skills;
+using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Util;
@@ -441,37 +441,40 @@ namespace Sabine.Zone.Network
 		/// <summary>
 		/// Sends public chat packet to players around character.
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="message"></param>
+		/// <param name="character">The character who is the source of the chat message.</param>
+		/// <param name="message">The chat message to send.</param>
 		public static void ZC_NOTIFY_CHAT(Character character, string message)
-		{
-			var packet = new Packet(Op.ZC_NOTIFY_CHAT);
-
-			packet.PutInt(character.Handle);
-			packet.PutString(message);
-
-			character.Map.Broadcast(packet, character, BroadcastTargets.AllButSource);
-		}
+			=> ZC_NOTIFY_CHAT(new SightBroadcastSender(character, BroadcastTargets.AllButSource), character.Handle, message);
 
 		/// <summary>
 		/// Sends chat packet to character's client.
 		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="id"></param>
-		/// <param name="message"></param>
-		public static void ZC_NOTIFY_CHAT(PlayerCharacter character, int id, string message)
+		/// <param name="character">The character to send the packet to.</param>
+		/// <param name="authorHandle">The handle of the author of the chat message.</param>
+		/// <param name="message">The chat message to send.</param>
+		public static void ZC_NOTIFY_CHAT(PlayerCharacter character, int authorHandle, string message)
+			=> ZC_NOTIFY_CHAT(new SingleConnectionSender(character), authorHandle, message);
+
+		/// <summary>
+		/// Sends public chat packet for the author's message via sender.
+		/// </summary>
+		/// <param name="sender">The sender to use for sending the packet.</param>
+		/// <param name="authorHandle">The source of the chat message.</param>
+		/// <param name="message">The chat message to send.</param>
+		public static void ZC_NOTIFY_CHAT<TSender>(TSender sender, int authorHandle, string message) where TSender : ISender
 		{
 			var packet = new Packet(Op.ZC_NOTIFY_CHAT);
 
-			packet.PutInt(id);
+			packet.PutInt(authorHandle);
 			packet.PutString(message);
 
-			character.Connection.Send(packet);
+			sender.Send(packet);
 		}
 
 		/// <summary>
-		/// Sends public chat packet to character's client, displaying
-		/// it above their head.
+		/// Displays message to the character's client as their own
+		/// message, displaying it above their head and/or in a special
+		/// color inside a chat.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="message"></param>
@@ -1367,6 +1370,173 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)result);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the character about the result of the chat room
+		/// creation request.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="result"></param>
+		public static void ZC_ACK_CREATE_CHATROOM(PlayerCharacter character, ChatRoomSuccess result)
+		{
+			var packet = new Packet(Op.ZC_ACK_CREATE_CHATROOM);
+			packet.PutByte((byte)result);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Creates a new chat room on all clients close to the chat,
+		/// displaying it above the owner's head.
+		/// </summary>
+		/// <param name="room"></param>
+		public static void ZC_ROOM_NEWENTRY(ChatRoom room)
+		{
+			var packet = new Packet(Op.ZC_ROOM_NEWENTRY);
+
+			packet.PutInt(room.OwnerHandle);
+			packet.PutInt(room.Id);
+			packet.PutShort((short)room.Limit);
+			packet.PutShort((short)room.MemberCount);
+			packet.PutByte((byte)room.Privacy);
+			packet.PutString(room.Title, false);
+
+			room.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates the chat room on the character's client in respons to
+		/// a change request.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="room"></param>
+		public static void ZC_CHANGE_CHATROOM(PlayerCharacter character, ChatRoom room)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_CHATROOM);
+
+			packet.PutInt(room.OwnerHandle);
+			packet.PutInt(room.Id);
+			packet.PutShort((short)room.Limit);
+			packet.PutShort((short)room.MemberCount);
+			packet.PutByte((byte)room.Privacy);
+			packet.PutString(room.Title, false);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Removes chat room from all clients close to the chat, no
+		/// longer displaying it above the owner's head.
+		/// </summary>
+		/// <param name="room"></param>
+		public static void ZC_DESTROY_ROOM(ChatRoom room)
+		{
+			var packet = new Packet(Op.ZC_DESTROY_ROOM);
+			packet.PutInt(room.Id);
+
+			room.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Notifies the character about the reason they weren't able to
+		/// join a chat room.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="reason"></param>
+		public static void ZC_REFUSE_ENTER_ROOM(PlayerCharacter character, ChatRoomRefuseReason reason)
+		{
+			var packet = new Packet(Op.ZC_REFUSE_ENTER_ROOM);
+			packet.PutByte((byte)reason);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Sends information about the chat they're entering to character.
+		/// </summary>
+		/// <param name="room"></param>
+		/// <param name="newMember"></param>
+		public static void ZC_ENTER_ROOM(ChatRoom room, PlayerCharacter newMember)
+		{
+			var packet = new Packet(Op.ZC_ENTER_ROOM);
+
+			packet.PutInt(room.Id);
+
+			using var members = room.GetMembers();
+			foreach (var member in members)
+			{
+				packet.PutInt((int)member.Role);
+				packet.PutString(member.Name, Sizes.CharacterNames);
+			}
+
+			newMember.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Notifies the chat members about a new member joining.
+		/// </summary>
+		/// <param name="room"></param>
+		/// <param name="newMember"></param>
+		public static void ZC_MEMBER_NEWENTRY(ChatRoom room, PlayerCharacter newMember)
+		{
+			var packet = new Packet(Op.ZC_MEMBER_NEWENTRY);
+
+			packet.PutShort((short)room.MemberCount);
+			packet.PutString(newMember.Name, Sizes.CharacterNames);
+
+			using var members = room.GetMembers();
+			foreach (var member in members)
+			{
+				if (room.Map.TryGetPlayer(member.Handle, out var memberCharacter))
+					memberCharacter.Connection.Send(packet);
+			}
+		}
+
+		/// <summary>
+		/// Notifies the chat members about a member leaving.
+		/// </summary>
+		/// <param name="room"></param>
+		/// <param name="formerMember"></param>
+		/// <param name="reason"></param>
+		public static void ZC_MEMBER_EXIT(ChatRoom room, PlayerCharacter formerMember, MemberExitReason reason)
+		{
+			var packet = new Packet(Op.ZC_MEMBER_EXIT);
+
+			packet.PutShort((short)room.MemberCount);
+			packet.PutString(formerMember.Name, Sizes.CharacterNames);
+			packet.PutByte((byte)reason);
+
+			formerMember.Connection.Send(packet);
+
+			using var members = room.GetMembers();
+			foreach (var member in members)
+			{
+				if (room.Map.TryGetPlayer(member.Handle, out var memberCharacter))
+					memberCharacter.Connection.Send(packet);
+			}
+		}
+
+		/// <summary>
+		/// Updates the given members role in the chat, moving the owner
+		/// to the top.
+		/// </summary>
+		/// <param name="room"></param>
+		/// <param name="memberName"></param>
+		/// <param name="role"></param>
+		public static void ZC_ROLE_CHANGE(ChatRoom room, string memberName, ChatRoomRole role)
+		{
+			var packet = new Packet(Op.ZC_ROLE_CHANGE);
+
+			packet.PutInt((int)role);
+			packet.PutString(memberName, Sizes.CharacterNames);
+
+			using var members = room.GetMembers();
+			foreach (var member in members)
+			{
+				if (room.Map.TryGetPlayer(member.Handle, out var memberCharacter))
+					memberCharacter.Connection.Send(packet);
+			}
 		}
 	}
 }

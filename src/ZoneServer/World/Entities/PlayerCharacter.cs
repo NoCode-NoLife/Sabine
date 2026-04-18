@@ -141,6 +141,11 @@ namespace Sabine.Zone.World.Entities
 		private Localizer _localizer;
 
 		/// <summary>
+		/// Gets or sets the id of the chat room the character is in.
+		/// </summary>
+		public int ChatRoomId { get; set; }
+
+		/// <summary>
 		/// Creates a new character.
 		/// </summary>
 		public PlayerCharacter(JobId jobId)
@@ -325,6 +330,17 @@ namespace Sabine.Zone.World.Entities
 						case Character character:
 						{
 							Send.ZC_NOTIFY_STANDENTRY(this, character);
+
+							// TODO: Cache chat ownership on player?
+							if (character is PlayerCharacter player)
+							{
+								if (player.ChatRoomId != 0 && ZoneServer.Instance.World.ChatRooms.TryGet(player.ChatRoomId, out var room))
+								{
+									if (room.IsOwner(player))
+										Send.ZC_ROOM_NEWENTRY(room);
+								}
+							}
+
 							break;
 						}
 

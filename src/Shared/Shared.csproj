@@ -16,6 +16,7 @@
     <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.1" />
     <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="10.0.6" />
     <PackageReference Include="MySqlConnector" Version="2.5.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.5" />
   </ItemGroup>

@@ -285,6 +285,11 @@ namespace Sabine.Zone.World.Maps
 			if (ZoneServer.Instance.World.Trades.TryGetTrade(character, out var trade))
 				trade.Cancel();
 
+			// Remove the character from any chat room they might be in,
+			// so they get removed on disconnect, warp, etc.
+			if (character.ChatRoomId != 0 && ZoneServer.Instance.World.ChatRooms.TryGet(character.ChatRoomId, out var room))
+				room.RemoveMember(character, MemberExitReason.Left);
+
 			Send.ZC_NOTIFY_VANISH(character, DisappearType.Vanish);
 			this.RemoveVisibleEntity(character);
 
@@ -404,6 +409,26 @@ namespace Sabine.Zone.World.Maps
 
 			player = null;
 			return false;
+		}
+
+		/// <summary>
+		/// Adds the characters on the map that match the predicate to the
+		/// given list.
+		/// </summary>
+		/// <typeparam name="TState"></typeparam>
+		/// <param name="result">The list to add matching characters to.</param>
+		/// <param name="state">A state that is passed to the predicate for determining matches.</param>
+		/// <param name="predicate">The predicate characters need to match to be added to the list.</param>
+		public void GetCharacters<TState>(List<PlayerCharacter> result, TState state, Func<TState, PlayerCharacter, bool> predicate)
+		{
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (predicate(state, character))
+						result.Add(character);
+				}
+			}
 		}
 
 		/// <summary>

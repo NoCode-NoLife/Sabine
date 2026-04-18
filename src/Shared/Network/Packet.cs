@@ -46,6 +46,13 @@ namespace Sabine.Shared.Network
 		}
 
 		/// <summary>
+		/// Returns the length of the remaining unread data in the packet.
+		/// </summary>
+		/// <returns></returns>
+		public int GetRemainingLength()
+			=> _buffer.Length - _buffer.Index;
+
+		/// <summary>
 		/// Writes value to packet.
 		/// </summary>
 		/// <param name="value"></param>
