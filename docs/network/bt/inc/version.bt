@@ -13,8 +13,6 @@
 
 #ifndef VERSION
 
-local int argc = GetNumArgs();
-
 local int __version;
 if (argc > 3)
     SScanf(GetArg(3), "%d", __version);
@@ -22,6 +20,10 @@ else
     __version = 99999999;
 
 #define VERSION (__version)
+
+#endif
+
+local int argc = GetNumArgs();
 
 if (argc)
 {
@@ -48,5 +50,3 @@ if (VERSION >= 200)
 #define NAME_SIZE (__nameSize)
 
 Printf("Version: %d\n", VERSION);
-
-#endif
