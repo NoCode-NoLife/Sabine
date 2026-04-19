@@ -5,19 +5,19 @@ using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.Skills;
-using Sabine.Zone.World.Entities.Components.Characters;
+using Sabine.Zone.World.Actors.Components.Characters;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
-namespace Sabine.Zone.World.Entities
+namespace Sabine.Zone.World.Actors
 {
 	/// <summary>
 	/// A character that can interact with the world and can be
 	/// interacted with, such as a player or an NPC.
 	/// </summary>
-	public abstract class Character : IEntryCharacter, IUpdateable
+	public abstract class Character : IStandEntry, IUpdateable
 	{
 		/// <summary>
 		/// Returns the character's unique handle, which it's identified

@@ -2,13 +2,13 @@
 using Sabine.Shared.World;
 using Shared.Const;
 
-namespace Sabine.Zone.World.Entities
+namespace Sabine.Zone.World.Actors
 {
 	/// <summary>
-	/// An entity that can appear in the world and be spawned via the
+	/// An actor that can appear in the world and be spawned via the
 	/// *ENTRY packets.
 	/// </summary>
-	public interface IEntryCharacter : IEntity
+	public interface IStandEntry : IActor
 	{
 		/// <summary>
 		/// Returns the character's class id, specifying (part of) its

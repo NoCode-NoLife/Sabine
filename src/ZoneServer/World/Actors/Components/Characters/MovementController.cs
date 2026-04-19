@@ -7,7 +7,7 @@ using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
-namespace Sabine.Zone.World.Entities.Components.Characters
+namespace Sabine.Zone.World.Actors.Components.Characters
 {
 	/// <summary>
 	/// Controls a character's movement.

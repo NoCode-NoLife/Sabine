@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Sabine.Zone.Ais;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Maps;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;

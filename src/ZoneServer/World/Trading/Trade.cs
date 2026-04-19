@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sabine.Shared.Const;
 using Sabine.Shared.Util;
 using Sabine.Zone.Network;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Maps;
 using Yggdrasil.Logging;
 

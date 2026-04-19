@@ -1,4 +1,4 @@
-﻿using Sabine.Zone.World.Entities;
+﻿using Sabine.Zone.World.Actors;
 
 namespace Sabine.Zone.World.Shops
 {

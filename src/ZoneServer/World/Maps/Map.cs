@@ -7,7 +7,7 @@ using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Maps.PathFinding;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -19,8 +19,7 @@ namespace Sabine.Zone.World.Maps
 	/// </summary>
 	public class Map : IUpdateable
 	{
-		private readonly Dictionary<int, PlayerCharacter> _characters = new();
-
+		private readonly Dictionary<int, PlayerCharacter> _players = new();
 		private readonly Dictionary<int, Npc> _npcs = new();
 		private readonly Dictionary<int, Item> _items = new();
 		private readonly List<IUpdateable> _updateEntities = new();
@@ -69,8 +68,8 @@ namespace Sabine.Zone.World.Maps
 		{
 			get
 			{
-				lock (_characters)
-					return _characters.Count;
+				lock (_players)
+					return _players.Count;
 			}
 		}
 
@@ -129,8 +128,8 @@ namespace Sabine.Zone.World.Maps
 				lock (_npcs)
 					_updateEntities.AddRange(_npcs.Values);
 
-				lock (_characters)
-					_updateEntities.AddRange(_characters.Values);
+				lock (_players)
+					_updateEntities.AddRange(_players.Values);
 
 				foreach (var entity in _updateEntities)
 					entity.Update(elapsed);
@@ -173,9 +172,9 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public IEntity GetEntity(int handle)
+		public IActor GetEntity(int handle)
 		{
-			var result = new List<IEntity>();
+			var result = new List<IActor>();
 
 			lock (_items)
 			{
@@ -189,9 +188,9 @@ namespace Sabine.Zone.World.Maps
 					return entity;
 			}
 
-			lock (_characters)
+			lock (_players)
 			{
-				if (_characters.TryGetValue(handle, out var entity))
+				if (_players.TryGetValue(handle, out var entity))
 					return entity;
 			}
 
@@ -203,9 +202,9 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
-		public List<IEntity> GetVisibleEntities(IEntity entity)
+		public List<IActor> GetVisibleEntities(IActor entity)
 		{
-			var result = new List<IEntity>();
+			var result = new List<IActor>();
 
 			lock (_items)
 				result.AddRange(_items.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
@@ -213,8 +212,8 @@ namespace Sabine.Zone.World.Maps
 			lock (_npcs)
 				result.AddRange(_npcs.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
 
-			lock (_characters)
-				result.AddRange(_characters.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
+			lock (_players)
+				result.AddRange(_players.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
 
 			return result;
 		}
@@ -223,11 +222,11 @@ namespace Sabine.Zone.World.Maps
 		/// Adds entity to visible entities on all players.
 		/// </summary>
 		/// <param name="entity"></param>
-		private void AddVisibleEntity(IEntity entity)
+		private void AddVisibleEntity(IActor entity)
 		{
-			lock (_characters)
+			lock (_players)
 			{
-				foreach (var character in _characters.Values)
+				foreach (var character in _players.Values)
 					character.AddVisibleEntity(entity);
 			}
 		}
@@ -236,11 +235,11 @@ namespace Sabine.Zone.World.Maps
 		/// Removes entity from visible entities on all players.
 		/// </summary>
 		/// <param name="entity"></param>
-		private void RemoveVisibleEntity(IEntity entity)
+		private void RemoveVisibleEntity(IActor entity)
 		{
-			lock (_characters)
+			lock (_players)
 			{
-				foreach (var character in _characters.Values)
+				foreach (var character in _players.Values)
 					character.RemoveVisibleEntity(entity);
 			}
 		}
@@ -250,14 +249,14 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="character"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public virtual void AddCharacter(PlayerCharacter character)
+		public virtual void AddPlayer(PlayerCharacter character)
 		{
-			lock (_characters)
+			lock (_players)
 			{
-				if (_characters.ContainsKey(character.Id))
+				if (_players.ContainsKey(character.Id))
 					throw new ArgumentException($"A character with the id '{character.Id}' already exists on the map.");
 
-				_characters[character.Id] = character;
+				_players[character.Id] = character;
 				character.Map = this;
 			}
 
@@ -270,14 +269,14 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="character"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public virtual void RemoveCharacter(PlayerCharacter character)
+		public virtual void RemovePlayer(PlayerCharacter character)
 		{
-			lock (_characters)
+			lock (_players)
 			{
-				if (!_characters.ContainsKey(character.Id))
+				if (!_players.ContainsKey(character.Id))
 					throw new ArgumentException($"A character with the id '{character.Id}' doesn't exists on the map.");
 
-				_characters.Remove(character.Id);
+				_players.Remove(character.Id);
 			}
 
 			// Cancel any trades on removal, so they get cancelled on
@@ -297,16 +296,111 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Return the character with the given handle, or null if the
-		/// character wasn't found.
+		/// Returns the player character with the given handle via out.
+		/// Returns false if the character wasn't found or isn't a
+		/// player character.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="player"></param>
+		/// <returns></returns>
+		public bool TryGetPlayer(int handle, out PlayerCharacter player)
+		{
+			lock (_players)
+			{
+				if (_players.TryGetValue(handle, out var character))
+				{
+					player = character;
+					return true;
+				}
+			}
+
+			player = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Returns the player character with the given id via out.
+		/// Returns false if the character wasn't found or isn't a
+		/// player character.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="player"></param>
+		/// <returns></returns>
+		public bool TryGetPlayerById(int id, out PlayerCharacter player)
+		{
+			lock (_players)
+			{
+				foreach (var character in _players.Values)
+				{
+					if (character.Id == id)
+					{
+						player = character;
+						return true;
+					}
+				}
+			}
+
+			player = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Returns the player character with the given name via out.
+		/// Returns false if the character wasn't found or isn't a
+		/// player character.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="player"></param>
+		/// <returns></returns>
+		public bool TryGetPlayerByName(string name, out PlayerCharacter player)
+		{
+			lock (_players)
+			{
+				foreach (var character in _players.Values)
+				{
+					if (character.Name == name)
+					{
+						player = character;
+						return true;
+					}
+				}
+			}
+
+			player = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Adds the characters on the map that match the predicate to the
+		/// given list.
+		/// </summary>
+		/// <typeparam name="TState"></typeparam>
+		/// <param name="result">The list to add matching characters to.</param>
+		/// <param name="state">A state that is passed to the predicate for determining matches.</param>
+		/// <param name="predicate">The predicate characters need to match to be added to the list.</param>
+		public void GetPlayers<TState>(List<PlayerCharacter> result, TState state, Func<TState, PlayerCharacter, bool> predicate)
+		{
+			lock (_players)
+			{
+				foreach (var character in _players.Values)
+				{
+					if (predicate(state, character))
+						result.Add(character);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Returns the player or NPC with the given handle. Returns null
+		/// if not matching character was found.
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
 		public Character GetCharacter(int handle)
 		{
-			lock (_characters)
+			lock (_players)
 			{
-				var character = _characters.Values.FirstOrDefault(a => a.Handle == handle);
+				var character = _players.Values.FirstOrDefault(a => a.Handle == handle);
 				if (character != null)
 					return character;
 			}
@@ -332,103 +426,6 @@ namespace Sabine.Zone.World.Maps
 		{
 			character = this.GetCharacter(handle);
 			return character != null;
-		}
-
-		/// <summary>
-		/// Returns the character with the given handle via out, returns
-		/// false if the character wasn't found or they don't match the
-		/// requested type.
-		/// </summary>
-		/// <param name="handle"></param>
-		/// <param name="character"></param>
-		/// <returns></returns>
-		public bool TryGetCharacter<TCharacter>(int handle, out TCharacter character) where TCharacter : Character
-		{
-			character = this.GetCharacter(handle) as TCharacter;
-			return character != null;
-		}
-
-		/// <summary>
-		/// Returns the player character with the given handle via out.
-		/// Returns false if the character wasn't found or isn't a
-		/// player character.
-		/// </summary>
-		/// <param name="handle"></param>
-		/// <param name="player"></param>
-		/// <returns></returns>
-		public bool TryGetPlayer(int handle, out PlayerCharacter player)
-			=> this.TryGetCharacter(handle, out player);
-
-		/// <summary>
-		/// Returns the player character with the given id via out.
-		/// Returns false if the character wasn't found or isn't a
-		/// player character.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="player"></param>
-		/// <returns></returns>
-		public bool TryGetPlayerById(int id, out PlayerCharacter player)
-		{
-			lock (_characters)
-			{
-				foreach (var character in _characters.Values)
-				{
-					if (character.Id == id && character is PlayerCharacter pc)
-					{
-						player = pc;
-						return true;
-					}
-				}
-			}
-
-			player = null;
-			return false;
-		}
-
-		/// <summary>
-		/// Returns the player character with the given name via out.
-		/// Returns false if the character wasn't found or isn't a
-		/// player character.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="player"></param>
-		/// <returns></returns>
-		public bool TryGetPlayerByName(string name, out PlayerCharacter player)
-		{
-			lock (_characters)
-			{
-				foreach (var character in _characters.Values)
-				{
-					if (character.Name == name && character is PlayerCharacter pc)
-					{
-						player = pc;
-						return true;
-					}
-				}
-			}
-
-			player = null;
-			return false;
-		}
-
-		/// <summary>
-		/// Adds the characters on the map that match the predicate to the
-		/// given list.
-		/// </summary>
-		/// <typeparam name="TState"></typeparam>
-		/// <param name="result">The list to add matching characters to.</param>
-		/// <param name="state">A state that is passed to the predicate for determining matches.</param>
-		/// <param name="predicate">The predicate characters need to match to be added to the list.</param>
-		public void GetCharacters<TState>(List<PlayerCharacter> result, TState state, Func<TState, PlayerCharacter, bool> predicate)
-		{
-			lock (_characters)
-			{
-				foreach (var character in _characters.Values)
-				{
-					if (predicate(state, character))
-						result.Add(character);
-				}
-			}
 		}
 
 		/// <summary>
@@ -675,7 +672,7 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="packet">Packet to send.</param>
 		/// <param name="source">Source of the packet if it's only sent in a range around the source. Use null for map-wide broadcast.</param>
 		/// <param name="targets">Specifies who will receive the packet.</param>
-		public void Broadcast(Packet packet, IEntity source, BroadcastTargets targets)
+		public void Broadcast(Packet packet, IActor source, BroadcastTargets targets)
 			=> this.Broadcast(packet, source, this.VisibleRange, targets);
 
 		/// <summary>
@@ -685,11 +682,11 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="source">Source of the packet if it's only sent in a range around the source. Use null for map-wide broadcast.</param>
 		/// <param name="range">The range around the source in which the packet is broadcasted.</param>
 		/// <param name="targets">Specifies who will receive the packet.</param>
-		public void Broadcast(Packet packet, IEntity source, int range, BroadcastTargets targets)
+		public void Broadcast(Packet packet, IActor source, int range, BroadcastTargets targets)
 		{
-			lock (_characters)
+			lock (_players)
 			{
-				foreach (var character in _characters.Values)
+				foreach (var character in _players.Values)
 				{
 					if (source != null)
 					{

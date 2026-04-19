@@ -5,8 +5,8 @@ using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
-using Sabine.Zone.World.Entities;
-using Sabine.Zone.World.Entities.Components.Characters;
+using Sabine.Zone.World.Actors;
+using Sabine.Zone.World.Actors.Components.Characters;
 using Yggdrasil.Ai.Enumerable;
 using Yggdrasil.Logging;
 
@@ -228,7 +228,7 @@ namespace Sabine.Zone.Ais
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		protected bool TryGetEntity(int handle, out IEntity entity)
+		protected bool TryGetEntity(int handle, out IActor entity)
 		{
 			entity = this.Character.Map.GetEntity(handle);
 			return entity != null;

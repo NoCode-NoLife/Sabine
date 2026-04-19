@@ -15,7 +15,7 @@ using Sabine.Zone.Events.Args;
 using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Chats;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Collections;
@@ -105,7 +105,7 @@ namespace Sabine.Zone.Network
 
 			Send.ZC_ACCEPT_ENTER(conn, character);
 
-			map.AddCharacter(character);
+			map.AddPlayer(character);
 
 			Log.Info("User '{0}' logged in.", account.Username);
 		}
@@ -248,7 +248,7 @@ namespace Sabine.Zone.Network
 			// "chat".
 
 			using var sameChatCharacters = PooledList<PlayerCharacter>.Rent();
-			character.Map.GetCharacters(sameChatCharacters, character, static (sourceCharacter, character) =>
+			character.Map.GetPlayers(sameChatCharacters, character, static (sourceCharacter, character) =>
 			{
 				if (sourceCharacter == character)
 					return false;

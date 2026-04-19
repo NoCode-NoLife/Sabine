@@ -1,6 +1,6 @@
 ﻿using System;
 using Sabine.Shared.Util;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
 

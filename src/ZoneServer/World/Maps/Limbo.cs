@@ -1,5 +1,5 @@
 ﻿using Sabine.Shared.Data.Databases;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 
 namespace Sabine.Zone.World.Maps
 {
@@ -28,7 +28,7 @@ namespace Sabine.Zone.World.Maps
 		/// Does nothing.
 		/// </summary>
 		/// <param name="character"></param>
-		public override void AddCharacter(PlayerCharacter character)
+		public override void AddPlayer(PlayerCharacter character)
 		{
 		}
 
@@ -36,7 +36,7 @@ namespace Sabine.Zone.World.Maps
 		/// Does nothing.
 		/// </summary>
 		/// <param name="character"></param>
-		public override void RemoveCharacter(PlayerCharacter character)
+		public override void RemovePlayer(PlayerCharacter character)
 		{
 		}
 

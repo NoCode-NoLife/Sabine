@@ -2,7 +2,7 @@
 using Sabine.Shared.Database;
 using Sabine.Shared.Network;
 using Sabine.Zone.Scripting.Dialogues;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 
@@ -59,7 +59,7 @@ namespace Sabine.Zone.Network
 
 			if (character != null)
 			{
-				character?.Map.RemoveCharacter(character);
+				character?.Map.RemovePlayer(character);
 			}
 
 			if (account != null && character != null)

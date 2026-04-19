@@ -4,9 +4,9 @@ using Sabine.Shared;
 using Sabine.Shared.World;
 using Sabine.Zone.Compatibility;
 using Sabine.Zone.Scripting.Dialogues;
-using Sabine.Zone.World.Entities.Components.Characters;
+using Sabine.Zone.World.Actors.Components.Characters;
 
-namespace Sabine.Zone.World.Entities
+namespace Sabine.Zone.World.Actors
 {
 	/// <summary>
 	/// Represents a non-player character.

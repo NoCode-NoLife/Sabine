@@ -7,7 +7,7 @@ using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Commands;
 using Sabine.Zone.Scripting.Dialogues;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Shops;
 using Sabine.Zone.World.Spawning;
 

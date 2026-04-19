@@ -3,7 +3,7 @@ using Sabine.Shared.Const;
 using Sabine.Shared.Database;
 using Sabine.Shared.Database.MySQL;
 using Sabine.Shared.World;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 
 namespace Sabine.Zone.Database
 {

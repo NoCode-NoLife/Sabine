@@ -14,7 +14,7 @@ using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone;
 using Sabine.Zone.Scripting;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
 using static Sabine.Zone.Scripting.Shortcuts;

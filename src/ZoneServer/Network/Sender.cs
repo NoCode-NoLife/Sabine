@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sabine.Shared.Network;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Maps;
 
 namespace Sabine.Zone.Network

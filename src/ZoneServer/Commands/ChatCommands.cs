@@ -9,7 +9,7 @@ using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.Skills;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;

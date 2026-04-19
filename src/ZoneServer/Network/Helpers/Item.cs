@@ -1,7 +1,7 @@
 ﻿using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Network;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 
 namespace Sabine.Zone.Network.Helpers
 {

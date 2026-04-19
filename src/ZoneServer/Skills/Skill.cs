@@ -3,7 +3,7 @@ using System.Text;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data.Databases;
 using Sabine.Zone.Network;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 
 namespace Sabine.Zone.Skills
 {

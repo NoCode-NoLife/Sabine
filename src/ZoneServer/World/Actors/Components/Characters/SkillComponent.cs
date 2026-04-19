@@ -5,7 +5,7 @@ using Sabine.Shared.Const;
 using Sabine.Zone.Network;
 using Sabine.Zone.Skills;
 
-namespace Sabine.Zone.World.Entities.Components.Characters
+namespace Sabine.Zone.World.Actors.Components.Characters
 {
 	/// <summary>
 	/// A component that manages a character's skills.

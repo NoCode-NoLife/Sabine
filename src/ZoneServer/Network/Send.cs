@@ -10,7 +10,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network.Helpers;
 using Sabine.Zone.Skills;
 using Sabine.Zone.World.Chats;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Util;
 
@@ -54,7 +54,7 @@ namespace Sabine.Zone.Network
 		/// Makes character appear on the player's client.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, IEntryCharacter character)
+		public static void ZC_NOTIFY_STANDENTRY(PlayerCharacter player, IStandEntry character)
 		{
 			using var packet = Packet.Rent(Op.ZC_NOTIFY_STANDENTRY);
 			packet.AddStandEntry(character);
@@ -66,7 +66,7 @@ namespace Sabine.Zone.Network
 		/// Makes character appear on the clients around it.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_STANDENTRY(IEntryCharacter character)
+		public static void ZC_NOTIFY_STANDENTRY(IStandEntry character)
 		{
 			using var packet = Packet.Rent(Op.ZC_NOTIFY_STANDENTRY);
 			packet.AddStandEntry(character);
@@ -86,7 +86,7 @@ namespace Sabine.Zone.Network
 		/// to be handling both players and NPCs well.
 		/// </remarks>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_STANDENTRY_NPC(IEntryCharacter character)
+		public static void ZC_NOTIFY_STANDENTRY_NPC(IStandEntry character)
 		{
 			// In the alpha, class id 32 is a warp, in the form of a round
 			// shadow sprite, and 63 seems to be an effect, that uses the
@@ -102,7 +102,7 @@ namespace Sabine.Zone.Network
 		/// Makes NPC appear on the player's client.
 		/// </summary>
 		/// <param name="player"></param>
-		public static void ZC_NOTIFY_STANDENTRY_NPC(PlayerCharacter player, IEntryCharacter character)
+		public static void ZC_NOTIFY_STANDENTRY_NPC(PlayerCharacter player, IStandEntry character)
 		{
 			using var packet = Packet.Rent(Op.ZC_NOTIFY_STANDENTRY_NPC);
 			packet.AddStandEntryNpc(character);
@@ -115,7 +115,7 @@ namespace Sabine.Zone.Network
 		/// a spawn effect.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_NOTIFY_NEWENTRY(IEntryCharacter character)
+		public static void ZC_NOTIFY_NEWENTRY(IStandEntry character)
 		{
 			using var packet = Packet.Rent(Op.ZC_NOTIFY_NEWENTRY);
 			packet.AddNewEntry(character);
@@ -130,7 +130,7 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		public static void ZC_NOTIFY_MOVEENTRY(IEntryCharacter character, Position from, Position to)
+		public static void ZC_NOTIFY_MOVEENTRY(IStandEntry character, Position from, Position to)
 		{
 			// Same as the others, but with a packed move instead of the
 			// character's packed position.
@@ -149,7 +149,7 @@ namespace Sabine.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		public static void ZC_NOTIFY_MOVEENTRY(PlayerCharacter player, IEntryCharacter character, Position from, Position to)
+		public static void ZC_NOTIFY_MOVEENTRY(PlayerCharacter player, IStandEntry character, Position from, Position to)
 		{
 			using var packet = Packet.Rent(Op.ZC_NOTIFY_MOVEENTRY);
 			packet.AddMoveEntry(character, from, to);

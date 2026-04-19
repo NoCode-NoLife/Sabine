@@ -8,12 +8,12 @@ using Sabine.Shared.World;
 using Sabine.Zone.World.Maps;
 using Yggdrasil.Util;
 
-namespace Sabine.Zone.World.Entities
+namespace Sabine.Zone.World.Actors
 {
 	/// <summary>
 	/// Represents an item, either inside a player's inventory or on a map.
 	/// </summary>
-	public class Item : IEntity
+	public class Item : IActor
 	{
 		private static int HandlePool = 600_000_000;
 

@@ -5,7 +5,7 @@ using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Zone.Network;
 
-namespace Sabine.Zone.World.Entities.Components.Characters
+namespace Sabine.Zone.World.Actors.Components.Characters
 {
 	/// <summary>
 	/// Represents a player's inventory.

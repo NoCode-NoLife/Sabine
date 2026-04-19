@@ -1,4 +1,4 @@
-﻿using Sabine.Zone.World.Entities;
+﻿using Sabine.Zone.World.Actors;
 using Yggdrasil.Util.Commands;
 
 namespace Sabine.Zone.Commands

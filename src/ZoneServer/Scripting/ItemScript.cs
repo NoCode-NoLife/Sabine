@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sabine.Zone.World.Entities;
+using Sabine.Zone.World.Actors;
 using Yggdrasil.Logging;
 using Yggdrasil.Scripting;
 using Yggdrasil.Util;

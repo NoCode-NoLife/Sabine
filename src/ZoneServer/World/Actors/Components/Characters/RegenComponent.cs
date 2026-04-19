@@ -1,7 +1,7 @@
 ﻿using System;
 using Shared.Const;
 
-namespace Sabine.Zone.World.Entities.Components.Characters
+namespace Sabine.Zone.World.Actors.Components.Characters
 {
 	/// <summary>
 	/// A component that manages a character's parameter regeneration.
