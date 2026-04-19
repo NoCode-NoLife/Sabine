@@ -20,7 +20,7 @@ namespace Sabine.Char.Network
 		/// <param name="errorCode"></param>
 		public static void HC_REFUSE_ENTER(CharConnection conn, CharConnectError errorCode)
 		{
-			var packet = new Packet(Op.HC_REFUSE_ENTER);
+			using var packet = Packet.Rent(Op.HC_REFUSE_ENTER);
 			packet.PutByte((byte)errorCode);
 
 			conn.Send(packet);
@@ -34,7 +34,7 @@ namespace Sabine.Char.Network
 		/// <param name="characters"></param>
 		public static void HC_ACCEPT_ENTER(CharConnection conn, IEnumerable<Character> characters)
 		{
-			var packet = new Packet(Op.HC_ACCEPT_ENTER);
+			using var packet = Packet.Rent(Op.HC_ACCEPT_ENTER);
 
 			// The client expects '(len - 4) % 106 + 2' bytes here, meaning
 			// a minimum of 2. It's unknown what exactly these bytes do.
@@ -60,7 +60,7 @@ namespace Sabine.Char.Network
 		{
 			var mapFileName = mapStringId + ".gat";
 
-			var packet = new Packet(Op.HC_NOTIFY_ZONESVR);
+			using var packet = Packet.Rent(Op.HC_NOTIFY_ZONESVR);
 
 			packet.PutInt(characterId);
 			packet.PutString(mapFileName, 16);
@@ -78,7 +78,7 @@ namespace Sabine.Char.Network
 		/// <param name="error"></param>
 		public static void HC_REFUSE_MAKECHAR(CharConnection conn, CharCreateError error)
 		{
-			var packet = new Packet(Op.HC_REFUSE_MAKECHAR);
+			using var packet = Packet.Rent(Op.HC_REFUSE_MAKECHAR);
 			packet.PutByte((byte)error);
 
 			conn.Send(packet);
@@ -92,7 +92,7 @@ namespace Sabine.Char.Network
 		/// <param name="character"></param>
 		public static void HC_ACCEPT_MAKECHAR(CharConnection conn, Character character)
 		{
-			var packet = new Packet(Op.HC_ACCEPT_MAKECHAR);
+			using var packet = Packet.Rent(Op.HC_ACCEPT_MAKECHAR);
 			packet.AddCharacter(character);
 
 			conn.Send(packet);
@@ -105,7 +105,7 @@ namespace Sabine.Char.Network
 		/// <param name="conn"></param>
 		public static void HC_ACCEPT_DELETECHAR(CharConnection conn)
 		{
-			var packet = new Packet(Op.HC_ACCEPT_DELETECHAR);
+			using var packet = Packet.Rent(Op.HC_ACCEPT_DELETECHAR);
 			conn.Send(packet);
 		}
 
@@ -116,7 +116,7 @@ namespace Sabine.Char.Network
 		/// <param name="conn"></param>
 		public static void HC_REFUSE_DELETECHAR(CharConnection conn)
 		{
-			var packet = new Packet(Op.HC_REFUSE_DELETECHAR);
+			using var packet = Packet.Rent(Op.HC_REFUSE_DELETECHAR);
 			packet.PutByte(0); // Doesn't seem to do anything.
 
 			conn.Send(packet);

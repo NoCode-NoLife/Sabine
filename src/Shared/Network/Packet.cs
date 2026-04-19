@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using Microsoft.Extensions.ObjectPool;
 using Yggdrasil.Util;
 
 namespace Sabine.Shared.Network
@@ -8,10 +9,40 @@ namespace Sabine.Shared.Network
 	/// <summary>
 	/// Packet reader and writer.
 	/// </summary>
-	public class Packet
+	/// <remarks>
+	/// Packets are pooled internally and need to be disposed after use.
+	/// They are not thread-safe and only usable within the context of
+	/// their handling or sending.
+	/// </remarks>
+	public class Packet : IDisposable
 	{
-		private readonly BufferReaderWriter _buffer;
-		private readonly int _bodyStart;
+		private static readonly ObjectPool<Packet> Pool = new DefaultObjectPool<Packet>(new PacketPoolPolicy(), 5000);
+
+		private class PacketPoolPolicy : IPooledObjectPolicy<Packet>
+		{
+			public Packet Create()
+			{
+				return new Packet();
+			}
+
+			public bool Return(Packet packet)
+			{
+				// The vast majority of packets are small and we shouldn't
+				// need larger ones on constant standby.
+				if (packet._buffer.Length >= 1024)
+				{
+					packet._buffer.Dispose();
+					return false;
+				}
+
+				packet.Reset();
+				return true;
+			}
+		}
+
+		private BufferReaderWriter _buffer;
+		private int _bodyStart;
+		private bool _disposed;
 
 		private static readonly Encoding EncodingKR = Encoding.GetEncoding("EUC-KR");
 
@@ -21,28 +52,96 @@ namespace Sabine.Shared.Network
 		public Op Op { get; set; }
 
 		/// <summary>
+		/// Returns the length of the packet's buffer.
+		/// </summary>
+		public int Length => _buffer.Length;
+
+		/// <summary>
+		/// Creates a new instance. Used only internally for the object
+		/// pool, use <see cref="Packet.Rent"/> to get a packet instance.
+		/// </summary>
+		private Packet()
+		{
+		}
+
+		/// <summary>
 		/// Creates new packet to write to.
 		/// </summary>
 		/// <param name="op"></param>
-		public Packet(Op op)
+		public static Packet Rent(Op op)
 		{
-			this.Op = op;
+			var packet = Pool.Get();
+			packet._disposed = false;
 
-			_buffer = new BufferReaderWriter();
-			_buffer.Endianness = Endianness.LittleEndian;
+			if (packet._buffer == null)
+			{
+				packet._buffer = new BufferReaderWriter(BufferReaderWriter.DefaultSize);
+				packet._buffer.Endianness = Endianness.LittleEndian;
+			}
+			else
+			{
+				packet._buffer.Reuse(BufferReaderWriter.DefaultSize);
+			}
+
+			packet.Op = op;
+			packet._bodyStart = 0;
+
+			return packet;
 		}
 
 		/// <summary>
 		/// Creates packet from buffer to read it.
 		/// </summary>
 		/// <param name="buffer"></param>
-		public Packet(byte[] buffer)
+		public static Packet Rent(byte[] buffer)
 		{
-			_buffer = new BufferReaderWriter(buffer);
-			_buffer.Endianness = Endianness.LittleEndian;
+			var packet = Pool.Get();
+			packet._disposed = false;
 
-			this.Op = (Op)_buffer.ReadInt16();
-			_bodyStart = _buffer.Index;
+			if (packet._buffer == null)
+			{
+				packet._buffer = new BufferReaderWriter(buffer);
+				packet._buffer.Endianness = Endianness.LittleEndian;
+			}
+			else
+			{
+				packet._buffer.Reuse(buffer);
+			}
+
+			packet.Op = (Op)packet.GetShort();
+			packet._bodyStart = packet._buffer.Index;
+
+			return packet;
+		}
+
+		/// <summary>
+		/// Disposes the packet, returning it to the internal pool.
+		/// </summary>
+		public void Dispose()
+		{
+			if (_disposed)
+				return;
+
+			_disposed = true;
+			Pool.Return(this);
+		}
+
+		/// <summary>
+		/// Throws an exception if the packet has been disposed.
+		/// </summary>
+		/// <exception cref="ObjectDisposedException"></exception>
+		private void AssertNotDisposed()
+		{
+			if (_disposed)
+				throw new PacketDisposedException(this);
+		}
+
+		/// <summary>
+		/// Resets the packet's state, preparing it for reuse.
+		/// </summary>
+		private void Reset()
+		{
+			this.Op = 0;
 		}
 
 		/// <summary>
@@ -50,28 +149,40 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		/// <returns></returns>
 		public int GetRemainingLength()
-			=> _buffer.Length - _buffer.Index;
+		{
+			this.AssertNotDisposed();
+			return _buffer.Length - _buffer.Index;
+		}
 
 		/// <summary>
 		/// Writes value to packet.
 		/// </summary>
 		/// <param name="value"></param>
 		public void PutByte(byte value)
-			=> _buffer.WriteByte(value);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteByte(value);
+		}
 
 		/// <summary>
 		/// Writes value to packet as 1 or 0.
 		/// </summary>
 		/// <param name="value"></param>
 		public void PutByte(bool value)
-			=> _buffer.WriteByte(value ? (byte)1 : (byte)0);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteByte(value ? (byte)1 : (byte)0);
+		}
 
 		/// <summary>
 		/// Writes value to packet.
 		/// </summary>
 		/// <param name="value"></param>
 		public void PutBytes(byte[] value)
-			=> _buffer.Write(value);
+		{
+			this.AssertNotDisposed();
+			_buffer.Write(value);
+		}
 
 		/// <summary>
 		/// Writes given number of bytes with the value 0 to packet.
@@ -79,6 +190,8 @@ namespace Sabine.Shared.Network
 		/// <param name="value"></param>
 		public void PutEmpty(int amount)
 		{
+			this.AssertNotDisposed();
+
 			for (var i = 0; i < amount; ++i)
 				_buffer.WriteByte(0);
 		}
@@ -88,21 +201,34 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		/// <param name="value"></param>
 		public void PutShort(short value)
-			=> _buffer.WriteInt16(value);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteInt16(value);
+		}
 
 		/// <summary>
 		/// Writes value to packet.
 		/// </summary>
 		/// <param name="value"></param>
 		public void PutInt(int value)
-			=> _buffer.WriteInt32(value);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteInt32(value);
+		}
 
 		/// <summary>
 		/// Writes IP to packet as an int.
 		/// </summary>
 		/// <param name="value"></param>
 		public void PutInt(IPAddress value)
-			=> _buffer.WriteInt32(BitConverter.ToInt32(value.GetAddressBytes(), 0));
+		{
+			this.AssertNotDisposed();
+
+			Span<byte> bytes = stackalloc byte[4];
+			value.TryWriteBytes(bytes, out _);
+
+			_buffer.Write(bytes);
+		}
 
 		/// <summary>
 		/// Writes string to packet, padding or capping it at the
@@ -118,28 +244,26 @@ namespace Sabine.Shared.Network
 		/// <param name="value"></param>
 		public void PutString(string value, int length)
 		{
-			var bytes = EncodingKR.GetBytes(value ?? "");
-			var writeLength = Math.Min(bytes.Length, length - 1);
-			var remain = length - writeLength;
-
-			_buffer.Write(bytes, 0, writeLength);
-
-			for (var i = 0; i < remain; ++i)
-				_buffer.WriteByte(0);
+			this.AssertNotDisposed();
+			_buffer.WriteString(EncodingKR, value, length, StringWriteOptions.NullTerminated);
 		}
 
 		/// <summary>
 		/// Writes string and a null terminator to packet.
 		/// </summary>
+		/// <example>
+		/// packet.PutString("foobar", false);
+		/// => 66 6F 6F 62 61 72
+		/// 
+		/// packet.PutString("foobar", true);
+		/// => 66 6F 6F 62 61 72 00
+		/// </example>
 		/// <param name="value"></param>
 		/// <param name="terminate">Whether to put a null-terminator at the end of the string.</param>
 		public void PutString(string value, bool terminate = true)
 		{
-			var bytes = EncodingKR.GetBytes(value ?? "");
-
-			_buffer.Write(bytes);
-			if (terminate)
-				_buffer.WriteByte(0);
+			this.AssertNotDisposed();
+			_buffer.WriteString(EncodingKR, value, terminate ? StringWriteOptions.NullTerminated : StringWriteOptions.None);
 		}
 
 		/// <summary>
@@ -147,14 +271,20 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		/// <returns></returns>
 		public byte GetByte()
-			=> _buffer.ReadByte();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadByte();
+		}
 
 		/// <summary>
 		/// Reads a signed byte from packet and returns it.
 		/// </summary>
 		/// <returns></returns>
 		public sbyte GetSByte()
-			=> _buffer.ReadSByte();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadSByte();
+		}
 
 		/// <summary>
 		/// Reads the given number of bytes from the packet and returns them.
@@ -162,21 +292,30 @@ namespace Sabine.Shared.Network
 		/// <param name="length"></param>
 		/// <returns></returns>
 		public byte[] GetBytes(int length)
-			=> _buffer.Read(length);
+		{
+			this.AssertNotDisposed();
+			return _buffer.Read(length);
+		}
 
 		/// <summary>
 		/// Reads a short from packet and returns it.
 		/// </summary>
 		/// <returns></returns>
 		public int GetShort()
-			=> _buffer.ReadInt16();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadInt16();
+		}
 
 		/// <summary>
 		/// Reads an int from packet and returns it.
 		/// </summary>
 		/// <returns></returns>
 		public int GetInt()
-			=> _buffer.ReadInt32();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadInt32();
+		}
 
 		/// <summary>
 		/// Reads given number of bytes from packet and returns them
@@ -185,30 +324,44 @@ namespace Sabine.Shared.Network
 		/// <returns></returns>
 		public string GetString(int length)
 		{
-			var bytes = _buffer.Read(length);
-			var len = Array.IndexOf(bytes, (byte)0);
+			this.AssertNotDisposed();
 
-			if (len == -1)
-				len = bytes.Length;
+			var bytes = _buffer.ReadAsSpan(length);
+			var val = EncodingKR.GetString(bytes);
 
-			var result = EncodingKR.GetString(bytes, 0, len);
+			var nullIndex = val.IndexOf((char)0);
+			if (nullIndex != -1)
+				val = val.Substring(0, nullIndex);
 
-			return result;
+			return val;
 		}
 
 		/// <summary>
-		/// Returns a buffer containing the packet's body, without opcode
-		/// or length.
+		/// Returns a buffer containing the packet's body.
 		/// </summary>
 		/// <returns></returns>
 		public byte[] Build()
 		{
+			this.AssertNotDisposed();
+
 			var length = _buffer.Length - _bodyStart;
-			var result = new byte[length];
+			var buffer = new byte[length];
 
-			_buffer.CopyTo(result, 0, _bodyStart);
+			this.Build(ref buffer, 0);
 
-			return result;
+			return buffer;
+		}
+
+		/// <summary>
+		/// Copies packet's body to given buffer at offset.
+		/// </summary>
+		/// <param name="buffer"></param>
+		/// <param name="offset"></param>
+		/// <returns></returns>
+		public void Build(ref byte[] buffer, int offset)
+		{
+			this.AssertNotDisposed();
+			_buffer.CopyTo(buffer, offset, _bodyStart);
 		}
 
 		/// <summary>
@@ -216,6 +369,39 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		/// <returns></returns>
 		public override string ToString()
-			=> Hex.ToString(_buffer.Copy(), HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine);
+		{
+			this.AssertNotDisposed();
+			return Hex.ToString(_buffer.Copy(), HexStringOptions.SpaceSeparated | HexStringOptions.SixteenNewLine);
+		}
+	}
+
+	/// <summary>
+	/// Custom exception for disposed packets.
+	/// </summary>
+	/// <remarks>
+	/// This exception is thrown when an operation is attempted on a
+	/// packet that has already been disposed. It's important for us to
+	/// distinguish this from a regular ObjectDisposedException, because
+	/// ObjectDisposedException will be thrown and swallowed by the
+	/// network handling in certain circumstances.
+	/// </remarks>
+	public class PacketDisposedException : Exception
+	{
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="obj"></param>
+		public PacketDisposedException(object obj)
+			: base($"Packet '{obj}' has been disposed and cannot be used.")
+		{
+		}
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="message"></param>
+		public PacketDisposedException(string message) : base(message)
+		{
+		}
 	}
 }

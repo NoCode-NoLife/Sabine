@@ -1,10 +1,13 @@
 ﻿using System;
 using Yggdrasil.Network.Framing;
-using Yggdrasil.Util;
 
 namespace Sabine.Shared.Network
 {
-	public class RoFramer : IMessageFramer
+	/// <summary>
+	/// Utility class for parsing and framing messages according to the RO
+	/// protocol.
+	/// </summary>
+	public class RoFramer
 	{
 		private readonly byte[] _headerBuffer;
 		private byte[] _messageBuffer;
@@ -14,11 +17,6 @@ namespace Sabine.Shared.Network
 		/// Maximum size of messages.
 		/// </summary>
 		public int MaxMessageSize { get; }
-
-		/// <summary>
-		/// Called every time ReceiveData got a full message.
-		/// </summary>
-		public event Action<byte[]> MessageReceived;
 
 		/// <summary>
 		/// Creates new instance.
@@ -32,40 +30,44 @@ namespace Sabine.Shared.Network
 		}
 
 		/// <summary>
-		/// Wraps message in frame.
+		/// Calculates the size of the packet when framed.
 		/// </summary>
-		/// <param name="message"></param>
-		/// <returns></returns>
-		public byte[] Frame(byte[] message)
+		/// <param name="packet">The packet to calculate the size of.</param>
+		/// <param name="tableSize">The size of the packet according to the packet table.</param>
+		/// <param name="packetSize">The total size of the packet when framed.</param>
+		public void GetPacketSize(Packet packet, out int tableSize, out int packetSize)
 		{
-			throw new NotSupportedException();
+			var opNetwork = PacketTable.ToNetwork(packet.Op);
+
+			tableSize = PacketTable.GetSize(opNetwork);
+
+			if (tableSize == PacketTable.Dynamic)
+				packetSize = sizeof(short) * 2 + packet.Length;
+			else
+				packetSize = sizeof(short) + packet.Length;
 		}
 
 		/// <summary>
-		/// Wraps packet body in frame.
+		/// Writes the full, framed packet into buffer.
 		/// </summary>
-		/// <param name="message"></param>
-		/// <returns></returns>
-		public byte[] Frame(Packet packet)
+		/// <param name="packet">The packet to write into buffer.</param>
+		/// <param name="tableSize">The size of the packet according to the packet table.</param>
+		/// <param name="packetSize">The total size of the packet when framed.</param>
+		/// <param name="buffer">The buffer to write the framed packet into.</param>
+		public void Frame(Packet packet, int tableSize, int packetSize, byte[] buffer)
 		{
 			var opNetwork = PacketTable.ToNetwork(packet.Op);
-			var tableSize = PacketTable.GetSize(opNetwork);
 
-			var bodyBuffer = packet.Build();
-			var buffer = new BufferReaderWriter();
-			buffer.Endianness = Endianness.LittleEndian;
+			BitConverter.TryWriteBytes(buffer.AsSpan(0), (short)opNetwork);
 
-			buffer.WriteInt16((short)opNetwork);
-
+			var offset = sizeof(short);
 			if (tableSize == PacketTable.Dynamic)
 			{
-				var messageSize = sizeof(short) * 2 + bodyBuffer.Length;
-				buffer.WriteInt16((short)messageSize);
+				BitConverter.TryWriteBytes(buffer.AsSpan(offset), (short)packetSize);
+				offset += sizeof(short);
 			}
 
-			buffer.Write(bodyBuffer);
-
-			return buffer.Copy();
+			packet.Build(ref buffer, offset);
 		}
 
 		/// <summary>
@@ -74,12 +76,13 @@ namespace Sabine.Shared.Network
 		/// </summary>
 		/// <param name="data">Buffer to read from.</param>
 		/// <param name="length">Length of actual information in data.</param>
+		/// <param name="messageReceived">Callback invoked when a full message has been received.</param>
 		/// <exception cref="InvalidMessageSizeException">
 		/// Thrown if a message has an invalid size. Should this occur,
 		/// the connection should be terminated, because it's not save to
 		/// keep receiving anymore.
 		/// </exception>
-		public void ReceiveData(byte[] data, int length)
+		public void ReceiveData(byte[] data, int length, Action<byte[]> messageReceived)
 		{
 			var bytesAvailable = length;
 			if (bytesAvailable == 0)
@@ -147,7 +150,7 @@ namespace Sabine.Shared.Network
 					// it out
 					if (_bytesReceived == _messageBuffer.Length)
 					{
-						this.MessageReceived?.Invoke(_messageBuffer);
+						messageReceived?.Invoke(_messageBuffer);
 
 						_messageBuffer = null;
 						_bytesReceived = 0;
@@ -156,5 +159,4 @@ namespace Sabine.Shared.Network
 			}
 		}
 	}
-
 }

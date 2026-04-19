@@ -20,7 +20,7 @@ namespace Sabine.Auth.Network
 		/// <param name="errorMessage">Error message to display for certain errors (not support by all versions).</param>
 		public static void AC_REFUSE_LOGIN(AuthConnection conn, LoginConnectError errorCode, string errorMessage = null)
 		{
-			var packet = new Packet(Op.AC_REFUSE_LOGIN);
+			using var packet = Packet.Rent(Op.AC_REFUSE_LOGIN);
 			packet.PutByte((byte)errorCode);
 
 			if (Game.Version >= Versions.Beta2)
@@ -37,7 +37,7 @@ namespace Sabine.Auth.Network
 		/// <param name="account"></param>
 		public static void AC_ACCEPT_LOGIN(AuthConnection conn, Account account)
 		{
-			var packet = new Packet(Op.AC_ACCEPT_LOGIN);
+			using var packet = Packet.Rent(Op.AC_ACCEPT_LOGIN);
 
 			if (Game.Version < Versions.Beta1)
 			{
@@ -88,7 +88,7 @@ namespace Sabine.Auth.Network
 		/// <param name="salt"></param>
 		public static void AC_ACK_HASH(AuthConnection conn, string salt)
 		{
-			var packet = new Packet(Op.AC_ACK_HASH);
+			using var packet = Packet.Rent(Op.AC_ACK_HASH);
 
 			// Make sure to not null-terminate the string, as the client
 			// uses any potential null-terminators as part of the hash,
