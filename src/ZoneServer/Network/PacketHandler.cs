@@ -18,6 +18,7 @@ using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Entities;
 using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
+using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
