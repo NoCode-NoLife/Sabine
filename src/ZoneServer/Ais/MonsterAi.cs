@@ -8,6 +8,7 @@ using Sabine.Zone.Network;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Actors.Components.Characters;
 using Yggdrasil.Ai.Enumerable;
+using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 
 namespace Sabine.Zone.Ais
@@ -230,7 +231,7 @@ namespace Sabine.Zone.Ais
 		/// <returns></returns>
 		protected bool TryGetEntity(int handle, out IActor entity)
 		{
-			entity = this.Character.Map.GetEntity(handle);
+			entity = this.Character.Map.GetActor(handle);
 			return entity != null;
 		}
 
@@ -314,18 +315,31 @@ namespace Sabine.Zone.Ais
 			var characterPos = character.Position;
 			var range = character.Map.VisibleRange / 2;
 
-			var items = character.Map.GetItems(a => a.Position.InRange(characterPos, range));
-			if (items.Length == 0)
+			using var items = PooledList<Item>.Rent();
+			character.Map.GetItemsInRange(characterPos, range, items);
+
+			if (items.Count == 0)
 			{
 				itemHandle = 0;
 				pos = Position.Zero;
 				return false;
 			}
 
-			var item = items.OrderBy(a => a.Position.GetDistance(characterPos)).First();
+			var closestDistance = float.MaxValue;
+			var closestItem = (Item)null;
 
-			itemHandle = item.Handle;
-			pos = item.Position;
+			foreach (var item in items)
+			{
+				var distance = item.Position.GetDistance(characterPos);
+				if (distance < closestDistance)
+				{
+					closestDistance = distance;
+					closestItem = item;
+				}
+			}
+
+			itemHandle = closestItem.Handle;
+			pos = closestItem.Position;
 
 			return true;
 		}

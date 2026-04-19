@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
+using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Maps.PathFinding;
+using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -17,12 +20,17 @@ namespace Sabine.Zone.World.Maps
 	/// <summary>
 	/// Represents a map in the world.
 	/// </summary>
-	public class Map : IUpdateable
+	public class Map : IDisposable, IUpdateable
 	{
+		private bool _disposed;
+
+		private readonly ReaderWriterLockSlim _playersLock = new();
+		private readonly ReaderWriterLockSlim _npcsLock = new();
+		private readonly ReaderWriterLockSlim _itemsLock = new();
+
 		private readonly Dictionary<int, PlayerCharacter> _players = new();
 		private readonly Dictionary<int, Npc> _npcs = new();
 		private readonly Dictionary<int, Item> _items = new();
-		private readonly List<IUpdateable> _updateCharacters = new();
 
 		/// <summary>
 		/// Returns a reference to the Limbo map. See Limbo class for
@@ -68,7 +76,7 @@ namespace Sabine.Zone.World.Maps
 		{
 			get
 			{
-				lock (_players)
+				using (SlimLock.Read(_playersLock))
 					return _players.Count;
 			}
 		}
@@ -102,6 +110,21 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Disposes the map, freeing all resources used by it.
+		/// </summary>
+		public void Dispose()
+		{
+			if (_disposed)
+				return;
+
+			_disposed = true;
+
+			_playersLock.Dispose();
+			_npcsLock.Dispose();
+			_itemsLock.Dispose();
+		}
+
+		/// <summary>
 		/// Updates the map and its entities.
 		/// </summary>
 		/// <param name="elapsed"></param>
@@ -117,25 +140,19 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		private void RemoveDroppedItems()
 		{
-			List<Item> items = null;
+			using var items = new PooledListSnapshot<Item>();
 			var now = DateTime.Now;
 
-			lock (_items)
+			using (SlimLock.Read(_itemsLock))
 			{
 				foreach (var item in _items.Values)
 				{
 					if (now < item.DropDisappearTime)
 						continue;
 
-					if (items == null)
-						items = new List<Item>();
-
 					items.Add(item);
 				}
 			}
-
-			if (items == null)
-				return;
 
 			foreach (var item in items)
 				this.RemoveItem(item);
@@ -146,11 +163,13 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		private void UpdateVisibility()
 		{
-			lock (_players)
-			{
-				foreach (var character in _players.Values)
-					character.UpdateVisibility();
-			}
+			using var players = new PooledListSnapshot<PlayerCharacter>();
+
+			using (SlimLock.Read(_playersLock))
+				players.AddRange(_players.Values);
+
+			foreach (var character in players)
+				character.UpdateVisibility();
 		}
 
 		/// <summary>
@@ -159,31 +178,22 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="elapsed"></param>
 		private void UpdateCharacters(TimeSpan elapsed)
 		{
-			// Create a list of updatables instead of locking and then
-			// updating monsters and characters separately, so that
-			// actions taken by components that get updated don't
-			// affect Map. For example, adding and removing monsters
-			// would modify the collections, and broadcasts could
-			// cause deadlocks under certain circumstances.
-			lock (_updateCharacters)
+			using var updateables = new PooledListSnapshot<IUpdateable>();
+
+			using (SlimLock.Read(_npcsLock))
 			{
-				lock (_npcs)
-				{
-					foreach (var character in _npcs.Values)
-						_updateCharacters.Add(character);
-				}
-
-				lock (_players)
-				{
-					foreach (var character in _players.Values)
-						_updateCharacters.Add(character);
-				}
-
-				foreach (var actor in _updateCharacters)
-					actor.Update(elapsed);
-
-				_updateCharacters.Clear();
+				foreach (var character in _npcs.Values)
+					updateables.Add(character);
 			}
+
+			using (SlimLock.Read(_playersLock))
+			{
+				foreach (var character in _players.Values)
+					updateables.Add(character);
+			}
+
+			foreach (var actor in updateables)
+				actor.Update(elapsed);
 		}
 
 		/// <summary>
@@ -191,26 +201,24 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="handle"></param>
 		/// <returns></returns>
-		public IActor GetEntity(int handle)
+		public IActor GetActor(int handle)
 		{
-			var result = new List<IActor>();
-
-			lock (_items)
+			using (SlimLock.Read(_itemsLock))
 			{
-				if (_items.TryGetValue(handle, out var entity))
-					return entity;
+				if (_items.TryGetValue(handle, out var actor))
+					return actor;
 			}
 
-			lock (_npcs)
+			using (SlimLock.Read(_npcsLock))
 			{
-				if (_npcs.TryGetValue(handle, out var entity))
-					return entity;
+				if (_npcs.TryGetValue(handle, out var actor))
+					return actor;
 			}
 
-			lock (_players)
+			using (SlimLock.Read(_playersLock))
 			{
-				if (_players.TryGetValue(handle, out var entity))
-					return entity;
+				if (_players.TryGetValue(handle, out var actor))
+					return actor;
 			}
 
 			return null;
@@ -225,7 +233,7 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public void GetVisibleActors(IActor actor, ICollection<IActor> result)
 		{
-			lock (_items)
+			using (SlimLock.Read(_itemsLock))
 			{
 				foreach (var item in _items.Values)
 				{
@@ -237,7 +245,7 @@ namespace Sabine.Zone.World.Maps
 				}
 			}
 
-			lock (_npcs)
+			using (SlimLock.Read(_npcsLock))
 			{
 				foreach (var npc in _npcs.Values)
 				{
@@ -249,7 +257,7 @@ namespace Sabine.Zone.World.Maps
 				}
 			}
 
-			lock (_players)
+			using (SlimLock.Read(_playersLock))
 			{
 				foreach (var character in _players.Values)
 				{
@@ -268,11 +276,13 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="actor"></param>
 		private void AddVisibleActor(IActor actor)
 		{
-			lock (_players)
-			{
-				foreach (var character in _players.Values)
-					character.AddVisibleActor(actor);
-			}
+			using var players = new PooledListSnapshot<PlayerCharacter>();
+
+			using (SlimLock.Read(_playersLock))
+				players.AddRange(_players.Values);
+
+			foreach (var character in players)
+				character.AddVisibleActor(actor);
 		}
 
 		/// <summary>
@@ -281,11 +291,13 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="actor"></param>
 		private void RemoveVisibleActor(IActor actor)
 		{
-			lock (_players)
-			{
-				foreach (var character in _players.Values)
-					character.RemoveVisibleActor(actor);
-			}
+			using var players = new PooledListSnapshot<PlayerCharacter>();
+
+			using (SlimLock.Read(_playersLock))
+				players.AddRange(_players.Values);
+
+			foreach (var character in players)
+				character.RemoveVisibleActor(actor);
 		}
 
 		/// <summary>
@@ -295,12 +307,12 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public virtual void AddPlayer(PlayerCharacter character)
 		{
-			lock (_players)
+			using (SlimLock.Write(_playersLock))
 			{
-				if (_players.ContainsKey(character.Id))
-					throw new ArgumentException($"A character with the id '{character.Id}' already exists on the map.");
+				if (_players.ContainsKey(character.Handle))
+					throw new ArgumentException($"A character with the handle '{character.Handle}' already exists on the map.");
 
-				_players[character.Id] = character;
+				_players[character.Handle] = character;
 				character.Map = this;
 			}
 
@@ -315,12 +327,12 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public virtual void RemovePlayer(PlayerCharacter character)
 		{
-			lock (_players)
+			using (SlimLock.Write(_playersLock))
 			{
-				if (!_players.ContainsKey(character.Id))
-					throw new ArgumentException($"A character with the id '{character.Id}' doesn't exists on the map.");
+				if (!_players.ContainsKey(character.Handle))
+					throw new ArgumentException($"A character with the handle '{character.Handle}' doesn't exists on the map.");
 
-				_players.Remove(character.Id);
+				_players.Remove(character.Handle);
 			}
 
 			// Cancel any trades on removal, so they get cancelled on
@@ -349,7 +361,7 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public bool TryGetPlayer(int handle, out PlayerCharacter player)
 		{
-			lock (_players)
+			using (SlimLock.Read(_playersLock))
 			{
 				if (_players.TryGetValue(handle, out var character))
 				{
@@ -372,7 +384,7 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public bool TryGetPlayerById(int id, out PlayerCharacter player)
 		{
-			lock (_players)
+			using (SlimLock.Read(_playersLock))
 			{
 				foreach (var character in _players.Values)
 				{
@@ -398,7 +410,7 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public bool TryGetPlayerByName(string name, out PlayerCharacter player)
 		{
-			lock (_players)
+			using (SlimLock.Read(_playersLock))
 			{
 				foreach (var character in _players.Values)
 				{
@@ -424,7 +436,7 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="predicate">The predicate characters need to match to be added to the list.</param>
 		public void GetPlayers<TState>(List<PlayerCharacter> result, TState state, Func<TState, PlayerCharacter, bool> predicate)
 		{
-			lock (_players)
+			using (SlimLock.Read(_playersLock))
 			{
 				foreach (var character in _players.Values)
 				{
@@ -442,17 +454,15 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public Character GetCharacter(int handle)
 		{
-			lock (_players)
+			using (SlimLock.Read(_playersLock))
 			{
-				var character = _players.Values.FirstOrDefault(a => a.Handle == handle);
-				if (character != null)
+				if (_players.TryGetValue(handle, out var character))
 					return character;
 			}
 
-			lock (_npcs)
+			using (SlimLock.Read(_npcsLock))
 			{
-				var npc = _npcs.Values.FirstOrDefault(a => a.Handle == handle);
-				if (npc != null)
+				if (_npcs.TryGetValue(handle, out var npc))
 					return npc;
 			}
 
@@ -479,10 +489,10 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public virtual void AddNpc(Npc npc)
 		{
-			lock (_npcs)
+			using (SlimLock.Write(_npcsLock))
 			{
 				if (_npcs.ContainsKey(npc.Handle))
-					throw new ArgumentException($"An NPC with the id '{npc.Handle}' already exists on the map.");
+					throw new ArgumentException($"An NPC with the handle '{npc.Handle}' already exists on the map.");
 
 				_npcs[npc.Handle] = npc;
 				npc.Map = this;
@@ -505,10 +515,10 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public virtual void RemoveNpc(Npc npc)
 		{
-			lock (_npcs)
+			using (SlimLock.Write(_npcsLock))
 			{
 				if (!_npcs.ContainsKey(npc.Handle))
-					throw new ArgumentException($"An NPC with the id '{npc.Handle}' doesn't exists on the map.");
+					throw new ArgumentException($"An NPC with the handle '{npc.Handle}' doesn't exists on the map.");
 
 				_npcs.Remove(npc.Handle);
 			}
@@ -524,39 +534,13 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Returns the NPC with the given handle, or null if it doesn't
-		/// exist.
-		/// </summary>
-		/// <param name="handle"></param>
-		/// <returns></returns>
-		public Npc GetNpc(int handle)
-		{
-			lock (_npcs)
-			{
-				_npcs.TryGetValue(handle, out var npc);
-				return npc;
-			}
-		}
-
-		/// <summary>
 		/// Returns a list of all NPCs on this map.
 		/// </summary>
 		/// <returns></returns>
 		public Npc[] GetAllNpcs()
 		{
-			lock (_npcs)
+			using (SlimLock.Read(_npcsLock))
 				return _npcs.Values.ToArray();
-		}
-
-		/// <summary>
-		/// Returns a list of all NPCs on this map that match the given
-		/// predicate.
-		/// </summary>
-		/// <returns></returns>
-		public Npc[] GetAllNpcs(Func<Npc, bool> predicate)
-		{
-			lock (_npcs)
-				return _npcs.Values.Where(predicate).ToArray();
 		}
 
 		/// <summary>
@@ -565,17 +549,17 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		/// <param name="position"></param>
 		/// <param name="result"></param>
-		public void GetTriggerAreas(Position position, IList<TriggerArea> result)
+		public void GetTriggerAreas(Position position, ICollection<TriggerArea> result)
 		{
-			lock (_npcs)
+			using (SlimLock.Read(_npcsLock))
 			{
-				foreach (var npc in _npcs.Values)
+				foreach (var character in _npcs.Values)
 				{
-					if (npc.TriggerArea == null)
+					if (character.TriggerArea == null)
 						continue;
 
-					if (npc.TriggerArea.Contains(position))
-						result.Add(npc.TriggerArea);
+					if (character.TriggerArea.Contains(position))
+						result.Add(character.TriggerArea);
 				}
 			}
 		}
@@ -587,10 +571,10 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public virtual void AddItem(Item item)
 		{
-			lock (_items)
+			using (SlimLock.Write(_itemsLock))
 			{
 				if (_items.ContainsKey(item.Handle))
-					throw new ArgumentException($"An NPC with the id '{item.Handle}' already exists on the map.");
+					throw new ArgumentException($"An item with the handle '{item.Handle}' already exists on the map.");
 
 				_items[item.Handle] = item;
 				item.Map = this;
@@ -607,10 +591,10 @@ namespace Sabine.Zone.World.Maps
 		/// <exception cref="ArgumentException"></exception>
 		public virtual void RemoveItem(Item item)
 		{
-			lock (_items)
+			using (SlimLock.Write(_itemsLock))
 			{
 				if (!_items.ContainsKey(item.Handle))
-					throw new ArgumentException($"An item with the id '{item.Handle}' doesn't exists on the map.");
+					throw new ArgumentException($"An item with the handle '{item.Handle}' doesn't exists on the map.");
 
 				_items.Remove(item.Handle);
 			}
@@ -629,7 +613,7 @@ namespace Sabine.Zone.World.Maps
 		/// <returns></returns>
 		public Item GetItem(int handle)
 		{
-			lock (_items)
+			using (SlimLock.Read(_itemsLock))
 			{
 				_items.TryGetValue(handle, out var item);
 				return item;
@@ -637,14 +621,22 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Returns a list of items that match the given predicate.
+		/// Returns a snapshot of the items in range of position.
 		/// </summary>
-		/// <param name="predicate"></param>
+		/// <param name="position"></param>
+		/// <param name="range"></param>
+		/// <param name="result"></param>
 		/// <returns></returns>
-		public Item[] GetItems(Func<Item, bool> predicate)
+		public void GetItemsInRange(Position position, int range, ICollection<Item> result)
 		{
-			lock (_items)
-				return _items.Values.Where(predicate).ToArray();
+			using (SlimLock.Read(_itemsLock))
+			{
+				foreach (var item in _items.Values)
+				{
+					if (item.Position.InRange(position, range))
+						result.Add(item);
+				}
+			}
 		}
 
 		/// <summary>
@@ -728,7 +720,9 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="targets">Specifies who will receive the packet.</param>
 		public void Broadcast(Packet packet, IActor source, int range, BroadcastTargets targets)
 		{
-			lock (_players)
+			using var players = new PooledListSnapshot<PlayerCharacter>();
+
+			using (SlimLock.Read(_playersLock))
 			{
 				foreach (var character in _players.Values)
 				{
@@ -741,9 +735,12 @@ namespace Sabine.Zone.World.Maps
 							continue;
 					}
 
-					character.Connection.Send(packet);
+					players.Add(character);
 				}
 			}
+
+			foreach (var character in players)
+				character.Connection.Send(packet);
 		}
 	}
 }
