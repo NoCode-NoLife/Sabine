@@ -91,5 +91,10 @@ namespace Sabine.Shared
 		/// Size of fixed-sized username strings.
 		/// </summary>
 		public static int Usernames => Game.Version < Versions.Beta1 ? 16 : 24;
+
+		/// <summary>
+		/// Size of fixed-sized party name strings.
+		/// </summary>
+		public static int PartyNames => Game.Version < Versions.Beta1 ? 16 : 24;
 	}
 }
