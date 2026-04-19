@@ -6,6 +6,7 @@ using Sabine.Shared.Const;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Maps;
+using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 
 namespace Sabine.Zone.World.Chats
