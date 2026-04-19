@@ -1550,5 +1550,33 @@ namespace Sabine.Zone.Network
 
 			room.RemoveMember(memberCharacter, MemberExitReason.Kicked);
 		}
+
+		/// <summary>
+		/// Request to create a party, sent when using the /organize
+		/// command.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_MAKE_GROUP)]
+		public void CZ_MAKE_GROUP(ZoneConnection conn, Packet packet)
+		{
+			var partyName = packet.GetString(Sizes.PartyNames);
+
+			var character = conn.GetCurrentCharacter();
+
+			character.ServerMessage(Localization.Get("This feature has not been implemented yet."));
+
+			//Send.ZC_ACK_MAKE_GROUP(character, PartyCreationResult.Success);
+		}
+
+		/// <summary>
+		/// Request to leave the current party.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_LEAVE_GROUP)]
+		public void CZ_REQ_LEAVE_GROUP(ZoneConnection conn, Packet packet)
+		{
+		}
 	}
 }

@@ -1538,5 +1538,20 @@ namespace Sabine.Zone.Network
 					memberCharacter.Connection.Send(packet);
 			}
 		}
+
+		/// <summary>
+		/// Sends result of the party creation request to the character,
+		/// opening the party window on success and/or displaying a
+		/// message about the result.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="result"></param>
+		public static void ZC_ACK_MAKE_GROUP(PlayerCharacter character, PartyCreationResult result)
+		{
+			var packet = new Packet(Op.ZC_ACK_MAKE_GROUP);
+			packet.PutByte((byte)result);
+
+			character.Connection.Send(packet);
+		}
 	}
 }
