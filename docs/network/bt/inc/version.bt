@@ -11,17 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-#ifndef VERSION
-
-local int __version;
-if (argc > 3)
-    SScanf(GetArg(3), "%d", __version);
-else
-    __version = 99999999;
-
-#define VERSION (__version)
-
-#endif
+#ifndef ARG_OUTPUT
+#define ARG_OUTPUT
 
 local int argc = GetNumArgs();
 
@@ -43,6 +34,22 @@ else
     //Printf("Type: unk\n");
 }
 
+#endif
+
+#ifndef VERSION
+
+local int __version;
+if (argc > 3)
+    SScanf(GetArg(3), "%d", __version);
+else
+    __version = 99999999;
+
+#define VERSION (__version)
+
+#endif
+
+#ifndef NAME_SIZE
+
 local int __nameSize = 16;
 if (VERSION >= 200)
     __nameSize = 24;
@@ -50,3 +57,5 @@ if (VERSION >= 200)
 #define NAME_SIZE (__nameSize)
 
 Printf("Version: %d\n", VERSION);
+
+#endif
