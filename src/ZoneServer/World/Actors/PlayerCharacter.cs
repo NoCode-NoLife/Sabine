@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.L10N;
@@ -9,6 +7,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Actors.Components.Characters;
 using Shared.Const;
+using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -19,8 +18,8 @@ namespace Sabine.Zone.World.Actors
 	/// </summary>
 	public class PlayerCharacter : Character
 	{
-		private readonly object _visibilityUpdateSyncLock = new();
-		private readonly HashSet<int> _visible = new();
+		private readonly object _visibilitySyncLock = new();
+		private readonly InOutTracker<IActor> _visibleActorTracker = new();
 
 		/// <summary>
 		/// Gets or sets the connection that controls this player.
@@ -263,22 +262,12 @@ namespace Sabine.Zone.World.Actors
 		}
 
 		/// <summary>
-		/// Updates character and its components.
-		/// </summary>
-		/// <param name="elapsed"></param>
-		public override void Update(TimeSpan elapsed)
-		{
-			base.Update(elapsed);
-			this.UpdateVisibility();
-		}
-
-		/// <summary>
 		/// Starts updating of visible entities. A visibility update is
 		/// executed when this method is called.
 		/// </summary>
 		public void StartObserving()
 		{
-			lock (_visibilityUpdateSyncLock)
+			lock (_visibilitySyncLock)
 			{
 				if (this.IsObserving)
 					return;
@@ -294,36 +283,34 @@ namespace Sabine.Zone.World.Actors
 		/// </summary>
 		public void StopObserving()
 		{
-			lock (_visibilityUpdateSyncLock)
+			lock (_visibilitySyncLock)
 			{
 				if (!this.IsObserving)
 					return;
 
 				this.IsObserving = false;
-				this.RemoveVisibleEntities();
+				this.RemoveVisibleActors();
 			}
 		}
 
 		/// <summary>
 		/// Updates visible entities around character.
 		/// </summary>
-		public void UpdateVisibility()
+		internal void UpdateVisibility()
 		{
-			if (!this.IsObserving)
-				return;
-
-			var visible = this.Map.GetVisibleEntities(this);
-
-			lock (_visibilityUpdateSyncLock)
+			lock (_visibilitySyncLock)
 			{
-				var appeared = visible.Where(a => !_visible.Contains(a.Handle));
-				var disappeared = _visible.Where(a => !visible.Exists(b => b.Handle == a));
+				if (!this.IsObserving)
+					return;
 
-				foreach (var actor in appeared)
+				_visibleActorTracker.Begin();
+
+				this.Map.GetVisibleActors(this, _visibleActorTracker.UpdateList);
+
+				_visibleActorTracker.Update();
+
+				foreach (var actor in _visibleActorTracker.Added)
 				{
-					if (actor == this)
-						continue;
-
 					switch (actor)
 					{
 						case Character character:
@@ -351,26 +338,15 @@ namespace Sabine.Zone.World.Actors
 					}
 				}
 
-				foreach (var handle in disappeared)
+				foreach (var actor in _visibleActorTracker.Removed)
 				{
-					if (handle == this.Handle)
-						continue;
-
-					if (handle < 0x6000_0000)
-						Send.ZC_NOTIFY_VANISH(this, handle, DisappearType.Vanish);
+					if (actor is Item)
+						Send.ZC_ITEM_DISAPPEAR(this, actor.Handle);
 					else
-						Send.ZC_ITEM_DISAPPEAR(this, handle);
+						Send.ZC_NOTIFY_VANISH(this, actor.Handle, DisappearType.Vanish);
 				}
 
-				// To remember the visible entities for the next run we store
-				// their ids. There might be some cases where it would be
-				// useful to have the actual references, but we can still
-				// get those if we need to, and this way there's no chance
-				// for any memory leaks because we're storing objects
-				// that reference each other.
-
-				_visible.Clear();
-				_visible.UnionWith(visible.Select(a => a.Handle));
+				_visibleActorTracker.End();
 			}
 		}
 
@@ -384,40 +360,52 @@ namespace Sabine.Zone.World.Actors
 		/// appear or disappear packets.
 		/// </remarks>
 		/// <param name="actor"></param>
-		internal void AddVisibleEntity(IActor actor)
+		internal void AddVisibleActor(IActor actor)
 		{
 			if (!this.IsObserving)
 				return;
 
-			lock (_visibilityUpdateSyncLock)
-				_visible.Add(actor.Handle);
+			lock (_visibilitySyncLock)
+				_visibleActorTracker.InjectItem(actor);
 		}
 
 		/// <summary>
-		/// Removes entity from list of character's visible entities without
-		/// updating the client.
+		/// Removes entity from list of character's visible entities
+		/// without updating the client.
 		/// </summary>
-		/// <param name="entity"></param>
-		internal void RemoveVisibleEntity(IActor entity)
+		/// <remarks>
+		/// AddVisibleEntity and RemoveVisibleEntity are to be used in
+		/// cases where an outside source needs to control an entity's
+		/// appear or disappear packets.
+		/// </remarks>
+		/// <param name="actor"></param>
+		internal void RemoveVisibleActor(IActor actor)
 		{
-			if (!this.IsObserving)
-				return;
-
-			lock (_visibilityUpdateSyncLock)
-				_visible.Remove(entity.Handle);
-		}
-
-		/// <summary>
-		/// Clears the list of visible entities and updates the client.
-		/// </summary>
-		private void RemoveVisibleEntities()
-		{
-			lock (_visibilityUpdateSyncLock)
+			lock (_visibilitySyncLock)
 			{
-				foreach (var handle in _visible)
-					Send.ZC_NOTIFY_VANISH(this, handle, DisappearType.Vanish);
+				if (!this.IsObserving)
+					return;
 
-				_visible.Clear();
+				_visibleActorTracker.EjectItem(actor);
+			}
+		}
+
+		/// <summary>
+		/// Clears the list of visible actors and updates the client.
+		/// </summary>
+		private void RemoveVisibleActors()
+		{
+			lock (_visibilitySyncLock)
+			{
+				foreach (var actor in _visibleActorTracker.Current)
+				{
+					if (actor is Item)
+						Send.ZC_ITEM_DISAPPEAR(this, actor.Handle);
+					else
+						Send.ZC_NOTIFY_VANISH(this, actor.Handle, DisappearType.Vanish);
+				}
+
+				_visibleActorTracker.ClearItems();
 			}
 		}
 

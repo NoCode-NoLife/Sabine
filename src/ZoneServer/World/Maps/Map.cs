@@ -22,7 +22,7 @@ namespace Sabine.Zone.World.Maps
 		private readonly Dictionary<int, PlayerCharacter> _players = new();
 		private readonly Dictionary<int, Npc> _npcs = new();
 		private readonly Dictionary<int, Item> _items = new();
-		private readonly List<IUpdateable> _updateEntities = new();
+		private readonly List<IUpdateable> _updateCharacters = new();
 
 		/// <summary>
 		/// Returns a reference to the Limbo map. See Limbo class for
@@ -107,35 +107,9 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
-			this.UpdateCharacters(elapsed);
 			this.RemoveDroppedItems();
-		}
-
-		/// <summary>
-		/// Runs Update on all characters.
-		/// </summary>
-		/// <param name="elapsed"></param>
-		private void UpdateCharacters(TimeSpan elapsed)
-		{
-			// Create a list of updatables instead of locking and then
-			// updating monsters and characters separately, so that
-			// actions taken by components that get updated don't
-			// affect Map. For example, adding and removing monsters
-			// would modify the collections, and broadcasts could
-			// cause deadlocks under certain circumstances.
-			lock (_updateEntities)
-			{
-				lock (_npcs)
-					_updateEntities.AddRange(_npcs.Values);
-
-				lock (_players)
-					_updateEntities.AddRange(_players.Values);
-
-				foreach (var entity in _updateEntities)
-					entity.Update(elapsed);
-
-				_updateEntities.Clear();
-			}
+			this.UpdateVisibility();
+			this.UpdateCharacters(elapsed);
 		}
 
 		/// <summary>
@@ -165,6 +139,51 @@ namespace Sabine.Zone.World.Maps
 
 			foreach (var item in items)
 				this.RemoveItem(item);
+		}
+
+		/// <summary>
+		/// Updates the visibility of all characters on the map.
+		/// </summary>
+		private void UpdateVisibility()
+		{
+			lock (_players)
+			{
+				foreach (var character in _players.Values)
+					character.UpdateVisibility();
+			}
+		}
+
+		/// <summary>
+		/// Runs Update on all characters.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateCharacters(TimeSpan elapsed)
+		{
+			// Create a list of updatables instead of locking and then
+			// updating monsters and characters separately, so that
+			// actions taken by components that get updated don't
+			// affect Map. For example, adding and removing monsters
+			// would modify the collections, and broadcasts could
+			// cause deadlocks under certain circumstances.
+			lock (_updateCharacters)
+			{
+				lock (_npcs)
+				{
+					foreach (var character in _npcs.Values)
+						_updateCharacters.Add(character);
+				}
+
+				lock (_players)
+				{
+					foreach (var character in _players.Values)
+						_updateCharacters.Add(character);
+				}
+
+				foreach (var actor in _updateCharacters)
+					actor.Update(elapsed);
+
+				_updateCharacters.Clear();
+			}
 		}
 
 		/// <summary>
@@ -198,49 +217,74 @@ namespace Sabine.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Returns a list of entities that the given entity can see.
+		/// Adds actors that are visible to the given actor to the result
+		/// list. The actor itself is not added to the list.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <param name="actor"></param>
+		/// <param name="result"></param>
 		/// <returns></returns>
-		public List<IActor> GetVisibleEntities(IActor entity)
+		public void GetVisibleActors(IActor actor, ICollection<IActor> result)
 		{
-			var result = new List<IActor>();
-
 			lock (_items)
-				result.AddRange(_items.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
+			{
+				foreach (var item in _items.Values)
+				{
+					if (item == actor)
+						continue;
+
+					if (item.Position.InRange(actor.Position, this.VisibleRange))
+						result.Add(item);
+				}
+			}
 
 			lock (_npcs)
-				result.AddRange(_npcs.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
+			{
+				foreach (var npc in _npcs.Values)
+				{
+					if (npc == actor)
+						continue;
+
+					if (npc.Position.InRange(actor.Position, this.VisibleRange))
+						result.Add(npc);
+				}
+			}
 
 			lock (_players)
-				result.AddRange(_players.Values.Where(a => a.Position.InRange(entity.Position, this.VisibleRange)));
+			{
+				foreach (var character in _players.Values)
+				{
+					if (character == actor)
+						continue;
 
-			return result;
+					if (character.Position.InRange(actor.Position, this.VisibleRange))
+						result.Add(character);
+				}
+			}
 		}
 
 		/// <summary>
 		/// Adds entity to visible entities on all players.
 		/// </summary>
-		/// <param name="entity"></param>
-		private void AddVisibleEntity(IActor entity)
+		/// <param name="actor"></param>
+		private void AddVisibleActor(IActor actor)
 		{
 			lock (_players)
 			{
 				foreach (var character in _players.Values)
-					character.AddVisibleEntity(entity);
+					character.AddVisibleActor(actor);
 			}
 		}
 
 		/// <summary>
 		/// Removes entity from visible entities on all players.
 		/// </summary>
-		/// <param name="entity"></param>
-		private void RemoveVisibleEntity(IActor entity)
+		/// <param name="actor"></param>
+		private void RemoveVisibleActor(IActor actor)
 		{
 			lock (_players)
 			{
 				foreach (var character in _players.Values)
-					character.RemoveVisibleEntity(entity);
+					character.RemoveVisibleActor(actor);
 			}
 		}
 
@@ -260,7 +304,7 @@ namespace Sabine.Zone.World.Maps
 				character.Map = this;
 			}
 
-			this.AddVisibleEntity(character);
+			this.AddVisibleActor(character);
 			Send.ZC_NOTIFY_NEWENTRY(character);
 		}
 
@@ -290,7 +334,7 @@ namespace Sabine.Zone.World.Maps
 				room.RemoveMember(character, MemberExitReason.Left);
 
 			Send.ZC_NOTIFY_VANISH(character, DisappearType.Vanish);
-			this.RemoveVisibleEntity(character);
+			this.RemoveVisibleActor(character);
 
 			character.Map = null;
 		}
@@ -444,7 +488,7 @@ namespace Sabine.Zone.World.Maps
 				npc.Map = this;
 			}
 
-			this.AddVisibleEntity(npc);
+			this.AddVisibleActor(npc);
 
 			// Use a NEWENTRY for NPCs, so they get a spawn effect, but
 			// STANDENTRY for monsters, to just make them appear.
@@ -469,7 +513,7 @@ namespace Sabine.Zone.World.Maps
 				_npcs.Remove(npc.Handle);
 			}
 
-			this.RemoveVisibleEntity(npc);
+			this.RemoveVisibleActor(npc);
 
 			if (npc.IsDead)
 				Send.ZC_NOTIFY_VANISH(npc, DisappearType.StrikedDead);
@@ -553,7 +597,7 @@ namespace Sabine.Zone.World.Maps
 			}
 
 			Send.ZC_ITEM_FALL_ENTRY(item);
-			this.AddVisibleEntity(item);
+			this.AddVisibleActor(item);
 		}
 
 		/// <summary>
@@ -572,7 +616,7 @@ namespace Sabine.Zone.World.Maps
 			}
 
 			Send.ZC_ITEM_DISAPPEAR(item);
-			this.RemoveVisibleEntity(item);
+			this.RemoveVisibleActor(item);
 
 			item.Map = null;
 		}
