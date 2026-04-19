@@ -265,6 +265,7 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 			_triggers.Begin();
 
 			this.Character.Map.GetTriggerAreas(this.Character.Position, _triggers.UpdateList);
+
 			_triggers.Update();
 
 			if (!_triggers.Empty)

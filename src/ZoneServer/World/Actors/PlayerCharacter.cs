@@ -19,7 +19,7 @@ namespace Sabine.Zone.World.Actors
 	public class PlayerCharacter : Character
 	{
 		private readonly object _visibilitySyncLock = new();
-		private readonly InOutTracker<IActor> _visibleActorTracker = new();
+		private readonly InOutTracker<IActor> _visibleActors = new();
 
 		/// <summary>
 		/// Gets or sets the connection that controls this player.
@@ -303,13 +303,13 @@ namespace Sabine.Zone.World.Actors
 				if (!this.IsObserving)
 					return;
 
-				_visibleActorTracker.Begin();
+				_visibleActors.Begin();
 
-				this.Map.GetVisibleActors(this, _visibleActorTracker.UpdateList);
+				this.Map.GetVisibleActors(this, _visibleActors.UpdateList);
 
-				_visibleActorTracker.Update();
+				_visibleActors.Update();
 
-				foreach (var actor in _visibleActorTracker.Added)
+				foreach (var actor in _visibleActors.Added)
 				{
 					switch (actor)
 					{
@@ -338,7 +338,7 @@ namespace Sabine.Zone.World.Actors
 					}
 				}
 
-				foreach (var actor in _visibleActorTracker.Removed)
+				foreach (var actor in _visibleActors.Removed)
 				{
 					if (actor is Item)
 						Send.ZC_ITEM_DISAPPEAR(this, actor.Handle);
@@ -346,7 +346,7 @@ namespace Sabine.Zone.World.Actors
 						Send.ZC_NOTIFY_VANISH(this, actor.Handle, DisappearType.Vanish);
 				}
 
-				_visibleActorTracker.End();
+				_visibleActors.End();
 			}
 		}
 
@@ -366,7 +366,7 @@ namespace Sabine.Zone.World.Actors
 				return;
 
 			lock (_visibilitySyncLock)
-				_visibleActorTracker.InjectItem(actor);
+				_visibleActors.InjectItem(actor);
 		}
 
 		/// <summary>
@@ -386,7 +386,7 @@ namespace Sabine.Zone.World.Actors
 				if (!this.IsObserving)
 					return;
 
-				_visibleActorTracker.EjectItem(actor);
+				_visibleActors.EjectItem(actor);
 			}
 		}
 
@@ -397,7 +397,7 @@ namespace Sabine.Zone.World.Actors
 		{
 			lock (_visibilitySyncLock)
 			{
-				foreach (var actor in _visibleActorTracker.Current)
+				foreach (var actor in _visibleActors.Current)
 				{
 					if (actor is Item)
 						Send.ZC_ITEM_DISAPPEAR(this, actor.Handle);
@@ -405,7 +405,7 @@ namespace Sabine.Zone.World.Actors
 						Send.ZC_NOTIFY_VANISH(this, actor.Handle, DisappearType.Vanish);
 				}
 
-				_visibleActorTracker.ClearItems();
+				_visibleActors.ClearItems();
 			}
 		}
 
