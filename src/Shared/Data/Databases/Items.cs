@@ -19,6 +19,7 @@ namespace Sabine.Shared.Data.Databases
 		public int AttackMin { get; set; }
 		public int AttackMax { get; set; }
 		public int Defense { get; set; }
+		public int MagicDefense { get; set; }
 		public int AttackRange { get; set; }
 		public JobFilter JobsAllowed { get; set; }
 		public Sex SexAllowed { get; set; }
@@ -53,6 +54,7 @@ namespace Sabine.Shared.Data.Databases
 			data.AttackMin = entry.ReadInt("attackMin", 0);
 			data.AttackMax = entry.ReadInt("attackMax", 0);
 			data.Defense = entry.ReadInt("defense", 0);
+			data.MagicDefense = entry.ReadInt("magicDefense", 0);
 			data.AttackRange = entry.ReadInt("range", 0);
 			data.JobsAllowed = entry.ReadEnum("jobs", JobFilter.All);
 			data.SexAllowed = entry.ReadEnum("sex", Sex.Any);

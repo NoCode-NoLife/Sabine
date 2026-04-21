@@ -443,6 +443,27 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		}
 
 		/// <summary>
+		/// Returns the total amount of defense granted to the player
+		/// from the currently equipped items.
+		/// </summary>
+		/// <returns></returns>
+		public int GetEquipMagicDefense()
+		{
+			var result = 0;
+
+			lock (_syncLock)
+			{
+				foreach (var item in _items)
+				{
+					if (item.IsEquipped)
+						result += item.Data.MagicDefense;
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns true if the inventory contains at least the given
 		/// amount of the item.
 		/// </summary>

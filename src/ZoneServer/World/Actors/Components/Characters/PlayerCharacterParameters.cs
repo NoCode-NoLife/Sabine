@@ -66,6 +66,7 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 			{
 				this.RecalculateSp();
 				this.RecalculateMagicAttack();
+				this.RecalculateMagicDefense();
 			}
 		}
 
@@ -189,12 +190,18 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		}
 
 		/// <summary>
-		/// Recalculates character's attack parameters and updates the
+		/// Recalculates character's defense parameters and updates the
 		/// property.
 		/// </summary>
 		/// <returns></returns>
 		public void RecalculateDefense()
 		{
+			var fromEquip = this.Character.Inventory.GetEquipDefense();
+
+			//---------------------------------------------------------------
+			// Alpha
+			//---------------------------------------------------------------
+
 			// The alpha client has only one (visible) defense stat,
 			// which would presumably display the armor's defense,
 			// because it might be confusing if you equipped a 5
@@ -203,7 +210,7 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 			// however, and doesn't mix with the point-based VIT
 			// defense bonus. Is that bonus maybe not displayed?
 			// Did it not exist? Did it play into the percentage?
-			this.Defense = this.Character.Inventory.GetEquipDefense();
+			this.Defense = fromEquip;
 
 			// Update: Based on screen shots, we can see that either
 			// equip had different defense stats, or that VIT did play
@@ -217,7 +224,43 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 			// though.
 			this.Defense += this.Vit / 3;
 
-			this.UpdateClient(ParameterType.Defense);
+			//---------------------------------------------------------------
+			// Beta1 and later
+			//---------------------------------------------------------------
+
+			// Starting from Beta1 we got two new defense parameters,
+			// which are the ones we're more familiar with.
+
+			var fromStat = MathF.Floor(this.Vit * 0.5f) + MathF.Max(MathF.Floor(this.Vit * 0.3f), MathF.Floor(MathF.Pow(this.Vit, 2) / 150) - 1);
+			var fromBonuses = 0;
+			var fromBonusRates = 100;
+
+			this.MeleeDefense = fromEquip;
+			this.MeleeDefenseBonus = (int)((fromStat + fromBonuses) * (1 + fromBonusRates / 100f));
+
+			this.UpdateClient(ParameterType.Defense, ParameterType.MeleeDefense, ParameterType.MeleeDefenseBonus);
+		}
+
+		/// <summary>
+		/// Recalculates character's magic defense parameters and updates
+		/// the property.
+		/// </summary>
+		/// <returns></returns>
+		public void RecalculateMagicDefense()
+		{
+			// There was no visible magic defense stat in the alpha
+			// client, but there were also no skills, so that might be to
+			// be expected. These calculations are for Beta1 and beyond.
+
+			var fromEquip = this.Character.Inventory.GetEquipMagicDefense();
+			var fromStat = MathF.Floor(this.Int + this.Vit * 0.5f);
+			var fromBonuses = 0;
+			var fromBonusRates = 100;
+
+			this.MagicDefense = fromEquip;
+			this.MagicDefenseBonus = (int)((fromStat + fromBonuses) * (1 + fromBonusRates / 100f));
+
+			this.UpdateClient(ParameterType.MagicDefense, ParameterType.MagicDefenseBonus);
 		}
 
 		/// <summary>
