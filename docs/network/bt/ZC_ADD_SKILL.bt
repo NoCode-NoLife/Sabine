@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_SKILLINFO_LIST.bt
+//      File: ZC_ADD_SKILL.bt
 //   Authors: exec
 //   Version: i20020220 (iRO Beta1)
 //   Purpose: 
@@ -16,6 +16,4 @@
 short op;
 short len;
 
-local int count = (len - 2 * sizeof(short)) / 37;
-
-Skill skill[count];
+Skill skill;

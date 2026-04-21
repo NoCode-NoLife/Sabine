@@ -1,0 +1,44 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Skill.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "version.bt"
+
+typedef struct
+{
+    short id;
+
+    if (VERSION >= 20020220)
+    {
+        short targetType;
+        short s1;
+    }
+
+    short level;
+    short spCost;
+
+    if (VERSION >= 20020220)
+    {
+        short range;
+    }
+
+    char stringId[24];
+    byte levelable;
+}
+Skill <read=readSkill>;
+
+string readSkill(Skill &val)
+{
+    string result;
+    SPrintf(result, "%s (%d)", val.stringId, val.id);
+    return result;
+}
