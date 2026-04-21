@@ -184,40 +184,106 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		private int _spMax = 10;
 
 		/// <summary>
-		/// Returns the character's current attack.
-		/// </summary>
-		public int Attack { get; set; } = 1;
-
-		/// <summary>
 		/// Returns the character's current min attack.
 		/// </summary>
+		/// <remarks>
+		/// A minimum attack parameter, as used by the alpha client.
+		/// </remarks>
 		public int AttackMin { get; set; } = 1;
 
 		/// <summary>
 		/// Returns the character's current max attack.
 		/// </summary>
+		/// <remarks>
+		/// A maximum attack parameter, as used by the alpha client.
+		/// </remarks>
 		public int AttackMax { get; set; } = 1;
 
 		/// <summary>
-		/// Returns the character's current singular magic attack value,
-		/// as used by the alpha client.
+		/// Returns the character's current attack value.
 		/// </summary>
+		/// <remarks>
+		/// A singular attack parameter, as used by clients beyond the
+		/// alpha.
+		/// </remarks>
+		public int Attack { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets the character's attack bonus, displays as "+ X"
+		/// on most clients.
+		/// </summary>
+		public int AttackBonus { get; set; }
+
+		/// <summary>
+		/// Returns the character's current singular magic attack value.
+		/// </summary>
+		/// <remarks>
+		/// A singular magic attack parameter, as displayed by the alpha
+		/// client, even though there were no skills.
+		/// </remarks>
 		public int MagicAttack { get; set; }
 
 		/// <summary>
 		/// Returns the character's current min magic attack.
 		/// </summary>
+		/// <remarks>
+		/// A minimum magic attack parameter, as used by clients beyond
+		/// the alpha.
+		/// </remarks>
 		public int MagicAttackMin { get; set; }
 
 		/// <summary>
 		/// Returns the character's current max magic attack.
 		/// </summary>
+		/// <remarks>
+		/// A maximum magic attack parameter, as used by clients beyond
+		/// the alpha.
+		/// </remarks>
 		public int MagicAttackMax { get; set; }
 
 		/// <summary>
-		/// Returns the character's current defense.
+		/// Returns the character's current combined defense value.
 		/// </summary>
+		/// <remarks>
+		/// A singular defense parameter, as used by the alpha client.
+		/// There was no visible magic defense.
+		/// </remarks>
 		public int Defense { get; set; }
+
+		/// <summary>
+		/// Returns the character's current melee defense.
+		/// </summary>
+		/// <remarks>
+		/// The hard defense parameter used by clients beyond the alpha.
+		/// </remarks>
+		public int MeleeDefense { get; set; }
+
+		/// <summary>
+		/// Returns the character's current melee defense bonus.
+		/// </summary>
+		/// <remarks>
+		/// The soft defense parameter used by clients beyond the alpha,
+		/// displayed as "+ X".
+		/// </remarks>
+		public int MeleeDefenseBonus { get; set; }
+
+		/// <summary>
+		/// Returns the character's current magic defense.
+		/// </summary>
+		/// <remarks>
+		/// The hard magic defense parameter used by clients beyond the
+		/// alpha.
+		/// </remarks>
+		public int MagicDefense { get; set; }
+
+		/// <summary>
+		/// Returns the character's current magic defense bonus.
+		/// </summary>
+		/// <remarks>
+		/// The soft magic defense parameter used by clients beyond the
+		/// alpha, displayed as "+ X".
+		/// </remarks>
+		public int MagicDefenseBonus { get; set; }
 
 		/// <summary>
 		/// Gets or sets the character's base experience points.
@@ -274,6 +340,21 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		public int Flee { get; set; } = 2;
 
 		/// <summary>
+		/// Gets or sets the character's flee bonus.
+		/// </summary>
+		/// <remarks>
+		/// Doesn't appear to exist in the alpha client, displayed as "+
+		/// X" on later ones.
+		/// </remarks>
+		public int FleeBonus { get; set; }
+
+		/// <summary>
+		/// Gets or sets the character's crit value, determining how
+		/// likely they are to crit.
+		/// </summary>
+		public int Critical { get; set; }
+
+		/// <summary>
 		/// Returns the delay between attacks for the character.
 		/// </summary>
 		public int AttackDelay { get; set; } = 800;
@@ -293,6 +374,12 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		/// Gets or sets the character's attack speed value.
 		/// </summary>
 		public int Aspd { get; set; } = 150;
+
+		/// <summary>
+		/// Gets or sets the character's attack speed bonus, displayed as
+		/// "+ X" on most clients.
+		/// </summary>
+		public int AspdBonus { get; set; }
 
 		/// <summary>
 		/// Returns the value for the given parameter.
@@ -329,6 +416,20 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 				case ParameterType.AttackMax: return this.AttackMax;
 				case ParameterType.Defense: return this.Defense;
 				case ParameterType.MagicAttack: return this.MagicAttack;
+				case ParameterType.Attack: return this.Attack;
+				case ParameterType.AttackBonus: return this.AttackBonus;
+				case ParameterType.MagicAttackMax: return this.MagicAttackMax;
+				case ParameterType.MagicAttackMin: return this.MagicAttackMin;
+				case ParameterType.MeleeDefense: return this.MeleeDefense;
+				case ParameterType.MeleeDefenseBonus: return this.MeleeDefenseBonus;
+				case ParameterType.MagicDefense: return this.MagicDefense;
+				case ParameterType.MagicDefenseBonus: return this.MagicDefenseBonus;
+				case ParameterType.Hit: return this.Hit;
+				case ParameterType.Flee: return this.Flee;
+				case ParameterType.FleeBonus: return this.FleeBonus;
+				case ParameterType.Critical: return this.Critical;
+				case ParameterType.Aspd: return this.Aspd;
+				case ParameterType.AspdBonus: return this.AspdBonus;
 				case ParameterType.JobLevel: return this.JobLevel;
 
 				default:
@@ -373,6 +474,20 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 				case ParameterType.AttackMax: this.AttackMax = value; break;
 				case ParameterType.Defense: this.Defense = value; break;
 				case ParameterType.MagicAttack: this.MagicAttack = value; break;
+				case ParameterType.Attack: this.Attack = value; break;
+				case ParameterType.AttackBonus: this.AttackBonus = value; break;
+				case ParameterType.MagicAttackMax: this.MagicAttackMax = value; break;
+				case ParameterType.MagicAttackMin: this.MagicAttackMin = value; break;
+				case ParameterType.MeleeDefense: this.MeleeDefense = value; break;
+				case ParameterType.MeleeDefenseBonus: this.MeleeDefenseBonus = value; break;
+				case ParameterType.MagicDefense: this.MagicDefense = value; break;
+				case ParameterType.MagicDefenseBonus: this.MagicDefenseBonus = value; break;
+				case ParameterType.Hit: this.Hit = value; break;
+				case ParameterType.Flee: this.Flee = value; break;
+				case ParameterType.FleeBonus: this.FleeBonus = value; break;
+				case ParameterType.Critical: this.Critical = value; break;
+				case ParameterType.Aspd: this.Aspd = value; break;
+				case ParameterType.AspdBonus: this.AspdBonus = value; break;
 				case ParameterType.JobLevel: this.JobLevel = value; break;
 
 				default:

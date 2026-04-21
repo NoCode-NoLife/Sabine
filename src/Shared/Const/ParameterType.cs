@@ -32,6 +32,12 @@
 		JobExpNeeded = 23, // Long
 		Weight = 24,
 		WeightMax = 25,
+		/// 26
+		/// 27
+		/// 28
+		/// 29
+		/// 30
+		/// 31
 		AttackMin = 32,
 		AttackMax = 33,
 		Defense = 34,
@@ -40,6 +46,26 @@
 		// This is where the parameters supported by the alpha client end,
 		// but it's fine to send newer ones, as they are simply ignored.
 
+		/// 36
+		/// 37
+		/// 38
+		/// 39
+		/// 40
+		/// 41
+		Attack = 42,
+		AttackBonus = 43,
+		MagicAttackMax = 44,
+		MagicAttackMin = 45,
+		MeleeDefense = 46,
+		MeleeDefenseBonus = 47,
+		MagicDefense = 48,
+		MagicDefenseBonus = 49,
+		Hit = 50,
+		Flee = 51,
+		FleeBonus = 52,
+		Critical = 53,
+		Aspd = 54,
+		AspdBonus = 55,
 		JobLevel = 56,
 	}
 

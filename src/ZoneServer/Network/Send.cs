@@ -13,6 +13,7 @@ using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Util;
+using Yggdrasil.Logging;
 
 namespace Sabine.Zone.Network
 {
@@ -425,14 +426,30 @@ namespace Sabine.Zone.Network
 			packet.PutByte((byte)character.Parameters.DexNeeded);
 			packet.PutByte((byte)character.Parameters.Luk);
 			packet.PutByte((byte)character.Parameters.LukNeeded);
-			packet.PutByte((byte)character.Parameters.AttackMin);
-			packet.PutByte((byte)character.Parameters.AttackMax);
-			packet.PutByte((byte)character.Parameters.Defense);
-			packet.PutByte((byte)character.Parameters.MagicAttack);
 
-			if (Game.Version >= Versions.Beta1)
+			if (Game.Version < Versions.Beta1)
 			{
-				packet.PutEmpty(24);
+				packet.PutByte((byte)character.Parameters.AttackMin);
+				packet.PutByte((byte)character.Parameters.AttackMax);
+				packet.PutByte((byte)character.Parameters.Defense);
+				packet.PutByte((byte)character.Parameters.MagicAttack);
+			}
+			else
+			{
+				packet.PutShort((short)character.Parameters.Attack);
+				packet.PutShort((short)character.Parameters.AttackBonus);
+				packet.PutShort((short)character.Parameters.MagicAttackMax);
+				packet.PutShort((short)character.Parameters.MagicAttackMin);
+				packet.PutShort((short)character.Parameters.MeleeDefense);
+				packet.PutShort((short)character.Parameters.MeleeDefenseBonus);
+				packet.PutShort((short)character.Parameters.MagicDefense);
+				packet.PutShort((short)character.Parameters.MagicDefenseBonus);
+				packet.PutShort((short)character.Parameters.Hit);
+				packet.PutShort((short)character.Parameters.Flee);
+				packet.PutShort((short)character.Parameters.FleeBonus);
+				packet.PutShort((short)character.Parameters.Critical);
+				packet.PutShort((short)character.Parameters.Aspd);
+				packet.PutShort((short)character.Parameters.AspdBonus);
 			}
 
 			character.Connection.Send(packet);
