@@ -66,7 +66,7 @@ namespace Sabine.Shared.Network
 				var opNetwork = PacketTable.ToNetwork(packet.Op);
 				var nameNetwork = PacketTable.GetName(opNetwork);
 
-				Log.Warning("Connection.Send: Invalid packet size for '{0:X4}' ({1}) ({2} != {3}).", opNetwork, nameNetwork, buffer.Length, tableSize);
+				Log.Warning("Connection.Send: Invalid packet size for '{0:X4}' ({1}) (got {2}, expected {3}).", opNetwork, nameNetwork, packetSize, tableSize);
 
 				if (name != nameNetwork)
 					Log.Warning("Connection: Potential packet table error. Packet's op is '{0}', while the table's network op is '{1}'.", name, nameNetwork);
