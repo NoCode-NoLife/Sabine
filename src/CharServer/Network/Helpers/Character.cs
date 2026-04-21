@@ -34,7 +34,7 @@ namespace Sabine.Char.Network.Helpers
 			packet.PutInt(jobExp);
 			packet.PutInt(jobLevel); // Job Level in Beta1
 			packet.PutInt(0); // ?
-			packet.PutInt(0); // ?
+			packet.PutInt(0); // status effects bitmask?
 
 			if (Game.Version >= Versions.Beta1)
 			{
