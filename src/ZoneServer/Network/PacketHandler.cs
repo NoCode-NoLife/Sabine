@@ -351,7 +351,7 @@ namespace Sabine.Zone.Network
 
 			success = true;
 
-		L_End:
+L_End:
 			Send.ZC_STATUS_CHANGE_ACK(character, type, success, value);
 		}
 
@@ -1043,6 +1043,8 @@ namespace Sabine.Zone.Network
 
 			skill.LevelUp();
 			character.Parameters.Modify(ParameterType.SkillPoints, -1);
+
+			character.Skills.UpdateClassSkills();
 		}
 
 		/// <summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using Sabine.Shared.Const;
 using Sabine.Zone.Network;
 using Sabine.Zone.Skills;
+using Sabine.Zone.World.Maps;
 
 namespace Sabine.Zone.World.Actors.Components.Characters
 {
@@ -19,6 +20,24 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		/// Returns the character this component belongs to.
 		/// </summary>
 		public Character Character { get; } = character;
+
+		/// <summary>
+		/// Returns true if the character has the given skill on at least
+		/// the given level.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="minLevel"></param>
+		/// <returns></returns>
+		public bool Has(SkillId skillId, int minLevel)
+		{
+			lock (_skills)
+			{
+				if (_skills.TryGetValue(skillId, out var skill))
+					return skill.Level >= minLevel;
+			}
+
+			return false;
+		}
 
 		/// <summary>
 		/// Adds the given skill without updating the character's client.
@@ -60,6 +79,34 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		}
 
 		/// <summary>
+		/// Adds the skill with the given level if the character doesn't
+		/// already have it on at least that level. Doesn't update client.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="level"></param>
+		public void AddSilent(SkillId skillId, int level)
+		{
+			if (this.Has(skillId, level))
+				return;
+
+			this.AddSilent(new Skill(this.Character, skillId, level));
+		}
+
+		/// <summary>
+		/// Adds the skill with the given level if the character doesn't
+		/// already have it on at least that level.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="level"></param>
+		public void Add(SkillId skillId, int level)
+		{
+			if (this.Has(skillId, level))
+				return;
+
+			this.Add(new Skill(this.Character, skillId, level));
+		}
+
+		/// <summary>
 		/// Removes the given skill.
 		/// </summary>
 		/// <param name="skillId"></param>
@@ -98,6 +145,48 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+		}
+
+		/// <summary>
+		/// Adds the skills the character should have access to, based on
+		/// their skill tree data.
+		/// </summary>
+		/// <remarks>
+		/// This method should be called whenever skills may change, in
+		/// case a prerequisite was newly met.
+		/// </remarks>
+		public void UpdateClassSkills()
+		{
+			if (this.Character is not PlayerCharacter player)
+				return;
+
+			if (!ZoneServer.Instance.Data.SkillTrees.TryFind(player.JobId, out var treeData))
+				return;
+
+			foreach (var skill in treeData.Skills)
+			{
+				var prerequisitesMet = true;
+
+				foreach (var prerequisite in skill.Prerequisites)
+				{
+					if (!this.Has(prerequisite.SkillId, prerequisite.MinLevel))
+					{
+						prerequisitesMet = false;
+						break;
+					}
+				}
+
+				// We need to make sure not to send new skills before the
+				// client is finished loading, or it will lock up. As
+				// such, calling Add instead of AddSilent in all cases is
+				// fine for the moment, since we add class skills only on
+				// skill level up, job change, and on PlayerReady, all of
+				// which happen after the loading screen. Should we need
+				// to add skills earlier, we need a conditional AddSilent.
+
+				if (prerequisitesMet)
+					this.Add(skill.SkillId, 0);
+			}
 		}
 	}
 }

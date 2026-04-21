@@ -89,6 +89,22 @@ namespace Sabine.Zone.Database
 						}
 					}
 				}
+
+				using (var mc = new MySqlCommand("SELECT * FROM `skills` WHERE `characterId` = @characterId", conn))
+				{
+					mc.AddParameter("@characterId", character.Id);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var skillId = (SkillId)reader.GetInt32("id");
+							var level = reader.GetInt32("level");
+
+							character.Skills.AddSilent(new Skill(character, skillId, level));
+						}
+					}
+				}
 			}
 
 			character.Vars.Perm.Load(this.GetVars("vars_character", character.Id));
@@ -157,6 +173,12 @@ namespace Sabine.Zone.Database
 					cmd.ExecuteNonQuery();
 				}
 
+				using (var cmd = new MySqlCommand("DELETE FROM `skills` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.AddParameter("@characterId", character.Id);
+					cmd.ExecuteNonQuery();
+				}
+
 				using (var cmd = new BatchedInsertCommand("items", conn, trans))
 				{
 					var items = character.Inventory.GetItems();
@@ -167,6 +189,23 @@ namespace Sabine.Zone.Database
 						cmd.Set("classId", item.ClassId);
 						cmd.Set("amount", item.Amount);
 						cmd.Set("equipped", (int)item.EquippedOn);
+
+						cmd.AddRow();
+						cmd.ExecuteOn(200);
+					}
+
+					cmd.Execute();
+				}
+
+				using (var cmd = new BatchedInsertCommand("skills", conn, trans))
+				{
+					var skills = character.Skills.GetAll();
+
+					foreach (var skill in skills)
+					{
+						cmd.Set("characterId", character.Id);
+						cmd.Set("id", skill.Id);
+						cmd.Set("level", skill.Level);
 
 						cmd.AddRow();
 						cmd.ExecuteOn(200);

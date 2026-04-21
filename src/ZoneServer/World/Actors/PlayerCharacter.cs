@@ -468,6 +468,8 @@ namespace Sabine.Zone.World.Actors
 
 			// Send a BaseLevel change packet to get the level up animation
 			Send.ZC_PAR_CHANGE(this, ParameterType.BaseLevel);
+
+			this.Skills.UpdateClassSkills();
 		}
 
 		/// <summary>
