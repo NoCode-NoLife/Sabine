@@ -68,7 +68,10 @@ namespace Sabine.Zone.Database
 
 						var x = reader.GetInt32("x");
 						var y = reader.GetInt32("y");
+						var dir = (Direction)reader.GetInt32("dir");
+
 						character.Position = new Position(x, y);
+						character.Direction = dir;
 					}
 				}
 
@@ -141,6 +144,7 @@ namespace Sabine.Zone.Database
 					cmd.Set("mapId", character.MapId);
 					cmd.Set("x", character.Position.X);
 					cmd.Set("y", character.Position.Y);
+					cmd.Set("dir", (int)character.Direction);
 					cmd.Set("hair", character.HairId);
 					cmd.Set("weapon", character.WeaponId);
 					cmd.Set("zeny", character.Parameters.Zeny);

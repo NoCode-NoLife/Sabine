@@ -32,7 +32,7 @@ namespace Sabine.Zone.Network
 			using var packet = Packet.Rent(Op.ZC_ACCEPT_ENTER);
 
 			packet.PutInt(character.Id);
-			packet.AddPackedPosition(character.Position, 0);
+			packet.AddPackedPosition(character.Position, character.Direction);
 			packet.PutShort(0);
 
 			conn.Send(packet);

@@ -1,0 +1,1 @@
+ALTER TABLE `characters` ADD `dir` TINYINT NOT NULL AFTER `y`;
