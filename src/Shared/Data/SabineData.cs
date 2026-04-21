@@ -51,5 +51,18 @@ namespace Sabine.Shared.Data
 		/// db/skills.txt
 		/// </summary>
 		public SkillDb Skills { get; } = new();
+
+		/// <summary>
+		/// db/skill_trees.txt
+		/// </summary>
+		public SkillTreeDb SkillTrees { get; }
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		public SabineData()
+		{
+			this.SkillTrees = new SkillTreeDb(this.Jobs, this.Skills);
+		}
 	}
 }

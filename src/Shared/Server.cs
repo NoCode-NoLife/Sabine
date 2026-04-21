@@ -195,6 +195,7 @@ namespace Sabine.Shared
 			this.LoadDataFile(this.Data.Monsters, "monsters.txt");
 			this.LoadDataFile(this.Data.Maps, "maps.txt");
 			this.LoadDataFile(this.Data.Skills, "skills.txt");
+			this.LoadDataFile(this.Data.SkillTrees, "skill_trees.txt");
 
 			// Get the latest cache file for the selected version
 			var cacheFileName = "map_cache.dat";
