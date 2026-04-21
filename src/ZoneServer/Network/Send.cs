@@ -254,20 +254,20 @@ namespace Sabine.Zone.Network
 			packet.PutInt(target.Handle);
 
 			// The first string is displayed in parantheses after the
-			// character name. It seems like it's intended for the
-			// account name, because that's what the client displays
-			// for the player character itself. This might indicate
-			// that they had planned a "team name" kind of feature,
-			// similar to ToS, to have a common identifier between
-			// characters on one account. Not a terrible idea, but
-			// sending the account names of other players is not
-			// exactly ideal, so... maybe let's not do that.
-			// However, maybe we could add a display name for the
-			// accounts, which could be used here.
-			// Also: 16-24 free bytes for monster HP!
+			// character name. It seems like it's intended for the account
+			// name, because that's what the client displays for the
+			// player character itself. This might indicate that they had
+			// planned a "team name" kind of feature, similar to ToS, to
+			// have a common identifier between characters on one account.
+			// Not a terrible idea, but sending the account names of other
+			// players is not exactly ideal, so... maybe let's not do
+			// that. If we leave it empty, the client will just not
+			// display it. However, maybe we could add a display name for
+			// the accounts, which could be used here. Also: 16-24 free
+			// bytes for monster HP!
 
-			var secName = "";
-			var targetName = target.Name;
+			var secondaryName = ""; // target.Username
+			var mainName = target.Name;
 
 			if (target is Monster)
 			{
@@ -276,29 +276,32 @@ namespace Sabine.Zone.Network
 				switch (hpDisplayType)
 				{
 					case DisplayMonsterHpType.Percentage:
+					{
 						// Round to ceiling in case percentage falls below
 						// 1% and clamp it to 0~100, in case the calculation
-						// result ends up above 100. (Flots ftw, am I right?)
-						secName = string.Format("{0}%", Math2.Clamp(0, 100, Math.Ceiling(100f / target.Parameters.HpMax * target.Parameters.Hp)));
+						// result ends up above 100. (Floats ftw, am I right?)
+						secondaryName = string.Format("{0}%", Math2.Clamp(0, 100, Math.Ceiling(100f / target.Parameters.HpMax * target.Parameters.Hp)));
 						break;
-
+					}
 					case DisplayMonsterHpType.Actual:
-						secName = string.Format("{0}/{1}", target.Parameters.Hp, target.Parameters.HpMax);
+					{
+						secondaryName = string.Format("{0}/{1}", target.Parameters.Hp, target.Parameters.HpMax);
 						break;
+					}
 				}
 			}
 
 			// Append secName to targetName if the client doesn't support
 			// a secondary name anymore.
-			if (Game.Version > Versions.Alpha)
-				targetName = string.Format("{0} ({1})", targetName, secName);
+			if (Game.Version > Versions.Alpha && !string.IsNullOrWhiteSpace(secondaryName))
+				mainName = string.Format("{0} ({1})", mainName, secondaryName);
 
 			// This is still sent in Beta1, but the client doesn't display
 			// it anymore.
 			if (Game.Version < Versions.Beta2)
-				packet.PutString(secName, Sizes.CharacterNames); // target.Username
+				packet.PutString(secondaryName, Sizes.CharacterNames);
 
-			packet.PutString(targetName, Sizes.CharacterNames);
+			packet.PutString(mainName, Sizes.CharacterNames);
 
 			character.Connection.Send(packet);
 		}
