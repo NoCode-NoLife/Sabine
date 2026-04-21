@@ -406,9 +406,19 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		/// </summary>
 		public void CheckEquipRequirements()
 		{
-			var items = this.GetItems(a => a.IsEquipped && !this.Character.CanEquip(a));
-			foreach (var item in items)
-				this.UnequipItem(item);
+			lock (_syncLock)
+			{
+				foreach (var item in _items)
+				{
+					if (!item.IsEquipped)
+						continue;
+
+					if (this.Character.CanEquip(item))
+						continue;
+
+					this.UnequipItem(item);
+				}
+			}
 		}
 
 		/// <summary>
@@ -418,8 +428,18 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		/// <returns></returns>
 		public int GetEquipDefense()
 		{
-			var items = this.GetItems(a => a.IsEquipped && a.Data.Defense != 0);
-			return items.Sum(a => a.Data.Defense);
+			var result = 0;
+
+			lock (_syncLock)
+			{
+				foreach (var item in _items)
+				{
+					if (item.IsEquipped)
+						result += item.Data.Defense;
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -430,11 +450,23 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		/// <returns></returns>
 		public bool Contains(int classId, int amount = 1)
 		{
+			var count = 0;
+
 			lock (_syncLock)
 			{
-				var count = _items.Where(a => a.ClassId == classId).Sum(a => a.Amount);
-				return count >= amount;
+				foreach (var item in _items)
+				{
+					if (item.ClassId == classId)
+					{
+						count += item.Amount;
+
+						if (count >= amount)
+							return true;
+					}
+				}
 			}
+
+			return false;
 		}
 
 		/// <summary>
