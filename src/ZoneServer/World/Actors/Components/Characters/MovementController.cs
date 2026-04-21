@@ -147,6 +147,8 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 				_nextDestination = _pathQueue.Dequeue();
 			}
 
+			this.Character.Direction = this.Character.Position.GetDirection(_nextDestination);
+
 			var movingStright = character.Position.InStraightLine(_nextDestination);
 			var speed = (float)character.Parameters.Speed;
 

@@ -130,6 +130,23 @@ namespace Sabine.Shared.World
 		}
 
 		/// <summary>
+		/// Returns the direction the other position is in. Returns a
+		/// direction in one of the game's 8 cardinal directions.
+		/// </summary>
+		/// <param name="otherPos"></param>
+		/// <returns></returns>
+		public readonly Direction GetDirection(Position otherPos)
+		{
+			// 0 = South, 90 = East, 180 = North, 270 = West
+
+			var angleInDegrees = MathF.Atan2(this.X - otherPos.X, otherPos.Y - this.Y) * (180.0 / Math.PI);
+			if (angleInDegrees < 0)
+				angleInDegrees += 360.0;
+
+			return (Direction)((int)((angleInDegrees + 22.5f) / 45f) & 7);
+		}
+
+		/// <summary>
 		/// Returns random position in range around this position.
 		/// </summary>
 		/// <param name="range"></param>
