@@ -1,9 +1,11 @@
 ﻿using MySqlConnector;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database;
-using Sabine.Shared.Database.MySQL;
 using Sabine.Shared.World;
+using Sabine.Zone.Skills;
 using Sabine.Zone.World.Actors;
+using Yggdrasil.Db.MySql;
+using Yggdrasil.Db.MySql.SimpleCommands;
 
 namespace Sabine.Zone.Database
 {
@@ -113,7 +115,7 @@ namespace Sabine.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `accountId` = @accountId AND `characterId` = @characterId", conn, trans))
+				using (var cmd = new UpdateCommand("UPDATE `characters` SET {parameters} WHERE `accountId` = @accountId AND `characterId` = @characterId", conn, trans))
 				{
 					cmd.AddParameter("@accountId", account.Id);
 					cmd.AddParameter("@characterId", character.Id);
@@ -149,27 +151,28 @@ namespace Sabine.Zone.Database
 					cmd.Execute();
 				}
 
-				using (var cmd = new UpdateCommand("DELETE FROM `items` WHERE `characterId` = @characterId", conn, trans))
+				using (var cmd = new MySqlCommand("DELETE FROM `items` WHERE `characterId` = @characterId", conn, trans))
 				{
 					cmd.AddParameter("@characterId", character.Id);
-					cmd.Execute();
+					cmd.ExecuteNonQuery();
 				}
 
-				using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+				using (var cmd = new BatchedInsertCommand("items", conn, trans))
 				{
 					var items = character.Inventory.GetItems();
 
 					foreach (var item in items)
 					{
-						cmd.Clear();
-
 						cmd.Set("characterId", character.Id);
 						cmd.Set("classId", item.ClassId);
 						cmd.Set("amount", item.Amount);
 						cmd.Set("equipped", (int)item.EquippedOn);
 
-						cmd.Execute();
+						cmd.AddRow();
+						cmd.ExecuteOn(200);
 					}
+
+					cmd.Execute();
 				}
 
 				trans.Commit();

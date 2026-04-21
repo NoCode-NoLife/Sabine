@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using MySqlConnector;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database;
-using Sabine.Shared.Database.MySQL;
 using Sabine.Shared.World;
+using Yggdrasil.Db.MySql;
+using Yggdrasil.Db.MySql.SimpleCommands;
 
 namespace Sabine.Char.Database
 {
@@ -100,7 +101,7 @@ namespace Sabine.Char.Database
 				throw new ArgumentException("This character appears to have been created already.");
 
 			using (var conn = this.GetConnection())
-			using (var cmd = new InsertCommand("INSERT INTO `characters` {0}", conn))
+			using (var cmd = new InsertCommand("INSERT INTO `characters` {parameters}", conn))
 			{
 				cmd.Set("accountId", account.Id);
 				cmd.Set("slot", character.Slot);
@@ -153,7 +154,7 @@ namespace Sabine.Char.Database
 		public void UpdateCharacterLocation(Character character, int mapId, Position pos)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `characters` SET {parameters} WHERE `characterId` = @characterId", conn))
 			{
 				cmd.AddParameter("@characterId", character.Id);
 				cmd.Set("mapId", mapId);

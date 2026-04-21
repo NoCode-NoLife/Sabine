@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using MySqlConnector;
 using Sabine.Shared.Const;
-using Sabine.Shared.Database.MySQL;
+using Yggdrasil.Db.MySql;
+using Yggdrasil.Db.MySql.SimpleCommands;
 using Yggdrasil.Logging;
 
 namespace Sabine.Shared.Database
@@ -128,7 +129,7 @@ namespace Sabine.Shared.Database
 		public void SaveAccount(Account account)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {parameters} WHERE `accountId` = @accountId", conn))
 			{
 				cmd.AddParameter("@accountId", account.Id);
 				cmd.Set("authority", account.Authority);
@@ -274,7 +275,7 @@ namespace Sabine.Shared.Database
 					}
 
 					// Save
-					using (var cmd = new InsertCommand("INSERT INTO `" + tableName + "` {0}", conn, transaction))
+					using (var cmd = new InsertCommand("INSERT INTO `" + tableName + "` {parameters}", conn, transaction))
 					{
 						cmd.Set("ownerId", id);
 						cmd.Set("name", var.Key);
