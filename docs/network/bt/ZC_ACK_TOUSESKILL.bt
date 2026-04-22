@@ -1,0 +1,30 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_ACK_TOUSESKILL.bt
+//   Authors: exec
+//   Version: i20020220 (iRO Beta1)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/version.bt"
+
+short op;
+
+if (VERSION <= 100)
+{
+    short skillId;
+    byte result;
+    byte failReason;
+}
+else
+{
+    short skillId;
+    byte failReason;
+    byte result;
+    byte failType;
+}

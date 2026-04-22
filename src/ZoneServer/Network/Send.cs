@@ -11,8 +11,8 @@ using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
 using Sabine.Zone.Network.Helpers;
 using Sabine.Zone.Skills;
-using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Actors;
+using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Util;
 
@@ -1294,6 +1294,43 @@ namespace Sabine.Zone.Network
 			packet.PutShort((short)skill.Level);
 			packet.PutShort((short)skill.SpCost);
 			packet.PutByte(skill.CanBeLeveled);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Informs the client about success or failure of a skill usage
+		/// request.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="skillId"></param>
+		/// <param name="result"></param>
+		/// <param name="failType"></param>
+		/// <param name="failReason"></param>
+		public static void ZC_ACK_TOUSESKILL(PlayerCharacter character, SkillId skillId, SkillUseResult result, SkillFailType failType, SkillFailReason failReason)
+		{
+			using var packet = Packet.Rent(Op.ZC_ACK_TOUSESKILL);
+
+			if (Game.Version <= Versions.Alpha)
+			{
+				// The alpha client checks for success and displays a
+				// message on fail.
+
+				packet.PutShort((short)skillId);
+				packet.PutByte((byte)result);
+				packet.PutByte((byte)failReason);
+			}
+			else
+			{
+				// Beta2+ first checks for success. On fail it checks the
+				// fail type and either displays skill specific fail
+				// reasons, or generic ones.
+
+				packet.PutShort((short)skillId);
+				packet.PutInt((int)failReason);
+				packet.PutByte((byte)result);
+				packet.PutByte((byte)failType);
+			}
 
 			character.Connection.Send(packet);
 		}
