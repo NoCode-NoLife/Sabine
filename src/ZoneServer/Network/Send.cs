@@ -612,11 +612,13 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates the character's direction.
+		/// Updates the character's direction on other players' clients.
 		/// </summary>
+		/// <remarks>
+		/// Doesn't affect the character's direction on their own client.
+		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="direction"></param>
-		/// <exception cref="NotImplementedException"></exception>
 		public static void ZC_CHANGE_DIRECTION(Character character, Direction direction)
 		{
 			using var packet = Packet.Rent(Op.ZC_CHANGE_DIRECTION);
