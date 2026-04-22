@@ -24,6 +24,10 @@ namespace Sabine.Zone.Skills.Handlers.Novice
 			if (Game.Version < Versions.Beta1)
 				return true;
 
+			// Allow if the checks were disabled
+			if (!ZoneServer.Instance.Conf.World.CheckBasicSkills)
+				return true;
+
 			if (!character.Skills.TryGet(SkillId.NV_BASIC, out var skill))
 				return false;
 
