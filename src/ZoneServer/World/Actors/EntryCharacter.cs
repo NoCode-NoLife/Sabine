@@ -55,6 +55,12 @@ namespace Sabine.Zone.World.Actors
 		Direction Direction { get; }
 
 		/// <summary>
+		/// Returns the head turn direction relative to the character's
+		/// direction.
+		/// </summary>
+		HeadTurn HeadTurn { get; }
+
+		/// <summary>
 		/// Returns the character's name.
 		/// </summary>
 		string Name { get; }

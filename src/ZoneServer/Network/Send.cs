@@ -619,11 +619,19 @@ namespace Sabine.Zone.Network
 		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="direction"></param>
-		public static void ZC_CHANGE_DIRECTION(Character character, Direction direction)
+		/// <param name="headTurn"></param>
+		public static void ZC_CHANGE_DIRECTION(Character character, Direction direction, HeadTurn headTurn)
 		{
 			using var packet = Packet.Rent(Op.ZC_CHANGE_DIRECTION);
 
 			packet.PutInt(character.Handle);
+
+			if (Game.Version >= Versions.Beta2)
+			{
+				packet.PutByte((byte)headTurn);
+				packet.PutByte(0);
+			}
+
 			packet.PutByte((byte)direction);
 
 			character.Map.Broadcast(packet, character, BroadcastTargets.All);

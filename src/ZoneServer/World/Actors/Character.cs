@@ -106,6 +106,12 @@ namespace Sabine.Zone.World.Actors
 		public virtual Direction Direction { get; set; } = Direction.North;
 
 		/// <summary>
+		/// Gets or sets the head turn direction relative to the
+		/// character's direction.
+		/// </summary>
+		public virtual HeadTurn HeadTurn { get; set; } = HeadTurn.Straight;
+
+		/// <summary>
 		/// Returns the character's speed parameter.
 		/// </summary>
 		public int Speed => this.Parameters.Speed;

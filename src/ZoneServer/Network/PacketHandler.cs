@@ -636,12 +636,25 @@ L_End:
 		[PacketHandler(Op.CZ_CHANGE_DIRECTION)]
 		public void CZ_CHANGE_DIRECTION(ZoneConnection conn, Packet packet)
 		{
-			var direction = (Direction)packet.GetByte();
+			var headTurn = HeadTurn.Straight;
+			var bodyDir = Direction.South;
+
+			// Beta2 added the ability to turn the head in addition to the
+			// body
+			if (Game.Version >= Versions.Beta2)
+			{
+				headTurn = (HeadTurn)packet.GetByte();
+				var b2 = packet.GetByte();
+			}
+
+			bodyDir = (Direction)packet.GetByte();
 
 			var character = conn.GetCurrentCharacter();
-			character.Direction = direction;
 
-			Send.ZC_CHANGE_DIRECTION(character, direction);
+			character.Direction = bodyDir;
+			character.HeadTurn = headTurn;
+
+			Send.ZC_CHANGE_DIRECTION(character, bodyDir, headTurn);
 		}
 
 		/// <summary>

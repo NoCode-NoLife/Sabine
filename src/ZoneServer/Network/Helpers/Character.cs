@@ -55,7 +55,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Head3
 				packet.PutShort(0);     // HairColor
 				packet.PutShort(0);     // ClothesColor
-				packet.PutShort(0);     // HeadDir
+				packet.PutShort((short)character.HeadTurn);
 				packet.PutInt(0);       // GuildId?
 				packet.PutShort(0);     // GuildEmblemId?
 				packet.PutShort(0);     // Manner?
