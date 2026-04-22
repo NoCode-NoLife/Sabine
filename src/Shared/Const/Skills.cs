@@ -19,14 +19,14 @@
 	public enum SkillUseResult : byte
 	{
 		/// <summary>
-		/// Skill was successfully used.
-		/// </summary>
-		Success = 0,
-
-		/// <summary>
 		/// Skill use failed.
 		/// </summary>
-		Fail = 1,
+		Fail = 0,
+
+		/// <summary>
+		/// Skill was successfully used.
+		/// </summary>
+		Success = 1,
 	}
 
 	/// <summary>
