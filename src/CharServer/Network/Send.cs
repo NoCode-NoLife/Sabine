@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Buffers;
+using System.Buffers.Binary;
+using System.Collections.Generic;
 using System.Net;
 using Sabine.Char.Database;
 using Sabine.Char.Network.Helpers;
@@ -13,6 +15,19 @@ namespace Sabine.Char.Network
 	/// </summary>
 	public static class Send
 	{
+		/// <summary>
+		/// Sends data necessary to initialize the connection on newer
+		/// clients.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void InitConnection(CharConnection conn)
+		{
+			var buffer = ArrayPool<byte>.Shared.Rent(sizeof(int));
+			BinaryPrimitives.WriteInt32LittleEndian(buffer, conn.Account.Id);
+
+			conn.Send(buffer, sizeof(int), static (data, len, type) => ArrayPool<byte>.Shared.Return(data));
+		}
+
 		/// <summary>
 		/// Shows error messages about why the login request was refused.
 		/// </summary>

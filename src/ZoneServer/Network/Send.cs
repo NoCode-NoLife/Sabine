@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Buffers;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Net;
 using Sabine.Shared;
@@ -13,7 +15,6 @@ using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Util;
-using Yggdrasil.Logging;
 
 namespace Sabine.Zone.Network
 {
@@ -22,6 +23,19 @@ namespace Sabine.Zone.Network
 	/// </summary>
 	public static class Send
 	{
+		/// <summary>
+		/// Sends data necessary to initialize the connection on newer
+		/// clients.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void InitConnection(ZoneConnection conn)
+		{
+			var buffer = ArrayPool<byte>.Shared.Rent(sizeof(int));
+			BinaryPrimitives.WriteInt32LittleEndian(buffer, conn.Account.Id);
+
+			conn.Send(buffer, sizeof(int), static (data, len, type) => ArrayPool<byte>.Shared.Return(data));
+		}
+
 		/// <summary>
 		/// Accepts connection request, makes client load map.
 		/// </summary>

@@ -77,13 +77,7 @@ namespace Sabine.Char.Network
 			// account id to be sent upon connection, or it won't react to
 			// any packets...?
 			if (Game.Version >= Versions.Beta2)
-			{
-				// Use a pool array, since we return the sent arrays to the
-				// pool after sending by default
-				var buffer = ArrayPool<byte>.Shared.Rent(sizeof(int));
-				BinaryPrimitives.WriteInt32LittleEndian(buffer, account.Id);
-				conn.Send(buffer, sizeof(int));
-			}
+				Send.InitConnection(conn);
 
 			Send.HC_ACCEPT_ENTER(conn, characters);
 
