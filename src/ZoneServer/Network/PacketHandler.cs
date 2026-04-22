@@ -16,6 +16,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Events.Args;
 using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
+using Sabine.Zone.Skills.Handlers.Novice;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Maps;
@@ -386,6 +387,10 @@ L_End:
 			}
 
 			var character = conn.GetCurrentCharacter();
+
+			if (NV_BASIC.TryFail(character, BasicSkillAbility.UseEmotes))
+				return;
+
 			Send.ZC_EMOTION(character, emotion);
 		}
 
@@ -571,6 +576,9 @@ L_End:
 			{
 				case ActionType.SitDown:
 				{
+					if (NV_BASIC.TryFail(character, BasicSkillAbility.Sit))
+						return;
+
 					character.SitDown();
 					break;
 				}
@@ -1214,6 +1222,9 @@ L_End:
 				return;
 			}
 
+			if (NV_BASIC.TryFail(character, BasicSkillAbility.Trade))
+				return;
+
 			ZoneServer.Instance.World.Trades.InitiateTrade(character, partner);
 		}
 
@@ -1341,6 +1352,9 @@ L_End:
 			var title = packet.GetString(titleLen);
 
 			var character = conn.GetCurrentCharacter();
+
+			if (NV_BASIC.TryFail(character, BasicSkillAbility.CreateChatRoom))
+				return;
 
 			limit = Math.Clamp(limit, 1, 20);
 
@@ -1581,6 +1595,9 @@ L_End:
 			var partyName = packet.GetString(Sizes.PartyNames);
 
 			var character = conn.GetCurrentCharacter();
+
+			if (NV_BASIC.TryFail(character, BasicSkillAbility.CreateParty))
+				return;
 
 			character.ServerMessage(Localization.Get("This feature has not been implemented yet."));
 
