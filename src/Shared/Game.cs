@@ -70,6 +70,11 @@ namespace Sabine.Shared
 		/// The packet version for the iRO EP8 client (2004-08-03).
 		/// </summary>
 		public const int EP8 = 700;
+
+		/// <summary>
+		/// The packet version for the bRO EP8 client (2004-12-28).
+		/// </summary>
+		public const int EP8_2 = 800;
 	}
 
 	/// <summary>
