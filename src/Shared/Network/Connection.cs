@@ -108,7 +108,15 @@ namespace Sabine.Shared.Network
 		/// <param name="type"></param>
 		protected override void PostSend(byte[] data, int length, PostSendType type)
 		{
-			ArrayPool<byte>.Shared.Return(data);
+			try
+			{
+				ArrayPool<byte>.Shared.Return(data);
+			}
+			catch (ArgumentException ex)
+			{
+				Log.Warning("A send buffer could not be returned to the pool. Error: " + ex.Message);
+				Log.Debug("Data sent: " + Hex.ToString(data, 0, length));
+			}
 		}
 
 		/// <summary>

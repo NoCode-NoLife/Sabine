@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Buffers;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,8 +16,8 @@ using Sabine.Shared.World;
 using Sabine.Zone.Events.Args;
 using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
-using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Actors;
+using Sabine.Zone.World.Chats;
 using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Collections;
@@ -101,7 +103,13 @@ namespace Sabine.Zone.Network
 			// account id to be sent upon connection, or it won't react to
 			// any packets...?
 			if (Game.Version >= Versions.Beta2)
-				conn.Send(BitConverter.GetBytes(account.Id));
+			{
+				// Use a pool array, since we return the sent arrays to the
+				// pool after sending by default
+				var buffer = ArrayPool<byte>.Shared.Rent(sizeof(int));
+				BinaryPrimitives.WriteInt32LittleEndian(buffer, account.Id);
+				conn.Send(buffer, sizeof(int));
+			}
 
 			Send.ZC_ACCEPT_ENTER(conn, character);
 
