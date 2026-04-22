@@ -44,6 +44,7 @@
 			ChangeSize(Op.ZC_ADD_EXCHANGE_ITEM, 30);
 			ChangeSize(Op.ZC_ADD_ITEM_TO_STORE, 32);
 			ChangeSize(Op.CZ_MAKE_GROUP, 26);
+			ChangeSize(Op.ZC_ACK_TOUSESKILL, 10);
 			ChangeSize(Op.ZC_ADD_SKILL, 39);
 
 			Register(Op.ZC_NOTIFY_ACT_POSITION, 0x0027, 23);
