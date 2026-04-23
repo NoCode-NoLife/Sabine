@@ -11,14 +11,25 @@
 //   History: 
 //------------------------------------------------
 
-#define VERSION 0
 #include "inc/version.bt"
 
 short op;
 
-if (VERSION >= 300)
+if (VERSION < 300)
+{
+    byte bodyDir;
+}
+else if (VERSION < 2000)
 {
     byte headTurn;
     byte b2;
+    byte bodyDir;
 }
-byte bodyDir;
+else
+{
+    byte filler1[5];
+    byte headTurn;
+    byte b2;
+    byte filler1[1];
+    byte bodyDir;
+}

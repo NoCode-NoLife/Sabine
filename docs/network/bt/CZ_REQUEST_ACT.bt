@@ -1,0 +1,180 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CZ_REQUEST_ACT.bt
+//   Authors: exec
+//   Version: eu20070305
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/version.bt"
+
+short op;
+short len;
+
+if (VERSION < 2000)
+{
+    int handle;
+    byte actionType;
+}
+else
+{
+    local int handleOffset = (len % 2 == 0) ? (4 + (len - 20) / 2) : ((len + 27) / 2);
+    local int fillerLen1 = handleOffset - 4;
+    local int fillerLen2 = len - handleOffset - 8;
+
+    if (fillerLen1 > 0)
+        byte filler1[fillerLen1];
+
+    int handle;
+
+    if (fillerLen2 > 0)
+        byte filler2[fillerLen2];
+
+    int actionType;
+
+    /*if (len == 20)
+    {
+        byte filler1[0];
+        int handle;
+        byte filler2[8];
+        int actionType;
+    }
+    else if (len == 22)
+    {
+        byte filler1[1];
+        int handle;
+        byte filler2[9];
+        int actionType;
+    }
+    else if (len == 26)
+    {
+        byte filler1[3];
+        int handle;
+        byte filler2[11];
+        int actionType;
+    }
+    else if (len == 28)
+    {
+        byte filler1[4];
+        int handle;
+        byte filler2[12];
+        int actionType;
+    }
+    else if (len == 32)
+    {
+        byte filler1[6];
+        int handle;
+        byte filler2[14];
+        int actionType;
+    }
+    else if (len == 34)
+    {
+        byte filler1[7];
+        int handle;
+        byte filler2[15];
+        int actionType;
+    }
+    else if (len == 36)
+    {
+        byte filler1[8];
+        int handle;
+        byte filler2[16];
+        int actionType;
+    }
+    else if (len == 38)
+    {
+        byte filler1[9];
+        int handle;
+        byte filler2[17];
+        int actionType;
+    }
+    else if (len == 40)
+    {
+        byte filler1[10];
+        int handle;
+        byte filler2[18];
+        int actionType;
+    }
+    else if (len == 51)
+    {
+        //byte filler1[0];
+        //int handle;
+        //byte filler2[39];
+        //int actionType;
+
+        // or
+
+        byte filler1[35];
+        int handle;
+        byte filler2[4];
+        int actionType;
+    }
+    else if (len == 52)
+    {
+        byte filler1[16];
+        int handle;
+        byte filler2[24];
+        int actionType;
+    }
+    else if (len == 53)
+    {
+        //byte filler1[9];
+        //int handle;
+        //byte filler2[32];
+        //int actionType;
+
+        // or
+
+        byte filler1[36];
+        int handle;
+        byte filler2[5];
+        int actionType;
+    }
+    else if (len == 55)
+    {
+        //byte filler1[0];
+        //int handle;
+        //byte filler2[43];
+        //int actionType;
+
+        // or
+
+        byte filler1[37];
+        int handle;
+        byte filler2[6];
+        int actionType;
+    }
+    else if (len == 62)
+    {
+        byte filler1[21];
+        int handle;
+        byte filler2[29];
+        int actionType;
+    }
+    else if (len == 68)
+    {
+        byte filler1[24];
+        int handle;
+        byte filler2[32];
+        int actionType;
+    }
+    else if (len == 72)
+    {
+        byte filler1[26];
+        int handle;
+        byte filler2[34];
+        int actionType;
+    }
+    else if (len == 80)
+    {
+        byte filler1[30];
+        int handle;
+        byte filler2[38];
+        int actionType;
+    }*/
+}

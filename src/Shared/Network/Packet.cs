@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using Microsoft.Extensions.ObjectPool;
+using Sabine.Shared.Database;
 using Yggdrasil.Util;
 
 namespace Sabine.Shared.Network
@@ -152,6 +154,21 @@ namespace Sabine.Shared.Network
 		{
 			this.AssertNotDisposed();
 			return _buffer.Length - _buffer.Index;
+		}
+
+		/// <summary>
+		/// Skips the given number of bytes ahead in the packet, ignoring
+		/// the data.
+		/// </summary>
+		/// <param name="amount"></param>
+		public void Skip(int amount)
+		{
+			this.AssertNotDisposed();
+
+			if (amount == 0)
+				return;
+
+			_buffer.Seek(amount, SeekOrigin.Current);
 		}
 
 		/// <summary>

@@ -80,6 +80,12 @@ namespace Sabine.Shared
 		/// The packet version for the bRO EP8 client (2004-12-28).
 		/// </summary>
 		public const int EP8_2 = 800;
+
+		/// <summary>
+		/// Sabine packet version 2000, based on euRO EP10 2007-03-05.
+		/// </summary>
+		public const int S2000 = 2000;
+
 	}
 
 	/// <summary>

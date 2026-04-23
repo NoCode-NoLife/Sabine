@@ -3,7 +3,7 @@
 //
 //      File: CZ_REQUEST_MOVE.bt
 //   Authors: exec
-//   Version: i20010830 (iRO Alpha)
+//   Version: eu20070305 (euRO EP10)
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -14,4 +14,8 @@
 #include "inc/PackedPosition.bt"
 
 short op;
+
+if (VERSION >= 2000)
+    PackedPosition p1;
+
 PackedPosition pos;

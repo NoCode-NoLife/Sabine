@@ -17,9 +17,9 @@ typedef struct
     unsigned byte b2;
     unsigned byte b3;
 }
-PackedPosition <read=readPackedMove>;
+PackedPosition <read=readPackedPosition>;
 
-string readPackedMove(PackedPosition &val)
+string readPackedPosition(PackedPosition &val)
 {
     local int b1 = val.b1;
     local int b2 = val.b2;

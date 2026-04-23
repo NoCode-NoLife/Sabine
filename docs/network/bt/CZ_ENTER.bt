@@ -3,7 +3,7 @@
 //
 //      File: CZ_ENTER.bt
 //   Authors: exec
-//   Version: i20010830 (iRO Alpha)
+//   Version: eu20070305 (euRO EP10)
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -11,9 +11,33 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/version.bt"
+
 short op;
 
-int sessionId;
-int accountId;
-int characterId;
-byte sex;
+if (VERSION < 200)
+{
+    int accountId;
+    int characterId;
+    int sessionId;
+    byte sex;
+}
+else if (VERSION < 2000)
+{
+    int accountId;
+    int characterId;
+    int sessionId;
+    int tick;
+    byte sex;
+}
+else
+{
+    short s1;
+    int accountId;
+    byte b1;
+    int characterId;
+    int i2;
+    int sessionId;
+    int tick;
+    byte sex;
+}
