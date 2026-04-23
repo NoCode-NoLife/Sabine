@@ -175,7 +175,7 @@ ZC_MVP                                     | 0x00A8   | 6
 ZC_THROW_MVPITEM                           | 0x00A9   | 2
 ZC_SKILLINFO_UPDATE                        | 0x00AA   | 9
 ZC_SKILLINFO_LIST                          | 0x00AB   | -1
-ZC_ACK_TOUSESKILL                          | 0x00AC   | 6
+ZC_ACK_TOUSESKILL                          | 0x00AC   | 10
 ZC_ADD_SKILL                               | 0x00AD   | 39
 CZ_UPGRADE_SKILLLEVEL                      | 0x00AE   | 4
 CZ_USE_SKILL                               | 0x00AF   | 10

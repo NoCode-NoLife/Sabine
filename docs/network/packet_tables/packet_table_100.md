@@ -151,7 +151,7 @@ CZ_MOVE_ITEM_FROM_STORE_TO_BODY            | 0x0090   | 8
 ZC_DELETE_ITEM_FROM_STORE                  | 0x0091   | 8
 CZ_CLOSE_STORE                             | 0x0092   | 2
 ZC_CLOSE_STORE                             | 0x0093   | 2
-CZ_MAKE_GROUP                              | 0x0094   | 22
+CZ_MAKE_GROUP                              | 0x0094   | 18
 ZC_ACK_MAKE_GROUP                          | 0x0095   | 3
 ZC_GROUP_LIST                              | 0x0096   | -1
 CZ_REQ_JOIN_GROUP                          | 0x0097   | 6
