@@ -20,6 +20,7 @@ namespace Sabine.Shared.Network
 			[Versions.Alpha] = LoadVersion100,
 			[Versions.Beta1] = LoadVersion200,
 			[Versions.Beta2] = LoadVersion300,
+			[Versions.S350] = LoadVersion350,
 			[Versions.EP3] = LoadVersion400,
 			[Versions.EP3_2] = LoadVersion500,
 			[Versions.EP4] = LoadVersion600,

@@ -52,6 +52,11 @@ namespace Sabine.Shared
 		public const int Beta2 = 300;
 
 		/// <summary>
+		/// Sabine packet version 350, based on iRO EP4 2003-04-30.
+		/// </summary>
+		public const int S350 = 350;
+
+		/// <summary>
 		/// The packet version for the jRO EP3 client (2003-05-27).
 		/// </summary>
 		public const int EP3 = 400;
