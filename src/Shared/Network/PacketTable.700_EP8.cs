@@ -5,6 +5,7 @@
 		private static void LoadVersion700()
 		{
 			// Reference: iRO EP8 Ragexe.exe, dated 2004-08-03
+			// Roughly equivalent to 2004-07-05aSakexe and eA6
 
 			// A few of the packets that were taking up space in the table,
 			// but weren't used yet, have been added/enabled. Though it

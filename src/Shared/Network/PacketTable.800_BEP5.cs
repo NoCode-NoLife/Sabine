@@ -5,6 +5,7 @@
 		private static void LoadVersion800()
 		{
 			// Reference: bRO EP5 Ragexe.exe, dated 2004-12-28
+			// Roughly equivalent to 2004-11-29aSakexe and eA14
 
 			ChangeSize(Op.CZ_LOCALBROADCAST, -1);
 			ChangeSize(Op.CZ_INPUT_EDITDLGSTR, -1);
