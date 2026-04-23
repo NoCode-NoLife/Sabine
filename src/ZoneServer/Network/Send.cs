@@ -762,7 +762,7 @@ namespace Sabine.Zone.Network
 
 				packet.PutByte((byte)type);
 
-				if (Game.Version >= Versions.EP4)
+				if (Game.Version >= Versions.Beta2)
 					packet.PutShort((short)arg5);
 
 				character.Map.Broadcast(packet, character, BroadcastTargets.All);
