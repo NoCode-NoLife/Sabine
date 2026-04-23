@@ -137,7 +137,7 @@ namespace Sabine.Zone
 		private void CreateDebugInfo()
 		{
 			var packetTable = PacketTable.GetTable();
-			var filePath = "user/debug/packet_table_" + Game.Version + ".md";
+			var filePath = $"user/debug/packet_table_{Game.Version:0000}.md";
 			var folderPath = Path.GetDirectoryName(filePath);
 
 			if (!Directory.Exists(folderPath))
