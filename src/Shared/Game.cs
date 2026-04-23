@@ -57,7 +57,7 @@ namespace Sabine.Shared
 		public const int EP3 = 400;
 
 		/// <summary>
-		/// The packet version for the iRO EP3-5 client (2003-10-31).
+		/// The packet version for the iRO EP6 client (2003-10-31).
 		/// </summary>
 		public const int EP3_2 = 500;
 
