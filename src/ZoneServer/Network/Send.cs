@@ -1634,5 +1634,55 @@ namespace Sabine.Zone.Network
 
 			character.Connection.Send(packet);
 		}
+
+		/// <summary>
+		/// Displays effect on character, for them and the characters
+		/// nearby.
+		/// </summary>
+		/// <remarks>
+		/// First seen in i20030430, where the client handles 5 effects,
+		/// from 0 to 4. Based on their usage in eAthena, those might be:
+		/// 
+		/// - 0: BaseLevelUp
+		/// - 1: JobLevelUp
+		/// - 2: RefineFail
+		/// - 3: RefineUp
+		/// - 4: ?
+		/// 
+		/// Unfortunately no clients that were tested did anything when
+		/// these were sent on their own.
+		/// </remarks>
+		/// <param name="character"></param>
+		/// <param name="effectId"></param>
+		public static void ZC_NOTIFY_EFFECT(PlayerCharacter character, int effectId)
+		{
+			using var packet = Packet.Rent(Op.ZC_NOTIFY_EFFECT);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt((int)effectId);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+		}
+
+		/// <summary>
+		/// Displays effect on character, for them and the characters
+		/// nearby.
+		/// </summary>
+		/// <remarks>
+		/// First seen in eu20040512, these effects appear to be more
+		/// general purpose than the original ZC_NOTIFY_EFFECT and make
+		/// up the vast majority of effects in use.
+		/// </remarks>
+		/// <param name="character"></param>
+		/// <param name="effectId"></param>
+		public static void ZC_NOTIFY_EFFECT2(PlayerCharacter character, EffectId effectId)
+		{
+			using var packet = Packet.Rent(Op.ZC_NOTIFY_EFFECT2);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt((int)effectId);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+		}
 	}
 }
