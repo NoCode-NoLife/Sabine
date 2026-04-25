@@ -651,6 +651,7 @@ namespace Sabine.Zone.Network
 					}
 
 					var attackRange = character.GetAttackRange();
+
 					if (!character.Position.InRange(target.Position, attackRange))
 					{
 						// The alpha client does its own range checks and
@@ -659,7 +660,7 @@ namespace Sabine.Zone.Network
 						// stopping the attack is expected from us for
 						// the alpha here.
 						if (Game.Version >= Versions.Beta1)
-							Send.ZC_ATTACK_FAILURE_FOR_DISTANCE(character, target, attackRange);
+							Send.ZC_ATTACK_FAILURE_FOR_DISTANCE(character, target, attackRange - 1);
 						return;
 					}
 
