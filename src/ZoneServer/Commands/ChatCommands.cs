@@ -528,7 +528,7 @@ namespace Sabine.Zone.Commands
 				hpMax = Math2.Clamp(1, 1_000_000, hpMax);
 			}
 
-			var aiName = args.Get("ai", monsterData.AiName);
+			var aiName = args.Get("ai", monsterData.AiName ?? "none");
 			var useAi = aiName != "none";
 
 			if (!ZoneServer.Instance.Data.Monsters.Contains(identityId))
