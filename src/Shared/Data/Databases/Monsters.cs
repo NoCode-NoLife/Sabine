@@ -10,7 +10,7 @@ namespace Sabine.Shared.Data.Databases
 	/// </summary>
 	public class MonsterData
 	{
-		public int Id { get; set; }
+		public IdentityId Id { get; set; }
 		public string Name { get; set; }
 		public int Level { get; set; }
 		public int Hp { get; set; }
@@ -57,7 +57,7 @@ namespace Sabine.Shared.Data.Databases
 	/// <summary>
 	/// A monster database.
 	/// </summary>
-	public class MonsterDb : DatabaseJsonIndexed<int, MonsterData>
+	public class MonsterDb : DatabaseJsonIndexed<IdentityId, MonsterData>
 	{
 		/// <summary>
 		/// Returns the data for the monster with the given name,
@@ -91,7 +91,7 @@ namespace Sabine.Shared.Data.Databases
 
 			var data = new MonsterData();
 
-			data.Id = entry.ReadInt("id");
+			data.Id = (IdentityId)entry.ReadInt("id");
 			data.Name = entry.ReadString("name");
 			data.Level = entry.ReadInt("level", 1);
 			data.Hp = entry.ReadInt("hp", 50);

@@ -9,6 +9,7 @@
 using Sabine.Shared.Const;
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
+using static Sabine.Shared.Const.IdentityId;
 
 [RequiresMaps("prt_vilg01", "prt_intr01")]
 public class PronteraNpcsScript : GeneralScript
@@ -24,7 +25,7 @@ public class PronteraNpcsScript : GeneralScript
 		// Guide NPC mentioned in the GameFAQs guide. Said to give only
 		// vague hints. The dialog is modeled a little after the later
 		// guide NPCs.
-		AddNpc("Guide", 54, "prt_vilg02", 99, 89, 5, async dialog =>
+		AddNpc("Guide", JT_1_M_JOBGUIDER, "prt_vilg02", 99, 89, 5, async dialog =>
 		{
 			if (dialog.Player.JobId != JobId.Novice)
 			{
@@ -77,33 +78,33 @@ public class PronteraNpcsScript : GeneralScript
 		});
 
 		// This NPC is mentioned in the guide, but its purpose is unknown.
-		AddNpc("Prize Exchanger", 83, "prt_intr02", 127, 102, 3, async dialog =>
+		AddNpc("Prize Exchanger", JT_4_M_01, "prt_intr02", 127, 102, 3, async dialog =>
 		{
 			await dialog.Talk("Who... am I? And what am I doing here?");
 		});
 
 		// Seen in screen shots, names and purposes unknown.
-		AddNpc("Office Lady", 102, "prt_intr01", 120, 27, 4);
-		AddNpc("Office Lady", 102, "prt_intr01", 124, 27, 4);
+		AddNpc("Office Lady", JT_8_F, "prt_intr01", 120, 27, 4);
+		AddNpc("Office Lady", JT_8_F, "prt_intr01", 124, 27, 4);
 
 		// Seen in screen shots
-		AddNpc("Guard", 105, "prt_cstl01", 39, 66, 6);
-		AddNpc("Guard", 105, "prt_cstl01", 48, 66, 3);
-		AddNpc("Guard", 105, "prt_vilg01", 99, 89, 4);
+		AddNpc("Guard", JT_8W_SOLDIER, "prt_cstl01", 39, 66, 6);
+		AddNpc("Guard", JT_8W_SOLDIER, "prt_cstl01", 48, 66, 3);
+		AddNpc("Guard", JT_8W_SOLDIER, "prt_vilg01", 99, 89, 4);
 
 		// Inn, described in guide.
-		AddNpc("Maid", 94, "prt_intr01", 33, 21, 4);
-		AddNpc("Receptionist", 102, "prt_intr01", 38, 24, 4);
+		AddNpc("Maid", JT_4_F_MAID, "prt_intr01", 33, 21, 4);
+		AddNpc("Receptionist", JT_8_F, "prt_intr01", 38, 24, 4);
 
 		// There's a cathedral, there's a pastor sprite, there was probably
 		// a pastor in the cathedral.
-		AddNpc("Pastor", 60, "prt_intr02", 43, 172, 3, async dialog =>
+		AddNpc("Pastor", JT_1_M_PASTOR, "prt_intr02", 43, 172, 3, async dialog =>
 		{
 			await dialog.Talk("Welcome, my child.");
 		});
 
 		// Lets players enter the sewers
-		AddNpc("Soldier", 105, "prt_intr01", 18, 78, 4, async dialog =>
+		AddNpc("Soldier", JT_8W_SOLDIER, "prt_intr01", 18, 78, 4, async dialog =>
 		{
 			await dialog.Talk("The sewer system is infested with monsters. Will you help us clean them out?");
 			var response = await dialog.Select(Option("Yes", "yes"), Option("No", "no"));
@@ -127,7 +128,7 @@ public class PronteraNpcsScript : GeneralScript
 
 	private static void LoadShops()
 	{
-		AddShopNpc("Weapon Dealer", 50, "prt_intr02", 182, 100, 7, static shop =>
+		AddShopNpc("Weapon Dealer", JT_1_M_04, "prt_intr02", 182, 100, 7, static shop =>
 		{
 			shop.AddItems(ItemId.Sword);
 			shop.AddItems(ItemId.Falchion);
@@ -149,7 +150,7 @@ public class PronteraNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Wand);
 		});
 
-		AddShopNpc("Armor Dealer", 69, "prt_intr02", 182, 96, 7, static shop =>
+		AddShopNpc("Armor Dealer", JT_1_F_04, "prt_intr02", 182, 96, 7, static shop =>
 		{
 			shop.AddItems(ItemId.Guard);
 
@@ -173,7 +174,7 @@ public class PronteraNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Hood);
 		});
 
-		AddShopNpc("Item Dealer", 83, "prt_intr02", 125, 102, 3, static shop =>
+		AddShopNpc("Item Dealer", JT_4_M_01, "prt_intr02", 125, 102, 3, static shop =>
 		{
 			shop.AddItem(ItemId.RedPotion);
 			shop.AddItem(ItemId.ScarletPotion);
@@ -183,7 +184,7 @@ public class PronteraNpcsScript : GeneralScript
 			shop.AddItem(ItemId.GreenPotion);
 		});
 
-		AddShopNpc("Food Merchant", 83, "prt_vilg01", 82, 128, 5, static shop =>
+		AddShopNpc("Food Merchant", JT_4_M_01, "prt_vilg01", 82, 128, 5, static shop =>
 		{
 			shop.AddItem(ItemId.Apple);
 			shop.AddItem(ItemId.Banana);
@@ -192,7 +193,7 @@ public class PronteraNpcsScript : GeneralScript
 		});
 
 		// Seller for certificates
-		AddNpc("Resident Office", 69, "prt_intr01", 30, 76, 6, static async dialog =>
+		AddNpc("Resident Office", JT_1_F_04, "prt_intr01", 30, 76, 6, static async dialog =>
 		{
 			await dialog.Talk("What can I do for you?");
 			var response = await dialog.Select(Option("Buy Resident Certificate", "buy_resident"), Option("Buy Business Certificate", "buy_business"), Option("Nevermind.", "nvm"));

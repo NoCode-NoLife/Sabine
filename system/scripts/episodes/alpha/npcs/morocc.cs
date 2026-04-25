@@ -8,6 +8,7 @@
 
 using Sabine.Zone.Scripting;
 using static Sabine.Zone.Scripting.Shortcuts;
+using static Sabine.Shared.Const.IdentityId;
 
 [RequiresMaps("moc_vilg01", "moc_intr01")]
 public class MoroccNpcsScript : GeneralScript
@@ -21,16 +22,16 @@ public class MoroccNpcsScript : GeneralScript
 	private static void LoadNpcs()
 	{
 		// Seen in screen shots. Might be a less important merchant.
-		AddNpc("Granny", 103, "moc_vilg01", 104, 65, 2);
+		AddNpc("Granny", JT_8_F_GRANDMOTHER, "moc_vilg01", 104, 65, 2);
 
 		// Seen in screen shots. Building appears to an inn.
-		AddNpc("Maid", 69, "moc_intr01", 76, 140, 4);
-		AddNpc("Receptionist", 102, "moc_intr01", 72, 144, 4);
+		AddNpc("Maid", JT_1_F_04, "moc_intr01", 76, 140, 4);
+		AddNpc("Receptionist", JT_8_F, "moc_intr01", 72, 144, 4);
 	}
 
 	private static void LoadShops()
 	{
-		AddShopNpc("Weapon Dealer", 58, "moc_intr01", 156, 146, 2, static shop =>
+		AddShopNpc("Weapon Dealer", JT_1_M_MERCHANT, "moc_intr01", 156, 146, 2, static shop =>
 		{
 			shop.AddItems(ItemId.Axe);
 			shop.AddItems(ItemId.BattleAxe);
@@ -53,7 +54,7 @@ public class MoroccNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Arbalest);
 		});
 
-		AddShopNpc("Armor Dealer", 58, "moc_intr01", 156, 141, 2, static shop =>
+		AddShopNpc("Armor Dealer", JT_1_M_MERCHANT, "moc_intr01", 156, 141, 2, static shop =>
 		{
 			shop.AddItems(ItemId.Buckler);
 			shop.AddItems(ItemId.Shield);
@@ -81,7 +82,7 @@ public class MoroccNpcsScript : GeneralScript
 			shop.AddItems(ItemId.Manteau);
 		});
 
-		AddShopNpc("Item Dealer", 102, "moc_vilg01", 105, 46, 2, static shop =>
+		AddShopNpc("Item Dealer", JT_8_F, "moc_vilg01", 105, 46, 2, static shop =>
 		{
 			shop.AddItem(ItemId.RedPotion);
 			shop.AddItem(ItemId.ScarletPotion);

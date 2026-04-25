@@ -11,15 +11,10 @@ namespace Sabine.Zone.World.Actors
 	public interface IStandEntry : IActor
 	{
 		/// <summary>
-		/// Returns the character's class id, specifying (part of) its
+		/// Returns the character's identity id, specifying (part of) its
 		/// appearance.
 		/// </summary>
-		int ClassId { get; }
-
-		/// <summary>
-		/// Returns the class id that the character appears as.
-		/// </summary>
-		int DisplayClassId { get; }
+		IdentityId IdentityId { get; }
 
 		/// <summary>
 		/// Returns the character's speed.

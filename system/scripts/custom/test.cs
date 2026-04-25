@@ -9,6 +9,7 @@ using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Shops;
 using static Sabine.Zone.Scripting.Shortcuts;
+using static Sabine.Shared.Const.IdentityId;
 
 public class TestNpcScript : GeneralScript
 {
@@ -21,9 +22,9 @@ public class TestNpcScript : GeneralScript
 		});
 
 		if (MapsExist("prt_vilg02"))
-			AddNpc("Test", 54, "prt_vilg02", 105, 89, TestDialog);
+			AddNpc("Test", JT_1_M_JOBGUIDER, "prt_vilg02", 105, 89, TestDialog);
 		else if (MapsExist("prontera"))
-			AddNpc("Test", 54, "prontera", 157, 193, TestDialog);
+			AddNpc("Test", JT_1_M_JOBGUIDER, "prontera", 157, 193, TestDialog);
 	}
 
 	private static async Task TestDialog(Dialog dialog)

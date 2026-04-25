@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\src\ZoneServer\ZoneServer.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ExecTails.Yggdrasil.Versioning" Version="2.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 </Project>

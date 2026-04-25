@@ -217,7 +217,7 @@ namespace Sabine.Zone.Network
 				var path = character.Map.PathFinder.FindPath(fromPos, toPos);
 				foreach (var pathPos in path)
 				{
-					var npc = new Npc(66);
+					var npc = new Npc(IdentityId.JT_1_F_01);
 					npc.Warp(character.Map.Id, pathPos);
 
 					Task.Delay(5000).ContinueWith(_ => character.Map.RemoveNpc(npc));
@@ -375,7 +375,7 @@ namespace Sabine.Zone.Network
 
 			success = true;
 
-L_End:
+		L_End:
 			Send.ZC_STATUS_CHANGE_ACK(character, type, success, value);
 		}
 
@@ -1250,7 +1250,7 @@ L_End:
 
 					character.Controller.StopMove();
 
-					var npc = new Npc(66);
+					var npc = new Npc(IdentityId.JT_1_F_01);
 					npc.Warp(character.Map.Id, targetPos);
 
 					Task.Delay(3000).ContinueWith(__ => character.Map.RemoveNpc(npc));

@@ -79,9 +79,9 @@ namespace Sabine.Zone.World.Actors
 		/// Returns the character's class id, which is equal to its
 		/// current job id.
 		/// </summary>
-		public override int ClassId
+		public override IdentityId IdentityId
 		{
-			get => (int)this.JobId;
+			get => (IdentityId)this.JobId;
 			protected set => throw new NotSupportedException();
 		}
 

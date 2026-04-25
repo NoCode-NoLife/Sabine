@@ -1,4 +1,5 @@
 ﻿using Sabine.Shared;
+using Sabine.Shared.Const;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.World;
@@ -31,7 +32,7 @@ namespace Sabine.Zone.Network.Helpers
 					packet.PutByte(0);  // Status Effects?
 				}
 
-				packet.PutByte((byte)character.DisplayClassId);
+				packet.PutByte((byte)character.IdentityId.ToNetwork());
 				packet.PutByte((byte)character.Sex);
 				packet.AddPackedPosition(character.Position, character.Direction);
 				packet.PutByte(0);
@@ -46,7 +47,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
-				packet.PutShort((short)character.DisplayClassId);
+				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
 				packet.PutShort((short)character.WeaponId);
 				packet.PutShort(0);     // Head1
@@ -92,7 +93,7 @@ namespace Sabine.Zone.Network.Helpers
 					packet.PutByte(0);  // Status Effects?
 				}
 
-				packet.PutByte((byte)character.DisplayClassId);
+				packet.PutByte((byte)character.IdentityId.ToNetwork());
 				packet.PutByte((byte)character.Sex);
 				packet.AddPackedPosition(character.Position, character.Direction);
 				packet.PutByte(0);
@@ -106,7 +107,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
-				packet.PutShort((short)character.DisplayClassId);
+				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
 				packet.PutShort((short)character.WeaponId);
 				packet.PutShort(0);     // Head1?
@@ -144,7 +145,7 @@ namespace Sabine.Zone.Network.Helpers
 					packet.PutByte(0);  // Status Effects?
 				}
 
-				packet.PutByte((byte)character.DisplayClassId);
+				packet.PutByte((byte)character.IdentityId.ToNetwork());
 				packet.PutByte((byte)character.Sex);
 				packet.AddPackedPosition(character.Position, character.Direction);
 				packet.PutByte(0);
@@ -158,7 +159,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
-				packet.PutShort((short)character.DisplayClassId);
+				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
 				packet.PutShort((short)character.WeaponId);
 				packet.PutShort(0);     // Head1
@@ -205,7 +206,7 @@ namespace Sabine.Zone.Network.Helpers
 					packet.PutByte(0);
 				}
 
-				packet.PutByte((byte)character.DisplayClassId);
+				packet.PutByte((byte)character.IdentityId.ToNetwork());
 				packet.PutByte((byte)character.Sex);
 				packet.AddPackedMove(from, to, 8, 8);
 				packet.PutShort(0);
@@ -219,7 +220,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort(0);     // Status Effects?
-				packet.PutShort((short)character.DisplayClassId);
+				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
 				packet.PutShort((short)character.WeaponId);
 				packet.PutShort(0);     // Head1

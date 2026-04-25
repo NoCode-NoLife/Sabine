@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Sabine.Shared.Configuration.Files;
+using Sabine.Shared.Const;
 using Sabine.Shared.Data;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
@@ -76,21 +77,21 @@ namespace Sabine.Zone.Scripting
 		/// Spawns an NPC at the given location.
 		/// </summary>
 		/// <param name="name"></param>
-		/// <param name="classId"></param>
+		/// <param name="identityId"></param>
 		/// <param name="mapStringId"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="dialogFunc"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static Npc AddNpc(string name, int classId, string mapStringId, int x, int y, DialogFunc dialogFunc = null)
-			=> AddNpc(name, classId, mapStringId, x, y, Direction.South, dialogFunc);
+		public static Npc AddNpc(string name, IdentityId identityId, string mapStringId, int x, int y, DialogFunc dialogFunc = null)
+			=> AddNpc(name, identityId, mapStringId, x, y, Direction.South, dialogFunc);
 
 		/// <summary>
 		/// Spawns an NPC at the given location.
 		/// </summary>
 		/// <param name="name"></param>
-		/// <param name="classId"></param>
+		/// <param name="identityId"></param>
 		/// <param name="mapStringId"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -98,14 +99,14 @@ namespace Sabine.Zone.Scripting
 		/// <param name="dialogFunc"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static Npc AddNpc(string name, int classId, string mapStringId, int x, int y, int direction, DialogFunc dialogFunc = null)
-			=> AddNpc(name, classId, mapStringId, x, y, (Direction)direction, dialogFunc);
+		public static Npc AddNpc(string name, IdentityId identityId, string mapStringId, int x, int y, int direction, DialogFunc dialogFunc = null)
+			=> AddNpc(name, identityId, mapStringId, x, y, (Direction)direction, dialogFunc);
 
 		/// <summary>
 		/// Spawns an NPC at the given location.
 		/// </summary>
 		/// <param name="name"></param>
-		/// <param name="classId"></param>
+		/// <param name="identityId"></param>
 		/// <param name="mapStringId"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -113,7 +114,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="dialogFunc"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static Npc AddNpc(string name, int classId, string mapStringId, int x, int y, Direction direction, DialogFunc dialogFunc = null)
+		public static Npc AddNpc(string name, IdentityId identityId, string mapStringId, int x, int y, Direction direction, DialogFunc dialogFunc = null)
 		{
 			if (mapStringId.EndsWith(".gat"))
 				mapStringId = mapStringId.Substring(0, mapStringId.Length - 4);
@@ -121,7 +122,7 @@ namespace Sabine.Zone.Scripting
 			if (!ZoneServer.Instance.World.Maps.TryGetByStringId(mapStringId, out var map))
 				throw new ArgumentException($"Map '{mapStringId}' not found.");
 
-			var npc = new Npc(classId);
+			var npc = new Npc(identityId);
 			npc.Name = name;
 			npc.Direction = direction;
 			npc.DialogFunc = dialogFunc;
@@ -135,18 +136,18 @@ namespace Sabine.Zone.Scripting
 		/// Spawns an NPC at the given location that opens a shop.
 		/// </summary>
 		/// <param name="name">Name of the NPC.</param>
-		/// <param name="classId">NPC sprite id.</param>
+		/// <param name="identityId">NPC sprite id.</param>
 		/// <param name="mapStringId">Map to spawn the NPC on.</param>
 		/// <param name="x">X-coordinate to spawn the NPC on.</param>
 		/// <param name="y">Y-coordinate to spawn the NPC on.</param>
 		/// <param name="creationFunc">Optional function that can be used to fill the shop.</param>
 		/// <returns></returns>
-		public static (Npc, NpcShop) AddShopNpc(string name, int classId, string mapStringId, int x, int y, int direction, ShopCreationFunc creationFunc = null)
+		public static (Npc, NpcShop) AddShopNpc(string name, IdentityId identityId, string mapStringId, int x, int y, int direction, ShopCreationFunc creationFunc = null)
 		{
 			var shopName = "__AnonymousShop__" + Interlocked.Increment(ref AnonymousShopCounter);
 			var shop = AddShop(shopName, creationFunc);
 
-			var npc = AddNpc(name, classId, mapStringId, x, y, direction, async dialog =>
+			var npc = AddNpc(name, identityId, mapStringId, x, y, direction, async dialog =>
 			{
 				dialog.OpenShop(shop);
 				await Task.Yield();
@@ -170,7 +171,7 @@ namespace Sabine.Zone.Scripting
 			if (!ZoneServer.Instance.World.Maps.TryGet(to.MapId, out var mapTo))
 				throw new ArgumentException($"Map '{from.MapId}' not found.");
 
-			var npc = new Npc(45);
+			var npc = new Npc(IdentityId.JT_WARPNPC);
 
 			npc.TriggerArea = new TriggerArea(npc, 2, 2);
 			npc.TriggerArea.Enter = (character, npc) =>
@@ -217,7 +218,7 @@ namespace Sabine.Zone.Scripting
 			var pos = new Position(x, y);
 			var location = new Location(map.Id, pos);
 
-			var npc = new Npc(45);
+			var npc = new Npc(IdentityId.JT_WARPNPC);
 
 			npc.TriggerArea = new TriggerArea(npc, rangeX, rangeY);
 			npc.TriggerArea.Enter = triggerFunc;
@@ -304,8 +305,8 @@ namespace Sabine.Zone.Scripting
 		/// <param name="monsterName"></param>
 		/// <param name="monsterId"></param>
 		/// <param name="amount"></param>
-		public static void AddSpawner(string mapStringId, string monsterName, int monsterId, int amount)
-			=> AddSpawner(mapStringId, monsterName, monsterId, amount, TimeSpan.Zero, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
+		public static void AddSpawner(string mapStringId, string monsterName, IdentityId identityId, int amount)
+			=> AddSpawner(mapStringId, monsterName, identityId, amount, TimeSpan.Zero, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
 
 		/// <summary>
 		/// Creates a permanent monster spawner.
@@ -316,8 +317,8 @@ namespace Sabine.Zone.Scripting
 		/// <param name="amount"></param>
 		/// <param name="initialDelay"></param>
 		/// <param name="respawnDelay"></param>
-		public static void AddSpawner(string mapStringId, string monsterName, int monsterId, int amount, TimeSpan initialDelay, TimeSpan respawnDelay)
-			=> AddSpawner(mapStringId, monsterName, monsterId, amount, initialDelay, respawnDelay, respawnDelay);
+		public static void AddSpawner(string mapStringId, string monsterName, IdentityId identityId, int amount, TimeSpan initialDelay, TimeSpan respawnDelay)
+			=> AddSpawner(mapStringId, monsterName, identityId, amount, initialDelay, respawnDelay, respawnDelay);
 
 		/// <summary>
 		/// Creates a permanent monster spawner.
@@ -329,7 +330,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="initialDelay"></param>
 		/// <param name="respawnDelayMin"></param>
 		/// <param name="respawnDelayMax"></param>
-		public static void AddSpawner(string mapStringId, string monsterName, int monsterId, int amount, TimeSpan initialDelay, TimeSpan respawnDelayMin, TimeSpan respawnDelayMax)
+		public static void AddSpawner(string mapStringId, string monsterName, IdentityId identityId, int amount, TimeSpan initialDelay, TimeSpan respawnDelayMin, TimeSpan respawnDelayMax)
 		{
 			if (mapStringId.EndsWith(".gat"))
 				mapStringId = mapStringId.Substring(0, mapStringId.Length - 4);
@@ -337,7 +338,7 @@ namespace Sabine.Zone.Scripting
 			if (!ZoneServer.Instance.Data.Maps.TryFind(mapStringId, out var map))
 				throw new ArgumentException($"Map '{mapStringId}' not found.");
 
-			var spawner = new Spawner(monsterId, amount, initialDelay, respawnDelayMin, respawnDelayMax, map.Id);
+			var spawner = new Spawner(identityId, amount, initialDelay, respawnDelayMin, respawnDelayMax, map.Id);
 			ZoneServer.Instance.World.Spawners.Add(spawner);
 		}
 

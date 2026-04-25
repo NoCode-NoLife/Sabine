@@ -25,6 +25,7 @@
     <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="2.0.0" />
     <PackageReference Include="ExecTails.Yggdrasil.Db.MySql" Version="2.0.1" />
     <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="2.0.0" />
+    <PackageReference Include="ExecTails.Yggdrasil.Versioning" Version="2.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 </Project>

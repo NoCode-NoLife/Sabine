@@ -451,7 +451,7 @@ namespace Sabine.Zone.Commands
 					var path = sender.Map.PathFinder.FindPath(fromPos, toPos);
 					foreach (var pathPos in path)
 					{
-						var npc = new Npc(66);
+						var npc = new Npc(IdentityId.JT_1_F_01);
 						npc.Warp(sender.Map.Id, pathPos);
 
 						Task.Delay(3000).ContinueWith(__ => sender.Map.RemoveNpc(npc));
@@ -485,7 +485,8 @@ namespace Sabine.Zone.Commands
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			MonsterData monsterData = null;
+			var monsterData = (MonsterData)null;
+			var identityId = IdentityId.JT_PORING;
 
 			if (!int.TryParse(args.Get(0), out var monsterId))
 			{
@@ -497,12 +498,12 @@ namespace Sabine.Zone.Commands
 					return CommandResult.Okay;
 				}
 
-				monsterId = monsterData.Id;
+				identityId = monsterData.Id;
 			}
 
 			if (monsterData == null)
 			{
-				if (!ZoneServer.Instance.Data.Monsters.TryFind(monsterId, out monsterData))
+				if (!ZoneServer.Instance.Data.Monsters.TryFind(identityId, out monsterData))
 				{
 					sender.ServerMessage(Localization.Get("Monster '{0}' not found."), monsterId);
 					return CommandResult.Okay;
@@ -530,15 +531,15 @@ namespace Sabine.Zone.Commands
 			var aiName = args.Get("ai", monsterData.AiName);
 			var useAi = aiName != "none";
 
-			if (!ZoneServer.Instance.Data.Monsters.Contains(monsterId))
+			if (!ZoneServer.Instance.Data.Monsters.Contains(identityId))
 			{
-				sender.ServerMessage(Localization.Get("Monster with id '{0}' not found."), monsterId);
+				sender.ServerMessage(Localization.Get("Monster with id '{0}' not found."), identityId);
 				return CommandResult.Okay;
 			}
 
 			for (var i = 0; i < amount; ++i)
 			{
-				var monster = new Monster(monsterId);
+				var monster = new Monster(identityId);
 
 				if (useAi)
 				{

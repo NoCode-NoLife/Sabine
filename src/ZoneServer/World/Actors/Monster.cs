@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sabine.Shared.Data;
+using Sabine.Shared.Const;
 using Sabine.Shared.Data.Databases;
 using Sabine.Zone.Network;
 using Yggdrasil.Logging;
@@ -29,13 +29,13 @@ namespace Sabine.Zone.World.Actors
 		/// <summary>
 		/// Creates new monster.
 		/// </summary>
-		/// <param name="monsterId"></param>
+		/// <param name="identityId"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public Monster(int monsterId)
-			: base(monsterId)
+		public Monster(IdentityId identityId)
+			: base(identityId)
 		{
-			if (!ZoneServer.Instance.Data.Monsters.TryFind(monsterId, out var data))
-				throw new ArgumentException($"Data for monster '{monsterId}' not found.");
+			if (!ZoneServer.Instance.Data.Monsters.TryFind(identityId, out var data))
+				throw new ArgumentException($"Data for monster '{identityId}' not found.");
 
 			this.Name = data.Name;
 

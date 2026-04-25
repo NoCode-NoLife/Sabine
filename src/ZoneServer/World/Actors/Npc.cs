@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading;
-using Sabine.Shared;
+using Sabine.Shared.Const;
 using Sabine.Shared.World;
-using Sabine.Zone.Compatibility;
 using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Actors.Components.Characters;
 
@@ -23,7 +22,7 @@ namespace Sabine.Zone.World.Actors
 		/// <summary>
 		/// Returns the NPC's class id, defining its look.
 		/// </summary>
-		public override int ClassId { get; protected set; }
+		public override IdentityId IdentityId { get; protected set; }
 
 		/// <summary>
 		/// Gets or sets the function called when a dialog with this
@@ -46,11 +45,10 @@ namespace Sabine.Zone.World.Actors
 		/// Creates new NPC.
 		/// </summary>
 		/// <param name="classId"></param>
-		public Npc(int classId)
+		public Npc(IdentityId identityId)
 		{
 			this.Handle = GetNewHandle();
-			this.ClassId = classId;
-			this.DisplayClassId = CharacterClasses.GetDisplayClassId(Game.Version, classId);
+			this.IdentityId = identityId;
 
 			this.Parameters = new NpcParameters(this);
 
