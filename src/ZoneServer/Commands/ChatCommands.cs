@@ -500,6 +500,10 @@ namespace Sabine.Zone.Commands
 
 				identityId = monsterData.Id;
 			}
+			else
+			{
+				identityId = (IdentityId)monsterId;
+			}
 
 			if (monsterData == null)
 			{
