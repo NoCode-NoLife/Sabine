@@ -644,10 +644,22 @@ namespace Sabine.Zone.Network
 					// tacking when not intended, the client sends the
 					// packet CZ_CANCEL_LOCKON right after the ACT packet.
 
-					var target = character.Map.GetCharacter(targetHandle);
-					if (target == null)
+					if (!character.Map.TryGetCharacter(targetHandle, out var target))
 					{
 						Log.Debug("CZ_REQUEST_ACT: User '{0}' tried to attack a character who doesn't exist.", conn.Account.Username);
+						return;
+					}
+
+					var attackRange = character.GetAttackRange();
+					if (!character.Position.InRange(target.Position, attackRange))
+					{
+						// The alpha client does its own range checks and
+						// the distance fail packet doesn't exist yet.
+						// It's safe to assume that nothing more but
+						// stopping the attack is expected from us for
+						// the alpha here.
+						if (Game.Version >= Versions.Beta1)
+							Send.ZC_ATTACK_FAILURE_FOR_DISTANCE(character, target, attackRange);
 						return;
 					}
 

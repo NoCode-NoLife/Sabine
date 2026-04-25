@@ -1,0 +1,23 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_ATTACK_FAILURE_FOR_DISTANCE.bt
+//   Authors: exec
+//   Version: i20020220 (iRO Beta1)
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/version.bt"
+
+short op;
+
+int targetHandle;
+short targetX;
+short targetY;
+short attackerX;
+short attackerY;
+short range;

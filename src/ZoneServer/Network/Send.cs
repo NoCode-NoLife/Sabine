@@ -770,6 +770,27 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Informs the character that their attack failed due to the
+		/// target being out of range, making them get closer.
+		/// </summary>
+		/// <param name="character">The character whose attack failed.</param>
+		/// <param name="target">The target character that is out of range.</param>
+		/// <param name="range">The range into which the character should get to attack.</param>
+		public static void ZC_ATTACK_FAILURE_FOR_DISTANCE(PlayerCharacter character, Character target, int range)
+		{
+			using var packet = Packet.Rent(Op.ZC_ATTACK_FAILURE_FOR_DISTANCE);
+
+			packet.PutInt(target.Handle);
+			packet.PutShort((short)target.Position.X);
+			packet.PutShort((short)target.Position.Y);
+			packet.PutShort((short)character.Position.X);
+			packet.PutShort((short)character.Position.Y);
+			packet.PutShort((short)range);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Displays dialog on character's client.
 		/// </summary>
 		/// <param name="character"></param>
