@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Sabine.Shared;
 using Sabine.Shared.Configuration.Files;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
@@ -11,6 +12,8 @@ using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Shops;
 using Sabine.Zone.World.Spawning;
+using Yggdrasil.Logging;
+using Yggdrasil.Versioning.ManagedEnum;
 
 namespace Sabine.Zone.Scripting
 {
@@ -337,6 +340,9 @@ namespace Sabine.Zone.Scripting
 
 			if (!ZoneServer.Instance.Data.Maps.TryFind(mapStringId, out var map))
 				throw new ArgumentException($"Map '{mapStringId}' not found.");
+
+			if (!MEnum<IdentityId>.Shared.HasValue(identityId))
+				Log.Warning("AddSpawner: IdentityId '{0}' not defined for version {1}.", identityId, Game.Version);
 
 			var spawner = new Spawner(identityId, amount, initialDelay, respawnDelayMin, respawnDelayMax, map.Id);
 			ZoneServer.Instance.World.Spawners.Add(spawner);
