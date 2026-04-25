@@ -15,6 +15,18 @@ namespace Sabine.Shared.Data.Databases
 		public MapCacheTile[,] Tiles { get; set; }
 
 		/// <summary>
+		/// Returns true if the given position is within the bounds of the
+		/// map.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public bool IsPositionOnMap(int x, int y)
+		{
+			return x >= 0 && x < this.Width && y >= 0 && y < this.Height;
+		}
+
+		/// <summary>
 		/// Returns true if the given tile can be walked on.
 		/// </summary>
 		/// <param name="x"></param>
@@ -22,6 +34,9 @@ namespace Sabine.Shared.Data.Databases
 		/// <returns></returns>
 		public bool IsPassable(int x, int y)
 		{
+			if (!this.IsPositionOnMap(x, y))
+				return false;
+
 			return this.Tiles[x, y].IsWalkable;
 		}
 
@@ -33,6 +48,9 @@ namespace Sabine.Shared.Data.Databases
 		/// <returns></returns>
 		public bool IsUnpassable(int x, int y)
 		{
+			if (!this.IsPositionOnMap(x, y))
+				return false;
+
 			return !this.Tiles[x, y].IsWalkable;
 		}
 	}
