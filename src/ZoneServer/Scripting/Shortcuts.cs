@@ -84,7 +84,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="dialogFunc"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static Npc AddNpc(string name, IdentityId identityId, string mapStringId, int x, int y, DialogFunc dialogFunc = null)
+		public static Npc AddNpc(string name, FlexIdentityId identityId, string mapStringId, int x, int y, DialogFunc dialogFunc = null)
 			=> AddNpc(name, identityId, mapStringId, x, y, Direction.South, dialogFunc);
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="dialogFunc"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static Npc AddNpc(string name, IdentityId identityId, string mapStringId, int x, int y, int direction, DialogFunc dialogFunc = null)
+		public static Npc AddNpc(string name, FlexIdentityId identityId, string mapStringId, int x, int y, int direction, DialogFunc dialogFunc = null)
 			=> AddNpc(name, identityId, mapStringId, x, y, (Direction)direction, dialogFunc);
 
 		/// <summary>
@@ -114,7 +114,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="dialogFunc"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException"></exception>
-		public static Npc AddNpc(string name, IdentityId identityId, string mapStringId, int x, int y, Direction direction, DialogFunc dialogFunc = null)
+		public static Npc AddNpc(string name, FlexIdentityId identityId, string mapStringId, int x, int y, Direction direction, DialogFunc dialogFunc = null)
 		{
 			if (mapStringId.EndsWith(".gat"))
 				mapStringId = mapStringId.Substring(0, mapStringId.Length - 4);
@@ -142,7 +142,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="y">Y-coordinate to spawn the NPC on.</param>
 		/// <param name="creationFunc">Optional function that can be used to fill the shop.</param>
 		/// <returns></returns>
-		public static (Npc, NpcShop) AddShopNpc(string name, IdentityId identityId, string mapStringId, int x, int y, int direction, ShopCreationFunc creationFunc = null)
+		public static (Npc, NpcShop) AddShopNpc(string name, FlexIdentityId identityId, string mapStringId, int x, int y, int direction, ShopCreationFunc creationFunc = null)
 		{
 			var shopName = "__AnonymousShop__" + Interlocked.Increment(ref AnonymousShopCounter);
 			var shop = AddShop(shopName, creationFunc);
@@ -305,7 +305,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="monsterName"></param>
 		/// <param name="monsterId"></param>
 		/// <param name="amount"></param>
-		public static void AddSpawner(string mapStringId, string monsterName, IdentityId identityId, int amount)
+		public static void AddSpawner(string mapStringId, string monsterName, FlexIdentityId identityId, int amount)
 			=> AddSpawner(mapStringId, monsterName, identityId, amount, TimeSpan.Zero, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(10));
 
 		/// <summary>
@@ -317,7 +317,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="amount"></param>
 		/// <param name="initialDelay"></param>
 		/// <param name="respawnDelay"></param>
-		public static void AddSpawner(string mapStringId, string monsterName, IdentityId identityId, int amount, TimeSpan initialDelay, TimeSpan respawnDelay)
+		public static void AddSpawner(string mapStringId, string monsterName, FlexIdentityId identityId, int amount, TimeSpan initialDelay, TimeSpan respawnDelay)
 			=> AddSpawner(mapStringId, monsterName, identityId, amount, initialDelay, respawnDelay, respawnDelay);
 
 		/// <summary>
@@ -330,7 +330,7 @@ namespace Sabine.Zone.Scripting
 		/// <param name="initialDelay"></param>
 		/// <param name="respawnDelayMin"></param>
 		/// <param name="respawnDelayMax"></param>
-		public static void AddSpawner(string mapStringId, string monsterName, IdentityId identityId, int amount, TimeSpan initialDelay, TimeSpan respawnDelayMin, TimeSpan respawnDelayMax)
+		public static void AddSpawner(string mapStringId, string monsterName, FlexIdentityId identityId, int amount, TimeSpan initialDelay, TimeSpan respawnDelayMin, TimeSpan respawnDelayMax)
 		{
 			if (mapStringId.EndsWith(".gat"))
 				mapStringId = mapStringId.Substring(0, mapStringId.Length - 4);

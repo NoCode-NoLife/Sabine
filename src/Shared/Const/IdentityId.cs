@@ -1,4 +1,5 @@
-﻿using Yggdrasil.Versioning.ManagedEnum;
+﻿using System;
+using Yggdrasil.Versioning.ManagedEnum;
 
 namespace Sabine.Shared.Const
 {
@@ -4259,5 +4260,59 @@ namespace Sabine.Shared.Const
 			// Return Novice if all else fails
 			return (int)IdentityId.JT_NOVICE;
 		}
+	}
+
+	/// <summary>
+	/// A helper struct to allow implicit conversions from both <see
+	/// cref="IdentityId"/> and <see cref="int"/> to a single type.
+	/// </summary>
+	public readonly ref struct FlexIdentityId
+	{
+		/// <summary>
+		/// Returns the set identity id.
+		/// </summary>
+		public IdentityId IdentityId { get; }
+
+		/// <summary>
+		/// Creates new instance from the given <see cref="IdentityId"/>.
+		/// </summary>
+		/// <param name="id"></param>
+		public FlexIdentityId(IdentityId id)
+		{
+			this.IdentityId = id;
+		}
+
+		/// <summary>
+		/// Creates new instance from the given <see cref="int"/>, casting
+		/// it to <see cref="IdentityId"/>.
+		/// </summary>
+		/// <param name="id"></param>
+		public FlexIdentityId(int id)
+		{
+			if (!Enum.IsDefined(typeof(IdentityId), id))
+				throw new ArgumentOutOfRangeException(nameof(id), $"Value {id} is not defined in {typeof(IdentityId)}.");
+
+			this.IdentityId = (IdentityId)id;
+		}
+
+		/// <summary>
+		/// Creates new instance from the given <see cref="IdentityId"/>.
+		/// </summary>
+		/// <param name="id"></param>
+		public static implicit operator FlexIdentityId(IdentityId id) => new(id);
+
+		/// <summary>
+		/// Creates new instance from the given <see cref="int"/>, casting
+		/// it to <see cref="IdentityId"/>.
+		/// </summary>
+		/// <param name="id"></param>
+		public static implicit operator FlexIdentityId(int id) => new(id);
+
+		/// <summary>
+		/// Implicitly converts this struct to an <see
+		/// cref="IdentityId"/>.
+		/// </summary>
+		/// <param name="flexId"></param>
+		public static implicit operator IdentityId(FlexIdentityId flexId) => flexId.IdentityId;
 	}
 }
