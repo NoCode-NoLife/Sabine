@@ -8,6 +8,7 @@ using Sabine.Zone.Skills;
 using Sabine.Zone.World.Actors.Components.Characters;
 using Sabine.Zone.World.Maps;
 using Shared.Const;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Yggdrasil.Versioning.ManagedEnum;
@@ -290,8 +291,15 @@ namespace Sabine.Zone.World.Actors
 		/// <param name="state"></param>
 		private void Attack(CallbackState state)
 		{
-			var target = (Character)state.Arguments[0];
-			this.Attack(target, true);
+			try
+			{
+				var target = (Character)state.Arguments[0];
+				this.Attack(target, true);
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Error during auto attack: " + ex);
+			}
 		}
 
 		/// <summary>

@@ -139,7 +139,7 @@ namespace Sabine.Zone.World.Actors
 		private void LoadData(int classId)
 		{
 			if (!ZoneServer.Instance.Data.Items.TryFind(classId, out var data))
-				throw new ArgumentException($"Class id '{classId}' not found in database.");
+				throw new ArgumentException($"Item with class id '{classId}' not found in database.");
 
 			ZoneServer.Instance.Data.ItemNames.TryFind(classId, out var nameData);
 

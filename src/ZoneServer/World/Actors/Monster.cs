@@ -85,22 +85,22 @@ namespace Sabine.Zone.World.Actors
 		/// <param name="killer"></param>
 		public async override void Kill(Character killer)
 		{
-			base.Kill(killer);
-
-			this.GiveExp(killer);
-			this.GiveMvpExp(killer);
-
-			// Removing the monster with a delay seems wonky, but if we
-			// don't, the client will not display the damage for the last
-			// hit and the monster will disappear before the hit animation
-			// is even done. It feels good with a 1s delay though.
-			// Especially with Porings, which pop at the height of their
-			// hit animation. Alternative implementation: DisappearTime,
-			// which will despawn the monster after X amount of time.
-			await Task.Delay(1000);
-
 			try
 			{
+				base.Kill(killer);
+
+				this.GiveExp(killer);
+				this.GiveMvpExp(killer);
+
+				// Removing the monster with a delay seems wonky, but if we
+				// don't, the client will not display the damage for the last
+				// hit and the monster will disappear before the hit animation
+				// is even done. It feels good with a 1s delay though.
+				// Especially with Porings, which pop at the height of their
+				// hit animation. Alternative implementation: DisappearTime,
+				// which will despawn the monster after X amount of time.
+				await Task.Delay(1000);
+
 				this.DropItems(killer);
 				this.DropMvpItems(killer);
 				this.DropFixedItems(killer);
@@ -110,7 +110,7 @@ namespace Sabine.Zone.World.Actors
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex);
+				Log.Error("Monster.Kill: " + ex);
 			}
 		}
 
@@ -167,30 +167,37 @@ namespace Sabine.Zone.World.Actors
 		/// Drops the monster's items.
 		/// </summary>
 		/// <param name="killer"></param>
-		private async void DropRandomItems(Character killer, IList<DropData> dropsData)
+		private async void DropRandomItems(Character killer, List<DropData> dropsData)
 		{
-			if (dropsData.Count == 0)
-				return;
-
-			var rnd = RandomProvider.Get();
-			var map = this.Map;
-			var pos = this.Position;
-
-			for (var i = 0; i < dropsData.Count; ++i)
+			try
 			{
-				var dropData = dropsData[i];
-				var dropRate = ZoneServer.Instance.Conf.World.ItemDropRate / 100f;
-				var dropChance = dropData.Chance * dropRate;
+				if (dropsData.Count == 0)
+					return;
 
-				if (dropChance < rnd.Next(100))
-					continue;
+				var rnd = RandomProvider.Get();
+				var map = this.Map;
+				var pos = this.Position;
 
-				await Task.Delay(100);
+				for (var i = 0; i < dropsData.Count; ++i)
+				{
+					var dropData = dropsData[i];
+					var dropRate = ZoneServer.Instance.Conf.World.ItemDropRate / 100f;
+					var dropChance = dropData.Chance * dropRate;
 
-				var item = new Item(dropData.ItemId);
-				var dropPos = pos.GetRandomInSquareRange(1);
+					if (dropChance < rnd.Next(100))
+						continue;
 
-				item.Drop(map, dropPos);
+					await Task.Delay(100);
+
+					var item = new Item(dropData.ItemId);
+					var dropPos = pos.GetRandomInSquareRange(1);
+
+					item.Drop(map, dropPos);
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Monster.DropRandomItems: " + ex);
 			}
 		}
 
