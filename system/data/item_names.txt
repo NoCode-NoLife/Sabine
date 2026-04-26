@@ -122,12 +122,12 @@
 { id: 2216, name: "Biretta", alphaName: "Biretta", betaName: "Biretta", koreanName: "비레타" },
 { id: 2218, name: "Mask", alphaName: "Mask", betaName: "Mask", koreanName: "마스크" },
 { id: 2220, name: "Hat", alphaName: "Hat", betaName: "Hat", koreanName: "햇" },
+{ id: 2224, name: "Goggle", alphaName: "Goggle", betaName: "Goggle", koreanName: "고글" },
 { id: 2226, name: "Cap", alphaName: "Cap", betaName: "Cap", koreanName: "캡" },
 { id: 2228, name: "Helm", alphaName: "Helm", betaName: "Helm", koreanName: "헬름" },
 { id: 2232, name: "Circlet", alphaName: "Circlet", betaName: "Circlet", koreanName: "서클릿" },
 { id: 2234, name: "Tiara", alphaName: "Tiara", betaName: "Tiara", koreanName: "티아라" },
 { id: 2235, name: "Crown", alphaName: "Crown", betaName: "Crown", koreanName: "크라운" },
-{ id: 2236, name: "Goggle", alphaName: "Goggle", betaName: "Goggle", koreanName: "고글" },
 
 { id: 2301, name: "Cotton Shirt", alphaName: "Cotton Shirt", betaName: "Cotton_Shirt", koreanName: "코튼셔츠" },
 { id: 2303, name: "Leather Jacket", alphaName: "Leather Jacket", betaName: "Leather_Jacket", koreanName: "가죽재킷" },
