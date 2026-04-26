@@ -863,15 +863,27 @@ namespace Sabine.Zone.Network
 
 			if (!character.CanEquip(item))
 			{
-				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item they can't equip.", conn.Account.Username);
-				conn.Close();
+				if (Game.Version < Versions.Beta1)
+				{
+					Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item they can't equip.", conn.Account.Username);
+					conn.Close();
+					return;
+				}
+
+				Send.ZC_REQ_WEAR_EQUIP_ACK.Fail(character, itemInvId);
 				return;
 			}
 
 			if (item.Data.WearSlots != equipSlots)
 			{
-				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item in an invalid slot (Item: {1}, Request: {2}).", conn.Account.Username, item.Data.WearSlots, equipSlots);
-				conn.Close();
+				if (Game.Version < Versions.Beta1)
+				{
+					Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item in an invalid slot (Item: {1}, Request: {2}).", conn.Account.Username, item.Data.WearSlots, equipSlots);
+					conn.Close();
+					return;
+				}
+
+				Send.ZC_REQ_WEAR_EQUIP_ACK.Fail(character, itemInvId);
 				return;
 			}
 

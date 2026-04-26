@@ -304,7 +304,7 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 
 			item.EquippedOn = slots;
 
-			Send.ZC_REQ_WEAR_EQUIP_ACK(this.Character, item.InventoryId, slots);
+			Send.ZC_REQ_WEAR_EQUIP_ACK.Success(this.Character, item.InventoryId, slots);
 
 			this.UpdateEquipReferences();
 			this.OnEquippedItem(item, slots);

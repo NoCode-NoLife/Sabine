@@ -883,10 +883,6 @@ namespace Sabine.Zone.Network
 		{
 			using var packet = Packet.Rent(Op.ZC_ITEM_PICKUP_ACK);
 
-			var wearSlots = item.WearSlots;
-			if (!character.CanEquip(item))
-				wearSlots = EquipSlots.None;
-
 			packet.PutShort((short)item.InventoryId);
 			packet.PutShort((short)amount);
 
@@ -894,7 +890,7 @@ namespace Sabine.Zone.Network
 			{
 				packet.PutString(item.StringId, Sizes.ItemNames);
 				packet.PutByte((byte)item.Type);
-				packet.PutByte((byte)wearSlots);
+				packet.PutByte((byte)item.GetSlotsFor(character));
 			}
 			else
 			{
@@ -906,7 +902,7 @@ namespace Sabine.Zone.Network
 				packet.PutShort(0);  // Card2
 				packet.PutShort(0);  // Card3
 				packet.PutShort(0);  // Card4
-				packet.PutShort((short)wearSlots);
+				packet.PutShort((short)item.GetSlotsFor(character));
 				packet.PutByte((byte)item.Type);
 			}
 
@@ -1033,11 +1029,7 @@ namespace Sabine.Zone.Network
 				if (!item.Type.IsEquip())
 					continue;
 
-				var wearSlots = item.WearSlots;
-				if (!character.CanEquip(item))
-					wearSlots = EquipSlots.None;
-
-				packet.AddEquipItem(item, wearSlots);
+				packet.AddEquipItem(item, item.GetSlotsFor(character));
 			}
 
 			character.Connection.Send(packet);
@@ -1058,11 +1050,7 @@ namespace Sabine.Zone.Network
 				if (!item.Type.IsEquip())
 					continue;
 
-				var wearSlots = item.WearSlots;
-				if (!character.CanEquip(item))
-					wearSlots = EquipSlots.None;
-
-				packet.AddEquipItem(item, wearSlots);
+				packet.AddEquipItem(item, item.GetSlotsFor(character));
 			}
 
 			character.Connection.Send(packet);
@@ -1152,27 +1140,49 @@ namespace Sabine.Zone.Network
 			character.Connection.Send(packet);
 		}
 
-		/// <summary>
-		/// Response to equip request, makes character equip the item
-		/// in the given slot.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="invId"></param>
-		/// <param name="equipSlot"></param>
-		public static void ZC_REQ_WEAR_EQUIP_ACK(PlayerCharacter character, int invId, EquipSlots equipSlot)
+		public static class ZC_REQ_WEAR_EQUIP_ACK
 		{
-			using var packet = Packet.Rent(Op.ZC_REQ_WEAR_EQUIP_ACK);
+			/// <summary>
+			/// Successful response to equip request, makes character
+			/// equip the item in the given slot.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="invId"></param>
+			/// <param name="equipSlot"></param>
+			public static void Success(PlayerCharacter character, int invId, EquipSlots equipSlot)
+				=> Raw(character, invId, equipSlot, true);
 
-			packet.PutShort((short)invId);
+			/// <summary>
+			/// Negative response to equip request, displaying error
+			/// message.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="invId"></param>
+			public static void Fail(PlayerCharacter character, int invId)
+				=> Raw(character, invId, EquipSlots.None, false);
 
-			if (Game.Version < Versions.Beta2)
-				packet.PutByte((byte)equipSlot);
-			else
-				packet.PutShort((short)equipSlot);
+			/// <summary>
+			/// Response to equip request.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="invId"></param>
+			/// <param name="equipSlot"></param>
+			/// <param name="success"></param>
+			public static void Raw(PlayerCharacter character, int invId, EquipSlots equipSlot, bool success)
+			{
+				using var packet = Packet.Rent(Op.ZC_REQ_WEAR_EQUIP_ACK);
 
-			packet.PutByte(true);
+				packet.PutShort((short)invId);
 
-			character.Connection.Send(packet);
+				if (Game.Version < Versions.Beta2)
+					packet.PutByte((byte)equipSlot);
+				else
+					packet.PutShort((short)equipSlot);
+
+				packet.PutByte(success);
+
+				character.Connection.Send(packet);
+			}
 		}
 
 		/// <summary>

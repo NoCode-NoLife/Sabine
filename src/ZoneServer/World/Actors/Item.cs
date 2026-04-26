@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data;
@@ -192,6 +193,34 @@ namespace Sabine.Zone.World.Actors
 			this.DropDisappearTime = DateTime.Now.AddSeconds(disappearSeconds);
 
 			map.AddItem(this);
+		}
+
+		/// <summary>
+		/// Returns the valid equip slots for this item on the given
+		/// character.
+		/// </summary>
+		/// <remarks>
+		/// Effectively nullifies the wear slots if the character can't
+		/// equip the item, which prevents the client from showing the
+		/// item as equippable. Affects only alpha clients.
+		/// </remarks>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public EquipSlots GetSlotsFor(PlayerCharacter character)
+		{
+			var wearSlots = this.WearSlots;
+
+			// Disable equipping by setting slots to None, because the
+			// alpha client doesn't react to equip fail packets, locking
+			// up the client. On newer versions we can leave the slots as
+			// is and gracefully decline in the packet handler.
+			if (Game.Version < Versions.Beta1)
+			{
+				if (!character.CanEquip(this))
+					wearSlots = EquipSlots.None;
+			}
+
+			return wearSlots;
 		}
 	}
 }
