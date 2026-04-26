@@ -43,3 +43,14 @@ client, where the color mode is set before starting the Ragexe.exe.
 set __COMPAT_LAYER=16BITCOLOR
 start Ragexe.exe 1rag1
 ```
+
+Headgears
+-----------------------------------------------------------------------------
+
+While the client contains various headgears that would typically go into
+the middle or upper head slots, and even though it displays the slots in
+the UI, it appears technically incapable of actually using them, since
+the potential slots are sent as a byte flag bitmask with a max value of
+0xFF, while the upper and mid slots use 0x100 and 0x200 respectively.
+Unless there's some trickery going on, we have to assume only lower
+headgears were actually working in Beta1.
