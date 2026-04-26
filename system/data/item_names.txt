@@ -186,7 +186,7 @@
 { id: 2604, name: "Glove", alphaName: "Glove", betaName: "Globe", koreanName: "글러브" },
 { id: 2605, name: "Brooch", alphaName: "Brooch", betaName: "Brooch", koreanName: "브로치" },
 { id: 2607, name: "Clip", alphaName: "Clip", betaName: "Clip", koreanName: "클립" },
-{ id: 2608, name: "Rosary", alphaName: "Rosary", betaName: "Rosary", koreanName: "묵주" },
+{ id: 2608, name: "Rosary", alphaName: "Rosary", betaName: "Rosary", koreanName: "로자리오" },
 
 // Etc
 { id: 903, name: "Reptile_Tongue", alphaName: "Reptile_Tongue", betaName: "Reptile_Tongue", koreanName: "파충류혓바닥" },
