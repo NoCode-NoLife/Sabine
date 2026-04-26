@@ -162,9 +162,9 @@ namespace Sabine.Zone.World.Actors
 				this.NameData = nameData;
 
 				if (Game.Version < Versions.Beta1)
-					this.StringId = this.NameData.AlphaName;
+					this.StringId = this.NameData.AlphaName ?? "Apple";
 				else
-					this.StringId = this.NameData.BetaName;
+					this.StringId = this.NameData.BetaName ?? "Apple";
 			}
 			// For <= Beta1 we fall back to Apple to prevent crashes
 			else if (Game.Version <= Versions.Beta1)
