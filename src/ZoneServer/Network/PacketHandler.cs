@@ -427,15 +427,13 @@ namespace Sabine.Zone.Network
 
 			var character = conn.GetCurrentCharacter();
 
-			var itemNameData = ZoneServer.Instance.Data.ItemNames.Find(a => a.AlphaName == itemStringId || a.BetaName == itemStringId);
-			if (itemNameData == null)
+			if (!ZoneServer.Instance.Data.ItemNames.TryFind(a => a.AlphaName == itemStringId || a.BetaName == itemStringId, out var itemNameData))
 			{
 				Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item name data for '{0}' not found.", itemStringId);
 				return;
 			}
 
-			var itemData = ZoneServer.Instance.Data.Items.Find(itemNameData.Id);
-			if (itemData == null)
+			if (!ZoneServer.Instance.Data.Items.TryFind(itemNameData.Id, out var itemData))
 			{
 				Log.Warning("CZ_REQ_ITEM_EXPLANATION_BYNAME: Item data for '{0}' not found.", itemStringId);
 				return;

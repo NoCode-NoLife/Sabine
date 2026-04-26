@@ -29,6 +29,26 @@ namespace Sabine.Shared.Const
 		Acolyte = 0x10,
 		Merchant = 0x20,
 		Thief = 0x40,
+		Knight = 0x80,
+		Priest = 0x100,
+		Wizard = 0x200,
+		Blacksmith = 0x400,
+		Hunter = 0x800,
+		Assassin = 0x1000,
+		// 0x2000
+		Crusader = 0x4000,
+		Monk = 0x8000,
+		Sage = 0x10000,
+		Rogue = 0x20000,
+		Alchemist = 0x40000,
+		BardDancer = 0x80000,
+
+		AllSwordman = Swordman | Knight | Crusader,
+		AllMage = Mage | Wizard | Sage,
+		AllArcher = Archer | Hunter | BardDancer,
+		AllAcolyte = Acolyte | Priest | Monk,
+		AllMerchant = Merchant | Blacksmith | Alchemist,
+		AllThief = Thief | Assassin | Rogue,
 
 		All = -1,
 	}

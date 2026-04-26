@@ -141,36 +141,40 @@ namespace Sabine.Zone.World.Actors
 			if (!ZoneServer.Instance.Data.Items.TryFind(classId, out var data))
 				throw new ArgumentException($"Item with class id '{classId}' not found in database.");
 
-			ZoneServer.Instance.Data.ItemNames.TryFind(classId, out var nameData);
-
-			this.LoadData(data, nameData);
+			this.LoadData(data);
 		}
 
 		/// <summary>
 		/// Loads the given data.
 		/// </summary>
 		/// <param name="data"></param>
-		/// <param name="nameData"></param>
-		private void LoadData(ItemData data, ItemNameData nameData)
+		private void LoadData(ItemData data)
 		{
 			this.Data = data;
-			this.NameData = nameData;
 
 			// This solution isn't ideal, since it's very inflexible.
 			// However, there's only two known clients available that
 			// require string ids (Alpha and Beta1), and this is a
 			// simple solution to getting the correct strings to those
 			// two clients.
-			if (this.NameData != null)
+			if (ZoneServer.Instance.Data.ItemNames.TryFind(this.Data.ClassId, out var nameData))
 			{
+				this.NameData = nameData;
+
 				if (Game.Version < Versions.Beta1)
 					this.StringId = this.NameData.AlphaName;
 				else
 					this.StringId = this.NameData.BetaName;
 			}
-
-			if (this.StringId == null)
+			// For <= Beta1 we fall back to Apple to prevent crashes
+			else if (Game.Version <= Versions.Beta1)
+			{
+				this.StringId = "Apple";
+			}
+			else
+			{
 				this.StringId = this.Data.Name;
+			}
 		}
 
 		/// <summary>

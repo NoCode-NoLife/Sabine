@@ -63,12 +63,12 @@ namespace Sabine.Shared.Const
 		/// <summary>
 		/// Etc tab.
 		/// </summary>
-		Etc2 = 6,
+		Card = 6,
 
 		/// <summary>
 		/// Etc tab.
 		/// </summary>
-		Etc3 = 7,
+		PetEgg = 7,
 
 		/// <summary>
 		/// Equip tab.
@@ -88,13 +88,18 @@ namespace Sabine.Shared.Const
 
 		// Items assigned types greater than 9 don't appear in the
 		// inventory on the alpha client.
+
+		/// <summary>
+		/// Equip tab.
+		/// </summary>
+		Ammo = 10,
 	}
 
 	/// <summary>
 	/// Specifies the equip slot(s) an item can be equipped on.
 	/// </summary>
 	[Flags]
-	public enum EquipSlots : byte
+	public enum EquipSlots : ushort
 	{
 		None = 0x00,
 		Head = 0x01, // Lower in > Alpha
@@ -105,8 +110,8 @@ namespace Sabine.Shared.Const
 		LeftHand = 0x20,
 		Shoes = 0x40,
 		Accessory2 = 0x80,
-		//HeadUpper = 0x100,
-		//HeadMiddle = 0x200,
+		HeadUpper = 0x100,
+		HeadMiddle = 0x200,
 
 		Accessories = Accessory1 | Accessory2,
 	}
