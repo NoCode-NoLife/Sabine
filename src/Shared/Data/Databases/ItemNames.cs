@@ -43,6 +43,11 @@ namespace Sabine.Shared.Data.Databases
 			if (string.IsNullOrWhiteSpace(data.KoreanName))
 				data.KoreanName = null;
 
+			// Remove the underscores from the alpha name, to match our
+			// custom data and to ensure the client doesn't display them.
+			if (data.AlphaName != null)
+				data.AlphaName = data.AlphaName.Replace("_", " ").Trim();
+
 			this.AddOrReplace(data.Id, data);
 		}
 	}
