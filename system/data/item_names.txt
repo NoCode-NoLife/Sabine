@@ -427,7 +427,6 @@
 { id: 2219, name: "Flu_Mask", alphaName: "Flu_Mask_", betaName: "Mask_", koreanName: "마스크_" },
 { id: 2220, name: "Hat", alphaName: "Round_Hat", betaName: "Round_Hat", koreanName: "둥근모자" },
 { id: 2221, name: "Hat", alphaName: "Hat_", betaName: "Hat_", koreanName: "햇_" },
-{ id: 2221, name: "Hat", alphaName: "Round_Hat_", betaName: "Round_Hat_", koreanName: "둥근모자_" },
 { id: 2224, name: "Goggles", alphaName: "Goggle", betaName: "Goggle", koreanName: "고글" },
 { id: 2225, name: "Goggles", alphaName: "Goggle_", betaName: "Goggle_", koreanName: "고글_" },
 { id: 2227, name: "Cap", alphaName: "Cap_", betaName: "Cap_", koreanName: "캡_" },
