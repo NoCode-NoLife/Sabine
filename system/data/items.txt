@@ -3,11 +3,6 @@
 // 
 // Fields: id, name, type, weight, [price], [sell], [attack], [attackMin], [attackMax], [defense], [range], [jobs], [sex], [equip], [weaponLevel], [equipLevel], [look]
 // 
-//   name:
-//     The item name is vitally important when using early clients,
-//     because items are identified by it, instead of using the id.
-//     See the item_names data for more information.
-//   
 //   attack(Min/Max):
 //     While modern RO only uses one attack stat, the alpha apparently
 //     used a min/max system, similar to monsters. For compatibility

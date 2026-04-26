@@ -16,15 +16,16 @@
 // Values: id, name, alphaName, betaName, koreanName
 // 
 // alphaName:
-//   The alpha name should be shorter than 16 characters, because that's
-//   the maximum length the client can handle. It should use underscores
-//   for consistency, but these are replaced internally, because the
-//   client doesn't replace underscores by itself as newer clients do.
+//   The alpha names should be shorter than 16 characters, the maximum
+//   length the client can handle, and they should use underscored spaces
+//   for consistancy. Internally, the underscores are then removed, to
+//   match our aforementioned custom data and to ensure the client doesn't
+//   display the underscores.
 // 
 // betaName:
 //   Beta item names must match the names in the client's itemnametable
 //   and should use underscores instead of spaces, as the client does.
-//   They are replaced with spaces automatically.
+//   They are replaced with spaces automatically on the client side.
 // 
 // koreanName:
 //   The korean name is important for item descriptions on the alpha
