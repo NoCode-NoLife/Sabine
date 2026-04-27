@@ -35,6 +35,12 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		public Item LeftHand { get; private set; }
 
 		/// <summary>
+		/// Returns a reference to the item that is currently designated
+		/// as ammo, if any.
+		/// </summary>
+		public Item Ammo { get; private set; }
+
+		/// <summary>
 		/// Creates new inventory for character.
 		/// </summary>
 		/// <param name="character"></param>
@@ -82,6 +88,9 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 
 			if (item.EquippedOn != EquipSlots.None)
 				this.UpdateEquipReferences();
+
+			if (this.Character.AmmoClassId == item.ClassId && this.Ammo == null)
+				this.Ammo = item;
 		}
 
 		/// <summary>
@@ -171,6 +180,9 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 				lock (_syncLock)
 					_items.Remove(item);
 			}
+
+			if (item.Amount == 0 && item == this.Ammo)
+				this.UnequipAmmo();
 
 			Send.ZC_ITEM_THROW_ACK(this.Character, item.InventoryId, amount);
 			return removedAmount;
@@ -332,6 +344,29 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 
 			this.UpdateEquipReferences();
 			this.OnUnequippedItem(item, slots);
+		}
+
+		/// <summary>
+		/// Equips the given item as ammo.
+		/// </summary>
+		/// <param name="item"></param>
+		public void EquipAmmo(Item item)
+		{
+			this.Character.AmmoClassId = item.ClassId;
+			this.Ammo = item;
+
+			Send.ZC_EQUIP_ARROW(this.Character, item);
+		}
+
+		/// <summary>
+		/// Unequips the current ammo item.
+		/// </summary>
+		public void UnequipAmmo()
+		{
+			this.Character.AmmoClassId = 0;
+			this.Ammo = null;
+
+			Send.ZC_EQUIP_ARROW(this.Character, null);
 		}
 
 		/// <summary>

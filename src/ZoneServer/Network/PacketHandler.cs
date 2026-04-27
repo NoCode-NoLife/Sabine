@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared;
 using Sabine.Shared.Const;
+using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.Util;
@@ -164,6 +165,9 @@ namespace Sabine.Zone.Network
 			var items = character.Inventory.GetItems();
 			Send.ZC_NORMAL_ITEMLIST(character, items);
 			Send.ZC_EQUIPMENT_ITEMLIST(character, items);
+
+			if (character.Inventory.Ammo != null)
+				Send.ZC_EQUIP_ARROW(character, character.Inventory.Ammo);
 
 			var skills = character.Skills.GetAll();
 			Send.ZC_SKILLINFO_LIST(character, skills);
@@ -874,6 +878,12 @@ namespace Sabine.Zone.Network
 					character.ServerMessage(Localization.Get("You need to be at east level {0} to equip this item."), item.Data.RequiredLevel);
 
 				Send.ZC_REQ_WEAR_EQUIP_ACK.Fail(character, itemInvId);
+				return;
+			}
+
+			if (item.Type == ItemType.Ammo)
+			{
+				character.Inventory.EquipAmmo(item);
 				return;
 			}
 

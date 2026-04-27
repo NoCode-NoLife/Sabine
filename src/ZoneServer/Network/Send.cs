@@ -1209,6 +1209,20 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Makes the character's client display the given item as
+		/// equipped ammo.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="item"></param>
+		public static void ZC_EQUIP_ARROW(PlayerCharacter character, Item item)
+		{
+			using var packet = Packet.Rent(Op.ZC_EQUIP_ARROW);
+			packet.PutShort((short)(item?.InventoryId ?? 0));
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Response to storage closing notification. Closes the storage
 		/// window on the character's client.
 		/// </summary>

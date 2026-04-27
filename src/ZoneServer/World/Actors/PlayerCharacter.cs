@@ -144,6 +144,12 @@ namespace Sabine.Zone.World.Actors
 		public int ChatRoomId { get; set; }
 
 		/// <summary>
+		/// Gets or sets the item class id currently designated as ammo
+		/// for the character.
+		/// </summary>
+		public int AmmoClassId { get; set; }
+
+		/// <summary>
 		/// Creates a new character.
 		/// </summary>
 		public PlayerCharacter(JobId jobId)

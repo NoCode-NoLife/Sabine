@@ -65,6 +65,7 @@ namespace Sabine.Zone.Database
 						character.Parameters.SkillPoints = reader.GetInt32("skillPoints");
 						character.Parameters.Weight = reader.GetInt32("weight");
 						character.Parameters.WeightMax = reader.GetInt32("weightMax");
+						character.AmmoClassId = reader.GetInt32("ammo");
 
 						var x = reader.GetInt32("x");
 						var y = reader.GetInt32("y");
@@ -167,6 +168,7 @@ namespace Sabine.Zone.Database
 					cmd.Set("skillPoints", character.Parameters.SkillPoints);
 					cmd.Set("weight", character.Parameters.Weight);
 					cmd.Set("weightMax", character.Parameters.WeightMax);
+					cmd.Set("ammo", character.AmmoClassId);
 
 					cmd.Execute();
 				}
