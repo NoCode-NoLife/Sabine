@@ -237,7 +237,7 @@ namespace Sabine.Zone.Commands
 			var value1 = 0;
 			var value2 = 0;
 
-			if (args.Count >= 1)
+			if (args.Count >= 2)
 			{
 				if (!int.TryParse(args.Get(1), out var value))
 					return CommandResult.InvalidArgument;
@@ -245,7 +245,7 @@ namespace Sabine.Zone.Commands
 				value1 = value;
 			}
 
-			if (args.Count >= 2)
+			if (args.Count >= 3)
 			{
 				if (!int.TryParse(args.Get(2), out var value))
 					return CommandResult.InvalidArgument;
