@@ -55,6 +55,7 @@ namespace Sabine.Zone.Commands
 			this.Add("reloadconf", "", Localization.Get("Reloads server configuration."), this.ReloadConf);
 			this.Add("reloaddata", "", Localization.Get("Reloads data files."), this.ReloadData);
 			this.Add("debugpath", "", Localization.Get("Toggles path debugging on and off."), this.DebugPath);
+			this.Add("debugmode", "", Localization.Get("Toggles debug mode."), this.DebugMode);
 
 			// Aliases
 			this.AddAlias("reloadscripts", "rs");
@@ -487,6 +488,28 @@ namespace Sabine.Zone.Commands
 				sender.ServerMessage(Localization.Get("Path debugging is now enabled."));
 			else
 				sender.ServerMessage(Localization.Get("Path debugging is now disabled."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Toggles debug mode on and off, enabling debug messages for
+		/// testing during development.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult DebugMode(PlayerCharacter sender, PlayerCharacter target, string message, string commandName, Arguments args)
+		{
+			var enabled = target.Vars.Temp.ToggleBool("Sabine.DebugMode");
+
+			if (enabled)
+				sender.ServerMessage(Localization.Get("Debug mode is enabled."));
+			else
+				sender.ServerMessage(Localization.Get("Debug mode is disabled."));
 
 			return CommandResult.Okay;
 		}

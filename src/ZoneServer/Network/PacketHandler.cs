@@ -654,6 +654,14 @@ namespace Sabine.Zone.Network
 
 					var attackRange = character.GetAttackRange();
 
+					if (character.Vars.Temp.GetBool("Sabine.DebugMode", false))
+					{
+						var distance = character.Position.GetDistance(target.Position);
+						var inRange = character.Position.InRange(target.Position, attackRange);
+
+						character.DebugMessage("Attack Range: {0}, Distance: {1}, InRange: {2}", attackRange, distance, inRange);
+					}
+
 					if (!character.Position.InRange(target.Position, attackRange))
 					{
 						// The alpha client does its own range checks and

@@ -194,6 +194,22 @@ namespace Sabine.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Sends a debug message to the character's client that is
+		/// displayed in the chat log.
+		/// </summary>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void DebugMessage(string format, params object[] args)
+		{
+			if (args.Length > 0)
+				format = string.Format(format, args);
+
+			var message = string.Format(Localization.Get("[Debug] : {0}"), format);
+
+			Send.ZC_NOTIFY_CHAT(this, 0, message);
+		}
+
+		/// <summary>
 		/// Warps character to given location.
 		/// </summary>
 		/// <param name="location"></param>
@@ -495,11 +511,24 @@ namespace Sabine.Zone.World.Actors
 			// Range is 3 for normal attacks and 16 for ranged
 			// in the alpha client. This is hardcoded, based on
 			// the type of the item that was equipped.
+			if (Game.Version < Versions.Beta1)
+			{
+				if (this.Inventory.RightHand?.Type == ItemType.RangedWeapon)
+					return 16;
 
-			if (this.Inventory.RightHand?.Type == ItemType.RangedWeapon)
-				return 16;
+				return 3;
+			}
 
-			return 3;
+			// If you're coming here to check on the attack range of bows
+			// in Beta1, I can tell you that the behavior you're
+			// witnessing appears correct. While their range was hardcoded
+			// to 16 in the alpha, all the data I saw suggests that all
+			// bows had a range of 5 in the beta. That's what 2003 servers
+			// used and the db websites of the time don't mention ranges
+			// or range differences. But the range can be changed in the
+			// item data, so all is good in the world.
+
+			return this.Inventory.RightHand?.Data.AttackRange ?? 3;
 		}
 
 		/// <summary>
