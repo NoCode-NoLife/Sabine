@@ -277,7 +277,7 @@
 { id: 607, name: "Yggdrasilberry", alphaName: "", betaName: "Yggdrasilberry", koreanName: "이그드라실열매" },
 { id: 608, name: "Yggdrasil_Seed", alphaName: "", betaName: "Seed_of_Yggdrasil", koreanName: "이그드라실씨앗" },
 
-// Weapons - Swords
+// Weapons - 1H Swords
 { id: 1102, name: "Sword", alphaName: "", betaName: "Sword_", koreanName: "소드_" },
 { id: 1103, name: "Sword", alphaName: "", betaName: "Sword__", koreanName: "소드__" },
 { id: 1105, name: "Falchion", alphaName: "", betaName: "Falchion_", koreanName: "폴쳔_" },
@@ -296,6 +296,9 @@
 { id: 1122, name: "Ring_Pommel_Saber", alphaName: "", betaName: "Ring_pommel_Saber", koreanName: "환두태도" },
 { id: 1123, name: "Haedonggum", alphaName: "", betaName: "Haedonggum", koreanName: "해동검" },
 { id: 1124, name: "Orcish_Sword", alphaName: "", betaName: "orcish_sword", koreanName: "오키쉬소드" },
+{ id: 1161, name: "Balmung", alphaName: "", betaName: "Balmung", koreanName: "발뭉" },
+
+// Weapons - 2H Swords
 { id: 1152, name: "Slayer", alphaName: "", betaName: "Slayer_", koreanName: "슬레이어_" },
 { id: 1153, name: "Slayer", alphaName: "", betaName: "Slayer__", koreanName: "슬레이어__" },
 { id: 1155, name: "Bastard_Sword", alphaName: "", betaName: "Bastard_Sword_", koreanName: "바스타드소드_" },
@@ -303,7 +306,6 @@
 { id: 1158, name: "Two-handed_Sword", alphaName: "", betaName: "Two-hand_Sword_", koreanName: "투핸드소드_" },
 { id: 1159, name: "Two-handed_Sword", alphaName: "", betaName: "Two-hand_Sword__", koreanName: "투핸드소드__" },
 { id: 1160, name: "Broad_Sword", alphaName: "", betaName: "Broad_Sword", koreanName: "브로드소드" },
-{ id: 1161, name: "Balmung", alphaName: "", betaName: "Balmung", koreanName: "발뭉" },
 
 // Weapons - Knives
 { id: 1202, name: "Knife", alphaName: "", betaName: "Knife_", koreanName: "나이프_" },
