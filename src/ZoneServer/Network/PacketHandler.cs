@@ -870,6 +870,23 @@ namespace Sabine.Zone.Network
 					return;
 				}
 
+				if (character.Parameters.BaseLevel < item.Data.RequiredLevel)
+					character.ServerMessage(Localization.Get("You need to be at east level {0} to equip this item."), item.Data.RequiredLevel);
+
+				Send.ZC_REQ_WEAR_EQUIP_ACK.Fail(character, itemInvId);
+				return;
+			}
+
+			if (equipSlots == EquipSlots.None)
+			{
+				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item in None (Item: {1} ({2}), Data Slots: {3}).", conn.Account.Username, item.Data.Name, item.ClassId, item.Data.WearSlots);
+
+				if (Game.Version < Versions.Beta1)
+				{
+					conn.Close();
+					return;
+				}
+
 				Send.ZC_REQ_WEAR_EQUIP_ACK.Fail(character, itemInvId);
 				return;
 			}
