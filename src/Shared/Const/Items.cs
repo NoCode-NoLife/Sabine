@@ -128,7 +128,7 @@ namespace Sabine.Shared.Const
 		/// <returns></returns>
 		public static bool IsEquip(this ItemType type)
 		{
-			return type >= ItemType.Weapon;
+			return type >= ItemType.Weapon && type != ItemType.Ammo;
 		}
 	}
 }
