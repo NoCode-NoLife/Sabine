@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Util;
@@ -233,12 +234,31 @@ namespace Sabine.Zone.Commands
 			if (!Enum.TryParse<SpriteType>(args.Get(0), out var type))
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args.Get(1), out var value))
-				return CommandResult.InvalidArgument;
+			var value1 = 0;
+			var value2 = 0;
 
-			Send.ZC_SPRITE_CHANGE(target, type, value);
+			if (args.Count >= 1)
+			{
+				if (!int.TryParse(args.Get(1), out var value))
+					return CommandResult.InvalidArgument;
 
-			sender.ServerMessage(Localization.Get("Changed {0} to {1}."), type, value);
+				value1 = value;
+			}
+
+			if (args.Count >= 2)
+			{
+				if (!int.TryParse(args.Get(2), out var value))
+					return CommandResult.InvalidArgument;
+
+				value2 = value;
+			}
+
+			if (Game.Version < Versions.EP3_2)
+				Send.ZC_SPRITE_CHANGE(target, type, value1);
+			else
+				Send.ZC_SPRITE_CHANGE2(target, type, value1, value2);
+
+			sender.ServerMessage(Localization.Get("Changed {0} to {1}/{2}."), type, value1, value2);
 
 			return CommandResult.Okay;
 		}

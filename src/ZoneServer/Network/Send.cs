@@ -582,6 +582,25 @@ namespace Sabine.Zone.Network
 		}
 
 		/// <summary>
+		/// Updates the character's sprites for all players near them.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		/// <param name="value1"></param>
+		/// <param name="value2"></param>
+		public static void ZC_SPRITE_CHANGE2(Character character, SpriteType type, int value1, int value2)
+		{
+			using var packet = Packet.Rent(Op.ZC_SPRITE_CHANGE2);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte((byte)type);
+			packet.PutShort((short)value1);
+			packet.PutShort((short)value2);
+
+			character.Map.Broadcast(packet, character, BroadcastTargets.All);
+		}
+
+		/// <summary>
 		/// Sends the number of players who are online to the client.
 		/// </summary>
 		/// <param name="conn"></param>
