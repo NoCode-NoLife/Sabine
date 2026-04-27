@@ -72,12 +72,12 @@ public static class ItemId
 	public const int Biretta = 2216;
 	public const int Mask = 2218;
 	public const int Hat = 2220;
+	public const int Goggle = 2224;
 	public const int Cap = 2226;
 	public const int Helm = 2228;
 	public const int Circlet = 2232;
 	public const int Tiara = 2234;
 	public const int Crown = 2235;
-	public const int Goggle = 2236;
 	public const int CottonShirt = 2301;
 	public const int LeatherJacket = 2303;
 	public const int AdventureSuit = 2305;
