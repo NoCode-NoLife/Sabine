@@ -52,5 +52,10 @@ the middle or upper head slots, and even though it displays the slots in
 the UI, it appears technically incapable of actually using them, since
 the potential slots are sent as a byte flag bitmask with a max value of
 0xFF, while the upper and mid slots use 0x100 and 0x200 respectively.
+
+Additionally, the sprite update packet sent by the server to change the
+look of a character doesn't support the necessary types in this client,
+which are types 4 and 5. The client only handles 0 through 3.
+
 Unless there's some trickery going on, we have to assume only lower
-headgears were actually working in Beta1.
+headgears were working in Beta1.
