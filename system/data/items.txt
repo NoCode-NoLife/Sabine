@@ -104,11 +104,11 @@
 { id: 1610, name: "Arc_Wand", type: "Weapon", weight: 300, price: 20000, attack: 60, attackMin: 16, attackMax: 23, range: 1, jobs: "Mage|Acolyte", equip: "RightHand", weaponLevel: 3, equipLevel: 24, look: 7, effects: { "Int": 2 } },
 
 // Weapon - Bows
-{ id: 1701, name: "Bow", type: "RangedWeapon", weight: 200, price: 300, attack: 15, attackMin: 3, attackMax: 10, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
-{ id: 1704, name: "Composite_Bow", type: "RangedWeapon", weight: 300, price: 5600, attack: 29, attackMin: 6, attackMax: 14, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
-{ id: 1707, name: "Great_Bow", type: "RangedWeapon", weight: 600, price: 12500, attack: 50, attackMin: 10, attackMax: 20, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
-{ id: 1710, name: "Cross_Bow", type: "RangedWeapon", weight: 500, price: 21500, attack: 65, attackMin: 15, attackMax: 26, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
-{ id: 1713, name: "Arbalest", type: "RangedWeapon", weight: 800, price: 54000, attack: 90, attackMin: 20, attackMax: 35, range: 5, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 3 },
+{ id: 1701, name: "Bow", type: "RangedWeapon", weight: 200, price: 300, attack: 15, attackMin: 3, attackMax: 10, range: 16, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
+{ id: 1704, name: "Composite_Bow", type: "RangedWeapon", weight: 300, price: 5600, attack: 29, attackMin: 6, attackMax: 14, range: 16, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 3 },
+{ id: 1707, name: "Great_Bow", type: "RangedWeapon", weight: 600, price: 12500, attack: 50, attackMin: 10, attackMax: 20, range: 16, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
+{ id: 1710, name: "Cross_Bow", type: "RangedWeapon", weight: 500, price: 21500, attack: 65, attackMin: 15, attackMax: 26, range: 16, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 3 },
+{ id: 1713, name: "Arbalest", type: "RangedWeapon", weight: 800, price: 54000, attack: 90, attackMin: 20, attackMax: 35, range: 16, jobs: "Archer|Thief", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 3 },
 
 // Armor - Shields
 { id: 2101, name: "Guard", type: "Armor", weight: 100, price: 450, defense: 2, jobs: "All", equip: "LeftHand", equipLevel: 1, look: 1 },
@@ -374,15 +374,20 @@
 { id: 1613, name: "Mighty_Staff", type: "Weapon", weight: 700, price: 2, attack: 130, range: 1, slots: 0, jobs: "AllMage|AllAcolyte", equip: "RightHand", equipLevel: 24, look: 10 },
 
 // Weapons - Bows
-{ id: 1702, name: "Bow", type: "Weapon", weight: 500, price: 300, attack: 10, range: 5, slots: 4, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
-{ id: 1703, name: "Bow", type: "Weapon", weight: 500, price: 300, attack: 10, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
-{ id: 1705, name: "Composite_Bow", type: "Weapon", weight: 600, price: 5600, attack: 25, range: 5, slots: 4, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
-{ id: 1706, name: "Composite_Bow", type: "Weapon", weight: 600, price: 5600, attack: 25, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
-{ id: 1708, name: "Great_Bow", type: "Weapon", weight: 1000, price: 12500, attack: 45, range: 5, slots: 3, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
-{ id: 1709, name: "Great_Bow", type: "Weapon", weight: 1000, price: 12500, attack: 45, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
-{ id: 1711, name: "Cross_Bow", type: "Weapon", weight: 900, price: 18000, attack: 60, range: 5, slots: 3, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
-{ id: 1712, name: "Cross_Bow", type: "Weapon", weight: 900, price: 18000, attack: 60, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
-{ id: 1714, name: "Gakkung", type: "Weapon", weight: 1100, price: 26500, attack: 100, range: 5, slots: 1, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 33, look: 11 },
+{ id: 1701, name: "Bow", type: "Weapon", weight: 200, price: 300, attack: 10, range: 5, slots: 3, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 11 },
+{ id: 1702, name: "Bow", type: "Weapon", weight: 200, price: 300, attack: 10, range: 5, slots: 4, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
+{ id: 1703, name: "Bow", type: "Weapon", weight: 200, price: 300, attack: 10, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
+{ id: 1704, name: "Composite_Bow", type: "Weapon", weight: 250, price: 5600, attack: 25, range: 5, slots: 3, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 11 },
+{ id: 1705, name: "Composite_Bow", type: "Weapon", weight: 250, price: 5600, attack: 25, range: 5, slots: 4, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
+{ id: 1706, name: "Composite_Bow", type: "Weapon", weight: 250, price: 5600, attack: 25, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
+{ id: 1707, name: "Great_Bow", type: "Weapon", weight: 600, price: 12500, attack: 50, range: 5, slots: 2, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 11 },
+{ id: 1708, name: "Great_Bow", type: "Weapon", weight: 600, price: 12500, attack: 45, range: 5, slots: 3, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
+{ id: 1709, name: "Great_Bow", type: "Weapon", weight: 600, price: 12500, attack: 45, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
+{ id: 1710, name: "Cross_Bow", type: "Weapon", weight: 500, price: 21500, attack: 65, range: 5, slots: 2, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", weaponLevel: 2, equipLevel: 18, look: 11 },
+{ id: 1711, name: "Cross_Bow", type: "Weapon", weight: 500, price: 18000, attack: 60, range: 5, slots: 3, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
+{ id: 1712, name: "Cross_Bow", type: "Weapon", weight: 500, price: 18000, attack: 60, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 18, look: 11 },
+{ id: 1713, name: "Arbalest", type: "Weapon", weight: 700, price: 25000, attack: 90, range: 5, slots: 1, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", weaponLevel: 3, equipLevel: 33, look: 11 },
+{ id: 1714, name: "Gakkung", type: "Weapon", weight: 800, price: 26500, attack: 100, range: 5, slots: 1, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 33, look: 11 },
 
 // Ammo - Arrows
 { id: 1750, name: "Arrow", type: "Ammo", weight: 1, price: 1, attack: 25, jobs: "AllArcher|AllThief", equipLevel: 1 },
