@@ -209,6 +209,8 @@ namespace Sabine.Shared
 			}
 
 			this.LoadDataFile(this.Data.MapCache, cacheFileName);
+
+			this.SanityCheckData();
 		}
 
 		/// <summary>
@@ -251,6 +253,24 @@ namespace Sabine.Shared
 			{
 				Log.Error(ex);
 				ConsoleUtil.Exit(1);
+			}
+		}
+
+		/// <summary>
+		/// Displays warnings for inconsistent data, such as monsters
+		/// dropping non-existing items.
+		/// </summary>
+		public void SanityCheckData()
+		{
+			Log.Info("Checking data...");
+
+			foreach (var monster in this.Data.Monsters.Entries.Values)
+			{
+				foreach (var dropData in monster.Drops)
+				{
+					if (!this.Data.Items.Contains(dropData.ItemId))
+						Log.Warning("Monster {0} drops item {1} which doesn't exist.", monster.Id, dropData.ItemId);
+				}
 			}
 		}
 
