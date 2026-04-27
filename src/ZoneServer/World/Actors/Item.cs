@@ -140,17 +140,11 @@ namespace Sabine.Zone.World.Actors
 		private void LoadData(int classId)
 		{
 			if (!ZoneServer.Instance.Data.Items.TryFind(classId, out var data))
-				throw new ArgumentException($"Item with class id '{classId}' not found in database.");
+			{
+				if (!ZoneServer.Instance.Data.Items.TryFind(512, out data))
+					throw new ArgumentException($"Item with class id '{classId}' not found in database, fallback Apple also failed.");
+			}
 
-			this.LoadData(data);
-		}
-
-		/// <summary>
-		/// Loads the given data.
-		/// </summary>
-		/// <param name="data"></param>
-		private void LoadData(ItemData data)
-		{
 			this.Data = data;
 
 			// This solution isn't ideal, since it's very inflexible.

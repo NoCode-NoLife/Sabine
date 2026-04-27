@@ -225,6 +225,8 @@
 // iRO Beta1 (2002-02-20)
 //---------------------------------------------------------------------------
 
+{ versionMin: 200, entries: [
+
 // Healing
 { id: 503, name: "Yellow_potion", type: "Healing", weight: 160, price: 240 },
 { id: 504, name: "White_Potion", type: "Healing", weight: 200, price: 800 },
@@ -658,4 +660,6 @@
 { id: 4143, name: "Orc_Hero_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadUpper|HeadMiddle|Head" },
 { id: 4144, name: "Osiris_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
 { id: 4147, name: "Baphomet_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+
+]}, // v200
 ]
