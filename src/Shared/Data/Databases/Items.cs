@@ -88,6 +88,16 @@ namespace Sabine.Shared.Data.Databases
 					data.WearSlots = EquipSlots.Accessories;
 			}
 
+			// Force headgear slots to Head for Beta1, since it couldn't
+			// handle multiple headgear slots yet.
+			if (Game.Version < Versions.Beta2)
+			{
+				if ((data.WearSlots & EquipSlots.HeadMiddle) != 0)
+					data.WearSlots = EquipSlots.Head;
+				else if ((data.WearSlots & EquipSlots.HeadTop) != 0)
+					data.WearSlots = EquipSlots.Head;
+			}
+
 			this.AddOrReplace(data.ClassId, data);
 		}
 	}

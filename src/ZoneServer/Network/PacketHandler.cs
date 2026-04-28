@@ -379,7 +379,7 @@ namespace Sabine.Zone.Network
 
 			success = true;
 
-		L_End:
+L_End:
 			Send.ZC_STATUS_CHANGE_ACK(character, type, success, value);
 		}
 
@@ -859,8 +859,19 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_REQ_WEAR_EQUIP)]
 		public void CZ_REQ_WEAR_EQUIP(ZoneConnection conn, Packet packet)
 		{
-			var itemInvId = packet.GetShort();
-			var equipSlots = (EquipSlots)packet.GetByte();
+			int itemInvId;
+			EquipSlots equipSlots;
+
+			if (Game.Version < Versions.Beta2)
+			{
+				itemInvId = packet.GetShort();
+				equipSlots = (EquipSlots)packet.GetByte();
+			}
+			else
+			{
+				itemInvId = packet.GetShort();
+				equipSlots = (EquipSlots)packet.GetShort();
+			}
 
 			var character = conn.GetCurrentCharacter();
 			var item = character.Inventory.GetItem(itemInvId);
@@ -871,6 +882,11 @@ namespace Sabine.Zone.Network
 				Log.Debug("CZ_REQ_WEAR_EQUIP: User '{0}' tried to equip an item they don't have.", conn.Account.Username);
 				conn.Close();
 				return;
+			}
+
+			if (character.Vars.Temp.GetBool("Sabine.DebugMode", false))
+			{
+				character.DebugMessage("Equip {0} on {1}", item.Data.Name, equipSlots);
 			}
 
 			if (!character.CanEquip(item))

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MySqlConnector;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database;
 using Sabine.Shared.World;
@@ -56,12 +57,27 @@ namespace Sabine.Char.Database
 						character.Luk = reader.GetInt32("luk");
 						character.StatPoints = reader.GetInt32("statPoints");
 						character.HairId = reader.GetInt32("hair");
+						character.HeadTopLook = reader.GetInt32("headTop");
+						character.HeadMiddleLook = reader.GetInt32("headMiddle");
+						character.HeadBottomLook = reader.GetInt32("headBottom");
 						character.WeaponId = reader.GetInt32("weapon");
 
 						var mapId = reader.GetInt32("mapId");
 						var x = reader.GetInt32("x");
 						var y = reader.GetInt32("y");
 						character.Location = new Location(mapId, x, y);
+
+						// Reset looks if the last save was on a different
+						// version, as unsupported look ids will crash
+						// clients before even loading in.
+						var lastVersion = reader.GetInt32("lastVersion");
+						if (lastVersion != Game.Version)
+						{
+							character.HeadTopLook = 0;
+							character.HeadMiddleLook = 0;
+							character.HeadBottomLook = 0;
+							character.WeaponId = 0;
+						}
 
 						result.Add(character);
 					}

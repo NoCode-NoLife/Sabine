@@ -407,6 +407,40 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 			if ((slots & EquipSlots.RightHand) != 0)
 				this.Character.ChangeLook(SpriteType.Weapon, item.Data.LookId);
 
+			if (Game.Version <= Versions.Beta1)
+			{
+				if ((slots & EquipSlots.HeadTop) != 0 || (slots & EquipSlots.HeadMiddle) != 0 || (slots & EquipSlots.HeadBottom) != 0)
+				{
+					this.Character.ChangeLook(SpriteType.Head, item.Data.LookId);
+				}
+			}
+			else
+			{
+				// Get the look ids for the equipped item and set one of
+				// them.
+
+				var top = 0;
+				var middle = 0;
+				var bottom = 0;
+
+				if ((slots & EquipSlots.HeadTop) != 0)
+					top = item.Data.LookId;
+
+				if ((slots & EquipSlots.HeadMiddle) != 0)
+					middle = item.Data.LookId;
+
+				if ((slots & EquipSlots.HeadBottom) != 0)
+					bottom = item.Data.LookId;
+
+				if (top == middle) middle = 0;
+				if (middle == bottom) bottom = 0;
+				if (top == bottom) bottom = 0;
+
+				if (top != 0) this.Character.ChangeLook(SpriteType.HeadTop, top);
+				if (middle != 0) this.Character.ChangeLook(SpriteType.HeadMiddle, middle);
+				if (bottom != 0) this.Character.ChangeLook(SpriteType.HeadBottom, bottom);
+			}
+
 			this.Character.Parameters.RecalculateAll();
 		}
 
@@ -419,6 +453,15 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 		{
 			if ((slots & EquipSlots.RightHand) != 0)
 				this.Character.ChangeLook(SpriteType.Weapon, 0);
+
+			if ((slots & EquipSlots.HeadTop) != 0)
+				this.Character.ChangeLook(SpriteType.HeadTop, 0);
+
+			if ((slots & EquipSlots.HeadMiddle) != 0)
+				this.Character.ChangeLook(SpriteType.HeadMiddle, 0);
+
+			if ((slots & EquipSlots.HeadBottom) != 0)
+				this.Character.ChangeLook(SpriteType.HeadBottom, 0);
 
 			this.Character.Parameters.RecalculateAll();
 		}

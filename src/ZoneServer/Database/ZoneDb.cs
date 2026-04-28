@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using Sabine.Shared;
 using Sabine.Shared.Const;
 using Sabine.Shared.Database;
 using Sabine.Shared.World;
@@ -44,7 +45,11 @@ namespace Sabine.Zone.Database
 						character.Name = reader.GetStringSafe("name");
 						character.MapId = reader.GetInt32("mapId");
 						character.HairId = reader.GetInt32("hair");
+						character.HeadTopLook = reader.GetInt32("headTop");
+						character.HeadMiddleLook = reader.GetInt32("headMiddle");
+						character.HeadBottomLook = reader.GetInt32("headBottom");
 						character.WeaponId = reader.GetInt32("weapon");
+						character.AmmoClassId = reader.GetInt32("ammo");
 						character.Parameters.Zeny = reader.GetInt32("zeny");
 						character.Parameters.Speed = reader.GetInt32("speed");
 						character.Parameters.BaseLevel = reader.GetInt32("baseLevel");
@@ -65,7 +70,6 @@ namespace Sabine.Zone.Database
 						character.Parameters.SkillPoints = reader.GetInt32("skillPoints");
 						character.Parameters.Weight = reader.GetInt32("weight");
 						character.Parameters.WeightMax = reader.GetInt32("weightMax");
-						character.AmmoClassId = reader.GetInt32("ammo");
 
 						var x = reader.GetInt32("x");
 						var y = reader.GetInt32("y");
@@ -147,7 +151,11 @@ namespace Sabine.Zone.Database
 					cmd.Set("y", character.Position.Y);
 					cmd.Set("dir", (int)character.Direction);
 					cmd.Set("hair", character.HairId);
+					cmd.Set("headTop", character.HeadTopLook);
+					cmd.Set("headMiddle", character.HeadMiddleLook);
+					cmd.Set("headBottom", character.HeadBottomLook);
 					cmd.Set("weapon", character.WeaponId);
+					cmd.Set("ammo", character.AmmoClassId);
 					cmd.Set("zeny", character.Parameters.Zeny);
 					cmd.Set("speed", character.Parameters.Speed);
 					cmd.Set("baseLevel", character.Parameters.BaseLevel);
@@ -168,7 +176,7 @@ namespace Sabine.Zone.Database
 					cmd.Set("skillPoints", character.Parameters.SkillPoints);
 					cmd.Set("weight", character.Parameters.Weight);
 					cmd.Set("weightMax", character.Parameters.WeightMax);
-					cmd.Set("ammo", character.AmmoClassId);
+					cmd.Set("lastVersion", Game.Version);
 
 					cmd.Execute();
 				}

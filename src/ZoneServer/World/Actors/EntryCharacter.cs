@@ -39,10 +39,22 @@ namespace Sabine.Zone.World.Actors
 		int WeaponId { get; }
 
 		/// <summary>
-		/// Returns a character's top headgear look, specifying what headgear
-		/// they're wearing.
+		/// Returns a character's top headgear look, specifying what
+		/// headgear they're wearing.
 		/// </summary>
-		int HeadTopId { get; }
+		int HeadTopLook { get; }
+
+		/// <summary>
+		/// Returns a character's middle headgear look, specifying what
+		/// headgear they're wearing.
+		/// </summary>
+		int HeadMiddleLook { get; }
+
+		/// <summary>
+		/// Returns a character's bottom headgear look, specifying what
+		/// headgear they're wearing.
+		/// </summary>
+		int HeadBottomLook { get; }
 
 		/// <summary>
 		/// Returns the direction the character is turned towards.

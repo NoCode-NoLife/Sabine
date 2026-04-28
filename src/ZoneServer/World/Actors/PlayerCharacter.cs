@@ -466,6 +466,9 @@ namespace Sabine.Zone.World.Actors
 			{
 				case SpriteType.Hair: this.HairId = lookId; break;
 				case SpriteType.Weapon: this.WeaponId = lookId; break;
+				case SpriteType.HeadTop: this.HeadTopLook = lookId; break;
+				case SpriteType.HeadMiddle: this.HeadMiddleLook = lookId; break;
+				case SpriteType.HeadBottom: this.HeadBottomLook = lookId; break;
 				default:
 					throw new ArgumentException($"Unsupported type '{type}'.");
 			}

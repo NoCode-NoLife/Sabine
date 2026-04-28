@@ -101,19 +101,75 @@ namespace Sabine.Shared.Const
 	[Flags]
 	public enum EquipSlots : ushort
 	{
+#pragma warning disable CA1069 // Enums values should not be duplicated
+
 		None = 0x00,
-		Head = 0x01, // Lower in > Alpha
+
+		/// <summary>
+		/// Alpha: Head slot.
+		/// Beta+: Bottom headgear.
+		/// </summary>
+		HeadBottom = 0x01,
+
+		/// <summary>
+		/// Alpha: Head slot.
+		/// Beta+: Bottom headgear.
+		/// </summary>
+		Head = 0x01,
+
+		/// <summary>
+		/// Weapons. Character's actual right hand on the left side in
+		/// the UI.
+		/// </summary>
 		RightHand = 0x02,
+
+		/// <summary>
+		/// Robes, Garmants
+		/// </summary>
 		Robe = 0x04,
+
+		/// <summary>
+		/// Accessory slot on the left side.
+		/// </summary>
 		Accessory1 = 0x08,
+
+		/// <summary>
+		/// Armor, Clothes
+		/// </summary>
 		Body = 0x10,
+
+		/// <summary>
+		/// Shields, off-hand weapons. Character's actual left hand, on
+		/// the right side of the UI.
+		/// </summary>
 		LeftHand = 0x20,
+
+		/// <summary>
+		/// Shoes, Boots
+		/// </summary>
 		Shoes = 0x40,
+
+		/// <summary>
+		/// Accessory slot on the right side.
+		/// </summary>
 		Accessory2 = 0x80,
-		HeadUpper = 0x100,
+
+		/// <summary>
+		/// Top headgear. Not available in Alpha and Beta1.
+		/// </summary>
+		HeadTop = 0x100,
+
+		/// <summary>
+		/// Middle headgear. Not available in Alpha and Beta1.
+		/// </summary>
 		HeadMiddle = 0x200,
 
+		/// <summary>
+		/// Both/Either accessory slot.
+		/// </summary>
 		Accessories = Accessory1 | Accessory2,
+
+#pragma warning restore CA1069 // Enums values should not be duplicated
 	}
 
 	/// <summary>

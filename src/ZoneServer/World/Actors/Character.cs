@@ -55,16 +55,25 @@ namespace Sabine.Zone.World.Actors
 		public virtual int HairId { get; set; }
 
 		/// <summary>
+		/// Returns a character's upper headgear look.
+		/// </summary>
+		public virtual int HeadTopLook { get; set; }
+
+		/// <summary>
+		/// Returns a character's middle headgear look.
+		/// </summary>
+		public virtual int HeadMiddleLook { get; set; }
+
+		/// <summary>
+		/// Returns a character's lower headgear look.
+		/// </summary>
+		public virtual int HeadBottomLook { get; set; }
+
+		/// <summary>
 		/// Returns a character's weapon id, defining what weapon they
 		/// can be seen holding during combat.
 		/// </summary>
 		public virtual int WeaponId { get; set; }
-
-		/// <summary>
-		/// Returns a character's top headgear look, specifying what headgear
-		/// they're wearing.
-		/// </summary>
-		public virtual int HeadTopId { get; set; }
 
 		/// <summary>
 		/// Returns a character's current state.

@@ -38,6 +38,8 @@ namespace Sabine.Char.Database
 		public int HairId { get; set; }
 		public int HairColorId { get; set; }
 		public int WeaponId { get; set; }
-		public int HeadTopId { get; set; }
+		public int HeadTopLook { get; set; }
+		public int HeadMiddleLook { get; set; }
+		public int HeadBottomLook { get; set; }
 	}
 }
