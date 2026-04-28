@@ -8,8 +8,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Sabine.Shared;
-using Sabine.Shared.Data;
 using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone;
@@ -23,20 +21,17 @@ public class GoCommandScript : GeneralScript
 {
 	public override void Load()
 	{
-		if (Game.Version < Versions.Beta1)
-		{
-			this.RegisterDestination("morocc", "moc_vilg01", 98, 95);
-			this.RegisterDestination("prontera", "prt_vilg02", 99, 78);
-		}
-		else
-		{
-			this.RegisterDestination("alberta", "alberta", 116, 57);
-			this.RegisterDestination("geffen", "geffen", 119, 71);
-			this.RegisterDestination("izlude", "izlude", 127, 109);
-			this.RegisterDestination("morocc", "morocc", 158, 93);
-			this.RegisterDestination("payon", "payon", 89, 126);
-			this.RegisterDestination("prontera", "prontera", 155, 180);
-		}
+		// Alpha
+		RegisterDestination("morocc", "moc_vilg01", 98, 95);
+		RegisterDestination("prontera", "prt_vilg02", 99, 78);
+
+		// Beta1+
+		RegisterDestination("alberta", "alberta", 116, 57);
+		RegisterDestination("geffen", "geffen", 119, 71);
+		RegisterDestination("izlude", "izlude", 127, 109);
+		RegisterDestination("morocc", "morocc", 158, 93);
+		RegisterDestination("payon", "payon", 89, 126);
+		RegisterDestination("prontera", "prontera", 155, 180);
 
 		AddChatCommand("go", "<destination>", Localization.Get("Warps to a specific destination."), this.Go, 50, 50);
 	}
@@ -103,7 +98,7 @@ public class GoCommandScript : GeneralScript
 	{
 		if (!ZoneServer.Instance.Data.Maps.TryFind(mapStringId, out var mapData))
 		{
-			Log.Error("GoCommandScript: Destination '{0}' not found.", mapStringId);
+			//Log.Debug("GoCommandScript: Skipping '{0}', map not found.", mapStringId);
 			return;
 		}
 
