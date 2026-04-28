@@ -222,7 +222,7 @@
 { id: 20008, name: "Clothes Receipt", type: "Etc", weight: 1, price: 500 },
 { id: 20009, name: "Working Shirt", type: "Etc", weight: 1, price: 500 },
 
-// iRO Beta1 (2002-02-20)
+// iRO Beta1 (2001-12-14)
 //---------------------------------------------------------------------------
 
 { versionMin: 190, entries: [
@@ -247,11 +247,6 @@
 { id: 526, name: "Royal_Jelly", type: "Healing", weight: 100, price: 3500 },
 { id: 528, name: "Monster's_Feed", type: "Healing", weight: 50, price: 50 },
 { id: 529, name: "Candy", type: "Healing", weight: 20, price: 10 },
-{ id: 530, name: "Candy_Cane", type: "Healing", weight: 30, price: 20 },
-{ id: 531, name: "Apple_Juice", type: "Healing", weight: 50, price: 20 },
-{ id: 532, name: "Banana_Juice", type: "Healing", weight: 50, price: 20 },
-{ id: 533, name: "Grape_Juice", type: "Healing", weight: 50, price: 250 },
-{ id: 534, name: "Carrot_Juice", type: "Healing", weight: 50, price: 20 },
 
 // Usable
 { id: 601, name: "Fly_Wing", type: "Usable", weight: 10, price: 50, sellPrice: 1 },
@@ -281,7 +276,6 @@
 { id: 1121, name: "Tsurugi", type: "Weapon", weight: 1200, price: 21000, attack: 130, range: 1, slots: 0, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 27, look: 2 },
 { id: 1122, name: "Ring_Pommel_Saber", type: "Weapon", weight: 900, price: 24500, attack: 125, range: 1, slots: 2, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 14, look: 2 },
 { id: 1123, name: "Haedonggum", type: "Weapon", weight: 900, price: 21000, attack: 120, range: 1, slots: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 27, look: 2 },
-{ id: 1124, name: "Orcish_Sword", type: "Weapon", weight: 800, price: 20, attack: 35, range: 1, slots: 0, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 40, look: 2 },
 { id: 1161, name: "Balmung", type: "Weapon", weight: 1, price: 20, attack: 250, range: 2, slots: 4, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 1, look: 1 },
 
 // Weapons - 2H Swords
@@ -434,7 +428,6 @@
 { id: 2233, name: "Circlet", type: "Armor", weight: 300, price: 15000, defense: 4, slots: 1, jobs: "AllMage|AllMerchant|AllAcolyte", equip: "HeadTop", equipLevel: 1, look: 18 },
 { id: 2234, name: "Tiara", type: "Armor", weight: 300, price: 20, defense: 4, jobs: "All", sex: "Female", equip: "HeadTop", equipLevel: 45, look: 19 },
 { id: 2235, name: "Crown", type: "Armor", weight: 300, price: 20, defense: 4, slots: 0, jobs: "AllSwordman|AllMerchant", sex: "Male", equip: "HeadTop", equipLevel: 45, look: 45, effects: { "Int": 1 } },
-{ id: 2236, name: "Santa_Hat", type: "Armor", weight: 100, price: 5000, defense: 1, slots: 0, jobs: "All", equip: "HeadTop", equipLevel: 1, look: 20 },
 { id: 2244, name: "Big_Ribbon", type: "Armor", weight: 200, price: 15000, defense: 0, slots: 0, jobs: "All", equip: "HeadTop", equipLevel: 1, look: 28 },
 
 // Armors - Body
@@ -578,6 +571,78 @@
 { id: 955, name: "Worm_Peeling", type: "Etc", weight: 10, price: 52, sellPrice: 0 },
 { id: 956, name: "Gill", type: "Etc", weight: 10, price: 342, sellPrice: 0 },
 { id: 957, name: "Decayed_Nail", type: "Etc", weight: 10, price: 82, sellPrice: 0 },
+
+// Cards
+{ id: 4001, name: "Poring_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4002, name: "Fabre_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4003, name: "Pupa_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4008, name: "Picky_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4009, name: "Chonchon_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Shoes" },
+{ id: 4010, name: "Willow_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
+{ id: 4014, name: "Roda_Frog_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4015, name: "Condor_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Robe" },
+{ id: 4016, name: "Thief_Bug_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4019, name: "Hornet_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4020, name: "Familiar_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4021, name: "Rocker_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4022, name: "Spore_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4029, name: "Wolf_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, attack: 5 },
+{ id: 4030, name: "Mandragora_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4031, name: "Pecopeco_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4033, name: "PoPoring_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4034, name: "Wormtail_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4037, name: "Snake_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4038, name: "Zombie_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Shoes" },
+{ id: 4040, name: "Creamy_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4042, name: "Steel_Chonchon_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, defense: 2, equip: "Body" },
+{ id: 4044, name: "Smokie_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4051, name: "Yoyo_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4052, name: "Elder_Willow_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
+{ id: 4057, name: "Metaller_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4058, name: "Thara_Frog_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
+{ id: 4062, name: "Anacondaq_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4066, name: "Orc_Warrier_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
+{ id: 4068, name: "Scorpion_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4072, name: "Golem_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4074, name: "Bigfoot_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
+{ id: 4086, name: "Soldier_Skeleton_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4090, name: "Munak_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
+{ id: 4093, name: "Obeaune_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4094, name: "Archer_Skeleton_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4105, name: "Marc_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
+{ id: 4106, name: "Mummy_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4107, name: "Verit_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Shoes" },
+{ id: 4110, name: "Ghoul_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
+{ id: 4115, name: "Hunter_Fly_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4116, name: "Isis_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Robe" },
+{ id: 4117, name: "Sidewinder_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4127, name: "Nightmare_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
+{ id: 4132, name: "Mistress_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
+{ id: 4142, name: "Doppelganger_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+{ id: 4144, name: "Osiris_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
+{ id: 4147, name: "Baphomet_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
+
+]}, // 190
+
+// iRO Beta1 (2002-02-20)
+//---------------------------------------------------------------------------
+
+{ versionMin: 200, entries: [
+
+// Healing
+{ id: 530, name: "Candy_Cane", type: "Healing", weight: 30, price: 20 },
+{ id: 531, name: "Apple_Juice", type: "Healing", weight: 50, price: 20 },
+{ id: 532, name: "Banana_Juice", type: "Healing", weight: 50, price: 20 },
+{ id: 533, name: "Grape_Juice", type: "Healing", weight: 50, price: 250 },
+{ id: 534, name: "Carrot_Juice", type: "Healing", weight: 50, price: 20 },
+
+// Weapon - 1H Sword
+{ id: 1124, name: "Orcish_Sword", type: "Weapon", weight: 800, price: 20, attack: 35, range: 1, slots: 0, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 40, look: 2 },
+
+// Armor - Headgear
+{ id: 2236, name: "Santa_Hat", type: "Armor", weight: 100, price: 5000, defense: 1, slots: 0, jobs: "All", equip: "HeadTop", equipLevel: 1, look: 20 },
+
+// Etc
 { id: 959, name: "Stinky_Scale", type: "Etc", weight: 10, price: 168, sellPrice: 0 },
 { id: 960, name: "Nipper", type: "Etc", weight: 10, price: 114, sellPrice: 0 },
 { id: 961, name: "Conch", type: "Etc", weight: 10, price: 158, sellPrice: 0 },
@@ -602,70 +667,22 @@
 { id: 981, name: "Violet_Dyestuffs", type: "Etc", weight: 150, price: 1000, sellPrice: 0 },
 { id: 982, name: "White_Dyestuffs", type: "Etc", weight: 150, price: 1000, sellPrice: 0 },
 { id: 983, name: "Black_Dyestuffs", type: "Etc", weight: 150, price: 1000, sellPrice: 0 },
-	
+
 // Cards
-{ id: 4001, name: "Poring_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4002, name: "Fabre_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4003, name: "Pupa_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4008, name: "Picky_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4009, name: "Chonchon_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Shoes" },
-{ id: 4010, name: "Willow_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
-{ id: 4014, name: "Roda_Frog_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4015, name: "Condor_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Robe" },
-{ id: 4016, name: "Thief_Bug_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4019, name: "Hornet_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4020, name: "Familiar_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4021, name: "Rocker_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4022, name: "Spore_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
 { id: 4025, name: "Skeleton_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, attack: 2 },
 { id: 4027, name: "Kukre_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4029, name: "Wolf_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, attack: 5 },
-{ id: 4030, name: "Mandragora_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4031, name: "Pecopeco_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4033, name: "PoPoring_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4034, name: "Wormtail_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
 { id: 4035, name: "Hydra_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
 { id: 4036, name: "Muka_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4037, name: "Snake_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4038, name: "Zombie_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Shoes" },
-{ id: 4040, name: "Creamy_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4042, name: "Steel_Chonchon_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, defense: 2, equip: "Body" },
-{ id: 4044, name: "Smokie_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
 { id: 4048, name: "Poison_Spore_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
 { id: 4049, name: "Vadon_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4051, name: "Yoyo_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4052, name: "Elder_Willow_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
-{ id: 4057, name: "Metaller_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4058, name: "Thara_Frog_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
 { id: 4061, name: "Cornutus_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4062, name: "Anacondaq_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
 { id: 4065, name: "Kaho_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4066, name: "Orc_Warrier_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
 { id: 4067, name: "Megalodon_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
-{ id: 4068, name: "Scorpion_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4072, name: "Golem_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
 { id: 4073, name: "Pirate_Skel_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4074, name: "Bigfoot_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
-{ id: 4086, name: "Soldier_Skeleton_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
 { id: 4089, name: "Swordfish_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4090, name: "Munak_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
-{ id: 4093, name: "Obeaune_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4094, name: "Archer_Skeleton_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4105, name: "Marc_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Body" },
-{ id: 4106, name: "Mummy_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4107, name: "Verit_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Shoes" },
-{ id: 4110, name: "Ghoul_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
 { id: 4111, name: "Strouf_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4115, name: "Hunter_Fly_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4116, name: "Isis_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Robe" },
-{ id: 4117, name: "Sidewinder_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
-{ id: 4127, name: "Nightmare_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
 { id: 4128, name: "Golden_Thiefbug_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "LeftHand" },
-{ id: 4132, name: "Mistress_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
-{ id: 4142, name: "Doppelganger_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
 { id: 4143, name: "Orc_Hero_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "HeadTop|HeadMiddle|Head" },
-{ id: 4144, name: "Osiris_Card", type: "Card", weight: 10, price: 20, sellPrice: 0, equip: "Accessories" },
-{ id: 4147, name: "Baphomet_Card", type: "Card", weight: 10, price: 20, sellPrice: 0 },
 
-]}, // v200
+]}, // 200
 ]
