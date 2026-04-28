@@ -46,11 +46,21 @@ namespace Sabine.Shared.Data.Databases
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			var versionMin = entry.ReadInt("versionMin", 0);
-			var versionMax = entry.ReadInt("versionMax", int.MaxValue);
+			if (entry.ContainsKey("versionMin") || entry.ContainsKey("versionMax"))
+			{
+				var versionMin = entry.ReadInt("versionMin", 0);
+				var versionMax = entry.ReadInt("versionMax", int.MaxValue);
 
-			if (Game.Version < versionMin || Game.Version > versionMax)
-				return;
+				if (Game.Version < versionMin || Game.Version > versionMax)
+					return;
+
+				if (entry.ContainsKey("entries"))
+				{
+					foreach (JObject subEntry in entry["entries"])
+						this.ReadEntry(subEntry);
+					return;
+				}
+			}
 
 			var data = new MapsData();
 
