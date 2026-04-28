@@ -29,6 +29,7 @@ namespace Sabine.Shared.Network
 			[Versions.S800] = LoadVersion800,
 			[Versions.S900] = LoadVersion900,
 			[Versions.S2000] = LoadVersion2000,
+			[Versions.S2500] = LoadVersion2500,
 		};
 
 		/// <summary>

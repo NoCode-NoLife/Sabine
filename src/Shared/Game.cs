@@ -95,6 +95,11 @@ namespace Sabine.Shared
 		/// Sabine packet version 2000, based on euRO EP10.4 2007-03-05.
 		/// </summary>
 		public const int S2000 = 2000;
+
+		/// <summary>
+		/// Sabine packet version 2500, based on kRO Sak EP12 2008-09-10.
+		/// </summary>
+		public const int S2500 = 2500;
 	}
 
 	/// <summary>
