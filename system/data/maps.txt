@@ -59,7 +59,7 @@
 { versionMin: 190, entries: [
 
 { id: 200010, stringId: "alb_ship", name: "Harbour Alberta" },
-{ id: 200010, stringId: "alb2trea", name: "Alberta Island" },
+{ id: 200015, stringId: "alb2trea", name: "Alberta Island" },
 { id: 200020, stringId: "alberta", name: "Harbour Alberta" },
 { id: 200030, stringId: "alberta_in", name: "Alberta Inside" },
 { id: 200040, stringId: "etc_cave01", name: "Dungeon" },
