@@ -300,7 +300,7 @@ public class IdentityIdEnumScript : EnumScript<IdentityId>
 		Define(JT_ASSASSIN);
 		Define(JT_CHICKEN);
 
-		if (Game.Version >= Versions.EP3)
+		if (Game.Version >= Versions.S400)
 		{
 			Define(JT_CRUSADER);
 			Define(JT_MONK);

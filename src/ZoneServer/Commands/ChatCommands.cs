@@ -254,7 +254,7 @@ namespace Sabine.Zone.Commands
 				value2 = value;
 			}
 
-			if (Game.Version < Versions.EP3_2)
+			if (Game.Version < Versions.S500)
 				Send.ZC_SPRITE_CHANGE(target, type, value1);
 			else
 				Send.ZC_SPRITE_CHANGE2(target, type, value1, value2);

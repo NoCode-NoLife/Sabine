@@ -22,11 +22,11 @@ namespace Sabine.Shared.Network
 			[Versions.Beta1] = LoadVersion200,
 			[Versions.Beta2] = LoadVersion300,
 			[Versions.S350] = LoadVersion350,
-			[Versions.EP3] = LoadVersion400,
-			[Versions.EP3_2] = LoadVersion500,
-			[Versions.EP5] = LoadVersion600,
-			[Versions.EP8] = LoadVersion700,
-			[Versions.EP8_2] = LoadVersion800,
+			[Versions.S400] = LoadVersion400,
+			[Versions.S500] = LoadVersion500,
+			[Versions.S600] = LoadVersion600,
+			[Versions.S700] = LoadVersion700,
+			[Versions.S800] = LoadVersion800,
 			[Versions.S2000] = LoadVersion2000,
 		};
 

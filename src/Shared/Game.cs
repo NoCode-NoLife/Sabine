@@ -37,7 +37,7 @@ namespace Sabine.Shared
 		//   easily reference clients you know after all.
 
 		/// <summary>
-		/// The packet version for the iRO Alpha client (2001-08-30).
+		/// Sabine packet version 190, based on iRO Alpha 2001-08-30.
 		/// </summary>
 		public const int Alpha = 100;
 
@@ -47,12 +47,12 @@ namespace Sabine.Shared
 		public const int S190 = 190;
 
 		/// <summary>
-		/// The packet version for the iRO Beta 1 client (2002-02-20).
+		/// Sabine packet version 190, based on iRO Beta 1 2002-02-20.
 		/// </summary>
 		public const int Beta1 = 200;
 
 		/// <summary>
-		/// The packet version for the jRO Beta 2 client (2002-08-09).
+		/// Sabine packet version 190, based on jRO Beta 2 2002-08-09.
 		/// </summary>
 		public const int Beta2 = 300;
 
@@ -62,35 +62,34 @@ namespace Sabine.Shared
 		public const int S350 = 350;
 
 		/// <summary>
-		/// The packet version for the jRO EP3 client (2003-05-27).
+		/// Sabine packet version 190, based on jRO EP3 2003-05-27.
 		/// </summary>
-		public const int EP3 = 400;
+		public const int S400 = 400;
 
 		/// <summary>
-		/// The packet version for the iRO EP6 client (2003-10-31).
+		/// Sabine packet version 190, based on iRO EP6 2003-10-31.
 		/// </summary>
-		public const int EP3_2 = 500;
+		public const int S500 = 500;
 
 		/// <summary>
-		/// The packet version for the euRO EP5 client (2004-05-12).
+		/// Sabine packet version 190, based on euRO EP5 2004-05-12.
 		/// </summary>
-		public const int EP5 = 600;
+		public const int S600 = 600;
 
 		/// <summary>
-		/// The packet version for the iRO EP8 client (2004-08-03).
+		/// Sabine packet version 190, based on iRO EP8 2004-08-03.
 		/// </summary>
-		public const int EP8 = 700;
+		public const int S700 = 700;
 
 		/// <summary>
-		/// The packet version for the bRO EP8 client (2004-12-28).
+		/// Sabine packet version 190, based on bRO EP8 2004-12-28.
 		/// </summary>
-		public const int EP8_2 = 800;
+		public const int S800 = 800;
 
 		/// <summary>
 		/// Sabine packet version 2000, based on euRO EP10 2007-03-05.
 		/// </summary>
 		public const int S2000 = 2000;
-
 	}
 
 	/// <summary>

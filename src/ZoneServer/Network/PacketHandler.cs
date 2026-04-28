@@ -247,7 +247,7 @@ namespace Sabine.Zone.Network
 			if (index != -1)
 				text = text.Substring(index + 1).Trim();
 
-			if (Game.Version >= Versions.EP5)
+			if (Game.Version >= Versions.S600)
 			{
 				// What is this...? It's part of the message, and the client
 				// doesn't display it when it's sent back to it, but what

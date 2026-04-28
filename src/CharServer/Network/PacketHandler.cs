@@ -167,7 +167,7 @@ namespace Sabine.Char.Network
 
 			var account = conn.Account;
 			var db = CharServer.Instance.Database;
-			var availableSlots = Game.Version < Versions.EP5 ? 3 : 9;
+			var availableSlots = Game.Version < Versions.S600 ? 3 : 9;
 
 			var isSlotValid = character.Slot >= 0 && character.Slot < availableSlots;
 			if (!isSlotValid)
