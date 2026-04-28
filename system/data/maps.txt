@@ -59,6 +59,7 @@
 { versionMin: 190, entries: [
 
 { id: 200010, stringId: "alb_ship", name: "Harbour Alberta" },
+{ id: 200010, stringId: "alb2trea", name: "Alberta Island" },
 { id: 200020, stringId: "alberta", name: "Harbour Alberta" },
 { id: 200030, stringId: "alberta_in", name: "Alberta Inside" },
 { id: 200040, stringId: "etc_cave01", name: "Dungeon" },
@@ -118,10 +119,10 @@
 { id: 200570, stringId: "prt_maze01", name: "Forest" },
 { id: 200580, stringId: "prt_maze02", name: "Forest" },
 { id: 200590, stringId: "prt_maze03", name: "Forest" },
-//{ id: 200600, stringId: "prt_sewerb1", name: "Sewer B1" },
-//{ id: 200610, stringId: "prt_sewerb2", name: "Sewer B2" },
-//{ id: 200620, stringId: "prt_sewerb3", name: "Sewer B3" },
-//{ id: 200630, stringId: "prt_sewerb4", name: "Sewer B4" },
+{ id: 200600, stringId: "prt_sewerb1", name: "Sewer B1" },
+{ id: 200610, stringId: "prt_sewerb2", name: "Sewer B2" },
+{ id: 200620, stringId: "prt_sewerb3", name: "Sewer B3" },
+{ id: 200630, stringId: "prt_sewerb4", name: "Sewer B4" },
 //{ id: 200640, stringId: "prt_vilg00", name: "Capital City, Prontera" },
 //{ id: 200650, stringId: "prt_vilg01", name: "Capital City, Prontera" },
 //{ id: 200660, stringId: "temp", name: "Temp" },
