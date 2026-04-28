@@ -184,7 +184,11 @@ public class IdentityIdEnumScript : EnumScript<IdentityId>
 		Define(JT_4_M_MANAGER);
 		Define(JT_4_M_MINISTER);
 
-		Define(JT_MON_BEGIN, 102);
+		if (Game.Version < Versions.Beta1)
+			Define(JT_MON_BEGIN, 97);
+		else
+			Define(JT_MON_BEGIN, 102);
+
 		Define(JT_SCORPION);
 		Define(JT_PORING);
 		Define(JT_THIEF_BUG_AGG);
@@ -246,33 +250,37 @@ public class IdentityIdEnumScript : EnumScript<IdentityId>
 		Define(JT_MISTRESS);
 		Define(JT_BIGFOOT);
 		Define(JT_NIGHTMARE);
-		Define(JT_PORING_);
-		Define(JT_LUNATIC);
-		Define(JT_MEGALODON);
-		Define(JT_STROUF);
-		Define(JT_VADON);
-		Define(JT_CORNUTUS);
-		Define(JT_HYDRA);
-		Define(JT_SWORD_FISH);
-		Define(JT_KUKRE);
-		Define(JT_PIRATE_SKEL);
-		Define(JT_KAHO);
-		Define(JT_CRAB);
-		Define(JT_SHELLFISH);
-		Define(JT_TURTLE);
-		Define(JT_SKELETON);
-		Define(JT_POISON_SPORE);
-		Define(JT_RED_PLANT);
-		Define(JT_BLUE_PLANT);
-		Define(JT_GREEN_PLANT);
-		Define(JT_YELLOW_PLANT);
-		Define(JT_WHITE_PLANT);
-		Define(JT_SHINING_PLANT);
-		Define(JT_BLACK_MUSHROOM);
-		Define(JT_RED_MUSHROOM);
-		Define(JT_GOLDEN_BUG);
-		Define(JT_ORK_HERO);
-		Define(JT_LAST);
+
+		if (Game.Version >= Versions.Beta1)
+		{
+			Define(JT_PORING_);
+			Define(JT_LUNATIC);
+			Define(JT_MEGALODON);
+			Define(JT_STROUF);
+			Define(JT_VADON);
+			Define(JT_CORNUTUS);
+			Define(JT_HYDRA);
+			Define(JT_SWORD_FISH);
+			Define(JT_KUKRE);
+			Define(JT_PIRATE_SKEL);
+			Define(JT_KAHO);
+			Define(JT_CRAB);
+			Define(JT_SHELLFISH);
+			Define(JT_TURTLE);
+			Define(JT_SKELETON);
+			Define(JT_POISON_SPORE);
+			Define(JT_RED_PLANT);
+			Define(JT_BLUE_PLANT);
+			Define(JT_GREEN_PLANT);
+			Define(JT_YELLOW_PLANT);
+			Define(JT_WHITE_PLANT);
+			Define(JT_SHINING_PLANT);
+			Define(JT_BLACK_MUSHROOM);
+			Define(JT_RED_MUSHROOM);
+			Define(JT_GOLDEN_BUG);
+			Define(JT_ORK_HERO);
+			Define(JT_LAST);
+		}
 	}
 
 	private void Default()

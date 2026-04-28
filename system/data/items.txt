@@ -225,7 +225,7 @@
 // iRO Beta1 (2002-02-20)
 //---------------------------------------------------------------------------
 
-{ versionMin: 200, entries: [
+{ versionMin: 190, entries: [
 
 // Healing
 { id: 503, name: "Yellow_potion", type: "Healing", weight: 160, price: 240 },
