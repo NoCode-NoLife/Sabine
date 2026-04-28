@@ -184,3 +184,6 @@ dotnet_diagnostic.CS8625.severity = none
 
 # IDE0059: Unnecessary variable assignment.
 dotnet_diagnostic.IDE0059.severity = none
+
+# IDE0079: Remove unnecessary suppression
+dotnet_diagnostic.IDE0079.severity = none
