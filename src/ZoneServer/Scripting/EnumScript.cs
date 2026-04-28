@@ -18,6 +18,8 @@ namespace Sabine.Zone.Scripting
 			if (!ScriptRequirementAttribute.ValidateAll(this))
 				return true;
 
+			MEnum<TEnum>.Shared.ClearValues();
+
 			this.Load();
 			return true;
 		}
