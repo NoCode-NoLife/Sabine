@@ -258,7 +258,7 @@
 { id: 607, name: "Yggdrasilberry", type: "Usable", weight: 300, price: 2 },
 { id: 608, name: "Yggdrasil_Seed", type: "Usable", weight: 300, price: 2 },
 
-// Weapons - 1H Swords
+// Weapon - 1H Swords
 { id: 1102, name: "Sword", type: "Weapon", weight: 500, price: 20, attack: 25, range: 1, slots: 4, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 2, look: 2 },
 { id: 1103, name: "Sword", type: "Weapon", weight: 500, price: 20, attack: 25, range: 1, slots: 0, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 2, look: 2 },
 { id: 1105, name: "Falchion", type: "Weapon", weight: 600, price: 500, attack: 36, range: 1, slots: 4, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 2, look: 2 },
@@ -278,7 +278,7 @@
 { id: 1123, name: "Haedonggum", type: "Weapon", weight: 900, price: 21000, attack: 120, range: 1, slots: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 27, look: 2 },
 { id: 1161, name: "Balmung", type: "Weapon", weight: 1, price: 20, attack: 250, range: 2, slots: 4, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand", equipLevel: 1, look: 1 },
 
-// Weapons - 2H Swords
+// Weapon - 2H Swords
 { id: 1152, name: "Slayer", type: "Weapon", weight: 1300, price: 12500, attack: 115, range: 1, slots: 3, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", equipLevel: 18, look: 3 },
 { id: 1153, name: "Slayer", type: "Weapon", weight: 1300, price: 12500, attack: 115, range: 1, slots: 0, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", equipLevel: 18, look: 3 },
 { id: 1155, name: "Bastard_Sword", type: "Weapon", weight: 1600, price: 20000, attack: 135, range: 1, slots: 3, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", equipLevel: 18, look: 3 },
@@ -287,7 +287,7 @@
 { id: 1159, name: "Two-handed_Sword", type: "Weapon", weight: 2200, price: 26000, attack: 155, range: 1, slots: 0, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", equipLevel: 33, look: 3 },
 { id: 1160, name: "Broad_Sword", type: "Weapon", weight: 2000, price: 65000, attack: 135, defense: 5, range: 1, slots: 1, jobs: "Novice|Swordman|Merchant|Thief", equip: "RightHand|LeftHand", equipLevel: 33, look: 3 },
 
-// Weapons - Knives
+// Weapon - Knives
 { id: 1202, name: "Knife", type: "Weapon", weight: 400, price: 10, attack: 17, range: 1, slots: 4, jobs: "Novice|AllSwordman|AllMage|AllArcher|AllMerchant|AllThief", equip: "RightHand", equipLevel: 1, look: 1 },
 { id: 1203, name: "Knife", type: "Weapon", weight: 400, price: 10, attack: 17, range: 1, slots: 0, jobs: "Novice|AllSwordman|AllMage|AllArcher|AllMerchant|AllThief", equip: "RightHand", equipLevel: 1, look: 1 },
 { id: 1205, name: "Cutter", type: "Weapon", weight: 500, price: 300, attack: 26, range: 1, slots: 4, jobs: "Novice|AllSwordman|AllMage|AllArcher|AllMerchant|AllThief", equip: "RightHand", equipLevel: 1, look: 1 },
@@ -304,12 +304,12 @@
 { id: 1221, name: "Gladius", type: "Weapon", weight: 700, price: 14500, attack: 102, range: 1, slots: 0, jobs: "Novice|AllSwordman|AllMage|AllArcher|AllMerchant|AllThief", equip: "RightHand", equipLevel: 24, look: 1 },
 { id: 1223, name: "Fortune_Sword", type: "Weapon", weight: 500, price: 22000, attack: 40, range: 1, slots: 0, jobs: "Novice|AllSwordman|AllMage|AllArcher|AllMerchant|AllThief", equip: "RightHand", equipLevel: 36, look: 1 },
 
-// Weapons - 1H Axes
+// Weapon - 1H Axes
 { id: 1302, name: "Axe", type: "Weapon", weight: 1200, price: 150, attack: 35, range: 1, slots: 4, jobs: "Novice|AllSwordman|AllMerchant", equip: "RightHand", equipLevel: 3, look: 6 },
 { id: 1303, name: "Axe", type: "Weapon", weight: 1200, price: 150, attack: 35, range: 1, slots: 0, jobs: "Novice|AllSwordman|AllMerchant", equip: "RightHand", equipLevel: 3, look: 6 },
 { id: 1304, name: "Orcish_Axe", type: "Weapon", weight: 2000, price: 2, attack: 50, range: 1, slots: 0, jobs: "Novice|AllSwordman|AllMerchant", equip: "RightHand", equipLevel: 3, look: 6 },
 
-// Weapons - 2H Axes
+// Weapon - 2H Axes
 { id: 1352, name: "Battle_Axe", type: "Weapon", weight: 1800, price: 3000, attack: 75, range: 1, slots: 4, jobs: "AllSwordman|AllMerchant", equip: "RightHand|LeftHand", equipLevel: 3, look: 7 },
 { id: 1353, name: "Battle_Axe", type: "Weapon", weight: 1800, price: 3000, attack: 75, range: 1, slots: 0, jobs: "AllSwordman|AllMerchant", equip: "RightHand|LeftHand", equipLevel: 3, look: 7 },
 { id: 1355, name: "Hammer", type: "Weapon", weight: 2300, price: 7500, attack: 115, range: 1, slots: 3, jobs: "AllSwordman|AllMerchant", equip: "RightHand|LeftHand", equipLevel: 16, look: 7 },
@@ -320,7 +320,7 @@
 { id: 1362, name: "Two-handed_Axe", type: "Weapon", weight: 3000, price: 27000, attack: 170, range: 1, slots: 0, jobs: "AllSwordman|AllMerchant", equip: "RightHand|LeftHand", equipLevel: 30, look: 7 },
 { id: 1363, name: "Bloody_Axe", type: "Weapon", weight: 4000, price: 20, attack: 100, range: 1, slots: 0, jobs: "AllSwordman|AllMerchant", equip: "RightHand|LeftHand", equipLevel: 44, look: 7 },
 
-// Weapons - 1H Spears
+// Weapon - 1H Spears
 { id: 1402, name: "Javelin", type: "Weapon", weight: 700, price: 50, attack: 28, range: 3, slots: 4, jobs: "AllSwordman", equip: "RightHand", equipLevel: 4, look: 4 },
 { id: 1403, name: "Javelin", type: "Weapon", weight: 700, price: 50, attack: 28, range: 3, slots: 0, jobs: "AllSwordman", equip: "RightHand", equipLevel: 4, look: 4 },
 { id: 1405, name: "Spear", type: "Weapon", weight: 850, price: 650, attack: 43, range: 3, slots: 4, jobs: "AllSwordman", equip: "RightHand", equipLevel: 4, look: 4 },
@@ -329,7 +329,7 @@
 { id: 1412, name: "Lance", type: "Weapon", weight: 2500, price: 4800, attack: 80, range: 3, slots: 0, jobs: "AllSwordman", equip: "RightHand", equipLevel: 33, look: 5 },
 { id: 1413, name: "Gungnir", type: "Weapon", weight: 5000, price: 20, attack: 110, range: 3, slots: 0, jobs: "AllSwordman", equip: "RightHand", equipLevel: 4, look: 4 },
 
-// Weapons - 2H Spears
+// Weapon - 2H Spears
 { id: 1408, name: "Pike", type: "Weapon", weight: 1000, price: 2100, attack: 60, range: 3, slots: 4, jobs: "AllSwordman", equip: "RightHand|LeftHand", equipLevel: 4, look: 4 },
 { id: 1409, name: "Pike", type: "Weapon", weight: 1000, price: 2100, attack: 60, range: 3, slots: 0, jobs: "AllSwordman", equip: "RightHand|LeftHand", equipLevel: 4, look: 4 },
 { id: 1452, name: "Guisarme", type: "Weapon", weight: 1000, price: 11500, attack: 110, range: 3, slots: 3, jobs: "AllSwordman", equip: "RightHand|LeftHand", equipLevel: 18, look: 5 },
@@ -344,7 +344,7 @@
 { id: 1465, name: "Hallberd", type: "Weapon", weight: 2500, price: 31000, attack: 165, range: 3, slots: 0, jobs: "AllSwordman", equip: "RightHand|LeftHand", equipLevel: 33, look: 5 },
 { id: 1466, name: "Cresent_Scythe", type: "Weapon", weight: 2500, price: 20, attack: 90, range: 3, slots: 0, jobs: "AllSwordman", equip: "RightHand|LeftHand", equipLevel: 48, look: 5 },
 
-// Weapons - Maces
+// Weapon - Maces
 { id: 1502, name: "Club", type: "Weapon", weight: 700, price: 30, attack: 20, range: 1, slots: 4, jobs: "Novice|AllSwordman|AllAcolyte|AllMerchant", equip: "RightHand", equipLevel: 2, look: 8 },
 { id: 1503, name: "Club", type: "Weapon", weight: 700, price: 30, attack: 20, range: 1, slots: 0, jobs: "Novice|AllSwordman|AllAcolyte|AllMerchant", equip: "RightHand", equipLevel: 2, look: 8 },
 { id: 1505, name: "Mace", type: "Weapon", weight: 800, price: 500, attack: 35, range: 1, slots: 4, jobs: "Novice|AllSwordman|AllAcolyte|AllMerchant", equip: "RightHand", equipLevel: 2, look: 8 },
@@ -358,7 +358,7 @@
 { id: 1517, name: "Sword_Mace", type: "Weapon", weight: 1200, price: 31000, attack: 115, range: 1, slots: 1, jobs: "Novice|AllSwordman|AllAcolyte|AllMerchant", equip: "RightHand", equipLevel: 27, look: 8 },
 { id: 1518, name: "Sword_Mace", type: "Weapon", weight: 1200, price: 31000, attack: 115, range: 1, slots: 1, jobs: "Novice|AllSwordman|AllAcolyte|AllMerchant", equip: "RightHand", equipLevel: 27, look: 8 },
 
-// Weapons - Wands
+// Weapon - Wands
 { id: 1602, name: "Rod", type: "Weapon", weight: 400, price: 100, attack: 15, range: 1, slots: 4, jobs: "Novice|AllMage|AllAcolyte", equip: "RightHand", equipLevel: 1, look: 10 },
 { id: 1603, name: "Rod", type: "Weapon", weight: 400, price: 100, attack: 15, range: 1, slots: 0, jobs: "Novice|AllMage|AllAcolyte", equip: "RightHand", equipLevel: 1, look: 10 },
 { id: 1605, name: "Wand", type: "Weapon", weight: 400, price: 1000, attack: 25, range: 1, slots: 3, jobs: "Novice|AllMage|AllAcolyte", equip: "RightHand", equipLevel: 12, look: 10 },
@@ -369,7 +369,7 @@
 { id: 1612, name: "Arc_Wand", type: "Weapon", weight: 400, price: 13000, attack: 60, range: 1, slots: 0, jobs: "Novice|AllMage|AllAcolyte", equip: "RightHand", equipLevel: 24, look: 10 },
 { id: 1613, name: "Mighty_Staff", type: "Weapon", weight: 700, price: 2, attack: 130, range: 1, slots: 0, jobs: "AllMage|AllAcolyte", equip: "RightHand", equipLevel: 24, look: 10 },
 
-// Weapons - Bows
+// Weapon - Bows
 { id: 1701, name: "Bow", type: "Weapon", weight: 200, price: 300, attack: 10, range: 5, slots: 3, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", weaponLevel: 1, equipLevel: 4, look: 11 },
 { id: 1702, name: "Bow", type: "Weapon", weight: 200, price: 300, attack: 10, range: 5, slots: 4, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
 { id: 1703, name: "Bow", type: "Weapon", weight: 200, price: 300, attack: 10, range: 5, slots: 0, jobs: "AllArcher|AllThief", equip: "RightHand|LeftHand", equipLevel: 4, look: 11 },
@@ -390,14 +390,14 @@
 { id: 1751, name: "Silver_Arrow", type: "Ammo", weight: 2, price: 3, attack: 30, jobs: "AllArcher|AllThief", equipLevel: 1 },
 { id: 1752, name: "Fire_Arrow", type: "Ammo", weight: 2, price: 3, attack: 30, jobs: "AllArcher|AllThief", equipLevel: 1 },
 
-// Armors - Shields
+// Armor - Shields
 { id: 2102, name: "Guard", type: "Armor", weight: 300, price: 250, defense: 3, slots: 1, jobs: "All", equip: "LeftHand", equipLevel: 1, look: 1 },
 { id: 2104, name: "Buckler", type: "Armor", weight: 600, price: 2800, defense: 4, slots: 1, jobs: "AllSwordman|AllAcolyte|AllMerchant|AllThief", equip: "LeftHand", equipLevel: 1, look: 2 },
 { id: 2106, name: "Shield", type: "Armor", weight: 1300, price: 8500, defense: 5, slots: 1, jobs: "AllSwordman", equip: "LeftHand", equipLevel: 1, look: 3 },
 { id: 2107, name: "Mirror_Shield", type: "Armor", weight: 1000, price: 12500, defense: 4, slots: 0, jobs: "AllSwordman", equip: "LeftHand", equipLevel: 1, look: 4 },
 { id: 2108, name: "Mirror_Shield", type: "Armor", weight: 1000, price: 12500, defense: 4, slots: 1, jobs: "AllSwordman", equip: "LeftHand", equipLevel: 1, look: 4 },
 
-// Armors - Headgears
+// Armor - Headgears
 { id: 2201, name: "Sunglasses", type: "Armor", weight: 50, price: 6500, defense: 0, slots: 0, jobs: "All", equip: "HeadMiddle", equipLevel: 1, look: 12 },
 { id: 2202, name: "Sunglasses", type: "Armor", weight: 50, price: 6500, defense: 0, slots: 1, jobs: "All", equip: "HeadMiddle", equipLevel: 1, look: 12 },
 { id: 2203, name: "Glasses", type: "Armor", weight: 50, price: 3000, defense: 0, slots: 0, jobs: "All", equip: "HeadMiddle", equipLevel: 1, look: 3 },
@@ -430,7 +430,7 @@
 { id: 2235, name: "Crown", type: "Armor", weight: 300, price: 20, defense: 4, slots: 0, jobs: "AllSwordman|AllMerchant", sex: "Male", equip: "HeadTop", equipLevel: 45, look: 45, effects: { "Int": 1 } },
 { id: 2244, name: "Big_Ribbon", type: "Armor", weight: 200, price: 15000, defense: 0, slots: 0, jobs: "All", equip: "HeadTop", equipLevel: 1, look: 28 },
 
-// Armors - Body
+// Armor - Body
 { id: 2302, name: "Cotton_Shirts", type: "Armor", weight: 100, price: 10, defense: 1, slots: 1, jobs: "All", equip: "Body", equipLevel: 1, look: 0 },
 { id: 2304, name: "Jacket", type: "Armor", weight: 200, price: 150, defense: 2, slots: 1, jobs: "All", equip: "Body", equipLevel: 1, look: 0 },
 { id: 2305, name: "Adventurer's_Suit", type: "Armor", weight: 300, price: 1500, defense: 3, slots: 0, jobs: "AllSwordman|AllArcher|AllMerchant|AllThief", equip: "Body", equipLevel: 1, look: 0 },
@@ -461,7 +461,7 @@
 { id: 2336, name: "Thief_Clothes", type: "Armor", weight: 100, price: 8500, defense: 4, slots: 1, jobs: "AllThief", equip: "Body", equipLevel: 1, look: 0 },
 { id: 2338, name: "Wedding_Dress", type: "Armor", weight: 500, price: 45000, defense: 0, slots: 0, jobs: "All", sex: "Female", equip: "Body", equipLevel: 1, look: 0 },
 
-// Armors - Shoes
+// Armor - Shoes
 { id: 2401, name: "Sandals", type: "Armor", weight: 50, price: 500, defense: 1, slots: 0, jobs: "All", equip: "Shoes", equipLevel: 1, look: 0 },
 { id: 2402, name: "Sandals", type: "Armor", weight: 50, price: 500, defense: 1, slots: 1, jobs: "All", equip: "Shoes", equipLevel: 1, look: 0 },
 { id: 2403, name: "Shoes", type: "Armor", weight: 150, price: 2500, defense: 2, slots: 0, jobs: "All|!Novice", equip: "Shoes", equipLevel: 1, look: 0 },
@@ -470,7 +470,7 @@
 { id: 2406, name: "Boots", type: "Armor", weight: 300, price: 5000, defense: 3, slots: 1, jobs: "AllSwordman|AllArcher|AllMerchant|AllThief", equip: "Shoes", equipLevel: 1, look: 0 },
 { id: 2407, name: "Crystal_Pumps", type: "Armor", weight: 50, price: 20, defense: 0, slots: 0, jobs: "All|!Novice", sex: "Female", equip: "Shoes", equipLevel: 1, look: 0 },
 
-// Armors - Robes
+// Armor - Robes
 { id: 2501, name: "Hood", type: "Armor", weight: 200, price: 1000, defense: 1, slots: 0, jobs: "All", equip: "Robe", equipLevel: 1, look: 0 },
 { id: 2502, name: "Hood", type: "Armor", weight: 200, price: 1000, defense: 1, slots: 1, jobs: "All", equip: "Robe", equipLevel: 1, look: 0 },
 { id: 2503, name: "Muffler", type: "Armor", weight: 300, price: 3500, defense: 2, slots: 0, jobs: "All|!Novice", equip: "Robe", equipLevel: 1, look: 0 },
@@ -478,7 +478,7 @@
 { id: 2505, name: "Manteau", type: "Armor", weight: 500, price: 8000, defense: 3, slots: 0, jobs: "AllSwordman|AllMerchant|AllThief", equip: "Robe", equipLevel: 1, look: 0 },
 { id: 2506, name: "Manteau", type: "Armor", weight: 500, price: 8000, defense: 3, slots: 1, jobs: "AllSwordman|AllMerchant|AllThief", equip: "Robe", equipLevel: 1, look: 0 },
 
-// Armors - Accessories
+// Armor - Accessories
 { id: 2601, name: "Ring", type: "Armor", weight: 50, price: 30000, defense: 0, slots: 0, jobs: "All", equip: "Accessory1", equipLevel: 20, look: 0, effects: { "Dex": 1 } },
 { id: 2602, name: "Earring", type: "Armor", weight: 50, price: 30000, defense: 0, slots: 0, jobs: "All|!Novice", sex: "Female", equip: "Accessory2", equipLevel: 20, look: 0, effects: { "Int": 2 } },
 { id: 2603, name: "Necklace", type: "Armor", weight: 50, price: 30000, defense: 0, slots: 0, jobs: "All|!Novice", equip: "Accessory2", equipLevel: 20, look: 0, effects: { "Int": 1 } },
