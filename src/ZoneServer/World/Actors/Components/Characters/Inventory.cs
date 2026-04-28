@@ -84,7 +84,7 @@ namespace Sabine.Zone.World.Actors.Components.Characters
 			}
 
 			if ((item.EquippedOn & EquipSlots.RightHand) != 0)
-				this.Character.WeaponId = item.Data.LookId;
+				this.Character.WeaponLook = item.Data.LookId;
 
 			if (item.EquippedOn != EquipSlots.None)
 				this.UpdateEquipReferences();

@@ -38,7 +38,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte((byte)character.HairId);
-				packet.PutByte((byte)character.WeaponId);
+				packet.PutByte((byte)character.WeaponLook);
 				packet.PutByte((byte)character.HeadBottomLook);
 				packet.PutByte((byte)character.State);
 			}
@@ -49,7 +49,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
-				packet.PutShort((short)character.WeaponId);
+				packet.PutShort((short)character.WeaponLook);
 				packet.PutShort((short)character.HeadBottomLook);
 				packet.PutShort(0);     // Shield
 				packet.PutShort((short)character.HeadTopLook);
@@ -99,7 +99,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte((byte)character.HairId);
-				packet.PutByte((byte)character.WeaponId);
+				packet.PutByte((byte)character.WeaponLook);
 				packet.PutByte((byte)character.HeadBottomLook);
 			}
 			else
@@ -109,7 +109,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
-				packet.PutShort((short)character.WeaponId);
+				packet.PutShort((short)character.WeaponLook);
 				packet.PutShort((short)character.HeadBottomLook);
 				packet.PutShort(0);     // Shield?
 				packet.PutShort((short)character.HeadTopLook);
@@ -151,7 +151,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutByte(0);
 				packet.PutByte(0);
 				packet.PutByte((byte)character.HairId);
-				packet.PutByte((byte)character.WeaponId);
+				packet.PutByte((byte)character.WeaponLook);
 				packet.PutByte((byte)character.HeadBottomLook);
 			}
 			else
@@ -161,7 +161,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
-				packet.PutShort((short)character.WeaponId);
+				packet.PutShort((short)character.WeaponLook);
 				packet.PutShort((short)character.HeadBottomLook);
 				packet.PutShort(0);     // Shield?
 				packet.PutShort((short)character.HeadTopLook);
@@ -211,7 +211,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.AddPackedMove(from, to, 8, 8);
 				packet.PutShort(0);
 				packet.PutByte((byte)character.HairId);
-				packet.PutByte((byte)character.WeaponId);
+				packet.PutByte((byte)character.WeaponLook);
 				packet.PutByte((byte)character.HeadBottomLook);
 				packet.PutInt(Game.GetTick());
 			}
@@ -222,7 +222,7 @@ namespace Sabine.Zone.Network.Helpers
 				packet.PutShort(0);     // Status Effects?
 				packet.PutShort((short)character.IdentityId.ToNetwork());
 				packet.PutShort((short)character.HairId);
-				packet.PutShort((short)character.WeaponId);
+				packet.PutShort((short)character.WeaponLook);
 				packet.PutShort((short)character.HeadBottomLook);
 				packet.PutInt(Game.GetTick());
 				packet.PutShort(0);     // Shield

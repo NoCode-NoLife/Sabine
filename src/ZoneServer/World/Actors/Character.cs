@@ -73,7 +73,7 @@ namespace Sabine.Zone.World.Actors
 		/// Returns a character's weapon id, defining what weapon they
 		/// can be seen holding during combat.
 		/// </summary>
-		public virtual int WeaponId { get; set; }
+		public virtual int WeaponLook { get; set; }
 
 		/// <summary>
 		/// Returns a character's current state.

@@ -60,7 +60,7 @@ namespace Sabine.Char.Database
 						character.HeadTopLook = reader.GetInt32("headTop");
 						character.HeadMiddleLook = reader.GetInt32("headMiddle");
 						character.HeadBottomLook = reader.GetInt32("headBottom");
-						character.WeaponId = reader.GetInt32("weapon");
+						character.WeaponLook = reader.GetInt32("weapon");
 
 						var mapId = reader.GetInt32("mapId");
 						var x = reader.GetInt32("x");
@@ -76,7 +76,7 @@ namespace Sabine.Char.Database
 							character.HeadTopLook = 0;
 							character.HeadMiddleLook = 0;
 							character.HeadBottomLook = 0;
-							character.WeaponId = 0;
+							character.WeaponLook = 0;
 						}
 
 						result.Add(character);

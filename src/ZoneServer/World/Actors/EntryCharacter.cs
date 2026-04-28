@@ -36,7 +36,7 @@ namespace Sabine.Zone.World.Actors
 		/// Returns a character's weapon id, specifying what weapon they
 		/// can be seen holding during combat.
 		/// </summary>
-		int WeaponId { get; }
+		int WeaponLook { get; }
 
 		/// <summary>
 		/// Returns a character's top headgear look, specifying what

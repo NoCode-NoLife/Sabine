@@ -71,14 +71,14 @@ namespace Sabine.Char.Network.Helpers
 				packet.PutByte((byte)character.Slot);
 				packet.PutByte(0); // Gap
 				packet.PutByte((byte)character.HairId);
-				packet.PutByte((byte)character.WeaponId);
+				packet.PutByte((byte)character.WeaponLook);
 				packet.PutByte((byte)character.HeadBottomLook);
 			}
 			else
 			{
 				packet.PutShort((short)character.JobId);
 				packet.PutShort((short)character.HairId);
-				packet.PutShort((short)character.WeaponId);
+				packet.PutShort((short)character.WeaponLook);
 				packet.PutShort((short)character.BaseLevel);
 				packet.PutShort(0); // SkillPoints
 				packet.PutShort((short)character.HeadBottomLook);

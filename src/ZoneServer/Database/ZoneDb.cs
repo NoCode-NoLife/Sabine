@@ -48,7 +48,7 @@ namespace Sabine.Zone.Database
 						character.HeadTopLook = reader.GetInt32("headTop");
 						character.HeadMiddleLook = reader.GetInt32("headMiddle");
 						character.HeadBottomLook = reader.GetInt32("headBottom");
-						character.WeaponId = reader.GetInt32("weapon");
+						character.WeaponLook = reader.GetInt32("weapon");
 						character.AmmoClassId = reader.GetInt32("ammo");
 						character.Parameters.Zeny = reader.GetInt32("zeny");
 						character.Parameters.Speed = reader.GetInt32("speed");
@@ -154,7 +154,7 @@ namespace Sabine.Zone.Database
 					cmd.Set("headTop", character.HeadTopLook);
 					cmd.Set("headMiddle", character.HeadMiddleLook);
 					cmd.Set("headBottom", character.HeadBottomLook);
-					cmd.Set("weapon", character.WeaponId);
+					cmd.Set("weapon", character.WeaponLook);
 					cmd.Set("ammo", character.AmmoClassId);
 					cmd.Set("zeny", character.Parameters.Zeny);
 					cmd.Set("speed", character.Parameters.Speed);

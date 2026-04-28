@@ -465,7 +465,7 @@ namespace Sabine.Zone.World.Actors
 			switch (type)
 			{
 				case SpriteType.Hair: this.HairId = lookId; break;
-				case SpriteType.Weapon: this.WeaponId = lookId; break;
+				case SpriteType.Weapon: this.WeaponLook = lookId; break;
 				case SpriteType.HeadTop: this.HeadTopLook = lookId; break;
 				case SpriteType.HeadMiddle: this.HeadMiddleLook = lookId; break;
 				case SpriteType.HeadBottom: this.HeadBottomLook = lookId; break;
