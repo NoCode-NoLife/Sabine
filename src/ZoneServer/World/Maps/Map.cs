@@ -6,7 +6,6 @@ using System.Threading;
 using Sabine.Shared.Const;
 using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
-using Sabine.Shared.Util;
 using Sabine.Shared.World;
 using Sabine.Zone.Network;
 using Sabine.Zone.World.Actors;
@@ -99,13 +98,13 @@ namespace Sabine.Zone.World.Maps
 		/// </summary>
 		protected virtual void LoadData()
 		{
-			this.CacheData = ZoneServer.Instance.Data.MapCache.Find(this.StringId);
-			if (this.CacheData == null)
+			if (!ZoneServer.Instance.Data.MapCache.TryFind(this.StringId, out var cacheData))
 			{
 				Log.Warning("Map: No cache data found for '{0}'.", this.StringId);
 				return;
 			}
 
+			this.CacheData = cacheData;
 			this.PathFinder = new HercPathFinder(this.CacheData);
 		}
 
