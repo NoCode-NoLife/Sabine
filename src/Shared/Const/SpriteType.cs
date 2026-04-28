@@ -21,8 +21,11 @@
 		ClothesColor = 7,
 		Shield = 8,
 
-		// Mentioned in eA
-		Shoes = 9,
+		// Type 9 is mentioned in eA as a shoe type, but it doesn't seem
+		// like it was ever used. A type 9 does exist in the client though,
+		// seen in ZC_SPRITE_CHANGE2 on eu20040512, and applied only for
+		// other players.
+		//Shoes = 9,
 
 #pragma warning restore CA1069 // Enums values should not be duplicated
 	}
