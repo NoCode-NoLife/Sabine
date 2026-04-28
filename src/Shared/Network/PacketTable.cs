@@ -18,6 +18,7 @@ namespace Sabine.Shared.Network
 			// also load Beta1, and so on.
 
 			[Versions.Alpha] = LoadVersion100,
+			[Versions.S190] = LoadVersion190,
 			[Versions.Beta1] = LoadVersion200,
 			[Versions.Beta2] = LoadVersion300,
 			[Versions.S350] = LoadVersion350,

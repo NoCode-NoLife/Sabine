@@ -42,6 +42,11 @@ namespace Sabine.Shared
 		public const int Alpha = 100;
 
 		/// <summary>
+		/// Sabine packet version 190, based on iRO Beta1 2001-12-14.
+		/// </summary>
+		public const int S190 = 190;
+
+		/// <summary>
 		/// The packet version for the iRO Beta 1 client (2002-02-20).
 		/// </summary>
 		public const int Beta1 = 200;
