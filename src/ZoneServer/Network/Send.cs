@@ -63,22 +63,8 @@ namespace Sabine.Zone.Network
 			packet.AddPackedPosition(character.Position, character.Direction);
 			packet.PutShort(0);
 
-			conn.Send(packet);
-		}
-
-		/// <summary>
-		/// Accepts connection request, makes client load map.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="character"></param>
-		public static void ZC_ACCEPT_ENTER2(ZoneConnection conn, PlayerCharacter character)
-		{
-			using var packet = Packet.Rent(Op.ZC_ACCEPT_ENTER2);
-
-			packet.PutInt(character.Id);
-			packet.AddPackedPosition(character.Position, character.Direction);
-			packet.PutShort(0);
-			packet.PutShort(0);
+			if (Game.Version >= Versions.S2500)
+				packet.PutShort(0);
 
 			conn.Send(packet);
 		}

@@ -118,7 +118,7 @@
 			Register(Op.ZC_NORMAL_ITEMLIST3, 0x02E8, -1);
 			Register(Op.ZC_CART_NORMAL_ITEMLIST3, 0x02E9, -1);
 			Register(Op.ZC_STORE_NORMAL_ITEMLIST3, 0x02EA, -1);
-			Register(Op.ZC_ACCEPT_ENTER2, 0x02EB, 13);
+			// ZC_ACCEPT_ENTER, 0x02EB, 13
 			Register(Op.ZC_NOTIFY_MOVEENTRY4, 0x02EC, 67);
 			Register(Op.ZC_NOTIFY_NEWENTRY4, 0x02ED, 59);
 			Register(Op.ZC_NOTIFY_STANDENTRY4, 0x02EE, 60);
@@ -449,10 +449,19 @@
 			Register(Op.UNK_0433, 0x0433, -1);
 			Register(Op.UNK_0434, 0x0434, -1);
 			Register(Op.UNK_0435, 0x0435, -1);
-			Register(Op.CZ_ENTER2, 0x0436, 19);
-			Register(Op.CZ_REQUEST_ACT2, 0x0437, 7);
-			Register(Op.CZ_USE_SKILL2, 0x0438, 10);
-			Register(Op.CZ_USE_ITEM2, 0x0439, 8);
+
+			Redefine(Op.CZ_USE_SKILL_TOGROUND_WITHTALKBOX, 0x007E, 102);
+			Redefine(Op.CZ_REQUEST_TIME, 0x0089, 8);
+			Redefine(Op.CZ_REQNAME, 0x008C, 11);
+			Redefine(Op.CZ_REQUEST_CHAT, 0x00F3, -1);
+			Redefine(Op.CZ_MOVE_ITEM_FROM_BODY_TO_STORE, 0x0094, 14);
+			Redefine(Op.CZ_USE_ITEM, 0x009F, 14);
+			Redefine(Op.CZ_REQUEST_MOVE, 0x00A7, 8);
+			Redefine(Op.ZC_ACCEPT_ENTER, 0x02EB, 13);
+			Redefine(Op.CZ_ENTER, 0x0436, 19);
+			Redefine(Op.CZ_REQUEST_ACT, 0x0437, 7);
+			Redefine(Op.CZ_USE_SKILL, 0x0438, 10);
+			Redefine(Op.CZ_USE_ITEM, 0x0439, 8);
 		}
 	}
 }

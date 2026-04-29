@@ -17,7 +17,7 @@ HC_REFUSE_MAKECHAR                         | 0x006E   | 3
 HC_ACCEPT_DELETECHAR                       | 0x006F   | 2
 HC_REFUSE_DELETECHAR                       | 0x0070   | 3
 HC_NOTIFY_ZONESVR                          | 0x0071   | 28
-CZ_ENTER                                   | 0x0072   | 25
+CZ_ENTER                                   | 0x0436   | 19
 ZC_ACCEPT_ENTER                            | 0x0073   | 11
 ZC_REFUSE_ENTER                            | 0x0074   | 3
 ZC_NOTIFY_INITCHAR                         | 0x0075   | -1
@@ -29,21 +29,21 @@ ZC_NOTIFY_ACTENTRY                         | 0x007A   | 58
 ZC_NOTIFY_MOVEENTRY                        | 0x007B   | 60
 ZC_NOTIFY_STANDENTRY_NPC                   | 0x007C   | 41
 CZ_NOTIFY_ACTORINIT                        | 0x007D   | 2
-CZ_REQUEST_TIME                            | 0x007E   | 102
+CZ_REQUEST_TIME                            | 0x0089   | 8
 ZC_NOTIFY_TIME                             | 0x007F   | 6
 ZC_NOTIFY_VANISH                           | 0x0080   | 7
 SC_NOTIFY_BAN                              | 0x0081   | 3
 CZ_REQUEST_QUIT                            | 0x0082   | 2
 ZC_ACCEPT_QUIT                             | 0x0083   | 2
 ZC_REFUSE_QUIT                             | 0x0084   | 2
-CZ_REQUEST_MOVE                            | 0x0085   | 11
+CZ_REQUEST_MOVE                            | 0x00A7   | 8
 ZC_NOTIFY_MOVE                             | 0x0086   | 16
 ZC_NOTIFY_PLAYERMOVE                       | 0x0087   | 12
 ZC_STOPMOVE                                | 0x0088   | 10
-CZ_REQUEST_ACT                             | 0x0089   | 8
+CZ_REQUEST_ACT                             | 0x0437   | 7
 ZC_NOTIFY_ACT                              | 0x008A   | 29
 ZC_NOTIFY_ACT_POSITION                     | 0x008B   | 23
-CZ_REQUEST_CHAT                            | 0x008C   | 11
+CZ_REQUEST_CHAT                            | 0x00F3   | -1
 ZC_NOTIFY_CHAT                             | 0x008D   | -1
 ZC_NOTIFY_PLAYERCHAT                       | 0x008E   | -1
 SERVER_ENTRY_ACK                           | 0x008F   | -1
@@ -51,7 +51,7 @@ CZ_CONTACTNPC                              | 0x0090   | 7
 ZC_NPCACK_MAPMOVE                          | 0x0091   | 22
 ZC_NPCACK_SERVERMOVE                       | 0x0092   | 28
 ZC_NPCACK_ENABLE                           | 0x0093   | 2
-CZ_REQNAME                                 | 0x0094   | 14
+CZ_REQNAME                                 | 0x008C   | 11
 ZC_ACK_REQNAME                             | 0x0095   | 30
 CZ_WHISPER                                 | 0x0096   | -1
 ZC_WHISPER                                 | 0x0097   | -1
@@ -70,7 +70,7 @@ ZC_NORMAL_ITEMLIST                         | 0x00A3   | -1
 ZC_EQUIPMENT_ITEMLIST                      | 0x00A4   | -1
 ZC_STORE_NORMAL_ITEMLIST                   | 0x00A5   | -1
 ZC_STORE_EQUIPMENT_ITEMLIST                | 0x00A6   | -1
-CZ_USE_ITEM                                | 0x00A7   | 8
+CZ_USE_ITEM                                | 0x0439   | 8
 ZC_USE_ITEM_ACK                            | 0x00A8   | 7
 CZ_REQ_WEAR_EQUIP                          | 0x00A9   | 6
 ZC_REQ_WEAR_EQUIP_ACK                      | 0x00AA   | 7
@@ -146,7 +146,7 @@ CZ_EXEC_EXCHANGE_ITEM                      | 0x00EF   | 2
 ZC_EXEC_EXCHANGE_ITEM                      | 0x00F0   | 3
 ZC_EXCHANGEITEM_UNDO                       | 0x00F1   | 2
 ZC_NOTIFY_STOREITEM_COUNTINFO              | 0x00F2   | 6
-CZ_MOVE_ITEM_FROM_BODY_TO_STORE            | 0x00F3   | -1
+CZ_MOVE_ITEM_FROM_BODY_TO_STORE            | 0x0094   | 14
 ZC_ADD_ITEM_TO_STORE                       | 0x00F4   | 21
 CZ_MOVE_ITEM_FROM_STORE_TO_BODY            | 0x00F5   | 8
 ZC_DELETE_ITEM_FROM_STORE                  | 0x00F6   | 8
@@ -178,7 +178,7 @@ ZC_SKILLINFO_LIST                          | 0x010F   | -1
 ZC_ACK_TOUSESKILL                          | 0x0110   | 10
 ZC_ADD_SKILL                               | 0x0111   | 39
 CZ_UPGRADE_SKILLLEVEL                      | 0x0112   | 4
-CZ_USE_SKILL                               | 0x0113   | 22
+CZ_USE_SKILL                               | 0x0438   | 10
 ZC_NOTIFY_SKILL                            | 0x0114   | 31
 ZC_NOTIFY_SKILL_POSITION                   | 0x0115   | 35
 CZ_USE_SKILL_TOGROUND                      | 0x0116   | 10
@@ -303,7 +303,7 @@ ZC_MONSTER_INFO                            | 0x018C   | 29
 ZC_MAKABLEITEMLIST                         | 0x018D   | -1
 CZ_REQMAKINGITEM                           | 0x018E   | 10
 ZC_ACK_REQMAKINGITEM                       | 0x018F   | 6
-CZ_USE_SKILL_TOGROUND_WITHTALKBOX          | 0x0190   | 19
+CZ_USE_SKILL_TOGROUND_WITHTALKBOX          | 0x007E   | 102
 ZC_TALKBOX_CHATCONTENTS                    | 0x0191   | 86
 ZC_UPDATE_MAPINFO                          | 0x0192   | 24
 CZ_REQNAME_BYGID                           | 0x0193   | 2
@@ -957,7 +957,3 @@ UNK_0432                                   | 0x0432   | -1
 UNK_0433                                   | 0x0433   | -1
 UNK_0434                                   | 0x0434   | -1
 UNK_0435                                   | 0x0435   | -1
-CZ_ENTER2                                  | 0x0436   | 19
-CZ_REQUEST_ACT2                            | 0x0437   | 7
-CZ_USE_SKILL2                              | 0x0438   | 10
-CZ_USE_ITEM2                               | 0x0439   | 8

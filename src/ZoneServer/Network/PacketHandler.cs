@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Buffers;
-using System.Buffers.Binary;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Sabine.Shared;
 using Sabine.Shared.Const;
-using Sabine.Shared.Data.Databases;
 using Sabine.Shared.Network;
 using Sabine.Shared.Network.Helpers;
 using Sabine.Shared.Util;
@@ -20,7 +14,6 @@ using Sabine.Zone.Scripting.Dialogues;
 using Sabine.Zone.Skills.Handlers.Novice;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Chats;
-using Sabine.Zone.World.Maps;
 using Sabine.Zone.World.Shops;
 using Yggdrasil.Collections;
 using Yggdrasil.Logging;
@@ -38,7 +31,7 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_ENTER, Op.CZ_ENTER2)]
+		[PacketHandler(Op.CZ_ENTER)]
 		public void CZ_ENTER(ZoneConnection conn, Packet packet)
 		{
 			int accountId, sessionId, characterId, tick;
@@ -58,7 +51,7 @@ namespace Sabine.Zone.Network
 				// This isn't sessionId2. Looks like it might be a tick?
 				tick = packet.GetInt();
 			}
-			else
+			else // essentially S2000
 			{
 				// It seems like this structure changed wildly over the
 				// years, going by eA's packet db, though they always only
@@ -120,10 +113,7 @@ namespace Sabine.Zone.Network
 			if (Game.Version >= Versions.Beta2)
 				Send.ZC_AID(conn);
 
-			if (Game.Version < Versions.S2500)
-				Send.ZC_ACCEPT_ENTER(conn, character);
-			else
-				Send.ZC_ACCEPT_ENTER2(conn, character);
+			Send.ZC_ACCEPT_ENTER(conn, character);
 
 			map.AddPlayer(character);
 
@@ -328,6 +318,9 @@ namespace Sabine.Zone.Network
 		[PacketHandler(Op.CZ_REQNAME)]
 		public void CZ_REQNAME(ZoneConnection conn, Packet packet)
 		{
+			if (Game.Version >= Versions.S2000)
+				packet.Skip(5);
+
 			var handle = packet.GetInt();
 
 			var character = conn.GetCurrentCharacter();
