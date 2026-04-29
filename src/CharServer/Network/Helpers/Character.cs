@@ -94,8 +94,17 @@ namespace Sabine.Char.Network.Helpers
 				packet.PutByte((byte)character.Int);
 				packet.PutByte((byte)character.Dex);
 				packet.PutByte((byte)character.Luk);
-				packet.PutByte((byte)character.Slot);
-				packet.PutByte(0); // Gap
+
+				if (Game.Version < Versions.S2500)
+				{
+					packet.PutByte((byte)character.Slot);
+					packet.PutByte(0);
+				}
+				else
+				{
+					packet.PutShort((short)character.Slot);
+					packet.PutShort(0);
+				}
 			}
 		}
 	}

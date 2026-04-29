@@ -204,7 +204,7 @@ namespace Sabine.Shared.Network
 		/// <summary>
 		/// Writes given number of bytes with the value 0 to packet.
 		/// </summary>
-		/// <param name="value"></param>
+		/// <param name="amount"></param>
 		public void PutEmpty(int amount)
 		{
 			this.AssertNotDisposed();

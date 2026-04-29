@@ -18,7 +18,7 @@ namespace Sabine.Auth.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(Op.CA_LOGIN, Op.CA_LOGIN2)]
+		[PacketHandler(Op.CA_LOGIN, Op.CA_LOGIN2, Op.CA_LOGIN_HAN)]
 		public void CA_LOGIN(AuthConnection conn, Packet packet)
 		{
 			int version = 0, langType = 1;
@@ -35,7 +35,7 @@ namespace Sabine.Auth.Network
 			// matter what the client sends, and we can safely upgrade it
 			// to BCrypt for storing it. For more information about the
 			// hashing, see the CA_REQ_HASH handler.
-			if (packet.Op == Op.CA_LOGIN)
+			if (packet.Op == Op.CA_LOGIN || packet.Op == Op.CA_LOGIN_HAN)
 			{
 				password = packet.GetString(Sizes.Usernames);
 				hashedPassword = MD5.Encode(password);

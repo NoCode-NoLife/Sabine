@@ -38,7 +38,7 @@ namespace Sabine.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_ENTER)]
+		[PacketHandler(Op.CZ_ENTER, Op.CZ_ENTER2)]
 		public void CZ_ENTER(ZoneConnection conn, Packet packet)
 		{
 			int accountId, sessionId, characterId, tick;
@@ -49,7 +49,7 @@ namespace Sabine.Zone.Network
 				characterId = packet.GetInt();
 				sessionId = packet.GetInt();
 			}
-			else if (Game.Version < Versions.S2000)
+			else if (Game.Version < Versions.S2000 || packet.Length == 19)
 			{
 				accountId = packet.GetInt();
 				characterId = packet.GetInt();
@@ -117,13 +117,13 @@ namespace Sabine.Zone.Network
 
 			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
-			// Starting some time after beta 1, the client expects the raw
-			// account id to be sent upon connection, or it won't react to
-			// any packets...?
 			if (Game.Version >= Versions.Beta2)
-				Send.InitConnection(conn);
+				Send.ZC_AID(conn);
 
-			Send.ZC_ACCEPT_ENTER(conn, character);
+			if (Game.Version < Versions.S2500)
+				Send.ZC_ACCEPT_ENTER(conn, character);
+			else
+				Send.ZC_ACCEPT_ENTER2(conn, character);
 
 			map.AddPlayer(character);
 
@@ -591,7 +591,7 @@ L_End:
 			int targetHandle;
 			ActionType action;
 
-			if (Game.Version < Versions.S2000)
+			if (Game.Version < Versions.S2000 || packet.Length <= 8)
 			{
 				targetHandle = packet.GetInt();
 				action = (ActionType)packet.GetByte();

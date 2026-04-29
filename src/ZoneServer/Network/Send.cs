@@ -24,16 +24,30 @@ namespace Sabine.Zone.Network
 	public static class Send
 	{
 		/// <summary>
-		/// Sends data necessary to initialize the connection on newer
-		/// clients.
+		/// Sends account id to client.
 		/// </summary>
 		/// <param name="conn"></param>
-		public static void InitConnection(ZoneConnection conn)
+		public static void ZC_AID(ZoneConnection conn)
 		{
-			var buffer = ArrayPool<byte>.Shared.Rent(sizeof(int));
-			BinaryPrimitives.WriteInt32LittleEndian(buffer, conn.Account.Id);
+			// Starting some time after beta 1, the client expected the
+			// account id to be sent upon connection, or it won't react to
+			// any packets...? Any only several years later they upgraded
+			// to an actual packet :+1:
 
-			conn.Send(buffer, sizeof(int), static (data, len, type) => ArrayPool<byte>.Shared.Return(data));
+			if (Game.Version < Versions.S2500)
+			{
+				var buffer = ArrayPool<byte>.Shared.Rent(sizeof(int));
+				BinaryPrimitives.WriteInt32LittleEndian(buffer, conn.Account.Id);
+
+				conn.Send(buffer, sizeof(int), static (data, len, type) => ArrayPool<byte>.Shared.Return(data));
+			}
+			else
+			{
+				using var packet = Packet.Rent(Op.ZC_AID);
+				packet.PutInt(conn.Account.Id);
+
+				conn.Send(packet);
+			}
 		}
 
 		/// <summary>
@@ -47,6 +61,23 @@ namespace Sabine.Zone.Network
 
 			packet.PutInt(character.Id);
 			packet.AddPackedPosition(character.Position, character.Direction);
+			packet.PutShort(0);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Accepts connection request, makes client load map.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_ACCEPT_ENTER2(ZoneConnection conn, PlayerCharacter character)
+		{
+			using var packet = Packet.Rent(Op.ZC_ACCEPT_ENTER2);
+
+			packet.PutInt(character.Id);
+			packet.AddPackedPosition(character.Position, character.Direction);
+			packet.PutShort(0);
 			packet.PutShort(0);
 
 			conn.Send(packet);

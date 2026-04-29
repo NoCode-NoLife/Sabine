@@ -51,10 +51,21 @@ namespace Sabine.Char.Network
 		{
 			using var packet = Packet.Rent(Op.HC_ACCEPT_ENTER);
 
-			// The client expects '(len - 4) % 106 + 2' bytes here, meaning
-			// a minimum of 2. It's unknown what exactly these bytes do.
-			if (Game.Version >= Versions.S600)
+			if (Game.Version >= Versions.S600 && Game.Version < Versions.S2500)
+			{
+				// The client calculates the length of the character
+				// portion for this version as '(len - 4) / 106', and a
+				// remainder/offset of '(len - 4) % 106 + 2' for where the
+				// characters start. Due to the +2, we need at least 2
+				// extra bytes here, with unknown purpose.
 				packet.PutShort(0);
+			}
+			else // >= S2500
+			{
+				// Huge upgrade! Instead of 2 pointless bytes we have 20
+				// now =) Oh, and characters need 108 bytes instead of 106.
+				packet.PutEmpty(20);
+			}
 
 			foreach (var character in characters)
 				packet.AddCharacter(character);
