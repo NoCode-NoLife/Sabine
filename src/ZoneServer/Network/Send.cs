@@ -1388,7 +1388,7 @@ namespace Sabine.Zone.Network
 		/// <param name="result"></param>
 		/// <param name="failType"></param>
 		/// <param name="failReason"></param>
-		public static void ZC_ACK_TOUSESKILL(PlayerCharacter character, SkillId skillId, SkillUseResult result, SkillFailType failType, SkillFailReason failReason)
+		public static void ZC_ACK_TOUSESKILL(Character character, SkillId skillId, SkillUseResult result, SkillFailType failType, SkillFailReason failReason)
 		{
 			using var packet = Packet.Rent(Op.ZC_ACK_TOUSESKILL);
 
@@ -1413,7 +1413,39 @@ namespace Sabine.Zone.Network
 				packet.PutByte((byte)failType);
 			}
 
-			character.Connection.Send(packet);
+			character.Map.Broadcast(packet, character, BroadcastTargets.OnlySource);
+		}
+
+		/// <summary>
+		/// Notifies players around the character about them using a skill,
+		/// displaying the skill animation and hit effects.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="skillLevel"></param>
+		/// <param name="tick"></param>
+		/// <param name="damage"></param>
+		/// <param name="attackMotionDelay"></param>
+		/// <param name="damageMotionDelay"></param>
+		/// <param name="hitCount"></param>
+		/// <param name="hitEffect"></param>
+		public static void ZC_NOTIFY_SKILL(Character character, Character target, Skill skill, int skillLevel, int damage, int tick, int attackMotionDelay, int damageMotionDelay, int hitCount, SkillHitEffect hitEffect)
+		{
+			using var packet = Packet.Rent(Op.ZC_NOTIFY_SKILL);
+
+			packet.PutShort((short)skill.Id);
+			packet.PutInt(character.Handle);
+			packet.PutInt(target.Handle);
+			packet.PutInt(tick);
+			packet.PutInt(attackMotionDelay);
+			packet.PutInt(damageMotionDelay);
+			packet.PutShort((short)damage);
+			packet.PutShort((short)skillLevel);
+			packet.PutShort((short)hitCount);
+			packet.PutByte((byte)hitEffect);
+
+			target.Map.Broadcast(packet, character, BroadcastTargets.All);
 		}
 
 		/// <summary>

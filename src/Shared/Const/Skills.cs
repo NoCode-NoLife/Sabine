@@ -170,4 +170,24 @@
 		SkillFailed = 255,
 	}
 
+	/// <summary>
+	/// Used to specify how the damage should be displayed.
+	/// </summary>
+	public enum SkillHitEffect : byte
+	{
+		/// <summary>
+		/// Doesn't display any animation or effect.
+		/// </summary>
+		NoEffect = 5,
+
+		/// <summary>
+		/// Displays a single damage number, regardless of hit count.
+		/// </summary>
+		SingleHit = 6,
+
+		/// <summary>
+		/// Displays as many damage numbers as the hit count dictates.
+		/// </summary>
+		MultiHit = 8,
+	}
 }

@@ -719,6 +719,17 @@ namespace Sabine.Zone.World.Maps
 		/// <param name="targets">Specifies who will receive the packet.</param>
 		public void Broadcast(Packet packet, IActor source, int range, BroadcastTargets targets)
 		{
+			// This... is a quick, simple, and lazy way to send packets to
+			// any actor without checking whether they're a player from
+			// the other side. It's not ideal, but let's go with this for
+			// now until the actor hirarchy is ironed out.
+			if (targets == BroadcastTargets.OnlySource)
+			{
+				if (source is PlayerCharacter character)
+					character.Connection.Send(packet);
+				return;
+			}
+
 			using var players = new PooledListSnapshot<PlayerCharacter>();
 
 			using (SlimLock.Read(_playersLock))

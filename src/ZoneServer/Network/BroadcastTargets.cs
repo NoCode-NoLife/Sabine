@@ -14,5 +14,10 @@
 		/// Everyone but the source entity receives the packet.
 		/// </summary>
 		AllButSource,
+
+		/// <summary>
+		/// Only the source receives the packet.
+		/// </summary>
+		OnlySource,
 	}
 }
