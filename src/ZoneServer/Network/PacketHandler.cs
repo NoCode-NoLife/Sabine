@@ -11,6 +11,7 @@ using Sabine.Shared.World;
 using Sabine.Zone.Events.Args;
 using Sabine.Zone.Scripting;
 using Sabine.Zone.Scripting.Dialogues;
+using Sabine.Zone.Skills.Handlers;
 using Sabine.Zone.Skills.Handlers.Novice;
 using Sabine.Zone.World.Actors;
 using Sabine.Zone.World.Chats;
@@ -372,7 +373,7 @@ namespace Sabine.Zone.Network
 
 			success = true;
 
-L_End:
+		L_End:
 			Send.ZC_STATUS_CHANGE_ACK(character, type, success, value);
 		}
 
@@ -1233,34 +1234,16 @@ L_End:
 			// Clamp level, but don't warn about invalid values, since the
 			// requested level may be too high if the skill changed after
 			// it was hotkeyed.
-			level = Math2.Clamp(1, skill.Level, level);
+			level = Math.Clamp(level, 1, skill.Level);
 
-			Send.ZC_NOTIFY_PLAYERCHAT(character, skill.Data.StringId + "!!!");
-
-			switch (skillId)
+			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetedSkillHandler>(skill.Id, out var handler))
 			{
-				case SkillId.SM_BASH:
-				{
-					if (!character.TrySpendSp(skill.SpCost))
-					{
-						character.ServerMessage(Localization.Get("Not enough SP."));
-						return;
-					}
-
-					character.Controller.StopMove();
-
-					var attacker = character;
-					var damage = level * 5;
-
-					var attackMotionDelay = attacker.Parameters.AttackMotionDelay;
-					var damageMotionDelay = target.Parameters.DamageMotionDelay;
-
-					target.TakeDamage(damage, character);
-
-					Send.ZC_NOTIFY_ACT.Attack(attacker, attacker.Handle, target.Handle, Game.GetTick(), ActionType.Attack, damage, attackMotionDelay, damageMotionDelay);
-					break;
-				}
+				character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+				Log.Debug("CZ_USE_SKILL: No handler found for skill '{0}'.", skill.Id);
+				return;
 			}
+
+			handler.Handle(new UseSkillParams(character, target, skill, level));
 		}
 
 		/// <summary>
@@ -1295,35 +1278,16 @@ L_End:
 			// Clamp level, but don't warn about invalid values, since the
 			// requested level may be too high if the skill changed after
 			// it was hotkeyed.
-			level = Math2.Clamp(1, skill.Level, level);
+			level = Math.Clamp(level, 1, skill.Level);
 
-			Send.ZC_NOTIFY_PLAYERCHAT(character, skill.Data.StringId + "!!!");
-
-			switch (skillId)
+			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IGroundSkillHandler>(skill.Id, out var handler))
 			{
-				case SkillId.MG_FIREWALL:
-				{
-					if (!character.InUseRange(skill, targetPos))
-					{
-						character.ServerMessage(Localization.Get("Too far away."));
-						return;
-					}
-
-					if (!character.TrySpendSp(skill.SpCost))
-					{
-						character.ServerMessage(Localization.Get("Not enough SP."));
-						return;
-					}
-
-					character.Controller.StopMove();
-
-					var npc = new Npc(IdentityId.JT_1_F_01);
-					npc.Warp(character.Map.Id, targetPos);
-
-					Task.Delay(3000).ContinueWith(__ => character.Map.RemoveNpc(npc));
-					break;
-				}
+				character.ServerMessage(Localization.Get("This skill has not been implemented yet."));
+				Log.Debug("CZ_USE_SKILL: No handler found for skill '{0}'.", skill.Id);
+				return;
 			}
+
+			handler.Handle(new UseGroundSkillParams(character, targetPos, skill, level));
 		}
 
 		/// <summary>
