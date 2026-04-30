@@ -60,7 +60,7 @@ namespace Sabine.Char.Network
 				// extra bytes here, with unknown purpose.
 				packet.PutShort(0);
 			}
-			else // >= S2500
+			else if (Game.Version >= Versions.S2500)
 			{
 				// Huge upgrade! Instead of 2 pointless bytes we have 20
 				// now =) Oh, and characters need 108 bytes instead of 106.
