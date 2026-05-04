@@ -86,7 +86,7 @@
 { id: 200250, stringId: "moc_pryd02", name: "Pyramid" },
 { id: 200260, stringId: "moc_pryd03", name: "Pyramid" },
 { id: 200270, stringId: "moc_pryd04", name: "Pyramid" },
-//{ id: 200280, stringId: "moc_prydB1", name: "Pyramid" },
+{ id: 200280, stringId: "moc_prydb1", name: "Pyramid" },
 { id: 200290, stringId: "moc_ruins", name: "Pyramid" },
 { id: 200300, stringId: "morocc", name: "Morroc" },
 { id: 200310, stringId: "morocc_in", name: "Morroc Inside" },
