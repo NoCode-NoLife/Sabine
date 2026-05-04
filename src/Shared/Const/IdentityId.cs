@@ -4243,11 +4243,13 @@ namespace Sabine.Shared.Const
 			IdentityId fallback;
 
 			// Novice fallback for jobs
-			if (identityId < IdentityId.JT_USER_LAST)
-				fallback = IdentityId.JT_NOVICE;
+			// Doesn't work for at least Beta1, because it may try to load
+			// an NPC Novice sprite that doesn't exist.
+			//if (identityId < IdentityId.JT_USER_LAST)
+			//	fallback = IdentityId.JT_NOVICE;
 
 			// Fallback for NPCs
-			else if (identityId < IdentityId.JT_MON_BEGIN)
+			if (identityId < IdentityId.JT_MON_BEGIN)
 				fallback = IdentityId.JT_4_M_01;
 
 			// Fallback for monsters
