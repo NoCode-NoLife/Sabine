@@ -213,25 +213,16 @@ public class MoroccBeta1WarpScripts : GeneralScript
 		AddWarp(From("moc_fild04", 336, 381), To("moc_fild01", 76, 25));
 
 		// Pyramid
-		AddWarp(From("moc_pryd01", 195, 9), To("moc_ruins", 60, 161));
-		AddWarp(From("moc_ruins", 54, 161), To("moc_pryd01", 192, 9));
+		AddWarp(From("moc_ruins", 54, 162), To("moc_prydb1", 99, 187));
+		AddWarp(From("moc_prydb1", 99, 190), To("moc_ruins", 57, 162));
 
-		AddWarp(From("moc_pryd01", 10, 195), To("moc_pryd02", 10, 192));
-		AddWarp(From("moc_pryd02", 10, 195), To("moc_pryd01", 10, 192));
+		AddWarp(From("moc_prydb1", 90, 117), To("moc_prydb1", 55, 117));
+		AddWarp(From("moc_prydb1", 58, 117), To("moc_prydb1", 93, 117));
 
-		AddWarp(From("moc_pryd02", 100, 99), To("moc_pryd03", 100, 92));
-		AddWarp(From("moc_pryd03", 100, 97), To("moc_pryd02", 100, 92));
+		AddWarp(From("moc_prydb1", 109, 117), To("moc_prydb1", 146, 117));
+		AddWarp(From("moc_prydb1", 143, 117), To("moc_prydb1", 106, 117));
 
-		AddWarp(From("moc_pryd03", 12, 15), To("moc_pryd04", 12, 18));
-		AddWarp(From("moc_pryd04", 12, 15), To("moc_pryd03", 12, 18));
-
-		AddWarp(From("moc_pryd03", 15, 187), To("moc_pryd04", 18, 187));
-		AddWarp(From("moc_pryd04", 15, 187), To("moc_pryd03", 18, 187));
-
-		AddWarp(From("moc_pryd03", 184, 11), To("moc_pryd04", 181, 11));
-		AddWarp(From("moc_pryd04", 184, 11), To("moc_pryd03", 181, 11));
-
-		AddWarp(From("moc_pryd03", 188, 184), To("moc_pryd04", 188, 181));
-		AddWarp(From("moc_pryd04", 188, 184), To("moc_pryd03", 188, 181));
+		AddWarp(From("moc_prydb1", 99, 75), To("moc_prydb1", 99, 109));
+		AddWarp(From("moc_prydb1", 99, 106), To("moc_prydb1", 99, 73));
 	}
 }
